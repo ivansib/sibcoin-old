@@ -125,6 +125,7 @@ BITCOIN_CORE_H = \
   masternodeconfig.h \
   memusage.h \
   merkleblock.h \
+  messagesigner.h \
   miner.h \
   net.h \
   netbase.h \
@@ -231,6 +232,7 @@ libbitcoin_server_a_SOURCES = \
   governance-votedb.cpp \
   main.cpp \
   merkleblock.cpp \
+  messagesigner.cpp \
   miner.cpp \
   net.cpp \
   netfulfilledman.cpp \
