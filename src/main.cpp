@@ -39,12 +39,13 @@
 #include "validationinterface.h"
 #include "versionbits.h"
 
-#include "darksend.h"
 #include "governance.h"
 #include "instantx.h"
 #include "masternode-payments.h"
 #include "masternode-sync.h"
 #include "masternodeman.h"
+#include "privatesend-client.h"
+#include "privatesend-server.h"
 
 
 #ifdef ENABLE_DEX
@@ -6366,7 +6367,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         if (found)
         {
             //probably one the extensions
-            darkSendPool.ProcessMessage(pfrom, strCommand, vRecv);
+            privateSendClient.ProcessMessage(pfrom, strCommand, vRecv);
+            privateSendServer.ProcessMessage(pfrom, strCommand, vRecv);
             mnodeman.ProcessMessage(pfrom, strCommand, vRecv);
             mnpayments.ProcessMessage(pfrom, strCommand, vRecv);
             instantsend.ProcessMessage(pfrom, strCommand, vRecv);
