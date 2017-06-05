@@ -911,7 +911,7 @@ bool CGovernanceManager::MasternodeRateCheck(const CGovernanceObject& govobj, up
         // schedule additional relay for the object
         fAdditionalRelay = true;
     }
-
+    
     double dMaxRate = 1.1 / nSuperblockCycleSeconds;
     double dRate = 0.0;
     CRateCheckBuffer buffer;
