@@ -13,7 +13,7 @@
 #include "walletmodel.h"
 
 //#include "allocators.h"
-#include "../rpcserver.h"
+#include "../rpc/server.h"
 //#include "../rpcprotocol.h"
 #include "univalue/include/univalue.h"
 #include <stdlib.h>

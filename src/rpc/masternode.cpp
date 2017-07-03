@@ -10,7 +10,7 @@
 #include "masternode-sync.h"
 #include "masternodeconfig.h"
 #include "masternodeman.h"
-#include "rpcserver.h"
+#include "rpc/server.h"
 #include "util.h"
 #include "utilmoneystr.h"
 
@@ -115,7 +115,7 @@ UniValue masternode(const UniValue& params, bool fHelp)
                 "  debug        - Print masternode status\n"
                 "  genkey       - Generate new masternodeprivkey\n"
                 "  outputs      - Print masternode compatible outputs\n"
-                "  start        - Start local Hot masternode configured in sibcoin.conf\n"
+                "  start        - Start local Hot masternode configured in dash.conf\n"
                 "  start-alias  - Start single remote masternode by assigned alias configured in masternode.conf\n"
                 "  start-<mode> - Start remote masternodes configured in masternode.conf (<mode>: 'all', 'missing', 'disabled')\n"
                 "  status       - Print masternode status information\n"
