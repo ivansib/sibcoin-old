@@ -292,6 +292,16 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/hmac_sha512.h \
   crypto/ripemd160.cpp \
   crypto/aes_helper.c \
+  crypto/ripemd160.h \
+  crypto/sha1.cpp \
+  crypto/sha1.h \
+  crypto/sha256.cpp \
+  crypto/sha256.h \
+  crypto/sha512.cpp \
+  crypto/sha512.h
+
+# x11
+crypto_libbitcoin_crypto_a_SOURCES += \
   crypto/blake.c \
   crypto/bmw.c \
   crypto/cubehash.c \
@@ -304,12 +314,6 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/shavite.c \
   crypto/simd.c \
   crypto/skein.c \
-  crypto/ripemd160.h \
-  crypto/sha1.cpp \
-  crypto/sha1.h \
-  crypto/sha256.cpp \
-  crypto/sha256.h \
-  crypto/sha512.h \
   crypto/sph_blake.h \
   crypto/sph_bmw.h \
   crypto/sph_cubehash.h \
@@ -322,9 +326,7 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sph_shavite.h \
   crypto/sph_simd.h \
   crypto/sph_skein.h \
-  crypto/sph_types.h \
-  crypto/sha512.cpp \
-  crypto/sha512.h
+  crypto/sph_types.h
 
 # common: shared between sibcoind, and sibcoin-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)

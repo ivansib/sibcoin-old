@@ -1288,8 +1288,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             return InitError(strError);
 
 
-    // Initialize KeePass Integration
-    keePassInt.init();
+        // Initialize KeePass Integration
+        keePassInt.init();
 
     } // (!fDisableWallet)
 #endif // ENABLE_WALLET
