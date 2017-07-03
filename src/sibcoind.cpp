@@ -7,7 +7,7 @@
 
 #include "chainparams.h"
 #include "clientversion.h"
-#include "rpcserver.h"
+#include "rpc/server.h"
 #include "init.h"
 #include "noui.h"
 #include "scheduler.h"
@@ -15,7 +15,6 @@
 #include "masternodeconfig.h"
 #include "httpserver.h"
 #include "httprpc.h"
-#include "rpcserver.h"
 
 #ifdef ENABLE_DEX
   #include "dex/db/dexdb.h"
