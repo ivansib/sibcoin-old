@@ -103,7 +103,7 @@ void CDarkSendRelay::RelayThroughNode(int nRank)
 
     if(pmn != NULL){
         //printf("RelayThroughNode %s\n", pmn->addr.ToString().c_str());
-        CNode* pnode = ConnectNode((CAddress)pmn->addr, NULL);
+        CNode* pnode = ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL);
         if(pnode) {
             //printf("Connected\n");
             pnode->PushMessage("dsr", (*this));
