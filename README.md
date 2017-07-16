@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mkinney/sibcoin.svg?branch=master)](https://travis-ci.org/mkinney/sibcoin)
+
 Sibcoin Core staging tree
 ===============================
 
