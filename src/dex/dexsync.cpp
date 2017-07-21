@@ -38,7 +38,7 @@ void CDexSync::startSyncDex()
 {
     LogPrint(NULL, "startSyncDex -- start synchronization offers\n");
     maxOffersNeedDownload = 0;
-    std::vector<CNode*> vNodesCopy = CopyNodeVector();
+    std::vector<CNode*> vNodesCopy = g_connman->CopyNodeVector();
 
     for (auto node : vNodesCopy) {
         if(node->fMasternode || (fMasterNode && node->fInbound)) {

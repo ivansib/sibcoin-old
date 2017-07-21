@@ -776,7 +776,7 @@ bool CMasternodeBroadcast::CheckSignature(int& nDos)
 void CMasternodeBroadcast::Relay()
 {
     CInv inv(MSG_MASTERNODE_ANNOUNCE, GetHash());
-    RelayInv(inv);
+    g_connman->RelayInv(inv);
 }
 
 CMasternodePing::CMasternodePing(CTxIn& vinNew)
@@ -944,7 +944,7 @@ bool CMasternodePing::CheckAndUpdate(CMasternode* pmn, bool fFromNewBroadcast, i
 void CMasternodePing::Relay()
 {
     CInv inv(MSG_MASTERNODE_PING, GetHash());
-    RelayInv(inv);
+    g_connman->RelayInv(inv);
 }
 
 void CMasternode::AddGovernanceVote(uint256 nGovernanceObjectHash)
@@ -965,10 +965,10 @@ void CMasternode::RemoveGovernanceObject(uint256 nGovernanceObjectHash)
     mapGovernanceObjectsVotedOn.erase(it);
 }
 
-void CMasternode::UpdateWatchdogVoteTime()
+void CMasternode::UpdateWatchdogVoteTime(uint64_t nVoteTime)
 {
     LOCK(cs);
-    nTimeLastWatchdogVote = GetTime();
+    nTimeLastWatchdogVote = (nVoteTime == 0) ? GetTime() : nVoteTime;
 }
 
 /**

@@ -648,7 +648,7 @@ void CDarksendPool::CommitFinalTransaction()
     LogPrintf("CDarksendPool::CommitFinalTransaction -- TRANSMITTING DSTX\n");
 
     CInv inv(MSG_DSTX, hashTx);
-    RelayInv(inv);
+    g_connman->RelayInv(inv, PROTOCOL_VERSION);
 
     // Tell the clients it was successful
     RelayCompletedTransaction(MSG_SUCCESS);
@@ -733,7 +733,7 @@ void CDarksendPool::ChargeFees()
             // should never really happen
             LogPrintf("CDarksendPool::ChargeFees -- ERROR: AcceptToMemoryPool failed!\n");
         } else {
-            RelayTransaction(vecOffendersCollaterals[0]);
+            g_connman->RelayTransaction(vecOffendersCollaterals[0]);
         }
     }
 }
@@ -768,7 +768,7 @@ void CDarksendPool::ChargeRandomFees()
             // should never really happen
             LogPrintf("CDarksendPool::ChargeRandomFees -- ERROR: AcceptToMemoryPool failed!\n");
         } else {
-            RelayTransaction(txCollateral);
+            g_connman->RelayTransaction(txCollateral);
         }
     }
 }
@@ -1517,8 +1517,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
 
             CNode* pnodeFound = NULL;
             {
-                LOCK(cs_vNodes);
-                pnodeFound = FindNode(pmn->addr);
+                pnodeFound = g_connman->FindNode(pmn->addr);
                 if(pnodeFound) {
                     if(pnodeFound->fDisconnect) {
                         continue;
@@ -1530,7 +1529,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
 
             LogPrintf("CDarksendPool::DoAutomaticDenominating -- attempt to connect to masternode from queue, addr=%s\n", pmn->addr.ToString());
             // connect to Masternode and submit the queue request
-            CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL, true);
+            CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : g_connman->ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL, true);
             if(pnode) {
                 pSubmittedToMasternode = pmn;
                 nSessionDenom = dsq.nDenom;
@@ -1589,8 +1588,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
 
         CNode* pnodeFound = NULL;
         {
-            LOCK(cs_vNodes);
-            pnodeFound = FindNode(pmn->addr);
+            pnodeFound = g_connman->FindNode(pmn->addr);
             if(pnodeFound) {
                 if(pnodeFound->fDisconnect) {
                     nTries++;
@@ -1602,7 +1600,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
         }
 
         LogPrintf("CDarksendPool::DoAutomaticDenominating -- attempt %d connection to Masternode %s\n", nTries, pmn->addr.ToString());
-        CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL, true);
+        CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : g_connman->ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL, true);
         if(pnode) {
             LogPrintf("CDarksendPool::DoAutomaticDenominating -- connected, addr=%s\n", pmn->addr.ToString());
             pSubmittedToMasternode = pmn;
@@ -1851,7 +1849,7 @@ bool CDarksendPool::MakeCollateralAmounts(const CompactTallyItem& tallyItem)
     LogPrintf("CDarksendPool::MakeCollateralAmounts -- txid=%s\n", wtx.GetHash().GetHex());
 
     // use the same nCachedLastSuccessBlock as for DS mixinx to prevent race
-    if(!pwalletMain->CommitTransaction(wtx, reservekeyChange)) {
+    if(!pwalletMain->CommitTransaction(wtx, reservekeyChange, g_connman.get())) {
         LogPrintf("CDarksendPool::MakeCollateralAmounts -- CommitTransaction failed!\n");
         return false;
     }
@@ -1990,7 +1988,7 @@ bool CDarksendPool::CreateDenominated(const CompactTallyItem& tallyItem, bool fC
     // TODO: keep reservekeyDenom here
     reservekeyCollateral.KeepKey();
 
-    if(!pwalletMain->CommitTransaction(wtx, reservekeyChange)) {
+    if(!pwalletMain->CommitTransaction(wtx, reservekeyChange, g_connman.get())) {
         LogPrintf("CDarksendPool::CreateDenominated -- CommitTransaction failed!\n");
         return false;
     }
@@ -2361,12 +2359,12 @@ bool CDarksendQueue::CheckSignature(const CPubKey& pubKeyMasternode)
 
 bool CDarksendQueue::Relay()
 {
-    std::vector<CNode*> vNodesCopy = CopyNodeVector();
+    std::vector<CNode*> vNodesCopy = g_connman->CopyNodeVector();
     BOOST_FOREACH(CNode* pnode, vNodesCopy)
         if(pnode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
             pnode->PushMessage(NetMsgType::DSQUEUE, (*this));
 
-    ReleaseNodeVector(vNodesCopy);
+    g_connman->ReleaseNodeVector(vNodesCopy);
     return true;
 }
 
@@ -2399,17 +2397,17 @@ bool CDarksendBroadcastTx::CheckSignature(const CPubKey& pubKeyMasternode)
 
 void CDarksendPool::RelayFinalTransaction(const CTransaction& txFinal)
 {
-    LOCK(cs_vNodes);
-    BOOST_FOREACH(CNode* pnode, vNodes)
-        if(pnode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
-            pnode->PushMessage(NetMsgType::DSFINALTX, nSessionID, txFinal);
+    g_connman->ForEachNode([this, txFinal](CNode* pNode) {
+        if(pNode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
+            pNode->PushMessage(NetMsgType::DSFINALTX, nSessionID, txFinal);
+    });
 }
 
 void CDarksendPool::RelayIn(const CDarkSendEntry& entry)
 {
     if(!pSubmittedToMasternode) return;
 
-    CNode* pnode = FindNode(pSubmittedToMasternode->addr);
+    CNode* pnode = g_connman->FindNode(pSubmittedToMasternode->addr);
     if(pnode != NULL) {
         LogPrintf("CDarksendPool::RelayIn -- found master, relaying message to %s\n", pnode->addr.ToString());
         pnode->PushMessage(NetMsgType::DSVIN, entry);
@@ -2424,18 +2422,18 @@ void CDarksendPool::PushStatus(CNode* pnode, PoolStatusUpdate nStatusUpdate, Poo
 
 void CDarksendPool::RelayStatus(PoolStatusUpdate nStatusUpdate, PoolMessage nMessageID)
 {
-    LOCK(cs_vNodes);
-    BOOST_FOREACH(CNode* pnode, vNodes)
-        if(pnode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
-            PushStatus(pnode, nStatusUpdate, nMessageID);
+     g_connman->ForEachNode([this, nStatusUpdate, nMessageID](CNode* pNode) {
+        if(pNode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
+            PushStatus(pNode, nStatusUpdate, nMessageID);
+     });
 }
 
 void CDarksendPool::RelayCompletedTransaction(PoolMessage nMessageID)
 {
-    LOCK(cs_vNodes);
-    BOOST_FOREACH(CNode* pnode, vNodes)
-        if(pnode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
-            pnode->PushMessage(NetMsgType::DSCOMPLETE, nSessionID, (int)nMessageID);
+    g_connman->ForEachNode([this, nMessageID](CNode* pNode) {
+        if(pNode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
+            pNode->PushMessage(NetMsgType::DSCOMPLETE, nSessionID, (int)nMessageID);
+    });
 }
 
 void CDarksendPool::SetState(PoolState nStateNew)

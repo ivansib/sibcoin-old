@@ -49,7 +49,7 @@ bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std:
         CCoinControl ccoin;
         ccoin.nMinimumTotalFee = PAYOFFER_TX_FEE * coef;
         CHECK(pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, &ccoin), strError);
-        CHECK(pwalletMain->CommitTransaction(wtxNew, reservekey), "Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
+        CHECK(pwalletMain->CommitTransaction(wtxNew, reservekey, g_connman.get(), NetMsgType::TX), "Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
         newTx = wtxNew;
         return true;
     } while(false);

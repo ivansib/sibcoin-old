@@ -12,6 +12,7 @@
 
 class CBlockIndex;
 class CChainParams;
+class CConnman;
 class CReserveKey;
 class CScript;
 class CWallet;
@@ -30,7 +31,7 @@ struct CBlockTemplate
 };
 
 /** Run the miner threads */
-void GenerateBitcoins(bool fGenerate, int nThreads, const CChainParams& chainparams);
+void GenerateBitcoins(bool fGenerate, int nThreads, const CChainParams& chainparams, CConnman& connman);
 /** Generate a new block, without valid proof-of-work */
 CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& scriptPubKeyIn);
 /** Modify the extranonce in a block */
@@ -42,7 +43,8 @@ int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParam
 void FormatHashBuffers(CBlock* pblock, char* pmidstate, char* pdata, char* phash1);
 
 //bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey);
-bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainparams);
+//bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainparams);
+bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainparams, CConnman* connman);
 /** Base sha256 mining transform */
 void SHA256Transform(void* pstate, void* pinput, const void* pinit);
 #endif // BITCOIN_MINER_H

@@ -27,6 +27,8 @@ static const int MASTERNODE_POSE_BAN_MAX_SCORE          = 5;
 // The Masternode Ping Class : Contains a different serialize method for sending pings from masternodes throughout the network
 //
 
+#define DEFAULT_SENTINEL_VERSION 0x010001
+
 class CMasternodePing
 {
 public:
@@ -35,6 +37,9 @@ public:
     int64_t sigTime; //mnb message times
     std::vector<unsigned char> vchSig;
     //removed stop
+    bool fSentinelIsCurrent = false; // true if last sentinel ping was actual
+    // MSB is always 0, other 3 bits corresponds to x.x.x version scheme
+    uint32_t nSentinelVersion{DEFAULT_SENTINEL_VERSION};
 
     CMasternodePing() :
         vin(),
@@ -53,6 +58,15 @@ public:
         READWRITE(blockHash);
         READWRITE(sigTime);
         READWRITE(vchSig);
+
+        if(ser_action.ForRead() && (s.size() == 0))
+        {
+            fSentinelIsCurrent = false;
+            nSentinelVersion = DEFAULT_SENTINEL_VERSION;
+            return;
+        }
+        READWRITE(fSentinelIsCurrent);
+        READWRITE(nSentinelVersion);
     }
 
     void swap(CMasternodePing& first, CMasternodePing& second) // nothrow
@@ -315,7 +329,7 @@ public:
 
     void RemoveGovernanceObject(uint256 nGovernanceObjectHash);
 
-    void UpdateWatchdogVoteTime();
+    void UpdateWatchdogVoteTime(uint64_t nVoteTime = 0);
 
     CMasternode& operator=(CMasternode from)
     {
@@ -454,7 +468,7 @@ public:
     void Relay() const
     {
         CInv inv(MSG_MASTERNODE_VERIFY, GetHash());
-        RelayInv(inv);
+        g_connman->RelayInv(inv);
     }
 };
 

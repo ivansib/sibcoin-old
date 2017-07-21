@@ -125,22 +125,18 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
 
 void CDexManager::sendNewOffer(const CDexOffer &offer)
 {
-    LOCK2(cs_main, cs_vNodes);
-
-    for (CNode *pNode : vNodes) {
+    g_connman->ForEachNode([offer](CNode* pNode) {
         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
-    }
+    });
 }
 
 void CDexManager::sendEditedOffer(const CDexOffer &offer)
 {
     std::vector<unsigned char> vchSign = ParseHex(offer.editsign);
 
-    LOCK2(cs_main, cs_vNodes);
-
-    for (CNode *pNode : vNodes) {
+    g_connman->ForEachNode([offer, vchSign](CNode* pNode) {
         pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
-    }
+    });
 }
 
 void CDexManager::checkUncOffers()
@@ -228,24 +224,22 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
             }
 
             if (!bFound) { // need to save and relay
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                g_connman->ForEachNode([offer, pfrom](CNode* pNode) {
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
-                }
+                });
             }
             LogPrint("dex", "DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
             if (!uncOffers->isExistOffer(offer.hash)) {
                 uncOffers->setOffer(offer);
 
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                g_connman->ForEachNode([offer, pfrom](CNode* pNode) {
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
-                }
+                });
                 LogPrint("dex", "DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
         }
@@ -291,12 +285,11 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
             }
 
             if (bFound) { // need to delete and relay
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                g_connman->ForEachNode([offer, pfrom, vchSign](CNode* pNode) {
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
                     }
-                }
+                });
             }
             LogPrint("dex", "DEXDELOFFER --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
@@ -364,12 +357,11 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
             LogPrint("dex", "DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
         }
         if (isActual) {
-            LOCK2(cs_main, cs_vNodes);
-            for (CNode* pNode : vNodes) {
+            g_connman->ForEachNode([offer, pfrom, vchSign](CNode* pNode) {
                 if (pNode->addr != pfrom->addr) {
                     pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
                 }
-            }
+            });
         }
     } else {
         LogPrint("dex", "DEXOFFEDIT -- offer check fail\n");
