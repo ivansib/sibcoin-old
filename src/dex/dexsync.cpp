@@ -45,7 +45,7 @@ void CDexSync::startSyncDex()
             continue;
         }
 
-        node->PushMessage(NetMsgType::DEXSYNCGETALLHASH);
+        g_connman->PushMessage(node, NetMsgType::DEXSYNCGETALLHASH);
     }
 
     status = Initial;
@@ -104,7 +104,7 @@ void CDexSync::sendHashOffers(CNode *pfrom) const
 
     if (hvs.size() > 0) {
         LogPrint("dex", "DEXSYNCGETALLHASH -- send list pairs hashe and version\n");
-        pfrom->PushMessage(NetMsgType::DEXSYNCALLHASH, hvs);
+        g_connman->PushMessage(pfrom, NetMsgType::DEXSYNCALLHASH, hvs);
     }
 }
 
@@ -132,7 +132,7 @@ void CDexSync::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRe
         if (isSend) {
             insertItemFromOffersNeedDownload(h.first);
             LogPrint("dex", "DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.first.GetHex().c_str());
-            pfrom->PushMessage(NetMsgType::DEXSYNCGETOFFER, h);
+            g_connman->PushMessage(pfrom, NetMsgType::DEXSYNCGETOFFER, h);
         }
     }
 }
@@ -148,7 +148,7 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 
     if (offer.Check(true)) {
         LogPrint("dex", "DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
-        pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
+        g_connman->PushMessage(pfrom, NetMsgType::DEXSYNCOFFER, offer);
     }
 }
 

@@ -44,7 +44,7 @@ void FormatHashBuffers(CBlock* pblock, char* pmidstate, char* pdata, char* phash
 
 //bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey);
 //bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainparams);
-bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainparams, CConnman* connman);
+bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainparams);
 /** Base sha256 mining transform */
 void SHA256Transform(void* pstate, void* pinput, const void* pinit);
 #endif // BITCOIN_MINER_H

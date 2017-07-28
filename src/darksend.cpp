@@ -1243,7 +1243,7 @@ bool CDarksendPool::SignFinalTransaction(const CTransaction& finalTransactionNew
 
     // push all of our signatures to the Masternode
     LogPrintf("CDarksendPool::SignFinalTransaction -- pushing sigs to the masternode, finalMutableTransaction=%s", finalMutableTransaction.ToString());
-    pnode->PushMessage(NetMsgType::DSSIGNFINALTX, sigs);
+    g_connman->PushMessage(pnode, NetMsgType::DSSIGNFINALTX, sigs);
     SetState(POOL_STATE_SIGNING);
     nTimeLastSuccessfulStep = GetTimeMillis();
 
@@ -1534,7 +1534,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
                 pSubmittedToMasternode = pmn;
                 nSessionDenom = dsq.nDenom;
 
-                pnode->PushMessage(NetMsgType::DSACCEPT, nSessionDenom, txMyCollateral);
+                g_connman->PushMessage(pnode, NetMsgType::DSACCEPT, nSessionDenom, txMyCollateral);
                 LogPrintf("CDarksendPool::DoAutomaticDenominating -- connected (from queue), sending DSACCEPT: nSessionDenom: %d (%s), addr=%s\n",
                         nSessionDenom, GetDenominationsToString(nSessionDenom), pnode->addr.ToString());
                 strAutoDenomResult = _("Mixing in progress...");
@@ -1612,7 +1612,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
                 nSessionDenom = GetDenominationsByAmounts(vecAmounts);
             }
 
-            pnode->PushMessage(NetMsgType::DSACCEPT, nSessionDenom, txMyCollateral);
+            g_connman->PushMessage(pnode, NetMsgType::DSACCEPT, nSessionDenom, txMyCollateral);
             LogPrintf("CDarksendPool::DoAutomaticDenominating -- connected, sending DSACCEPT, nSessionDenom: %d (%s)\n",
                     nSessionDenom, GetDenominationsToString(nSessionDenom));
             strAutoDenomResult = _("Mixing in progress...");
@@ -2362,7 +2362,7 @@ bool CDarksendQueue::Relay()
     std::vector<CNode*> vNodesCopy = g_connman->CopyNodeVector();
     BOOST_FOREACH(CNode* pnode, vNodesCopy)
         if(pnode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
-            pnode->PushMessage(NetMsgType::DSQUEUE, (*this));
+            g_connman->PushMessage(pnode, NetMsgType::DSQUEUE, (*this));
 
     g_connman->ReleaseNodeVector(vNodesCopy);
     return true;
@@ -2399,7 +2399,7 @@ void CDarksendPool::RelayFinalTransaction(const CTransaction& txFinal)
 {
     g_connman->ForEachNode([this, txFinal](CNode* pNode) {
         if(pNode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
-            pNode->PushMessage(NetMsgType::DSFINALTX, nSessionID, txFinal);
+            g_connman->PushMessage(pNode, NetMsgType::DSFINALTX, nSessionID, txFinal);
     });
 }
 
@@ -2410,14 +2410,14 @@ void CDarksendPool::RelayIn(const CDarkSendEntry& entry)
     CNode* pnode = g_connman->FindNode(pSubmittedToMasternode->addr);
     if(pnode != NULL) {
         LogPrintf("CDarksendPool::RelayIn -- found master, relaying message to %s\n", pnode->addr.ToString());
-        pnode->PushMessage(NetMsgType::DSVIN, entry);
+        g_connman->PushMessage(pnode, NetMsgType::DSVIN, entry);
     }
 }
 
 void CDarksendPool::PushStatus(CNode* pnode, PoolStatusUpdate nStatusUpdate, PoolMessage nMessageID)
 {
     if(!pnode) return;
-    pnode->PushMessage(NetMsgType::DSSTATUSUPDATE, nSessionID, (int)nState, (int)vecEntries.size(), (int)nStatusUpdate, (int)nMessageID);
+    g_connman->PushMessage(pnode, NetMsgType::DSSTATUSUPDATE, nSessionID, (int)nState, (int)vecEntries.size(), (int)nStatusUpdate, (int)nMessageID);
 }
 
 void CDarksendPool::RelayStatus(PoolStatusUpdate nStatusUpdate, PoolMessage nMessageID)
@@ -2432,7 +2432,7 @@ void CDarksendPool::RelayCompletedTransaction(PoolMessage nMessageID)
 {
     g_connman->ForEachNode([this, nMessageID](CNode* pNode) {
         if(pNode->nVersion >= MIN_PRIVATESEND_PEER_PROTO_VERSION)
-            pNode->PushMessage(NetMsgType::DSCOMPLETE, nSessionID, (int)nMessageID);
+            g_connman->PushMessage(pNode, NetMsgType::DSCOMPLETE, nSessionID, (int)nMessageID);
     });
 }
 

@@ -106,7 +106,7 @@ void CDarkSendRelay::RelayThroughNode(int nRank)
         CNode* pnode = g_connman->ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL);
         if(pnode) {
             //printf("Connected\n");
-            pnode->PushMessage("dsr", (*this));
+            g_connman->PushMessage(pnode, "dsr", (*this));
             return;
         }
     } else {

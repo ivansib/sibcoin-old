@@ -414,7 +414,7 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
     if (offer.status != dex::Draft) {
         g_connman->ForEachNode([offer, vchSign, &sended](CNode* pNode) {
             uint64_t bytes = pNode->nSendBytes;
-            pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+            g_connman->PushMessage(pNode, NetMsgType::DEXDELOFFER, offer, vchSign);
             if (pNode->nSendBytes > bytes) sended++;
         });
     }

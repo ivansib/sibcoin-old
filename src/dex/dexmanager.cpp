@@ -126,7 +126,7 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
 void CDexManager::sendNewOffer(const CDexOffer &offer)
 {
     g_connman->ForEachNode([offer](CNode* pNode) {
-        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+        g_connman->PushMessage(pNode, NetMsgType::DEXOFFBCST, offer);
     });
 }
 
@@ -135,7 +135,7 @@ void CDexManager::sendEditedOffer(const CDexOffer &offer)
     std::vector<unsigned char> vchSign = ParseHex(offer.editsign);
 
     g_connman->ForEachNode([offer, vchSign](CNode* pNode) {
-        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
+        g_connman->PushMessage(pNode, NetMsgType::DEXOFFEDIT, offer, vchSign);
     });
 }
 
@@ -226,7 +226,7 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
             if (!bFound) { // need to save and relay
                 g_connman->ForEachNode([offer, pfrom](CNode* pNode) {
                     if (pNode->addr != pfrom->addr) {
-                        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                        g_connman->PushMessage(pNode, NetMsgType::DEXOFFBCST, offer);
                     }
                 });
             }
@@ -237,7 +237,7 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
 
                 g_connman->ForEachNode([offer, pfrom](CNode* pNode) {
                     if (pNode->addr != pfrom->addr) {
-                        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                        g_connman->PushMessage(pNode, NetMsgType::DEXOFFBCST, offer);
                     }
                 });
                 LogPrint("dex", "DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
@@ -287,7 +287,7 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
             if (bFound) { // need to delete and relay
                 g_connman->ForEachNode([offer, pfrom, vchSign](CNode* pNode) {
                     if (pNode->addr != pfrom->addr) {
-                        pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+                        g_connman->PushMessage(pNode, NetMsgType::DEXDELOFFER, offer, vchSign);
                     }
                 });
             }
@@ -359,7 +359,7 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
         if (isActual) {
             g_connman->ForEachNode([offer, pfrom, vchSign](CNode* pNode) {
                 if (pNode->addr != pfrom->addr) {
-                    pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
+                    g_connman->PushMessage(pNode, NetMsgType::DEXOFFEDIT, offer, vchSign);
                 }
             });
         }
