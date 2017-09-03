@@ -13,6 +13,7 @@
 #include "txmempool.h"
 #include "util.h"
 #include "utilmoneystr.h"
+
 #include <memory>
 
 CPrivateSendClient privateSendClient;
@@ -45,7 +46,7 @@ void CPrivateSendClient::ProcessMessage(CNode* pfrom, std::string& strCommand, C
 
         LogPrint("privatesend", "DSQUEUE -- %s new\n", dsq.ToString());
 
-        if(dsq.IsExpired() || dsq.nTime > GetTime() + PRIVATESEND_QUEUE_TIMEOUT) return;
+        if(dsq.IsExpired()) return;
 
         masternode_info_t infoMn = mnodeman.GetMasternodeInfo(dsq.vin);
         if(!infoMn.fInfoValid) return;
@@ -59,7 +60,7 @@ void CPrivateSendClient::ProcessMessage(CNode* pfrom, std::string& strCommand, C
         // if the queue is ready, submit if we can
         if(dsq.fReady) {
             if(!infoMixingMasternode.fInfoValid) return;
-            if((CNetAddr)infoMixingMasternode.addr != (CNetAddr)infoMn.addr) {
+            if(infoMixingMasternode.addr != infoMn.addr) {
                 LogPrintf("DSQUEUE -- message doesn't match current Masternode: infoMixingMasternode=%s, addr=%s\n", infoMixingMasternode.addr.ToString(), infoMn.addr.ToString());
                 return;
             }
@@ -104,7 +105,7 @@ void CPrivateSendClient::ProcessMessage(CNode* pfrom, std::string& strCommand, C
         }
 
         if(!infoMixingMasternode.fInfoValid) return;
-        if((CNetAddr)infoMixingMasternode.addr != (CNetAddr)pfrom->addr) {
+        if(infoMixingMasternode.addr != pfrom->addr) {
             //LogPrintf("DSSTATUSUPDATE -- message doesn't match current Masternode: infoMixingMasternode %s addr %s\n", infoMixingMasternode.addr.ToString(), pfrom->addr.ToString());
             return;
         }
@@ -148,7 +149,7 @@ void CPrivateSendClient::ProcessMessage(CNode* pfrom, std::string& strCommand, C
         }
 
         if(!infoMixingMasternode.fInfoValid) return;
-        if((CNetAddr)infoMixingMasternode.addr != (CNetAddr)pfrom->addr) {
+        if(infoMixingMasternode.addr != pfrom->addr) {
             //LogPrintf("DSFINALTX -- message doesn't match current Masternode: infoMixingMasternode %s addr %s\n", infoMixingMasternode.addr.ToString(), pfrom->addr.ToString());
             return;
         }
@@ -175,7 +176,7 @@ void CPrivateSendClient::ProcessMessage(CNode* pfrom, std::string& strCommand, C
         }
 
         if(!infoMixingMasternode.fInfoValid) return;
-        if((CNetAddr)infoMixingMasternode.addr != (CNetAddr)pfrom->addr) {
+        if(infoMixingMasternode.addr != pfrom->addr) {
             LogPrint("privatesend", "DSCOMPLETE -- message doesn't match current Masternode: infoMixingMasternode=%s  addr=%s\n", infoMixingMasternode.addr.ToString(), pfrom->addr.ToString());
             return;
         }
@@ -241,7 +242,7 @@ std::string CPrivateSendClient::GetStatus()
     nStatusMessageProgress += 10;
     std::string strSuffix = "";
 
-    if((pCurrentBlockIndex && pCurrentBlockIndex->nHeight - nCachedLastSuccessBlock < nMinBlockSpacing) || !masternodeSync.IsBlockchainSynced())
+    if(WaitForAnotherBlock() || !masternodeSync.IsBlockchainSynced())
         return strAutoDenomResult;
 
     switch(nState) {
@@ -577,7 +578,7 @@ void CPrivateSendClient::CompletedTransaction(PoolMessage nMessageID)
 
     if(nMessageID == MSG_SUCCESS) {
         LogPrintf("CompletedTransaction -- success\n");
-        nCachedLastSuccessBlock = pCurrentBlockIndex->nHeight;
+        nCachedLastSuccessBlock = nCachedBlockHeight;
     } else {
         LogPrintf("CompletedTransaction -- error\n");
     }
@@ -586,6 +587,16 @@ void CPrivateSendClient::CompletedTransaction(PoolMessage nMessageID)
     strLastMessage = CPrivateSend::GetMessageByID(nMessageID);
 }
 
+bool CPrivateSendClient::WaitForAnotherBlock()
+{
+    if(!masternodeSync.IsMasternodeListSynced())
+        return true;
+
+    if(fPrivateSendMultiSession)
+        return false;
+
+    return nCachedBlockHeight - nCachedLastSuccessBlock < nMinBlocksToWait;
+}
 
 bool CPrivateSendClient::CheckAutomaticBackup()
 {
@@ -657,7 +668,8 @@ bool CPrivateSendClient::CheckAutomaticBackup()
 //
 bool CPrivateSendClient::DoAutomaticDenominating(bool fDryRun)
 {
-    if(!fEnablePrivateSend || fMasterNode || !pCurrentBlockIndex) return false;
+    if(fMasterNode) return false; // no client-side mixing on masternodes
+    if(!fEnablePrivateSend) return false;
     if(!pwalletMain || pwalletMain->IsLocked(true)) return false;
     if(nState != POOL_STATE_IDLE) return false;
 
@@ -685,7 +697,7 @@ bool CPrivateSendClient::DoAutomaticDenominating(bool fDryRun)
         return false;
     }
 
-    if(!fPrivateSendMultiSession && pCurrentBlockIndex->nHeight - nCachedLastSuccessBlock < nMinBlockSpacing) {
+    if(WaitForAnotherBlock()) {
         LogPrintf("CPrivateSendClient::DoAutomaticDenominating -- Last successful PrivateSend action was too recent\n");
         strAutoDenomResult = _("Last successful PrivateSend action was too recent.");
         return false;
@@ -1072,15 +1084,15 @@ bool CPrivateSendClient::PrepareDenominate(int nMinRounds, int nMaxRounds, std::
                     vecTxIn.erase(it);
                     vCoins.erase(it2);
 
-                    CScript scriptChange;
+                    CScript scriptDenom;
                     CPubKey vchPubKey;
-                    // use a unique change address
+                    // use unique address
                     assert(reservekey.GetReservedKey(vchPubKey)); // should never fail, as we just unlocked
-                    scriptChange = GetScriptForDestination(vchPubKey.GetID());
+                    scriptDenom = GetScriptForDestination(vchPubKey.GetID());
                     reservekey.KeepKey();
 
                     // add new output
-                    CTxOut txout(nValueDenom, scriptChange);
+                    CTxOut txout(nValueDenom, scriptDenom);
                     vecTxOutRet.push_back(txout);
 
                     // subtract denomination amount
@@ -1208,7 +1220,7 @@ bool CPrivateSendClient::MakeCollateralAmounts(const CompactTallyItem& tallyItem
         return false;
     }
 
-    nCachedLastSuccessBlock = pCurrentBlockIndex->nHeight;
+    nCachedLastSuccessBlock = nCachedBlockHeight;
 
     return true;
 }
@@ -1293,7 +1305,7 @@ bool CPrivateSendClient::CreateDenominated(const CompactTallyItem& tallyItem, bo
             while(nValueLeft - nDenomValue >= 0 && nOutputs <= 10) {
                 CScript scriptDenom;
                 CPubKey vchPubKey;
-                //use a unique change address
+                // use a unique address
                 std::shared_ptr<CReserveKey> reservekeyDenom = std::make_shared<CReserveKey>(pwalletMain);
                 reservekeyDenomVec.push_back(reservekeyDenom);
 
@@ -1356,7 +1368,7 @@ bool CPrivateSendClient::CreateDenominated(const CompactTallyItem& tallyItem, bo
     }
 
     // use the same nCachedLastSuccessBlock as for DS mixing to prevent race
-    nCachedLastSuccessBlock = pCurrentBlockIndex->nHeight;
+    nCachedLastSuccessBlock = nCachedBlockHeight;
     LogPrintf("CPrivateSendClient::CreateDenominated -- txid=%s\n", wtx.GetHash().GetHex());
 
     return true;
@@ -1382,8 +1394,8 @@ void CPrivateSendClient::SetState(PoolState nStateNew)
 
 void CPrivateSendClient::UpdatedBlockTip(const CBlockIndex *pindex)
 {
-    pCurrentBlockIndex = pindex;
-    LogPrint("privatesend", "CPrivateSendClient::UpdatedBlockTip -- pCurrentBlockIndex->nHeight: %d\n", pCurrentBlockIndex->nHeight);
+    nCachedBlockHeight = pindex->nHeight;
+    LogPrint("privatesend", "CPrivateSendClient::UpdatedBlockTip -- nCachedBlockHeight: %d\n", nCachedBlockHeight);
 
     if(!fLiteMode && masternodeSync.IsMasternodeListSynced()) {
         NewBlock();
