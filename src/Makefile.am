@@ -100,6 +100,7 @@ BITCOIN_CORE_H = \
   privatesend.h \
   privatesend-client.h \
   privatesend-server.h \
+  privatesend-util.h \
   dsnotificationinterface.h \
   governance.h \
   governance-classes.h \
@@ -281,7 +282,6 @@ libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_wallet_a_SOURCES = \
   activemasternode.cpp \
-  privatesend-client.cpp \
   dsnotificationinterface.cpp \
   instantx.cpp \
   masternode.cpp \
@@ -290,6 +290,8 @@ libbitcoin_wallet_a_SOURCES = \
   masternodeconfig.cpp \
   masternodeman.cpp \
   keepass.cpp \
+  privatesend-client.cpp \
+  privatesend-util.cpp \
   wallet/crypter.cpp \
   wallet/db.cpp \
   wallet/rpcdump.cpp \
