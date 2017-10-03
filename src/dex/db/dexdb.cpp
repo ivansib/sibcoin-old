@@ -1,6 +1,6 @@
 #include <ctime>
 #include "dex/dexdb.h"
-#include <iostream>
+#include "defaultdatafordb.h"
 
 namespace dex {
 
@@ -8,7 +8,9 @@ DexDB::DexDB(const boost::filesystem::path &path)
 {
     std::string dbFile = path.string() + "/dex.db";
     db = sqlite3pp::database(dbFile.c_str());
+
     createTables();
+    addDefaultData();
 }
 
 void DexDB::addCountry(const std::string &iso, const std::string &name, const bool &enabled)
@@ -62,6 +64,38 @@ std::map<std::string, CountryInfo> dex::DexDB::getCountriesInfo()
 void DexDB::createTables()
 {
     db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN)");
+}
+
+void dex::DexDB::addDefaultData()
+{
+    DefaultDataForDb def;
+    int count = tableCount("countries");
+    if (count <= 0) {
+        std::map<std::string, std::string> countries = def.dataCountries();
+
+        std::map<std::string, std::string>::iterator it = countries.begin();
+
+        while (it != countries.end()) {
+            addCountry(it->first, it->second);
+            ++it;
+        }
+    }
+}
+
+int dex::DexDB::tableCount(const std::string &tableName)
+{
+    int count = 0;
+
+    std::string query = "SELECT count() FROM ";
+    query.append(tableName);
+    sqlite3pp::query qry(db, query.c_str());
+
+    std::string str;
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> str;
+    count = std::stoi(str);
+
+    return count;
 }
 
 }

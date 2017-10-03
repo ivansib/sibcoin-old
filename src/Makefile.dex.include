@@ -15,3 +15,4 @@ dex_libdexdb_a_SOURCES += sqlite/sqlite3pp/sqlite3ppext.cpp
 
 dex_libdexdb_a_SOURCES += dex/db/dexdb.cpp
 dex_libdexdb_a_SOURCES += dex/db/countryiso.cpp 
+dex_libdexdb_a_SOURCES += dex/db/defaultdatafordb.cpp

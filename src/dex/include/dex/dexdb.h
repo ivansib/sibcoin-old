@@ -23,6 +23,8 @@ public:
 
 private:
     void createTables();
+    void addDefaultData();
+    int tableCount(const std::string &tableName);
 
     sqlite3pp::database db;
 };
