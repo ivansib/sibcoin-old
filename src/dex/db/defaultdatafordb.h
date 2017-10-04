@@ -1,15 +1,26 @@
 #ifndef DEFAULTDATAFORDB_H
 #define DEFAULTDATAFORDB_H
 
-#include <map>
+#include <list>
 
 namespace dex {
 
-const std::string resourcesPath = "/mnt/D/program/1.project/sibcoin/src/dex/res/";
+struct DefaultCountry {
+    std::string iso;
+    std::string name;
+    std::string currency;
+};
+
+struct DefaultCurrency {
+    std::string iso;
+    std::string name;
+    std::string symbol;
+};
 
 class DefaultDataForDb {
 public:
-    std::map<std::string, std::string> dataCountries();
+    std::list<DefaultCountry> dataCountries();
+    std::list<DefaultCurrency> dataCurrencies();
 };
 
 }
