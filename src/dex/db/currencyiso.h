@@ -1,14 +1,14 @@
-#ifndef COUNTRYISO_H
-#define COUNTRYISO_H
+#ifndef CURRENCYISO_H
+#define CURRENCYISO_H
 
 #include <set>
 #include <string>
 
 namespace dex {
 
-class CountryIso {
+class CurrencyIso {
 public:
-    CountryIso();
+    CurrencyIso();
 
     bool isValid(const std::string &iso);
 

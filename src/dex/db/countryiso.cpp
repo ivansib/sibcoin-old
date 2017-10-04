@@ -1,5 +1,7 @@
 #include "countryiso.h"
 
+namespace dex {
+
 CountryIso::CountryIso()
 {
     initListIso();
@@ -266,4 +268,6 @@ void CountryIso::initListIso()
     setIso.insert("YE");
     setIso.insert("ZM");
     setIso.insert("ZW");
+}
+
 }
