@@ -11,6 +11,9 @@ DexDB::DexDB(const boost::filesystem::path &path)
 
     createTables();
     addDefaultData();
+
+    addCurrency("BBB", "tes val");
+    deleteCurrency("AAA");
 }
 
 void DexDB::addCountry(const std::string &iso, const std::string &name, const bool &enabled)
@@ -61,9 +64,58 @@ std::map<std::string, CountryInfo> dex::DexDB::getCountriesInfo()
     return countries;
 }
 
+void dex::DexDB::addCurrency(const std::string &iso, const std::string &name, const bool &enabled)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, enabled) VALUES (?, ?, ?)");
+    cmd.bind(1, iso, sqlite3pp::nocopy);
+    cmd.bind(2, name, sqlite3pp::nocopy);
+    cmd.bind(3, enabled);
+    cmd.execute();
+}
+
+void dex::DexDB::editCurrency(const std::string &iso, const bool &enabled)
+{
+    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = ? WHERE iso = ?");
+    cmd.bind(1, enabled);
+    cmd.bind(2, iso, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+void dex::DexDB::deleteCurrency(const std::string &iso)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM currencies WHERE iso = ?");
+    cmd.bind(1, iso, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+std::map<std::string, CurrencyInfo> dex::DexDB::getCurrenciesInfo()
+{
+    std::map<std::string, CurrencyInfo> currencies;
+
+    sqlite3pp::query qry(db, "SELECT iso, name, enabled FROM currencies");
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        std::string iso;
+        std::string name;
+        bool enabled;
+        std::tie(iso, name, enabled) = (*i).get_columns<std::string, std::string, bool>(0, 1, 2);
+
+        CurrencyInfo info;
+        info.name = name;
+        info.enabled = enabled;
+
+        currencies[iso] = info;
+    }
+
+    return currencies;
+}
+
 void DexDB::createTables()
 {
-    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN)");
+    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT)");
+    db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), enabled BOOLEAN)");
 }
 
 void dex::DexDB::addDefaultData()
