@@ -113,10 +113,60 @@ std::map<std::string, CurrencyInfo> DexDB::getCurrenciesInfo()
     return currencies;
 }
 
+
+void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description) VALUES (?, ?, ?)");
+    cmd.bind(1, type);
+    cmd.bind(2, name, sqlite3pp::nocopy);
+    cmd.bind(3, description, sqlite3pp::nocopy);
+    cmd.execute();
+}
+
+void DexDB::editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description)
+{
+    sqlite3pp::command cmd(db, "UPDATE paymentMethods SET name = ?, description = ? WHERE type = ?");
+    cmd.bind(1, name, sqlite3pp::nocopy);
+    cmd.bind(2, description, sqlite3pp::nocopy);
+    cmd.bind(3, type);
+
+    cmd.execute();
+}
+
+void DexDB::deletePaymentMethod(const unsigned char &type)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM paymentMethods WHERE type = ?");
+    cmd.bind(1, type);
+
+    cmd.execute();
+}
+
+std::map<unsigned char, PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
+{
+    std::map<unsigned char, PaymentMethodInfo> payments;
+
+    sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods");
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        unsigned char type;
+        std::string name;
+        std::string description;
+        std::tie(type, name, description) = (*i).get_columns<unsigned char, std::string, std::string>(0, 1, 2);
+
+        PaymentMethodInfo info;
+        info.name = name;
+        info.description = description;
+        payments[type] = info;
+    }
+
+    return payments;
+}
+
 void DexDB::createTables()
 {
     db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT)");
     db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), symbol VARCHAR(10), enabled BOOLEAN)");
+    db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB)");
 }
 
 void DexDB::addDefaultData()

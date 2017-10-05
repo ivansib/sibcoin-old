@@ -18,6 +18,11 @@ struct CurrencyInfo {
     bool enabled;
 };
 
+struct PaymentMethodInfo {
+    std::string name;
+    std::string description;
+};
+
 class DexDB {
 public:
     DexDB(const boost::filesystem::path &path);
@@ -31,6 +36,11 @@ public:
     void editCurrency(const std::string &iso, const bool &enabled);
     void deleteCurrency(const std::string &iso);
     std::map<std::string, CurrencyInfo> getCurrenciesInfo();
+
+    void addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
+    void editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
+    void deletePaymentMethod(const unsigned char &type);
+    std::map<unsigned char, PaymentMethodInfo> getPaymentMethodsInfo();
 
 private:
     void createTables();
