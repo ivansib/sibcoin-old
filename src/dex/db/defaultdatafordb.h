@@ -17,10 +17,17 @@ struct DefaultCurrency {
     std::string symbol;
 };
 
+struct DefaultPaymentMethod {
+    unsigned char type;
+    std::string name;
+    std::string description;
+};
+
 class DefaultDataForDb {
 public:
     std::list<DefaultCountry> dataCountries();
     std::list<DefaultCurrency> dataCurrencies();
+    std::list<DefaultPaymentMethod> dataPaymentMethods();
 };
 
 }

@@ -413,4 +413,13 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     return currencies;
 }
 
+std::list<DefaultPaymentMethod> DefaultDataForDb::dataPaymentMethods() {
+    std::list<DefaultPaymentMethod> payments;
+
+    payments.push_back({1, "Cash", "Cash payment"});
+    payments.push_back({128, "Online", "Online payment"});
+
+    return payments;
+}
+
 }

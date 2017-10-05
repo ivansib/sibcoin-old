@@ -190,6 +190,15 @@ void DexDB::addDefaultData()
             addCountry(item.iso, item.name, item.currency);
         }
     }
+
+    count = tableCount("paymentMethods");
+    if (count <= 0) {
+        std::list<DefaultPaymentMethod> countries = def.dataPaymentMethods();
+
+        for (auto item : countries) {
+            addPaymentMethod(item.type, item.name, item.description);
+        }
+    }
 }
 
 int DexDB::tableCount(const std::string &tableName)
