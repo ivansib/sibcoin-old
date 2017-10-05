@@ -2,6 +2,7 @@
 #define DEFAULTDATAFORDB_H
 
 #include <list>
+#include <string>
 
 namespace dex {
 
