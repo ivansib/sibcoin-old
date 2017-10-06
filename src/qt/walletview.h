@@ -23,7 +23,6 @@ class TransactionView;
 class WalletModel;
 class AddressBookPage;
 class SibModel;
-class OfferModel;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -52,7 +51,6 @@ public:
     void setClientModel(ClientModel *clientModel);
     
     void setSibModel(SibModel *sibModel);
-    void setOfferModel(OfferModel *offerModel);
 
     /** Set the wallet model.
         The wallet model represents a bitcoin wallet, and offers access to the list of transactions, address book and sending
@@ -68,7 +66,6 @@ private:
     ClientModel *clientModel;
     WalletModel *walletModel;
     SibModel *sibModel;
-    OfferModel *offerModel;
 
     OverviewPage *overviewPage;
     QWidget *transactionsPage;

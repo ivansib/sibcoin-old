@@ -31,7 +31,6 @@
 #include "paymentserver.h"
 #include "walletmodel.h"
 #include "sibmodel.h"
-#include "offermodel.h"
 #endif
 #include "masternodeconfig.h"
 
@@ -264,7 +263,6 @@ private:
     PaymentServer* paymentServer;
     WalletModel *walletModel;
     SibModel *sibModel;
-    OfferModel *offerModel;
 #endif
     int returnValue;
     const PlatformStyle *platformStyle;
@@ -353,7 +351,6 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     paymentServer(0),
     walletModel(0),
     sibModel(0),
-    offerModel(0),
 #endif
     returnValue(0)
 {
