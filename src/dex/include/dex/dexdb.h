@@ -23,6 +23,18 @@ struct PaymentMethodInfo {
     std::string description;
 };
 
+struct OfferInfo {
+    int idTransaction;
+    uint64_t hash;
+    std::string countryIso;
+    std::string currencyIso;
+    uint8_t paymentMethod;
+    uint64_t price;
+    uint64_t minAmount;
+    std::string shortInfo;
+    std::string details;
+};
+
 class DexDB {
 public:
     DexDB(const boost::filesystem::path &path);
@@ -42,10 +54,26 @@ public:
     void deletePaymentMethod(const unsigned char &type);
     std::map<unsigned char, PaymentMethodInfo> getPaymentMethodsInfo();
 
+    void addOfferSell(const OfferInfo &offer);
+    void editOfferSell(const OfferInfo &offer);
+    void deleteOfferSell(const int &idTransaction);
+    std::list<OfferInfo> getOffersSell();
+
+    void addOfferBuy(const OfferInfo &offer);
+    void editOfferBuy(const OfferInfo &offer);
+    void deleteOfferBuy(const int &idTransaction);
+    std::list<OfferInfo> getOffersBuy();
+
 private:
     void createTables();
     void addDefaultData();
     int tableCount(const std::string &tableName);
+    std::string templateOffersTable(const std::string &tableName) const;
+
+    void addOffer(const std::string &tableName, const OfferInfo &offer);
+    void editOffer(const std::string &tableName, const OfferInfo &offer);
+    void deleteOffer(const std::string &tableName, const int &idTransaction);
+    std::list<OfferInfo> getOffers(const std::string &tableName);
 
     sqlite3pp::database db;
 };
