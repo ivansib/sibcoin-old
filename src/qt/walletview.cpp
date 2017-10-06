@@ -372,7 +372,8 @@ void WalletView::genAndPrintAddresses()
 {
     if(!walletModel)
         return;
-    
+
+#ifdef ENABLE_PAPERWALLET
     GenAndPrintDialog dlg(GenAndPrintDialog::Export, this);
     dlg.setModel(walletModel);
     if (dlg.exec())
@@ -384,6 +385,7 @@ void WalletView::genAndPrintAddresses()
         QString uri = dlg.getURI();
         Q_EMIT receivedURI(uri);
     }
+#endif
 }
 
 void WalletView::loadFromPaper()

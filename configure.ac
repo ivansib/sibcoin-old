@@ -78,6 +78,13 @@ AC_ARG_ENABLE([wallet],
   [enable_wallet=$enableval],
   [enable_wallet=yes])
 
+#enable paperwallet
+AC_ARG_WITH([paperwallet],
+  [AS_HELP_STRING([--with-paperwallet],
+  [Enable print paperwallet (default is yes)])],
+  [with_paperwallet=$withval],
+  [with_paperwallet=yes])
+
 AC_ARG_WITH([miniupnpc],
   [AS_HELP_STRING([--with-miniupnpc],
   [enable UPNP (default is yes if libminiupnpc is found)])],
@@ -833,6 +840,21 @@ if test x$enable_wallet != xno; then
 else
   AC_MSG_RESULT(no)
 fi
+
+
+dnl enable paperwallet
+AC_MSG_CHECKING([if print paperwallet should be enabled])
+if test x$with_paperwallet != xno; then
+  AC_MSG_RESULT(yes)
+  AC_DEFINE_UNQUOTED([ENABLE_PAPERWALLET],[1],[Define to 1 to enable print paperwallet functions])
+
+else
+  AC_MSG_RESULT(no)
+fi
+
+
+
+
 
 dnl enable upnp support
 AC_MSG_CHECKING([whether to build with support for UPnP])

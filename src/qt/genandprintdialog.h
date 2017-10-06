@@ -5,6 +5,11 @@
 #ifndef GENANDPRINTDIALOG_H
 #define GENANDPRINTDIALOG_H
 
+#if defined(HAVE_CONFIG_H)
+#include "config/sibcoin-config.h"
+#endif
+
+
 #include <QDialog>
 
 class WalletModel;
@@ -22,7 +27,9 @@ class GenAndPrintDialog : public QDialog
 
 public:
     enum Mode {
+#ifdef ENABLE_PAPERWALLET
         Export, /**< Ask passphrase, generate key pair and print them out */
+#endif
         Import  /**< Ask passphrase and load priv key from QR code */
     };
 

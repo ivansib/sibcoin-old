@@ -5,6 +5,12 @@
 #ifndef BITCOIN_QT_WALLETVIEW_H
 #define BITCOIN_QT_WALLETVIEW_H
 
+
+#if defined(HAVE_CONFIG_H)
+#include "config/sibcoin-config.h"
+#endif
+
+
 #include "amount.h"
 #include "masternodelist.h"
 
