@@ -2,7 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef OFFERMODEL_H
+#ifndef OFFERMODEL_H // TODO: maybe this class isn't used
 #define	OFFERMODEL_H
 
 #include "offerdb.h"

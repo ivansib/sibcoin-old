@@ -110,7 +110,7 @@ private:
     QAction *verifyMessageAction;
     QAction *genAndPrintAddressesAction;
     QAction *goodsAction;
-    QAction *offerAction;
+    QAction *exchangeAction;
     QAction *loadFromPaperAction;
     QAction *aboutAction;
     QAction *receiveCoinsAction;
@@ -222,7 +222,7 @@ private Q_SLOTS:
     /** Switch to send coins page */
     void gotoGoodsPage();
     /** Switch to send coins page */
-    void gotoOfferPage();
+    void gotoExchangePage();
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");

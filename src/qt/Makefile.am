@@ -56,7 +56,7 @@ QT_FORMS_UI = \
   forms/editaddressdialog.ui \
   forms/genandprintdialog.ui \
   forms/goodsdialog.ui \
-  forms/offerdialog.ui \
+  forms/exchangedialog.ui \
   forms/helpmessagedialog.ui \
   forms/intro.ui \
   forms/openuridialog.ui \
@@ -86,7 +86,7 @@ QT_MOC_CPP = \
   moc_editaddressdialog.cpp \
   moc_genandprintdialog.cpp \
   moc_goodsdialog.cpp \
-  moc_offerdialog.cpp \
+  moc_exchangedialog.cpp \
   moc_guiutil.cpp \
   moc_intro.cpp \
   moc_macdockiconhandler.cpp \
@@ -153,7 +153,7 @@ BITCOIN_QT_H = \
   editaddressdialog.h \
   genandprintdialog.h \
   goodsdialog.h \
-  offerdialog.h \
+  exchangedialog.h \
   guiconstants.h \
   guiutil.h \
   intro.h \
@@ -276,7 +276,7 @@ BITCOIN_QT_CPP += \
   editaddressdialog.cpp \
   genandprintdialog.cpp \
   goodsdialog.cpp \
-  offerdialog.cpp \
+  exchangedialog.cpp \
   openuridialog.cpp \
   overviewpage.cpp \
   paymentrequestplus.cpp \

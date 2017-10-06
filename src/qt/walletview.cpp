@@ -17,7 +17,7 @@
 #include "receivecoinsdialog.h"
 #include "sendcoinsdialog.h"
 #include "goodsdialog.h"
-#include "offerdialog.h"
+#include "exchangedialog.h"
 #include "signverifymessagedialog.h"
 #include "transactiontablemodel.h"
 #include "transactionview.h"
@@ -81,14 +81,14 @@ WalletView::WalletView(const PlatformStyle *platformStyle, QWidget *parent):
     usedReceivingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::ReceivingTab, this);
 
     goodsPage = new GoodsDialog();
-    offerPage = new OfferDialog();
+    exchangePage = new ExchangeDialog();
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
     addWidget(goodsPage);
-    addWidget(offerPage);
+    addWidget(exchangePage);
 
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
@@ -161,7 +161,7 @@ void WalletView::setSibModel(SibModel *sibModel)
 void WalletView::setOfferModel(OfferModel *offerModel)
 {
     this->offerModel = offerModel;
-    offerPage->setOfferModel(offerModel);
+//    exchangePage->setOfferModel(offerModel);
 }
 
 void WalletView::setWalletModel(WalletModel *walletModel)
@@ -258,9 +258,9 @@ void WalletView::gotoGoodsPage()
     setCurrentWidget(goodsPage);
 }
 
-void WalletView::gotoOfferPage()
+void WalletView::gotoExchangePage()
 {
-    setCurrentWidget(offerPage);
+    setCurrentWidget(exchangePage);
 }
 
 void WalletView::gotoSignMessageTab(QString addr)
