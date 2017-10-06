@@ -43,7 +43,6 @@
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h"
 #include "sibdb.h"
-#include "offerdb.h"
 #endif
 
 #include "activemasternode.h"
@@ -91,7 +90,6 @@ extern void ThreadSendAlert();
 #ifdef ENABLE_WALLET
 CWallet* pwalletMain = NULL;
 CSibDB *psibDB = NULL;
-COfferDB *pofferDB = NULL;
 #endif
 bool fFeeEstimatesInitialized = false;
 bool fRestartRequested = false;  // true: restart false: shutdown
@@ -1650,8 +1648,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
         
         psibDB = new CSibDB(strSibFile, "cr+");
-		// TODO:
-        pofferDB = new COfferDB(strSibFile, "cr+");
 
         if (GetBoolArg("-upgradewallet", fFirstRun))
         {
