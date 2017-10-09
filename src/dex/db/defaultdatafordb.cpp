@@ -279,7 +279,7 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     currencies.push_back({"BGN", "Bulgarian Lev", "лв"});
     currencies.push_back({"BHD", "Bahraini Dinar", ".د.ب"});
     currencies.push_back({"BIF", "Burundian Franc", "Fr"});
-    currencies.push_back({"BMD", "Bermudian Dollar (customarily known as Bermuda Dollar)", "$"});
+    currencies.push_back({"BMD", "Bermudian Dollar", "$"});
     currencies.push_back({"BND", "Brunei Dollar", "$"});
     currencies.push_back({"BRL", "Brazilian Real", "R$"});
     currencies.push_back({"BSD", "Bahamian Dollar", "$"});
@@ -290,7 +290,7 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     currencies.push_back({"CAD", "Canadian Dollar", "$"});
     currencies.push_back({"CDF", "Franc Congolais", "Fr"});
     currencies.push_back({"CHF", "Swiss Franc", "Fr"});
-    currencies.push_back({"CLF", "Unidades de formento (Funds code)", "UF"});
+    currencies.push_back({"CLF", "Unidades de formento", "UF"});
     currencies.push_back({"CNY", "Yuan Renminbi", "元"});
     currencies.push_back({"COP", "Colombian Peso", "$"});
     currencies.push_back({"CRC", "Costa Rican Colon", "₡"});
