@@ -123,8 +123,8 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"KZ", "Kazakhstan", "KZT"});
     countries.push_back({"KE", "Kenya", "KES"});
     countries.push_back({"KI", "Kiribati", "AUD"});
-    countries.push_back({"KP", "Korea, Democratic People's Republic of", "KPW"});
-    countries.push_back({"KR", "Korea, Republic of", "KRW"});
+    countries.push_back({"KP", "North Korea", "KPW"});
+    countries.push_back({"KR", "South Korea", "KRW"});
     countries.push_back({"KW", "Kuwait", "KWD"});
     countries.push_back({"KG", "Kyrgyzstan", "KGS"});
     countries.push_back({"LA", "Lao People's Democratic Republic", "LAK"});
@@ -137,7 +137,7 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"LT", "Lithuania", "EUR"});
     countries.push_back({"LU", "Luxembourg", "EUR"});
     countries.push_back({"MO", "Macao", "MOP"});
-    countries.push_back({"MK", "Macedonia, the Former Yugoslav Republic of", "MKD"});
+    countries.push_back({"MK", "Macedonia", "MKD"});
     countries.push_back({"MG", "Madagascar", "MGA"});
     countries.push_back({"MW", "Malawi", "MWK"});
     countries.push_back({"MY", "Malaysia", "MYR"});
@@ -150,7 +150,7 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"MU", "Mauritius", "MUR"});
     countries.push_back({"YT", "Mayotte", "EUR"});
     countries.push_back({"MX", "Mexico", "MXN"});
-    countries.push_back({"FM", "Micronesia, Federated States of", "USD"});
+    countries.push_back({"FM", "Micronesia", "USD"});
     countries.push_back({"MD", "Moldova, Republic of", "MDL"});
     countries.push_back({"MC", "Monaco", "EUR"});
     countries.push_back({"MN", "Mongolia", "MNT"});
@@ -188,7 +188,7 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"QA", "Qatar", "QAR"});
     countries.push_back({"RE", "Réunion", "EUR"});
     countries.push_back({"RO", "Romania", "RON"});
-    countries.push_back({"RU", "Russian Federation", "RUB"});
+    countries.push_back({"RU", "Russia", "RUB"});
     countries.push_back({"RW", "Rwanda", "RWF"});
     countries.push_back({"BL", "Saint Barthélemy", "EUR"});
     countries.push_back({"SH", "Saint Helena, Ascension and Tristan da Cunha", "SHP"});
