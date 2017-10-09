@@ -2,6 +2,7 @@
 #define EXCHANGEDIALOG_H
 
 #include <QDialog>
+#include "tableoffersdialog.h"
 
 namespace Ui {
     class ExchangeDialog;
@@ -17,6 +18,18 @@ public:
 
 private:
     Ui::ExchangeDialog *ui;
+    TableOffersDialog *tableBuy;
+    TableOffersDialog *tableSell;
+    QWidget *widgetMyOffers;
+    QWidget *widgetExchanges;
+    QWidget *widgetSettings;
+
+private Q_SLOTS:
+    void currentPageBuy();
+    void currentPageSell();
+    void currentPageMyOffers();
+    void currentPageExchanges();
+    void currentPageSettings();
 };
 
 #endif

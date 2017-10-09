@@ -15,6 +15,7 @@ QT_FORMS_UI = \
   qt/forms/genandprintdialog.ui \
   qt/forms/goodsdialog.ui \
   qt/forms/exchangedialog.ui \
+  qt/forms/tableoffersdialog.ui \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/masternodelist.ui \
@@ -47,6 +48,7 @@ QT_MOC_CPP = \
   qt/moc_genandprintdialog.cpp \
   qt/moc_goodsdialog.cpp \
   qt/moc_exchangedialog.cpp \
+  qt/moc_tableoffersdialog.cpp \
   qt/moc_guiutil.cpp \
   qt/moc_intro.cpp \
   qt/moc_macdockiconhandler.cpp \
@@ -129,6 +131,7 @@ BITCOIN_QT_H = \
   qt/genandprintdialog.h \
   qt/goodsdialog.h \
   qt/exchangedialog.h \
+  qt/tableoffersdialog.h \
   qt/guiconstants.h \
   qt/guiutil.h \
   qt/intro.h \
@@ -412,6 +415,7 @@ BITCOIN_QT_CPP += \
   qt/genandprintdialog.cpp \
   qt/goodsdialog.cpp \
   qt/exchangedialog.cpp \
+  qt/tableoffersdialog.cpp \
   qt/openuridialog.cpp \
   qt/overviewpage.cpp \
   qt/paymentrequestplus.cpp \
