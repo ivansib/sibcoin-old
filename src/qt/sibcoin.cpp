@@ -679,7 +679,7 @@ int main(int argc, char *argv[])
     initTranslations(qtTranslatorBase, qtTranslator, translatorBase, translator);
 
 #ifdef ENABLE_DEX
-    dex::DexDB db(GetDataDir(false));
+    dex::DexDB db(GetDataDir(false) / GetArg("-dexdb", DEX_DB_FILENAME));
 #endif
 
 #ifdef ENABLE_WALLET
