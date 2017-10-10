@@ -4,6 +4,7 @@
 #include "../../sqlite/sqlite3pp/sqlite3pp.h"
 #include <boost/filesystem/path.hpp>
 #include <map>
+#include "uint256.h"
 
 namespace dex {
 
@@ -24,8 +25,8 @@ struct PaymentMethodInfo {
 };
 
 struct OfferInfo {
-    int idTransaction;
-    uint64_t hash;
+    uint256 idTransaction;
+    uint256 hash;
     std::string countryIso;
     std::string currencyIso;
     uint8_t paymentMethod;

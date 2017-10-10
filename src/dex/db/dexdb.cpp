@@ -1,6 +1,8 @@
 #include <ctime>
 #include "dex/dexdb.h"
 #include "defaultdatafordb.h"
+#include "base58.h"
+#include "random.h"
 
 namespace dex {
 
@@ -210,8 +212,11 @@ void DexDB::addOffer(const std::string &tableName, const OfferInfo &offer)
                         ":paymentMethod, :price, :minAmount, :shortInfo, :details)";
     sqlite3pp::command cmd(db, query.c_str());
 
-    cmd.bind(":idTransaction", offer.idTransaction);
-    cmd.bind(":hash", static_cast<long long int>(offer.hash));
+    std::string idTransaction = offer.idTransaction.GetHex();
+    std::string hash = offer.hash.GetHex();
+
+    cmd.bind(":idTransaction", idTransaction, sqlite3pp::nocopy);
+    cmd.bind(":hash", hash, sqlite3pp::nocopy);
     cmd.bind(":countryIso", offer.countryIso, sqlite3pp::nocopy);
     cmd.bind(":currencyIso", offer.currencyIso, sqlite3pp::nocopy);
     cmd.bind(":paymentMethod", offer.paymentMethod);
@@ -231,8 +236,11 @@ void DexDB::editOffer(const std::string &tableName, const OfferInfo &offer)
 
     sqlite3pp::command cmd(db, query.c_str());
 
-    cmd.bind(":idTransaction", offer.idTransaction);
-    cmd.bind(":hash", static_cast<long long int>(offer.hash));
+    std::string idTransaction = offer.idTransaction.GetHex();
+    std::string hash = offer.hash.GetHex();
+
+    cmd.bind(":idTransaction", idTransaction, sqlite3pp::nocopy);
+    cmd.bind(":hash", hash, sqlite3pp::nocopy);
     cmd.bind(":countryIso", offer.countryIso, sqlite3pp::nocopy);
     cmd.bind(":currencyIso", offer.currencyIso, sqlite3pp::nocopy);
     cmd.bind(":paymentMethod", offer.paymentMethod);
@@ -264,8 +272,8 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     sqlite3pp::query qry(db, str.c_str());
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
-        int idTransaction;
-        long long int hash;
+        std::string idTransaction;
+        std::string hash;
         std::string countryIso;
         std::string currencyIso;
         uint8_t paymentMethod;
@@ -274,12 +282,12 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
         std::string shortInfo;
         std::string details;
         std::tie(idTransaction, hash, countryIso, currencyIso, paymentMethod, price, minAmount, shortInfo, details)
-                = (*i).get_columns<int, long long int, std::string, std::string, uint8_t, long long int, long long int, std::string, std::string>
+                = (*i).get_columns<std::string, std::string, std::string, std::string, uint8_t, long long int, long long int, std::string, std::string>
                 (0, 1, 2, 3, 4, 5, 6, 7, 8);
 
         OfferInfo info;
-        info.idTransaction = idTransaction;
-        info.hash = hash;
+        info.idTransaction.SetHex(idTransaction);
+        info.hash.SetHex(hash);
         info.countryIso = countryIso;
         info.currencyIso = currencyIso;
         info.paymentMethod = paymentMethod;
@@ -352,10 +360,10 @@ int DexDB::tableCount(const std::string &tableName)
 
 std::string DexDB::templateOffersTable(const std::string &tableName) const
 {
-    std::string query = "CREATE TABLE IF NOT EXISTS " + tableName + " (idTransaction INTEGER NOT NULL PRIMARY KEY, "
-                        "hash UNSIGNED BIG INT, countryIso VARCHAR(2), "
+    std::string query = "CREATE TABLE IF NOT EXISTS " + tableName + " (idTransaction TEXT NOT NULL PRIMARY KEY, "
+                        "hash TEXT, countryIso VARCHAR(2), "
                         "currencyIso VARCHAR(3), paymentMethod TINYINT, price UNSIGNED BIG INT, "
-                        "minAmount UNSIGNED BIG INT, shortInfo VARCHAR(140), details BLOB)";
+                        "minAmount UNSIGNED BIG INT, shortInfo VARCHAR(140), details TEXT)";
 
     return query;
 }
