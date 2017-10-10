@@ -7508,5 +7508,581 @@ that paper wallet has been printed successfully!</translation>
         <source>Zimbabwe</source>
         <translation>Zimbabwe</translation>
     </message>
+    <message>
+        <source>United Arab Emirates dirham</source>
+        <translation>United Arab Emirates dirham</translation>
+    </message>
+    <message>
+        <source>Afghani</source>
+        <translation>Afghani</translation>
+    </message>
+    <message>
+        <source>Lek</source>
+        <translation>Lek</translation>
+    </message>
+    <message>
+        <source>Armenian Dram</source>
+        <translation>Armenian Dram</translation>
+    </message>
+    <message>
+        <source>Netherlands Antillian Guilder</source>
+        <translation>Netherlands Antillian Guilder</translation>
+    </message>
+    <message>
+        <source>Kwanza</source>
+        <translation>Kwanza</translation>
+    </message>
+    <message>
+        <source>Argentine Peso</source>
+        <translation>Argentine Peso</translation>
+    </message>
+    <message>
+        <source>Australian Dollar</source>
+        <translation>Australian Dollar</translation>
+    </message>
+    <message>
+        <source>Aruban Guilder</source>
+        <translation>Aruban Guilder</translation>
+    </message>
+    <message>
+        <source>Azerbaijanian Manat</source>
+        <translation>Azerbaijanian Manat</translation>
+    </message>
+    <message>
+        <source>Convertible Marks</source>
+        <translation>Convertible Marks</translation>
+    </message>
+    <message>
+        <source>Barbados Dollar</source>
+        <translation>Barbados Dollar</translation>
+    </message>
+    <message>
+        <source>Bangladeshi Taka</source>
+        <translation>Bangladeshi Taka</translation>
+    </message>
+    <message>
+        <source>Bulgarian Lev</source>
+        <translation>Bulgarian Lev</translation>
+    </message>
+    <message>
+        <source>Bahraini Dinar</source>
+        <translation>Bahraini Dinar</translation>
+    </message>
+    <message>
+        <source>Burundian Franc</source>
+        <translation>Burundian Franc</translation>
+    </message>
+    <message>
+        <source>Bermudian Dollar</source>
+        <translation>Bermudian Dollar</translation>
+    </message>
+    <message>
+        <source>Brunei Dollar</source>
+        <translation>Brunei Dollar</translation>
+    </message>
+    <message>
+        <source>Brazilian Real</source>
+        <translation>Brazilian Real</translation>
+    </message>
+    <message>
+        <source>Bahamian Dollar</source>
+        <translation>Bahamian Dollar</translation>
+    </message>
+    <message>
+        <source>Ngultrum</source>
+        <translation>Ngultrum</translation>
+    </message>
+    <message>
+        <source>Pula</source>
+        <translation>Pula</translation>
+    </message>
+    <message>
+        <source>Belarussian Ruble</source>
+        <translation>Belarussian Ruble</translation>
+    </message>
+    <message>
+        <source>Belize Dollar</source>
+        <translation>Belize Dollar</translation>
+    </message>
+    <message>
+        <source>Canadian Dollar</source>
+        <translation>Canadian Dollar</translation>
+    </message>
+    <message>
+        <source>Franc Congolais</source>
+        <translation>Franc Congolais</translation>
+    </message>
+    <message>
+        <source>Swiss Franc</source>
+        <translation>Swiss Franc</translation>
+    </message>
+    <message>
+        <source>Chilean Peso</source>
+        <translation>Chilean Peso</translation>
+    </message>
+    <message>
+        <source>Yuan Renminbi</source>
+        <translation>Yuan Renminbi</translation>
+    </message>
+    <message>
+        <source>Colombian Peso</source>
+        <translation>Colombian Peso</translation>
+    </message>
+    <message>
+        <source>Costa Rican Colon</source>
+        <translation>Costa Rican Colon</translation>
+    </message>
+    <message>
+        <source>Cuban Peso</source>
+        <translation>Cuban Peso</translation>
+    </message>
+    <message>
+        <source>Cape Verde Escudo</source>
+        <translation>Cape Verde Escudo</translation>
+    </message>
+    <message>
+        <source>Czech Koruna</source>
+        <translation>Czech Koruna</translation>
+    </message>
+    <message>
+        <source>Djibouti Franc</source>
+        <translation>Djibouti Franc</translation>
+    </message>
+    <message>
+        <source>Danish Krone</source>
+        <translation>Danish Krone</translation>
+    </message>
+    <message>
+        <source>Dominican Peso</source>
+        <translation>Dominican Peso</translation>
+    </message>
+    <message>
+        <source>Algerian Dinar</source>
+        <translation>Algerian Dinar</translation>
+    </message>
+    <message>
+        <source>Egyptian Pound</source>
+        <translation>Egyptian Pound</translation>
+    </message>
+    <message>
+        <source>Nakfa</source>
+        <translation>Nakfa</translation>
+    </message>
+    <message>
+        <source>Ethiopian Birr</source>
+        <translation>Ethiopian Birr</translation>
+    </message>
+    <message>
+        <source>Euro</source>
+        <translation>Euro</translation>
+    </message>
+    <message>
+        <source>Fiji Dollar</source>
+        <translation>Fiji Dollar</translation>
+    </message>
+    <message>
+        <source>Falkland Islands Pound</source>
+        <translation>Falkland Islands Pound</translation>
+    </message>
+    <message>
+        <source>Pound Sterling</source>
+        <translation>Pound Sterling</translation>
+    </message>
+    <message>
+        <source>Lari</source>
+        <translation>Lari</translation>
+    </message>
+    <message>
+        <source>Cedi</source>
+        <translation>Cedi</translation>
+    </message>
+    <message>
+        <source>Gibraltar pound</source>
+        <translation>Gibraltar pound</translation>
+    </message>
+    <message>
+        <source>Dalasi</source>
+        <translation>Dalasi</translation>
+    </message>
+    <message>
+        <source>Guinea Franc</source>
+        <translation>Guinea Franc</translation>
+    </message>
+    <message>
+        <source>Quetzal</source>
+        <translation>Quetzal</translation>
+    </message>
+    <message>
+        <source>Guyana Dollar</source>
+        <translation>Guyana Dollar</translation>
+    </message>
+    <message>
+        <source>Hong Kong Dollar</source>
+        <translation>Hong Kong Dollar</translation>
+    </message>
+    <message>
+        <source>Lempira</source>
+        <translation>Lempira</translation>
+    </message>
+    <message>
+        <source>Croatian Kuna</source>
+        <translation>Croatian Kuna</translation>
+    </message>
+    <message>
+        <source>Haiti Gourde</source>
+        <translation>Haiti Gourde</translation>
+    </message>
+    <message>
+        <source>Forint</source>
+        <translation>Forint</translation>
+    </message>
+    <message>
+        <source>Rupiah</source>
+        <translation>Rupiah</translation>
+    </message>
+    <message>
+        <source>New Israeli Shekel</source>
+        <translation>New Israeli Shekel</translation>
+    </message>
+    <message>
+        <source>Indian Rupee</source>
+        <translation>Indian Rupee</translation>
+    </message>
+    <message>
+        <source>Iraqi Dinar</source>
+        <translation>Iraqi Dinar</translation>
+    </message>
+    <message>
+        <source>Iceland Krona</source>
+        <translation>Iceland Krona</translation>
+    </message>
+    <message>
+        <source>Jamaican Dollar</source>
+        <translation>Jamaican Dollar</translation>
+    </message>
+    <message>
+        <source>Jordanian Dinar</source>
+        <translation>Jordanian Dinar</translation>
+    </message>
+    <message>
+        <source>Japanese yen</source>
+        <translation>Japanese yen</translation>
+    </message>
+    <message>
+        <source>Kenyan Shilling</source>
+        <translation>Kenyan Shilling</translation>
+    </message>
+    <message>
+        <source>Som</source>
+        <translation>Som</translation>
+    </message>
+    <message>
+        <source>Riel</source>
+        <translation>Riel</translation>
+    </message>
+    <message>
+        <source>Comoro Franc</source>
+        <translation>Comoro Franc</translation>
+    </message>
+    <message>
+        <source>Kuwaiti Dinar</source>
+        <translation>Kuwaiti Dinar</translation>
+    </message>
+    <message>
+        <source>Cayman Islands Dollar</source>
+        <translation>Cayman Islands Dollar</translation>
+    </message>
+    <message>
+        <source>Tenge</source>
+        <translation>Tenge</translation>
+    </message>
+    <message>
+        <source>Kip</source>
+        <translation>Kip</translation>
+    </message>
+    <message>
+        <source>Lebanese Pound</source>
+        <translation>Lebanese Pound</translation>
+    </message>
+    <message>
+        <source>Sri Lanka Rupee</source>
+        <translation>Sri Lanka Rupee</translation>
+    </message>
+    <message>
+        <source>Liberian Dollar</source>
+        <translation>Liberian Dollar</translation>
+    </message>
+    <message>
+        <source>Loti</source>
+        <translation>Loti</translation>
+    </message>
+    <message>
+        <source>Libyan Dinar</source>
+        <translation>Libyan Dinar</translation>
+    </message>
+    <message>
+        <source>Moroccan Dirham</source>
+        <translation>Moroccan Dirham</translation>
+    </message>
+    <message>
+        <source>Malagasy Ariary</source>
+        <translation>Malagasy Ariary</translation>
+    </message>
+    <message>
+        <source>Kyat</source>
+        <translation>Kyat</translation>
+    </message>
+    <message>
+        <source>Tugrik</source>
+        <translation>Tugrik</translation>
+    </message>
+    <message>
+        <source>Pataca</source>
+        <translation>Pataca</translation>
+    </message>
+    <message>
+        <source>Ouguiya</source>
+        <translation>Ouguiya</translation>
+    </message>
+    <message>
+        <source>Mauritius Rupee</source>
+        <translation>Mauritius Rupee</translation>
+    </message>
+    <message>
+        <source>Rufiyaa</source>
+        <translation>Rufiyaa</translation>
+    </message>
+    <message>
+        <source>Kwacha</source>
+        <translation>Kwacha</translation>
+    </message>
+    <message>
+        <source>Mexican Peso</source>
+        <translation>Mexican Peso</translation>
+    </message>
+    <message>
+        <source>Malaysian Ringgit</source>
+        <translation>Malaysian Ringgit</translation>
+    </message>
+    <message>
+        <source>Metical</source>
+        <translation>Metical</translation>
+    </message>
+    <message>
+        <source>Namibian Dollar</source>
+        <translation>Namibian Dollar</translation>
+    </message>
+    <message>
+        <source>Naira</source>
+        <translation>Naira</translation>
+    </message>
+    <message>
+        <source>Cordoba Oro</source>
+        <translation>Cordoba Oro</translation>
+    </message>
+    <message>
+        <source>Norwegian Krone</source>
+        <translation>Norwegian Krone</translation>
+    </message>
+    <message>
+        <source>Nepalese Rupee</source>
+        <translation>Nepalese Rupee</translation>
+    </message>
+    <message>
+        <source>New Zealand Dollar</source>
+        <translation>New Zealand Dollar</translation>
+    </message>
+    <message>
+        <source>Rial Omani</source>
+        <translation>Rial Omani</translation>
+    </message>
+    <message>
+        <source>Balboa</source>
+        <translation>Balboa</translation>
+    </message>
+    <message>
+        <source>Nuevo Sol</source>
+        <translation>Nuevo Sol</translation>
+    </message>
+    <message>
+        <source>Kina</source>
+        <translation>Kina</translation>
+    </message>
+    <message>
+        <source>Philippine Peso</source>
+        <translation>Philippine Peso</translation>
+    </message>
+    <message>
+        <source>Pakistan Rupee</source>
+        <translation>Pakistan Rupee</translation>
+    </message>
+    <message>
+        <source>Zloty</source>
+        <translation>Zloty</translation>
+    </message>
+    <message>
+        <source>Guarani</source>
+        <translation>Guarani</translation>
+    </message>
+    <message>
+        <source>Qatari Rial</source>
+        <translation>Qatari Rial</translation>
+    </message>
+    <message>
+        <source>Romanian New Leu</source>
+        <translation>Romanian New Leu</translation>
+    </message>
+    <message>
+        <source>Serbian Dinar</source>
+        <translation>Serbian Dinar</translation>
+    </message>
+    <message>
+        <source>Russian Ruble</source>
+        <translation>Russian Ruble</translation>
+    </message>
+    <message>
+        <source>Rwanda Franc</source>
+        <translation>Rwanda Franc</translation>
+    </message>
+    <message>
+        <source>Saudi Riyal</source>
+        <translation>Saudi Riyal</translation>
+    </message>
+    <message>
+        <source>Solomon Islands Dollar</source>
+        <translation>Solomon Islands Dollar</translation>
+    </message>
+    <message>
+        <source>Seychelles Rupee</source>
+        <translation>Seychelles Rupee</translation>
+    </message>
+    <message>
+        <source>Sudanese Pound</source>
+        <translation>Sudanese Pound</translation>
+    </message>
+    <message>
+        <source>Swedish Krona</source>
+        <translation>Swedish Krona</translation>
+    </message>
+    <message>
+        <source>Singapore Dollar</source>
+        <translation>Singapore Dollar</translation>
+    </message>
+    <message>
+        <source>Leone</source>
+        <translation>Leone</translation>
+    </message>
+    <message>
+        <source>Somali Shilling</source>
+        <translation>Somali Shilling</translation>
+    </message>
+    <message>
+        <source>Surinam Dollar</source>
+        <translation>Surinam Dollar</translation>
+    </message>
+    <message>
+        <source>South Sudanese pound</source>
+        <translation>South Sudanese pound</translation>
+    </message>
+    <message>
+        <source>Dobra</source>
+        <translation>Dobra</translation>
+    </message>
+    <message>
+        <source>Syrian Pound</source>
+        <translation>Syrian Pound</translation>
+    </message>
+    <message>
+        <source>Lilangeni</source>
+        <translation>Lilangeni</translation>
+    </message>
+    <message>
+        <source>Baht</source>
+        <translation>Baht</translation>
+    </message>
+    <message>
+        <source>Somoni</source>
+        <translation>Somoni</translation>
+    </message>
+    <message>
+        <source>Manat</source>
+        <translation>Manat</translation>
+    </message>
+    <message>
+        <source>Tunisian Dinar</source>
+        <translation>Tunisian Dinar</translation>
+    </message>
+    <message>
+        <source>Pa'anga</source>
+        <translation>Pa'anga</translation>
+    </message>
+    <message>
+        <source>New Turkish Lira</source>
+        <translation>New Turkish Lira</translation>
+    </message>
+    <message>
+        <source>Trinidad and Tobago Dollar</source>
+        <translation>Trinidad and Tobago Dollar</translation>
+    </message>
+    <message>
+        <source>Hryvnia</source>
+        <translation>Hryvnia</translation>
+    </message>
+    <message>
+        <source>Uganda Shilling</source>
+        <translation>Uganda Shilling</translation>
+    </message>
+    <message>
+        <source>US Dollar</source>
+        <translation>US Dollar</translation>
+    </message>
+    <message>
+        <source>Peso Uruguayo</source>
+        <translation>Peso Uruguayo</translation>
+    </message>
+    <message>
+        <source>Uzbekistan Som</source>
+        <translation>Uzbekistan Som</translation>
+    </message>
+    <message>
+        <source>Vietnamese đồng</source>
+        <translation>Vietnamese đồng</translation>
+    </message>
+    <message>
+        <source>Vatu</source>
+        <translation>Vatu</translation>
+    </message>
+    <message>
+        <source>CFA Franc BEAC</source>
+        <translation>CFA Franc BEAC</translation>
+    </message>
+    <message>
+        <source>East Caribbean Dollar</source>
+        <translation>East Caribbean Dollar</translation>
+    </message>
+    <message>
+        <source>CFA Franc BCEAO</source>
+        <translation>CFA Franc BCEAO</translation>
+    </message>
+    <message>
+        <source>CFP franc</source>
+        <translation>CFP franc</translation>
+    </message>
+    <message>
+        <source>Yemeni Rial</source>
+        <translation>Yemeni Rial</translation>
+    </message>
+    <message>
+        <source>South African Rand</source>
+        <translation>South African Rand</translation>
+    </message>
+    <message>
+        <source>Kwacha</source>
+        <translation>Kwacha</translation>
+    </message>
+    <message>
+        <source>Zimbabwe Dollar</source>
+        <translation>Zimbabwe Dollar</translation>
+    </message>
 </context>
 </TS>

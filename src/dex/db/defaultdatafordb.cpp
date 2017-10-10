@@ -50,7 +50,7 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"KY", "Cayman Islands", "KYD"});
     countries.push_back({"CF", "CAR", "XAF"});
     countries.push_back({"TD", "Chad", "XAF"});
-    countries.push_back({"CL", "Chile", "CLF"});
+    countries.push_back({"CL", "Chile", "CLP"});
     countries.push_back({"CN", "China", "CNY"});
     countries.push_back({"CX", "Christmas Island", "AUD"});
     countries.push_back({"CC", "Cocos Islands", "AUD"});
@@ -64,7 +64,7 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"HR", "Croatia", "HRK"});
     countries.push_back({"CU", "Cuba", "CUP"});
     countries.push_back({"CW", "Curaçao", "ANG"});
-    countries.push_back({"CY", "Cyprus", "CYP"});
+    countries.push_back({"CY", "Cyprus", "EUR"});
     countries.push_back({"CZ", "Czechia", "CZK"});
     countries.push_back({"DK", "Denmark", "DKK"});
     countries.push_back({"DJ", "Djibouti", "DJF"});
@@ -143,7 +143,7 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"MY", "Malaysia", "MYR"});
     countries.push_back({"MV", "Maldives", "MVR"});
     countries.push_back({"ML", "Mali", "XOF"});
-    countries.push_back({"MT", "Malta", "MTL"});
+    countries.push_back({"MT", "Malta", "EUR"});
     countries.push_back({"MH", "Marshall Islands", "USD"});
     countries.push_back({"MQ", "Martinique", "EUR"});
     countries.push_back({"MR", "Mauritania", "MRO"});
@@ -290,13 +290,12 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     currencies.push_back({"CAD", "Canadian Dollar", "$"});
     currencies.push_back({"CDF", "Franc Congolais", "Fr"});
     currencies.push_back({"CHF", "Swiss Franc", "Fr"});
-    currencies.push_back({"CLF", "Unidades de formento", "UF"});
+    currencies.push_back({"CLP", "Chilean Peso", "$"});
     currencies.push_back({"CNY", "Yuan Renminbi", "元"});
     currencies.push_back({"COP", "Colombian Peso", "$"});
     currencies.push_back({"CRC", "Costa Rican Colon", "₡"});
     currencies.push_back({"CUP", "Cuban Peso", "$"});
     currencies.push_back({"CVE", "Cape Verde Escudo", "Esc"});
-    currencies.push_back({"CYP", "Cyprus Pound", "£"});
     currencies.push_back({"CZK", "Czech Koruna", "Kč"});
     currencies.push_back({"DJF", "Djibouti Franc", "Fr"});
     currencies.push_back({"DKK", "Danish Krone", "kr"});
@@ -348,7 +347,6 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     currencies.push_back({"MNT", "Tugrik", "₮"});
     currencies.push_back({"MOP", "Pataca", "P"});
     currencies.push_back({"MRO", "Ouguiya", "UM"});
-    currencies.push_back({"MTL", "Maltese Lira", "£"});
     currencies.push_back({"MUR", "Mauritius Rupee", "₨"});
     currencies.push_back({"MVR", "Rufiyaa", ".ރ"});
     currencies.push_back({"MWK", "Kwacha", "MK"});
