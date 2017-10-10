@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "tableoffersdialog.h"
+#include "dex/dexdb.h"
 
 namespace Ui {
     class ExchangeDialog;
@@ -23,6 +24,8 @@ private:
     QWidget *widgetMyOffers;
     QWidget *widgetExchanges;
     QWidget *widgetSettings;
+
+    dex::DexDB db;
 
 private Q_SLOTS:
     void currentPageBuy();

@@ -1,13 +1,17 @@
 #include "exchangedialog.h"
 #include "ui_exchangedialog.h"
+#include "util.h"
 
-
-ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::ExchangeDialog)
+ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::ExchangeDialog), db(GetDataDir(false))
 {
     ui->setupUi(this);
 
-    tableBuy = new TableOffersDialog();
-    tableSell = new TableOffersDialog();
+    auto payments = db.getPaymentMethodsInfo();
+    auto countries = db.getCountriesInfo();
+    auto currencies = db.getCurrenciesInfo();
+
+    tableBuy = new TableOffersDialog(payments, countries, currencies);
+    tableSell = new TableOffersDialog(payments, countries, currencies);
     widgetMyOffers = new QWidget();
     widgetExchanges = new QWidget();
     widgetSettings = new QWidget();
@@ -27,6 +31,11 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
 
 ExchangeDialog::~ExchangeDialog()
 {
+    delete tableBuy;
+    delete tableSell;
+    delete widgetMyOffers;
+    delete widgetExchanges;
+    delete widgetSettings;
     delete ui;
 }
 

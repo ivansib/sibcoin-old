@@ -5036,6 +5036,9 @@ that paper wallet has been printed successfully!</translation>
         <source>wallet.dat corrupt, salvage failed</source>
         <translation type="obsolete">wallet.dat corrupt, salvage failed</translation>
     </message>
+</context>
+<context>
+    <name>TableOffersDialog</name>
     <message>
         <source>Afghanistan</source>
         <translation>Afghanistan</translation>

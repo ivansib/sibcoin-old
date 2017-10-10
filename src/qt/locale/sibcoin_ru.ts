@@ -1183,29 +1183,6 @@ Address: %4
     </message>
 </context>
 <context>
-    <name>ExchangeDialog</name>
-    <message>
-        <source>Buy Sibcoin</source>
-        <translation>Покупка Sibcoin</translation>
-    </message>
-    <message>
-        <source>Sell Sibcoin</source>
-        <translation>Продажа Sibcoin</translation>
-    </message>
-    <message>
-        <source>My Offers</source>
-        <translation>Мои предложения</translation>
-    </message>
-    <message>
-        <source>Exchanges</source>
-        <translation>Обмен</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Настройки</translation>
-    </message>
-</context>
-<context>
     <name>FreespaceChecker</name>
     <message>
         <source>A new data directory will be created.</source>
@@ -5539,6 +5516,32 @@ rpcpassword=%s
         <source>wallet.dat corrupt, salvage failed</source>
         <translation>wallet.dat повреждён, спасение данных не удалось</translation>
     </message>
+</context>
+<context>
+    <name>ExchangeDialog</name>
+    <message>
+        <source>Buy Sibcoin</source>
+        <translation>Покупка Sibcoin</translation>
+    </message>
+    <message>
+        <source>Sell Sibcoin</source>
+        <translation>Продажа Sibcoin</translation>
+    </message>
+    <message>
+        <source>My Offers</source>
+        <translation>Мои предложения</translation>
+    </message>
+    <message>
+        <source>Exchanges</source>
+        <translation>Обмен</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+</context>
+<context>
+    <name>TableOffersDialog</name>
     <message>
         <source>Afghanistan</source>
         <translation>Афганистан</translation>

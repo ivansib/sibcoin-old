@@ -20,7 +20,7 @@
       <widget class="QLabel" name="labelInfo">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>1</horstretch>
+         <horstretch>3</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
