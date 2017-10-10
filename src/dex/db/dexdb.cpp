@@ -6,8 +6,7 @@ namespace dex {
 
 DexDB::DexDB(const boost::filesystem::path &path)
 {
-    std::string dbFile = path.string() + "/dex.db";
-    db = sqlite3pp::database(dbFile.c_str());
+    db = sqlite3pp::database(path.c_str());
 
     createTables();
     addDefaultData();
