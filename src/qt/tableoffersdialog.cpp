@@ -1,6 +1,5 @@
 #include "tableoffersdialog.h"
 #include "ui_tableoffersdialog.h"
-#include "offermodel.h"
 
 TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     QDialog(parent), ui(new Ui::TableOffersDialog), db(db)
@@ -8,7 +7,7 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     ui->setupUi(this);
 
 
-    OfferModel *pModel = new OfferModel(db->getOffersBuy());
+    pModel = new OfferModel(db->getOffersBuy());
     ui->tableView->setModel(pModel);
 
     auto payments = db->getPaymentMethodsInfo();
@@ -31,9 +30,32 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
         ui->cBoxCurrency->addItem(tr(itCurrency->second.name.c_str()), QString::fromUtf8(itCurrency->first.c_str()));
         ++itCurrency;
     }
+
+    connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &TableOffersDialog::changedFilterCountryIso);
+    connect(ui->cBoxCurrency, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &TableOffersDialog::changedFilterCurrencyIso);
+    connect(ui->cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &TableOffersDialog::changedFilterPaymentMethod);
 }
 
 TableOffersDialog::~TableOffersDialog()
 {
     delete ui;
+}
+
+void TableOffersDialog::changedFilterCountryIso(const int &) {
+    std::string iso = ui->cBoxCountry->currentData().toString().toUtf8().constData();
+    pModel->setFilterCountryIso(iso);
+}
+
+void TableOffersDialog::changedFilterCurrencyIso(const int &) {
+    std::string iso = ui->cBoxCurrency->currentData().toString().toUtf8().constData();
+    pModel->setFilterCurrencyIso(iso);
+}
+
+void TableOffersDialog::changedFilterPaymentMethod(const int &)
+{
+    uint8_t payment = ui->cBoxPayment->currentData().toInt();
+    pModel->setFilterPaymentMethod(payment);
 }

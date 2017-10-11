@@ -385,6 +385,17 @@ void dex::DexDB::createTestOffers()
     info.shortInfo = "first info";
     info.countryIso = "RU";
     info.currencyIso = "RUB";
+    info.paymentMethod = 1;
+    addOfferBuy(info);
+
+    info.hash = GetRandHash();
+    info.idTransaction = GetRandHash();
+    info.price = 12567;
+    info.minAmount = 1000;
+    info.shortInfo = "fourt info";
+    info.countryIso = "RU";
+    info.currencyIso = "RUB";
+    info.paymentMethod = 128;
     addOfferBuy(info);
 
     info.hash = GetRandHash();
@@ -393,7 +404,8 @@ void dex::DexDB::createTestOffers()
     info.minAmount = 40000;
     info.shortInfo = "second info";
     info.countryIso = "UA";
-    info.currencyIso = "UAN";
+    info.currencyIso = "UAH";
+    info.paymentMethod = 1;
     addOfferBuy(info);
 
     info.hash = GetRandHash();
@@ -403,6 +415,7 @@ void dex::DexDB::createTestOffers()
     info.shortInfo = "thried info";
     info.countryIso = "US";
     info.currencyIso = "USD";
+    info.paymentMethod = 1;
     addOfferBuy(info);
 }
 

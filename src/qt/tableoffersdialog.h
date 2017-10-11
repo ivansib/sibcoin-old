@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "dex/dexdb.h"
+#include "offermodel.h"
 
 using namespace dex;
 
@@ -22,6 +23,12 @@ private:
     Ui::TableOffersDialog *ui;
 
     DexDB *db;
+    OfferModel *pModel;
+
+private Q_SLOTS:
+    void changedFilterCountryIso(const int &);
+    void changedFilterCurrencyIso(const int &);
+    void changedFilterPaymentMethod(const int &);
 };
 
 #endif

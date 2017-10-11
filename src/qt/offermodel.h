@@ -15,6 +15,10 @@ public:
     OfferModel(const std::list<OfferInfo> &offers, QObject *parent = nullptr);
     ~OfferModel();
 
+    void setFilterCountryIso(const std::string &iso);
+    void setFilterCurrencyIso(const std::string &iso);
+    void setFilterPaymentMethod(const uint8_t &payment);
+
     virtual QVariant data(const QModelIndex &index, int role) const;
 
     virtual int rowCount(const QModelIndex &parent=QModelIndex()) const;
@@ -26,6 +30,13 @@ public:
 private:
     QStringList listHead;
     QList<OfferInfo> offers;
+    QList<OfferInfo> offersView;
+
+    std::string countryIso;
+    std::string currencyIso;
+    uint8_t paymentMethod;
+
+    void filterOffers();
 };
 
 #endif
