@@ -1,6 +1,7 @@
 #include <ctime>
 #include "dex/dexdb.h"
 #include "defaultdatafordb.h"
+
 #include "base58.h"
 #include "random.h"
 
@@ -339,6 +340,11 @@ void DexDB::addDefaultData()
             addPaymentMethod(item.type, item.name, item.description);
         }
     }
+
+    count = tableCount("offersBuy");
+    if (count <= 0) {
+        createTestOffers();
+    }
 }
 
 int DexDB::tableCount(const std::string &tableName)
@@ -366,6 +372,38 @@ std::string DexDB::templateOffersTable(const std::string &tableName) const
                         "shortInfo VARCHAR(140), details TEXT)";
 
     return query;
+}
+
+void dex::DexDB::createTestOffers()
+{
+    OfferInfo info;
+
+    info.hash = GetRandHash();
+    info.idTransaction = GetRandHash();
+    info.price = 1234567;
+    info.minAmount = 10000;
+    info.shortInfo = "first info";
+    info.countryIso = "RU";
+    info.currencyIso = "RUB";
+    addOfferBuy(info);
+
+    info.hash = GetRandHash();
+    info.idTransaction = GetRandHash();
+    info.price = 345435;
+    info.minAmount = 40000;
+    info.shortInfo = "second info";
+    info.countryIso = "UA";
+    info.currencyIso = "UAN";
+    addOfferBuy(info);
+
+    info.hash = GetRandHash();
+    info.idTransaction = GetRandHash();
+    info.price = 567657567;
+    info.minAmount = 50000;
+    info.shortInfo = "thried info";
+    info.countryIso = "US";
+    info.currencyIso = "USD";
+    addOfferBuy(info);
 }
 
 }

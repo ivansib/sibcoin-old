@@ -15,13 +15,13 @@ class TableOffersDialog : public QDialog
     Q_OBJECT
 
 public:
-    TableOffersDialog(const std::map<unsigned char, PaymentMethodInfo> &payments,
-                      const std::map<std::string, CountryInfo> &countries,
-                      const std::map<std::string, CurrencyInfo> &currencies, QDialog *parent = nullptr);
+    TableOffersDialog(DexDB *db, QDialog *parent = nullptr);
     ~TableOffersDialog();
 
 private:
     Ui::TableOffersDialog *ui;
+
+    DexDB *db;
 };
 
 #endif

@@ -81,6 +81,7 @@ QT_MOC_CPP = \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
+  qt/moc_offermodel.cpp \
   qt/moc_walletview.cpp
 
 BITCOIN_MM = \
@@ -169,6 +170,7 @@ BITCOIN_QT_H = \
   qt/utilitydialog.h \
   qt/walletframe.h \
   qt/walletmodel.h \
+  qt/offermodel.h \
   qt/walletmodeltransaction.h \
   qt/walletview.h \
   qt/winshutdownmonitor.h
@@ -435,6 +437,7 @@ BITCOIN_QT_CPP += \
   qt/transactionview.cpp \
   qt/walletframe.cpp \
   qt/walletmodel.cpp \
+  qt/offermodel.cpp \
   qt/walletmodeltransaction.cpp \
   qt/walletview.cpp
 endif

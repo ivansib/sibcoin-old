@@ -25,7 +25,7 @@ private:
     QWidget *widgetExchanges;
     QWidget *widgetSettings;
 
-    dex::DexDB db;
+    dex::DexDB *db;
 
 private Q_SLOTS:
     void currentPageBuy();

@@ -119,6 +119,7 @@ QT_MOC_CPP = \
   moc_utilitydialog.cpp \
   moc_walletframe.cpp \
   moc_walletmodel.cpp \
+  moc_offermodel.cpp \
   moc_walletview.cpp
 
 BITCOIN_MM = \
@@ -189,6 +190,7 @@ BITCOIN_QT_H = \
   utilitydialog.h \
   walletframe.h \
   walletmodel.h \
+  offermodel.h \
   walletmodeltransaction.h \
   walletview.h \
   winshutdownmonitor.h
@@ -298,6 +300,7 @@ BITCOIN_QT_CPP += \
   transactionview.cpp \
   walletframe.cpp \
   walletmodel.cpp \
+  offermodel.cpp \
   walletmodeltransaction.cpp \
   walletview.cpp
 endif

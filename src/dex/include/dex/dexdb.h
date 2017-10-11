@@ -4,39 +4,9 @@
 #include "../../sqlite/sqlite3pp/sqlite3pp.h"
 #include <boost/filesystem/path.hpp>
 #include <map>
-#include "uint256.h"
+#include "dexdto.h"
 
 namespace dex {
-
-struct CountryInfo {
-    std::string name;
-    bool enabled;
-};
-
-struct CurrencyInfo {
-    std::string name;
-    std::string symbol;
-    bool enabled;
-};
-
-struct PaymentMethodInfo {
-    std::string name;
-    std::string description;
-};
-
-struct OfferInfo {
-    uint256 idTransaction;
-    uint256 hash;
-    std::string countryIso;
-    std::string currencyIso;
-    uint8_t paymentMethod;
-    uint64_t price;
-    uint64_t minAmount;
-    uint64_t timeCreate;
-    uint64_t timeExpiration;
-    std::string shortInfo;
-    std::string details;
-};
 
 class DexDB {
 public:
@@ -80,6 +50,8 @@ private:
     void addOrEditOffer(const std::string &query, const OfferInfo &offer);
 
     sqlite3pp::database db;
+
+    void createTestOffers(); // NOTE: for test
 };
 
 }

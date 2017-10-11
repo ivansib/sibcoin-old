@@ -2,16 +2,14 @@
 #include "ui_exchangedialog.h"
 #include "util.h"
 
-ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::ExchangeDialog), db(strDexDbFile)
+ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::ExchangeDialog)
 {
     ui->setupUi(this);
 
-    auto payments = db.getPaymentMethodsInfo();
-    auto countries = db.getCountriesInfo();
-    auto currencies = db.getCurrenciesInfo();
+    db = new DexDB(strDexDbFile);
 
-    tableBuy = new TableOffersDialog(payments, countries, currencies);
-    tableSell = new TableOffersDialog(payments, countries, currencies);
+    tableBuy = new TableOffersDialog(db);
+    tableSell = new TableOffersDialog(db);
     widgetMyOffers = new QWidget();
     widgetExchanges = new QWidget();
     widgetSettings = new QWidget();
