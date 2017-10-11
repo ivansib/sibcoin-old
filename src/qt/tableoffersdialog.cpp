@@ -1,13 +1,17 @@
 #include "tableoffersdialog.h"
 #include "ui_tableoffersdialog.h"
 
-TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
+TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *parent) :
     QDialog(parent), ui(new Ui::TableOffersDialog), db(db)
 {
     ui->setupUi(this);
 
+    if (type == Buy) {
+        pModel = new OfferModel(db->getOffersBuy());
+    } else {
+        pModel = new OfferModel(db->getOffersSell());
+    }
 
-    pModel = new OfferModel(db->getOffersBuy());
     ui->tableView->setModel(pModel);
 
     auto payments = db->getPaymentMethodsInfo();

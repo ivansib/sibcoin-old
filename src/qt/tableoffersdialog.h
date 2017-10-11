@@ -16,7 +16,12 @@ class TableOffersDialog : public QDialog
     Q_OBJECT
 
 public:
-    TableOffersDialog(DexDB *db, QDialog *parent = nullptr);
+    enum TypeOffer {
+        Buy,
+        Sell
+    };
+
+    TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *parent = nullptr);
     ~TableOffersDialog();
 
 private:

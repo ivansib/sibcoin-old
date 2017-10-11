@@ -8,8 +8,8 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
 
     db = new DexDB(strDexDbFile);
 
-    tableBuy = new TableOffersDialog(db);
-    tableSell = new TableOffersDialog(db);
+    tableBuy = new TableOffersDialog(db, TableOffersDialog::Buy);
+    tableSell = new TableOffersDialog(db, TableOffersDialog::Sell);
     widgetMyOffers = new QWidget();
     widgetExchanges = new QWidget();
     widgetSettings = new QWidget();
