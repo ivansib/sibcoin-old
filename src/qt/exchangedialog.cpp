@@ -2,7 +2,7 @@
 #include "ui_exchangedialog.h"
 #include "util.h"
 
-ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::ExchangeDialog), db(GetDataDir(false))
+ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::ExchangeDialog), db(GetDataDir(false) / GetArg("-dexdb", DEX_DB_FILENAME))
 {
     ui->setupUi(this);
 
