@@ -32,6 +32,8 @@ struct OfferInfo {
     uint8_t paymentMethod;
     uint64_t price;
     uint64_t minAmount;
+    uint64_t timeCreate;
+    uint64_t timeExpiration;
     std::string shortInfo;
     std::string details;
 };
@@ -75,6 +77,7 @@ private:
     void editOffer(const std::string &tableName, const OfferInfo &offer);
     void deleteOffer(const std::string &tableName, const int &idTransaction);
     std::list<OfferInfo> getOffers(const std::string &tableName);
+    void addOrEditOffer(const std::string &query, const OfferInfo &offer);
 
     sqlite3pp::database db;
 };
