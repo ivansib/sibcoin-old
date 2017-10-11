@@ -679,7 +679,24 @@ int main(int argc, char *argv[])
     initTranslations(qtTranslatorBase, qtTranslator, translatorBase, translator);
 
 #ifdef ENABLE_DEX
-    dex::DexDB db(GetDataDir(false) / GetArg("-dexdb", DEX_DB_FILENAME));
+    boost::filesystem::path dexdbpath = GetArg("-dexdb", DEX_DB_FILENAME);
+    if (dexdbpath == dexdbpath.filename()) {
+      dexdbpath = GetDataDir(false) / dexdbpath;
+    } else {
+      if (boost::filesystem::exists(dexdbpath)) {
+        if (boost::filesystem::is_directory(dexdbpath)) {
+          dexdbpath /= DEX_DB_FILENAME;
+        }
+      } else {
+        if (!boost::filesystem::exists(dexdbpath.parent_path()) ||
+            !boost::filesystem::is_directory(dexdbpath.parent_path())) {
+          QMessageBox::critical(0, QObject::tr("Sibcoin"), QObject::tr("Wrong path to dexdb file"));
+          return EXIT_FAILURE;
+        }
+      }
+    }
+    strDexDbFile = dexdbpath.c_str();
+    dex::DexDB db(strDexDbFile);
 #endif
 
 #ifdef ENABLE_WALLET

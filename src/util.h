@@ -80,6 +80,7 @@ extern const char * const BITCOIN_PID_FILENAME;
 
 #ifdef ENABLE_DEX
 extern const char * const DEX_DB_FILENAME;
+extern std::string strDexDbFile;
 #endif
 
 
