@@ -90,6 +90,41 @@ Qt::ItemFlags OfferModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index);
 }
 
+void OfferModel::sort(int column, Qt::SortOrder order)
+{
+    if (order == Qt::AscendingOrder) {
+        switch (column) {
+        case 0:
+            qSort(offersView.begin(), offersView.end(), [](OfferInfo& a, OfferInfo& b) { return a.price < b.price; } );
+            break;
+        case 1:
+            qSort(offersView.begin(), offersView.end(), [](OfferInfo& a, OfferInfo& b) { return a.shortInfo < b.shortInfo; } );
+            break;
+        case 2:
+            qSort(offersView.begin(), offersView.end(), [](OfferInfo& a, OfferInfo& b) { return a.minAmount < b.minAmount; } );
+            break;
+        default:
+            break;
+        }
+    } else {
+        switch (column) {
+        case 0:
+            qSort(offersView.begin(), offersView.end(), [](OfferInfo& a, OfferInfo& b) { return a.price > b.price; } );
+            break;
+        case 1:
+            qSort(offersView.begin(), offersView.end(), [](OfferInfo& a, OfferInfo& b) { return a.shortInfo > b.shortInfo; } );
+            break;
+        case 2:
+            qSort(offersView.begin(), offersView.end(), [](OfferInfo& a, OfferInfo& b) { return a.minAmount > b.minAmount; } );
+            break;
+        default:
+            break;
+        }
+    }
+
+    Q_EMIT layoutChanged();
+}
+
 void OfferModel::filterOffers()
 {
     offersView.clear();

@@ -12,6 +12,7 @@ TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *
         pModel = new OfferModel(db->getOffersSell());
     }
 
+    ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(pModel);
 
     initComboPayment();
