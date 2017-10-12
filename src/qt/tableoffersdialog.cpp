@@ -25,6 +25,10 @@ TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *
             this, &TableOffersDialog::changedFilterCurrencyIso);
     connect(ui->cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterPaymentMethod);
+
+    changedFilterCountryIso(0);
+    changedFilterCurrencyIso(0);
+    changedFilterPaymentMethod(0);
 }
 
 TableOffersDialog::~TableOffersDialog()
