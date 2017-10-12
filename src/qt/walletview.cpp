@@ -17,12 +17,15 @@
 #include "receivecoinsdialog.h"
 #include "sendcoinsdialog.h"
 #include "goodsdialog.h"
-#include "exchangedialog.h"
 #include "signverifymessagedialog.h"
 #include "transactiontablemodel.h"
 #include "transactionview.h"
 #include "walletmodel.h"
 #include "sibmodel.h"
+
+#ifdef ENABLE_DEX
+#include "exchangedialog.h"
+#endif
 
 #include "ui_interface.h"
 
@@ -81,14 +84,17 @@ WalletView::WalletView(const PlatformStyle *platformStyle, QWidget *parent):
     usedReceivingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::ReceivingTab, this);
 
     goodsPage = new GoodsDialog();
-    exchangePage = new ExchangeDialog();
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
     addWidget(goodsPage);
+
+#ifdef ENABLE_DEX
+    exchangePage = new ExchangeDialog();
     addWidget(exchangePage);
+#endif
 
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
@@ -254,7 +260,9 @@ void WalletView::gotoGoodsPage()
 
 void WalletView::gotoExchangePage()
 {
+#ifdef ENABLE_DEX
     setCurrentWidget(exchangePage);
+#endif
 }
 
 void WalletView::gotoSignMessageTab(QString addr)

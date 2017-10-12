@@ -87,8 +87,6 @@ QT_MOC_CPP = \
   moc_editaddressdialog.cpp \
   moc_genandprintdialog.cpp \
   moc_goodsdialog.cpp \
-  moc_exchangedialog.cpp \
-  moc_tableoffersdialog.cpp \
   moc_guiutil.cpp \
   moc_intro.cpp \
   moc_macdockiconhandler.cpp \
@@ -119,7 +117,6 @@ QT_MOC_CPP = \
   moc_utilitydialog.cpp \
   moc_walletframe.cpp \
   moc_walletmodel.cpp \
-  moc_offermodel.cpp \
   moc_walletview.cpp
 
 BITCOIN_MM = \
@@ -155,8 +152,6 @@ BITCOIN_QT_H = \
   editaddressdialog.h \
   genandprintdialog.h \
   goodsdialog.h \
-  exchangedialog.h \
-  tableoffersdialog.h \
   guiconstants.h \
   guiutil.h \
   intro.h \
@@ -190,7 +185,6 @@ BITCOIN_QT_H = \
   utilitydialog.h \
   walletframe.h \
   walletmodel.h \
-  offermodel.h \
   walletmodeltransaction.h \
   walletview.h \
   winshutdownmonitor.h
@@ -279,8 +273,6 @@ BITCOIN_QT_CPP += \
   editaddressdialog.cpp \
   genandprintdialog.cpp \
   goodsdialog.cpp \
-  exchangedialog.cpp \
-  tableoffersdialog.cpp \
   openuridialog.cpp \
   overviewpage.cpp \
   paymentrequestplus.cpp \
@@ -300,9 +292,25 @@ BITCOIN_QT_CPP += \
   transactionview.cpp \
   walletframe.cpp \
   walletmodel.cpp \
-  offermodel.cpp \
   walletmodeltransaction.cpp \
   walletview.cpp
+endif
+
+if ENABLE_DEX
+QT_MOC_CPP += \
+  moc_exchangedialog.cpp \  
+  moc_offermodel.cpp \  
+  moc_tableoffersdialog.cpp
+
+BITCOIN_QT_H += \
+  exchangedialog.h \  
+  offermodel.h \  
+  tableoffersdialog.h
+
+BITCOIN_QT_CPP += \
+  exchangedialog.cpp \  
+  offermodel.cpp \  
+  tableoffersdialog.cpp
 endif
 
 RES_IMAGES = \

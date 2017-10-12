@@ -17,12 +17,15 @@ class PlatformStyle;
 class ReceiveCoinsDialog;
 class SendCoinsDialog;
 class GoodsDialog;
-class ExchangeDialog;
 class SendCoinsRecipient;
 class TransactionView;
 class WalletModel;
 class AddressBookPage;
 class SibModel;
+
+#ifdef ENABLE_DEX
+class ExchangeDialog;
+#endif
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -78,7 +81,9 @@ private:
     TransactionView *transactionView;
     
     GoodsDialog *goodsPage;
+#ifdef ENABLE_DEX
     ExchangeDialog *exchangePage;
+#endif
 
     QProgressDialog *progressDialog;
     QLabel *transactionSum;
