@@ -30,6 +30,10 @@ private:
     DexDB *db;
     OfferModel *pModel;
 
+    void initComboPayment();
+    void initComboCountry();
+    void initComboCurrency();
+
 private Q_SLOTS:
     void changedFilterCountryIso(const int &);
     void changedFilterCurrencyIso(const int &);
