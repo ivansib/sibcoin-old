@@ -4,6 +4,10 @@ LIBDEXDB_INT = dex/libdexdb.a
 EXTRA_LIBRARIES += $(LIBDEXDB_INT)
 LIBDEXDB += $(LIBDEXDB_INT)
 
+LIBDEX_INT = dex/libdex.a
+EXTRA_LIBRARIES += $(LIBDEX_INT)
+LIBDEX += $(LIBDEX_INT)
+
 SQLITE_CPPFLAGS += -I$(srcdir)/dex/include
 
 dex_libdexdb_a_CPPFLAGS = $(SQLITE_CPPFLAGS)
@@ -18,3 +22,9 @@ dex_libdexdb_a_SOURCES += dex/db/countryiso.cpp
 dex_libdexdb_a_SOURCES += dex/db/currencyiso.cpp
 dex_libdexdb_a_SOURCES += dex/db/paymentmethodtype.cpp 
 dex_libdexdb_a_SOURCES += dex/db/defaultdatafordb.cpp
+
+
+
+dex_libdex_a_CPPFLAGS =
+dex_libdex_a_SOURCES = dex/dex.cpp
+

@@ -92,7 +92,7 @@ static const char* ppszTypeName[] =
     NetMsgType::MNGOVERNANCEOBJECT,
     NetMsgType::MNGOVERNANCEOBJECTVOTE,
     NetMsgType::MNVERIFY,
-    NetMsgType::DEXOFFBCST,
+//    NetMsgType::DEXOFFBCST,
 };
 
 /** All known message types. Keep this in the same order as the list of
