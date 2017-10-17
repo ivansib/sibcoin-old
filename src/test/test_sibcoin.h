@@ -1,5 +1,5 @@
-#ifndef BITCOIN_TEST_TEST_DASH_H
-#define BITCOIN_TEST_TEST_DASH_H
+#ifndef BITCOIN_TEST_TEST_SIBCOIN_H
+#define BITCOIN_TEST_TEST_SIBCOIN_H
 
 #include "chainparamsbase.h"
 #include "key.h"

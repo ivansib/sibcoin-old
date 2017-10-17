@@ -1,9 +1,9 @@
 #!/usr/bin/make -f
 # -*- mode: makefile; coding: utf-8 -*-
 
-#DEB_MAKE_CHECK_TARGET = test_dash
+#DEB_MAKE_CHECK_TARGET = test_sibcoin
 #build/dashd::
-#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_dash)
+#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_sibcoin)
 
 DEB_INSTALL_EXAMPLES_dashd += debian/examples/*
 DEB_INSTALL_MANPAGES_dashd += debian/manpages/*
