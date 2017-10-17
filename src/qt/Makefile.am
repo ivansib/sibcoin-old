@@ -69,7 +69,8 @@ QT_FORMS_UI = \
   forms/sendcoinsdialog.ui \
   forms/sendcoinsentry.ui \
   forms/signverifymessagedialog.ui \
-  forms/transactiondescdialog.ui
+  forms/transactiondescdialog.ui \
+  forms/offerdetails.ui
 
 QT_MOC_CPP = \
   moc_addressbookpage.cpp \
@@ -300,17 +301,20 @@ if ENABLE_DEX
 QT_MOC_CPP += \
   moc_exchangedialog.cpp \  
   moc_offermodel.cpp \  
-  moc_tableoffersdialog.cpp
+  moc_tableoffersdialog.cpp \
+  moc_offerdetails.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \  
   offermodel.h \  
-  tableoffersdialog.h
+  tableoffersdialog.h \
+  offerdetails.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \  
   offermodel.cpp \  
-  tableoffersdialog.cpp
+  tableoffersdialog.cpp \
+  offerdetails.cpp
 endif
 
 RES_IMAGES = \

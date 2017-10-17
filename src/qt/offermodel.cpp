@@ -30,6 +30,15 @@ void OfferModel::setFilterPaymentMethod(const uint8_t &payment)
     filterOffers();
 }
 
+OfferInfo OfferModel::offerInfo(const int &row)
+{
+    if (row < offersView.size()) {
+        return offersView[row];
+    }
+
+    return OfferInfo();
+}
+
 QVariant OfferModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {

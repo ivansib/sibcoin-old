@@ -19,6 +19,8 @@ public:
     void setFilterCurrencyIso(const std::string &iso);
     void setFilterPaymentMethod(const uint8_t &payment);
 
+    OfferInfo offerInfo(const int &row);
+
     virtual QVariant data(const QModelIndex &index, int role) const;
 
     virtual int rowCount(const QModelIndex &parent=QModelIndex()) const;

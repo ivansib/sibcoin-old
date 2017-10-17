@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "dex/dexdb.h"
 #include "offermodel.h"
+#include "offerdetails.h"
 
 using namespace dex;
 
@@ -29,6 +30,7 @@ private:
 
     DexDB *db;
     OfferModel *pModel;
+    OfferDetails *pDetails;
 
     void initComboPayment();
     void initComboCountry();
@@ -38,6 +40,7 @@ private Q_SLOTS:
     void changedFilterCountryIso(const int &);
     void changedFilterCurrencyIso(const int &);
     void changedFilterPaymentMethod(const int &);
+    void clickedColumn(QModelIndex index);
 };
 
 #endif

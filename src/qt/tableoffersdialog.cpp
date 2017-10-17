@@ -12,6 +12,8 @@ TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *
         pModel = new OfferModel(db->getOffersSell());
     }
 
+    pDetails = new OfferDetails(this);
+
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(pModel);
 
@@ -25,6 +27,8 @@ TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *
             this, &TableOffersDialog::changedFilterCurrencyIso);
     connect(ui->cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterPaymentMethod);
+
+    connect(ui->tableView, &QTableView::doubleClicked, this, &TableOffersDialog::clickedColumn);
 
     changedFilterCountryIso(0);
     changedFilterCurrencyIso(0);
@@ -95,4 +99,13 @@ void TableOffersDialog::changedFilterPaymentMethod(const int &)
 {
     uint8_t payment = ui->cBoxPayment->currentData().toInt();
     pModel->setFilterPaymentMethod(payment);
+}
+
+void TableOffersDialog::clickedColumn(QModelIndex index)
+{
+    if (index.column() == 3) {
+        OfferInfo info = pModel->offerInfo(index.row());
+        pDetails->setOfferInfo(info);
+        pDetails->show();
+    }
 }
