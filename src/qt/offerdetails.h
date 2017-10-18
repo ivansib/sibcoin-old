@@ -2,13 +2,11 @@
 #define OFFERDETAILS_H
 
 #include <QDialog>
-#include "dex/dexdto.h"
+#include "dto.h"
 
 namespace Ui {
     class OfferDetails;
 }
-
-using namespace dex;
 
 class OfferDetails : public QDialog
 {
@@ -18,11 +16,10 @@ public:
     OfferDetails(QDialog *parent = nullptr);
     ~OfferDetails();
 
-    void setOfferInfo(const OfferInfo &info, const QString &country, const QString &currency, const QString &payment);
+    void setOfferInfo(const QtOfferInfo &info, const QString &country, const QString &currency, const QString &payment);
 
 private:
     Ui::OfferDetails *ui;
-    OfferInfo info;
 };
 
 #endif

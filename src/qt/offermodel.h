@@ -2,24 +2,21 @@
 #define OFFERMODEL_H
 
 #include <QAbstractTableModel>
-#include "dex/dexdto.h"
-#include <list>
-
-using namespace dex;
+#include "dto.h"
 
 class OfferModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    OfferModel(const std::list<OfferInfo> &offers, QObject *parent = nullptr);
+    OfferModel(const QList<QtOfferInfo> &offers, QObject *parent = nullptr);
     ~OfferModel();
 
-    void setFilterCountryIso(const std::string &iso);
-    void setFilterCurrencyIso(const std::string &iso);
+    void setFilterCountryIso(const QString &iso);
+    void setFilterCurrencyIso(const QString &iso);
     void setFilterPaymentMethod(const uint8_t &payment);
 
-    OfferInfo offerInfo(const int &row);
+    QtOfferInfo offerInfo(const int &row);
 
     virtual QVariant data(const QModelIndex &index, int role) const;
 
@@ -33,11 +30,11 @@ public:
 
 private:
     QStringList listHead;
-    QList<OfferInfo> offers;
-    QList<OfferInfo> offersView;
+    QList<QtOfferInfo> offers;
+    QList<QtOfferInfo> offersView;
 
-    std::string countryIso;
-    std::string currencyIso;
+    QString countryIso;
+    QString currencyIso;
     uint8_t paymentMethod;
 
     void filterOffers();

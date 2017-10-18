@@ -1,16 +1,20 @@
 #include "tableoffersdialog.h"
 #include "ui_tableoffersdialog.h"
+#include "convertdexdata.h"
 
 TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *parent) :
     QDialog(parent), ui(new Ui::TableOffersDialog), db(db)
 {
     ui->setupUi(this);
 
+    QList<QtOfferInfo> offers;
     if (type == Buy) {
-        pModel = new OfferModel(db->getOffersBuy());
+        offers = ConvertDexData::toListQtOfferInfo(db->getOffersBuy());
     } else {
-        pModel = new OfferModel(db->getOffersSell());
+        offers = ConvertDexData::toListQtOfferInfo(db->getOffersSell());
     }
+
+    pModel = new OfferModel(offers);
 
     pDetails = new OfferDetails(this);
 
@@ -86,25 +90,25 @@ void TableOffersDialog::initComboCurrency()
 }
 
 void TableOffersDialog::changedFilterCountryIso(const int &) {
-    std::string iso = ui->cBoxCountry->currentData().toString().toUtf8().constData();
+    QString iso = ui->cBoxCountry->currentData().toString();
     pModel->setFilterCountryIso(iso);
 }
 
 void TableOffersDialog::changedFilterCurrencyIso(const int &) {
-    std::string iso = ui->cBoxCurrency->currentData().toString().toUtf8().constData();
+    QString iso = ui->cBoxCurrency->currentData().toString();
     pModel->setFilterCurrencyIso(iso);
 }
 
 void TableOffersDialog::changedFilterPaymentMethod(const int &)
 {
-    uint8_t payment = ui->cBoxPayment->currentData().toInt();
+    quint8 payment = ui->cBoxPayment->currentData().toInt();
     pModel->setFilterPaymentMethod(payment);
 }
 
 void TableOffersDialog::clickedColumn(QModelIndex index)
 {
     if (index.column() == 3) {
-        OfferInfo info = pModel->offerInfo(index.row());
+        QtOfferInfo info = pModel->offerInfo(index.row());
         QString country = ui->cBoxCountry->currentText();
         QString currency = ui->cBoxCurrency->currentText();
         QString payment = ui->cBoxPayment->currentText();

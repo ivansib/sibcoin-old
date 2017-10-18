@@ -299,22 +299,26 @@ endif
 
 if ENABLE_DEX
 QT_MOC_CPP += \
-  moc_exchangedialog.cpp \  
-  moc_offermodel.cpp \  
+  moc_exchangedialog.cpp \
+  moc_offermodel.cpp \
   moc_tableoffersdialog.cpp \
-  moc_offerdetails.cpp
+  moc_offerdetails.cpp \
+  moc_convertdexdata.cpp
 
 BITCOIN_QT_H += \
-  exchangedialog.h \  
-  offermodel.h \  
+  exchangedialog.h \
+  offermodel.h \
   tableoffersdialog.h \
-  offerdetails.h
+  offerdetails.h \
+  convertdexdata.h \
+  dto.h
 
 BITCOIN_QT_CPP += \
-  exchangedialog.cpp \  
-  offermodel.cpp \  
+  exchangedialog.cpp \ 
+  offermodel.cpp \
   tableoffersdialog.cpp \
-  offerdetails.cpp
+  offerdetails.cpp \
+  convertdexdata.cpp
 endif
 
 RES_IMAGES = \
