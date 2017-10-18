@@ -2,6 +2,7 @@
 #define TABLEOFFERSDIALOG_H
 
 #include <QDialog>
+#include <QComboBox>
 #include "dex/dexdb.h"
 #include "offermodel.h"
 #include "offerdetails.h"
@@ -31,10 +32,6 @@ protected:
 private:
     Ui::TableOffersDialog *ui;
     DexDB *db;
-
-    void initComboPayment();
-    void initComboCountry();
-    void initComboCurrency();
 
 protected Q_SLOTS:
     virtual void clickedColumn(QModelIndex index) = 0;

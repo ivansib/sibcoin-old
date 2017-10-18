@@ -14,6 +14,9 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QTableView" name="tableView"/>
+   </item>
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -30,21 +33,25 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="cBoxPayment"/>
+      <widget class="ComboBox" name="cBoxPayment"/>
      </item>
      <item>
-      <widget class="QComboBox" name="cBoxCountry"/>
+      <widget class="ComboBox" name="cBoxCountry"/>
      </item>
      <item>
-      <widget class="QComboBox" name="cBoxCurrency"/>
+      <widget class="ComboBox" name="cBoxCurrency"/>
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
-    <widget class="QTableView" name="tableView"/>
-   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>combobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

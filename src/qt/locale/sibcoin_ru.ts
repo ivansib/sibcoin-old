@@ -5541,7 +5541,7 @@ rpcpassword=%s
     </message>
 </context>
 <context>
-    <name>TableOffersDialog</name>
+    <name>ComboBox</name>
     <message>
         <source>Afghanistan</source>
         <translation>Афганистан</translation>

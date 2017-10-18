@@ -3,7 +3,7 @@
 
 TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDialog(db, parent)
 {
-    details = new OfferDetailsEditor(this);
+    details = new OfferDetailsEditor(db, this);
 
     QList<QtOfferInfo> offers = ConvertDexData::toListQtOfferInfo(db->getOffersBuy());
     pModel->setOffers(offers);

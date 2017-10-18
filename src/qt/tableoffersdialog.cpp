@@ -11,9 +11,14 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(pModel);
 
-    initComboPayment();
-    initComboCountry();
-    initComboCurrency();
+    auto payments = db->getPaymentMethodsInfo();
+    ui->cBoxPayment->addData(payments);
+
+    auto countries = db->getCountriesInfo();
+    ui->cBoxCountry->addData(countries);
+
+    auto currencies = db->getCurrenciesInfo();
+    ui->cBoxCurrency->addData(currencies);
 
     connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterCountryIso);
@@ -50,51 +55,6 @@ QString TableOffersDialog::currentCurrency() const
 QString TableOffersDialog::currentPayment() const
 {
     return ui->cBoxPayment->currentText();
-}
-
-void TableOffersDialog::initComboPayment()
-{
-    auto payments = db->getPaymentMethodsInfo();
-    auto itPayment = payments.begin();
-    while (itPayment != payments.end()) {
-        ui->cBoxPayment->addItem(tr(itPayment->second.name.c_str()), itPayment->first);
-        ++itPayment;
-    }
-}
-
-void TableOffersDialog::initComboCountry() {
-    auto countries = db->getCountriesInfo();
-    auto itCountry = countries.begin();
-
-    QMap<QString, QString> countrySort;
-    while (itCountry != countries.end()) {
-        countrySort[tr(itCountry->second.name.c_str())] = QString::fromUtf8(itCountry->first.c_str());
-        ++itCountry;
-    }
-
-    auto itCountrySort = countrySort.begin();
-    while (itCountrySort != countrySort.end()) {
-        ui->cBoxCountry->addItem(itCountrySort.key(), itCountrySort.value());
-        ++itCountrySort;
-    }
-}
-
-void TableOffersDialog::initComboCurrency()
-{
-    auto currencies = db->getCurrenciesInfo();
-    auto itCurrency = currencies.begin();
-
-    QMap<QString, QString> currencySort;
-    while (itCurrency != currencies.end()) {
-        currencySort[tr(itCurrency->second.name.c_str())] = QString::fromUtf8(itCurrency->first.c_str());
-        ++itCurrency;
-    }
-
-    auto itCurrencySort = currencySort.begin();
-    while (itCurrencySort != currencySort.end()) {
-        ui->cBoxCurrency->addItem(itCurrencySort.key(), itCurrencySort.value());
-        ++itCurrencySort;
-    }
 }
 
 void TableOffersDialog::changedFilterCountryIso(const int &) {
