@@ -29,7 +29,8 @@ QT_FORMS_UI = \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
   qt/forms/transactiondescdialog.ui \
-  qt/forms/offerdetails.ui
+  qt/forms/offerdetails.ui \
+  qt/forms/offerdetailseditor.ui
 
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -440,7 +441,8 @@ QT_MOC_CPP += \
   qt/moc_offermodel.cpp \
   qt/moc_tableoffersdialog.cpp \
   qt/moc_offerdetails.cpp \
-  qt/moc_convertdexdata.cpp
+  qt/moc_convertdexdata.cpp \
+  qt/moc_offerdetailseditor.cpp
 
 BITCOIN_QT_H += \
   qt/exchangedialog.h \
@@ -448,14 +450,16 @@ BITCOIN_QT_H += \
   qt/tableoffersdialog.h \
   qt/offerdetails.h \
   qt/convertdexdata.h \
-  qt/dto.h
+  qt/dto.h \
+  qt/offerdetailseditor.h
 
 BITCOIN_QT_CPP += \
   qt/exchangedialog.cpp \
   qt/offermodel.cpp \
   qt/tableoffersdialog.cpp \
   qt/offerdetails.cpp \
-  qt/convertdexdata.cpp
+  qt/convertdexdata.cpp \
+  qt/offerdetailseditor.cpp
 endif
 
 RES_IMAGES = \
