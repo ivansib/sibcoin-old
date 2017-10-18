@@ -18,7 +18,7 @@ public:
     OfferDetails(QDialog *parent = nullptr);
     ~OfferDetails();
 
-    void setOfferInfo(const OfferInfo &info);
+    void setOfferInfo(const OfferInfo &info, const QString &country, const QString &currency, const QString &payment);
 
 private:
     Ui::OfferDetails *ui;

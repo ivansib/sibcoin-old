@@ -105,7 +105,10 @@ void TableOffersDialog::clickedColumn(QModelIndex index)
 {
     if (index.column() == 3) {
         OfferInfo info = pModel->offerInfo(index.row());
-        pDetails->setOfferInfo(info);
+        QString country = ui->cBoxCountry->currentText();
+        QString currency = ui->cBoxCurrency->currentText();
+        QString payment = ui->cBoxPayment->currentText();
+        pDetails->setOfferInfo(info, country, currency, payment);
         pDetails->show();
     }
 }
