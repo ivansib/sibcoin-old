@@ -21,8 +21,8 @@ void OfferDetails::setOfferInfo(const QtOfferInfo &info, const QString &country,
     ui->lEditPayment->setText(payment);
     ui->lEditPrice->setText(QString::number(info.price));
     ui->lEditMinAmount->setText(QString::number(info.minAmount));
-    ui->lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("yyyy.MM.dd hh:mm:ss"));
-    ui->lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeExpiration).toString("yyyy.MM.dd hh:mm:ss"));
+    ui->lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
+    ui->lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeExpiration).toString("dd.MM.yyyy hh:mm"));
     ui->tEditShortInfo->setText(info.shortInfo);
     ui->tEditDetails->setText(info.details);
 }

@@ -5038,7 +5038,7 @@ that paper wallet has been printed successfully!</translation>
     </message>
 </context>
 <context>
-    <name>TableOffersDialog</name>
+    <name>ComboBox</name>
     <message>
         <source>Afghanistan</source>
         <translation>Afghanistan</translation>

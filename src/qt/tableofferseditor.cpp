@@ -19,6 +19,8 @@ TableOffersEditor::~TableOffersEditor()
 void TableOffersEditor::clickedColumn(QModelIndex index)
 {
     if (index.column() == 3) {
+        QtOfferInfo info = pModel->offerInfo(index.row());
+        details->setOfferInfo(info);
         details->show();
     }
 }

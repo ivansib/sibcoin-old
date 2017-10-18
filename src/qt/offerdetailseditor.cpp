@@ -22,5 +22,15 @@ OfferDetailsEditor::~OfferDetailsEditor()
 
 void OfferDetailsEditor::setOfferInfo(const QtOfferInfo &info)
 {
-
+    ui->lEditId->setText(info.idTransaction);
+    ui->lEditHash->setText(info.hash);
+    ui->cBoxCountry->setCurrentData(info.countryIso);
+    ui->cBoxCurrency->setCurrentData(info.currencyIso);
+    ui->cBoxPayment->setCurrentData(QString::number(info.paymentMethod));
+    ui->lEditPrice->setText(QString::number(info.price));
+    ui->lEditMinAmount->setText(QString::number(info.minAmount));
+    ui->lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
+    ui->dtEditExpiration->setDateTime(QDateTime::fromTime_t(info.timeExpiration));
+    ui->tEditShortInfo->setText(info.shortInfo);
+    ui->tEditDetails->setText(info.details);
 }

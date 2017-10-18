@@ -12,6 +12,8 @@ class ComboBox : public QComboBox
 public:
     ComboBox(QWidget *parent = nullptr);
 
+    void setCurrentData(const QString &data);
+
     template <typename type>
     void addData(const type &data)
     {
@@ -31,8 +33,8 @@ public:
     }
 
 private:
-    QString toString(const std::string &str);
-    QString toString(const uint8_t &i);
+    QString toString(const std::string &str) const;
+    QString toString(const uint8_t &i) const;
 };
 
 #endif
