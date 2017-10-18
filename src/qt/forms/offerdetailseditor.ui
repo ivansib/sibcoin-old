@@ -131,7 +131,7 @@
    <item row="7" column="1">
     <widget class="QLineEdit" name="lineEdit">
      <property name="readOnly">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -184,6 +184,9 @@
    </item>
    <item row="10" column="1">
     <widget class="QTextEdit" name="tEditShortInfo">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -191,7 +194,7 @@
       </sizepolicy>
      </property>
      <property name="readOnly">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -211,7 +214,7 @@
       </sizepolicy>
      </property>
      <property name="readOnly">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </item>

@@ -8,15 +8,15 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
 
     db = new DexDB(strDexDbFile);
 
-    tableBuy = new TableOffersDialog(db, TableOffersDialog::Buy);
-    tableSell = new TableOffersDialog(db, TableOffersDialog::Sell);
-    widgetMyOffers = new QWidget();
+    tableBuy = new TableOffersView(db, TableOffersView::Buy);
+    tableSell = new TableOffersView(db, TableOffersView::Sell);
+    tableMyOffers = new TableOffersEditor(db);
     widgetExchanges = new QWidget();
     widgetSettings = new QWidget();
 
     ui->stackedWidget->addWidget(tableBuy);
     ui->stackedWidget->addWidget(tableSell);
-    ui->stackedWidget->addWidget(widgetMyOffers);
+    ui->stackedWidget->addWidget(tableMyOffers);
     ui->stackedWidget->addWidget(widgetExchanges);
     ui->stackedWidget->addWidget(widgetSettings);
 
@@ -31,7 +31,7 @@ ExchangeDialog::~ExchangeDialog()
 {
     delete tableBuy;
     delete tableSell;
-    delete widgetMyOffers;
+    delete tableMyOffers;
     delete widgetExchanges;
     delete widgetSettings;
     delete ui;
@@ -49,7 +49,7 @@ void ExchangeDialog::currentPageSell()
 
 void ExchangeDialog::currentPageMyOffers()
 {
-    ui->stackedWidget->setCurrentWidget(widgetMyOffers);
+    ui->stackedWidget->setCurrentWidget(tableMyOffers);
 }
 
 void ExchangeDialog::currentPageExchanges()

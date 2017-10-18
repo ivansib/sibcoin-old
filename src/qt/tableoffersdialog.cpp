@@ -1,22 +1,12 @@
 #include "tableoffersdialog.h"
 #include "ui_tableoffersdialog.h"
-#include "convertdexdata.h"
 
-TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *parent) :
+TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     QDialog(parent), ui(new Ui::TableOffersDialog), db(db)
 {
     ui->setupUi(this);
 
-    QList<QtOfferInfo> offers;
-    if (type == Buy) {
-        offers = ConvertDexData::toListQtOfferInfo(db->getOffersBuy());
-    } else {
-        offers = ConvertDexData::toListQtOfferInfo(db->getOffersSell());
-    }
-
-    pModel = new OfferModel(offers);
-
-    pDetails = new OfferDetails(this);
+    pModel = new OfferModel();
 
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(pModel);
@@ -33,15 +23,33 @@ TableOffersDialog::TableOffersDialog(DexDB *db, const TypeOffer &type, QDialog *
             this, &TableOffersDialog::changedFilterPaymentMethod);
 
     connect(ui->tableView, &QTableView::doubleClicked, this, &TableOffersDialog::clickedColumn);
-
-    changedFilterCountryIso(0);
-    changedFilterCurrencyIso(0);
-    changedFilterPaymentMethod(0);
 }
 
 TableOffersDialog::~TableOffersDialog()
 {
     delete ui;
+}
+
+void TableOffersDialog::init()
+{
+    changedFilterCountryIso(0);
+    changedFilterCurrencyIso(0);
+    changedFilterPaymentMethod(0);
+}
+
+QString TableOffersDialog::currentCountry() const
+{
+    return ui->cBoxCountry->currentText();
+}
+
+QString TableOffersDialog::currentCurrency() const
+{
+    return ui->cBoxCurrency->currentText();
+}
+
+QString TableOffersDialog::currentPayment() const
+{
+    return ui->cBoxPayment->currentText();
 }
 
 void TableOffersDialog::initComboPayment()
@@ -103,16 +111,4 @@ void TableOffersDialog::changedFilterPaymentMethod(const int &)
 {
     quint8 payment = ui->cBoxPayment->currentData().toInt();
     pModel->setFilterPaymentMethod(payment);
-}
-
-void TableOffersDialog::clickedColumn(QModelIndex index)
-{
-    if (index.column() == 3) {
-        QtOfferInfo info = pModel->offerInfo(index.row());
-        QString country = ui->cBoxCountry->currentText();
-        QString currency = ui->cBoxCurrency->currentText();
-        QString payment = ui->cBoxPayment->currentText();
-        pDetails->setOfferInfo(info, country, currency, payment);
-        pDetails->show();
-    }
 }

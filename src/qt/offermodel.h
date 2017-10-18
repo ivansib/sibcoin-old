@@ -9,9 +9,10 @@ class OfferModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    OfferModel(const QList<QtOfferInfo> &offers, QObject *parent = nullptr);
+    OfferModel(QObject *parent = nullptr);
     ~OfferModel();
 
+    void setOffers(const QList<QtOfferInfo> &offers);
     void setFilterCountryIso(const QString &iso);
     void setFilterCurrencyIso(const QString &iso);
     void setFilterPaymentMethod(const uint8_t &payment);

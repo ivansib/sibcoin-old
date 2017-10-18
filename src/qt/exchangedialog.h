@@ -2,7 +2,8 @@
 #define EXCHANGEDIALOG_H
 
 #include <QDialog>
-#include "tableoffersdialog.h"
+#include "tableoffersview.h"
+#include "tableofferseditor.h"
 #include "dex/dexdb.h"
 
 using namespace dex;
@@ -21,9 +22,9 @@ public:
 
 private:
     Ui::ExchangeDialog *ui;
-    TableOffersDialog *tableBuy;
-    TableOffersDialog *tableSell;
-    QWidget *widgetMyOffers;
+    TableOffersView *tableBuy;
+    TableOffersView *tableSell;
+    TableOffersEditor *tableMyOffers;
     QWidget *widgetExchanges;
     QWidget *widgetSettings;
 

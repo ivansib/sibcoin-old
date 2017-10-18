@@ -1,15 +1,21 @@
 #include "offermodel.h"
 
-OfferModel::OfferModel(const QList<QtOfferInfo> &offers, QObject *parent) : QAbstractTableModel(parent)
+OfferModel::OfferModel(QObject *parent) : QAbstractTableModel(parent)
 {
-    this->offers = offers;
-    offersView = this->offers;
     listHead << tr("Price") << tr("Short Info") << tr("Min Amount") << tr("More Details");
 }
 
 OfferModel::~OfferModel()
 {
 
+}
+
+void OfferModel::setOffers(const QList<QtOfferInfo> &offers)
+{
+    this->offers = offers;
+    offersView = this->offers;
+
+    Q_EMIT layoutChanged();
 }
 
 void OfferModel::setFilterCountryIso(const QString &iso)
