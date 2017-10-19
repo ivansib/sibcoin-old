@@ -19,3 +19,17 @@ QString ComboBox::toString(const uint8_t &i) const
 {
     return QString::number(i);
 }
+
+void ComboBox::addData(const std::map<std::string, CurrencyInfo> &data)
+{
+    auto it = data.begin();
+
+    while (it != data.end()) {
+        QString viewStr = toString(it->second.symbol) + " " + toString(it->first);
+        QString key = toString(it->first);
+        QString toolTip = tr(it->second.name.c_str());
+        addItem(viewStr, key);
+        setItemData(count() - 1, toolTip, Qt::ToolTipRole);
+        ++it;
+    }
+}

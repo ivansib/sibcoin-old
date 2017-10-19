@@ -14,6 +14,8 @@ public:
 
     void setCurrentData(const QString &data);
 
+    void addData(const std::map<std::string, CurrencyInfo> &data);
+
     template <typename type>
     void addData(const type &data)
     {
