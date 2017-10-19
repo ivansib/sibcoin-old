@@ -146,7 +146,11 @@ void OfferModel::filterOffers()
 {
     offersView.clear();
     for (auto item : offers) {
-        if (paymentMethod == item.paymentMethod && countryIso == item.countryIso && currencyIso == item.currencyIso) {
+        bool b1 = (paymentMethod == item.paymentMethod || paymentMethod == 0);
+        bool b2 = countryIso == item.countryIso || countryIso == "";
+        bool b3 = currencyIso == item.currencyIso || currencyIso == "";
+
+        if (b1 && b2 && b3) {
             offersView << item;
         }
     }

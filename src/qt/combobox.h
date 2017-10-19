@@ -26,6 +26,7 @@ public:
         }
 
         auto itSort = sort.begin();
+        addItem(tr("All"));
         while (itSort != sort.end()) {
             addItem(itSort.key(), itSort.value());
             ++itSort;

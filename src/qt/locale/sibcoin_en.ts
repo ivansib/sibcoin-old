@@ -5040,6 +5040,10 @@ that paper wallet has been printed successfully!</translation>
 <context>
     <name>ComboBox</name>
     <message>
+        <source>All</source>
+        <translation>All</translation>
+    </message>
+    <message>
         <source>Afghanistan</source>
         <translation>Afghanistan</translation>
     </message>

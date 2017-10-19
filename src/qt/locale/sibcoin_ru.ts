@@ -5543,6 +5543,10 @@ rpcpassword=%s
 <context>
     <name>ComboBox</name>
     <message>
+        <source>All</source>
+        <translation>Все</translation>
+    </message>
+    <message>
         <source>Afghanistan</source>
         <translation>Афганистан</translation>
     </message>
