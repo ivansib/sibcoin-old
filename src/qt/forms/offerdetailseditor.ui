@@ -101,9 +101,18 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QLineEdit" name="lEditPrice">
-     <property name="readOnly">
-      <bool>false</bool>
+    <widget class="QDoubleSpinBox" name="sBoxPrice">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="decimals">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <double>1000000000000000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -115,9 +124,18 @@
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="QLineEdit" name="lEditMinAmount">
-     <property name="readOnly">
-      <bool>false</bool>
+    <widget class="QDoubleSpinBox" name="sBoxMinAmount">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="decimals">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <double>1000000000000000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -138,51 +156,43 @@
    <item row="8" column="0">
     <widget class="QLabel" name="label_9">
      <property name="text">
-      <string>Time Expiration:</string>
+      <string>Time To Expiration:</string>
      </property>
     </widget>
    </item>
    <item row="8" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QDateTimeEdit" name="dtEditExpiration">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="displayFormat">
-        <string>dd.MM.yyyy HH:mm</string>
+      <widget class="QSpinBox" name="sBoxExpiration">
+       <property name="maximum">
+        <number>999</number>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="cBoxExpirationType">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>days     Time Expiration:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lEditTimeExpiration">
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="10" column="0">
+   <item row="9" column="0">
     <widget class="QLabel" name="label_10">
      <property name="text">
       <string>Short Info:</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
+   <item row="9" column="1">
     <widget class="QTextEdit" name="tEditShortInfo">
      <property name="enabled">
       <bool>true</bool>
@@ -198,14 +208,14 @@
      </property>
     </widget>
    </item>
-   <item row="13" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="label_11">
      <property name="text">
       <string>Details:</string>
      </property>
     </widget>
    </item>
-   <item row="13" column="1">
+   <item row="10" column="1">
     <widget class="QTextEdit" name="tEditDetails">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -218,7 +228,7 @@
      </property>
     </widget>
    </item>
-   <item row="16" column="1">
+   <item row="11" column="1">
     <widget class="QDialogButtonBox" name="btnBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>

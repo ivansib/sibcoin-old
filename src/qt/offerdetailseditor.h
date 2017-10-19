@@ -27,6 +27,8 @@ private:
 
 private Q_SLOTS:
     void saveData();
+    void changedTimeToExpiration(const int &i);
+    void changedShortInfo();
 
 Q_SIGNALS:
     void dataChanged(const QtOfferInfo &info);

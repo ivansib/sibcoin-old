@@ -12,7 +12,7 @@ struct QtOfferInfo {
     quint64 price;
     quint64 minAmount;
     quint64 timeCreate;
-    quint64 timeExpiration;
+    int timeToExpiration;
     QString shortInfo;
     QString details;
 };

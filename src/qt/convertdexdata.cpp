@@ -12,7 +12,7 @@ QtOfferInfo ConvertDexData::toQtOfferInfo(const OfferInfo &offer)
     qtOffer.price = offer.price;
     qtOffer.minAmount = offer.minAmount;
     qtOffer.timeCreate = offer.timeCreate;
-    qtOffer.timeExpiration = offer.timeExpiration;
+    qtOffer.timeToExpiration = offer.timeToExpiration;
     qtOffer.shortInfo = QString::fromUtf8(offer.shortInfo.c_str());
     qtOffer.details = QString::fromUtf8(offer.details.c_str());
 
@@ -42,7 +42,7 @@ OfferInfo ConvertDexData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
     offer.price = qtOffer.price;
     offer.minAmount = qtOffer.minAmount;
     offer.timeCreate = qtOffer.timeCreate;
-    offer.timeExpiration = qtOffer.timeExpiration;
+    offer.timeToExpiration = qtOffer.timeToExpiration;
     offer.shortInfo = qtOffer.shortInfo.toUtf8().constData();
     offer.details = qtOffer.details.toUtf8().constData();
 
