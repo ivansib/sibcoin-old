@@ -5860,10 +5860,6 @@ that paper wallet has been printed successfully!</translation>
         <translation>South Africa</translation>
     </message>
     <message>
-        <source>South Georgia and the South Sandwich Islands</source>
-        <translation>South Georgia and the South Sandwich Islands</translation>
-    </message>
-    <message>
         <source>South Sudan</source>
         <translation>South Sudan</translation>
     </message>

@@ -212,7 +212,6 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"SB", "Solomon Islands", "SBD"});
     countries.push_back({"SO", "Somalia", "SOS"});
     countries.push_back({"ZA", "South Africa", "ZAR"});
-    countries.push_back({"GS", "South Georgia and the South Sandwich Islands", "GBP"});
     countries.push_back({"SS", "South Sudan", "SSP"});
     countries.push_back({"ES", "Spain", "EUR"});
     countries.push_back({"LK", "Sri Lanka", "LKR"});
