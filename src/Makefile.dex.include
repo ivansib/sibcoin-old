@@ -20,11 +20,15 @@ dex_libdexdb_a_SOURCES += sqlite/sqlite3pp/sqlite3ppext.cpp
 dex_libdexdb_a_SOURCES += dex/db/dexdb.cpp
 dex_libdexdb_a_SOURCES += dex/db/countryiso.cpp
 dex_libdexdb_a_SOURCES += dex/db/currencyiso.cpp
-dex_libdexdb_a_SOURCES += dex/db/paymentmethodtype.cpp 
+dex_libdexdb_a_SOURCES += dex/db/paymentmethodtype.cpp
 dex_libdexdb_a_SOURCES += dex/db/defaultdatafordb.cpp
 
 
 
-dex_libdex_a_CPPFLAGS =
-dex_libdex_a_SOURCES = dex/dex.cpp
+dex_libdex_a_CPPFLAGS = -I$(srcdir)/univalue/include -I$(srcdir)/dex/include
+dex_libdex_a_SOURCES = \
+  dex/dex.cpp \
+  dex/dexmanager.cpp \
+  dex/dexbc.cpp \
+  dex/rpc.cpp
 

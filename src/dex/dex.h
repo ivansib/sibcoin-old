@@ -6,57 +6,52 @@
 #include "main.h"
 #include "net.h"
 #include "timedata.h"
+#include "dex/dexdto.h"
 
-class CDex;
 class CDexBroadcast;
 
-
-
-//////////////////////////////////
 class CDex
 {
 private:
-    // critical section to protect the inner data structures
     mutable CCriticalSection cs;
+    dex::OfferInfo offer;
 
 public:
 
-
     CDex();
-    CDex(const CDex& other);
-    CDex(const CDexBroadcast& mnb);
-/*
+    CDex(const CDex&);
+    CDex(const CDexBroadcast&);
+
+
+//??
+//    Create(uint256 idTransaction, uint256 hash, std::string countryIso, std::string currencyIso,
+//           uint8_t paymentMethod, uint64_t price, uint64_t minAmount, uint64_t timeCreate,
+//           uint64_t timeExpiration, std::string shortInfo, std::string details);
+
+
+
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         LOCK(cs);
+        READWRITE(offer.idTransaction);
+        READWRITE(offer.hash);
+        READWRITE(offer.countryIso);
+        READWRITE(offer.currencyIso);
+        READWRITE(offer.paymentMethod);
+        READWRITE(offer.price);
+        READWRITE(offer.minAmount);
+        READWRITE(offer.timeCreate);
+        READWRITE(offer.timeExpiration);
+        READWRITE(offer.shortInfo);
+        READWRITE(offer.details);
     }
-*/
+
 //    void Check(bool fForce = false);
 
-
 };
 
 
 
-//////////////////////////////////////////////////////
-class CDexBroadcast : public CDex
-{
-public:
-
-    bool fRecovery;
-
-    CDexBroadcast() : CDex(), fRecovery(false) {}
-    CDexBroadcast(const CDex& dex) : CDex(dex), fRecovery(false) {}
-/*
-    ADD_SERIALIZE_METHODS;
-
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
-    }
-*/
-};
-
-
-#endif
+#endif // __DEX_H__

@@ -46,6 +46,12 @@
 #include "masternode-sync.h"
 #include "masternodeman.h"
 
+
+#ifdef ENABLE_DEX
+  #include "dex/dexmanager.h"
+#endif
+
+
 #include <sstream>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -6355,6 +6361,10 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             sporkManager.ProcessSpork(pfrom, strCommand, vRecv);
             masternodeSync.ProcessMessage(pfrom, strCommand, vRecv);
             governance.ProcessMessage(pfrom, strCommand, vRecv);
+#ifdef ENABLE_DEX
+            dexman.ProcessMessage(pfrom, strCommand, vRecv);
+#endif
+
         }
         else
         {
