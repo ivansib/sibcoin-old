@@ -15,8 +15,13 @@ public:
 private:
     OfferDetailsEditor *details;
 
+    void updateData();
+
 protected Q_SLOTS:
     virtual void clickedColumn(QModelIndex index);
+
+private Q_SLOTS:
+    void changedRowData(const QtOfferInfo &info);
 };
 
 #endif

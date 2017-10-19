@@ -24,6 +24,12 @@ public:
 private:
     Ui::OfferDetailsEditor *ui;
     DexDB *db;
+
+private Q_SLOTS:
+    void saveData();
+
+Q_SIGNALS:
+    void dataChanged(const QtOfferInfo &info);
 };
 
 #endif

@@ -11,9 +11,11 @@ OfferModel::~OfferModel()
 }
 
 void OfferModel::setOffers(const QList<QtOfferInfo> &offers)
-{
+{    
     this->offers = offers;
     offersView = this->offers;
+
+    filterOffers();
 
     Q_EMIT layoutChanged();
 }

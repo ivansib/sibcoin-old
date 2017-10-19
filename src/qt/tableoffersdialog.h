@@ -23,6 +23,7 @@ public:
 
 protected:
     OfferModel *pModel;
+    DexDB *db;
 
     void init();
     QString currentCountry() const;
@@ -31,7 +32,6 @@ protected:
 
 private:
     Ui::TableOffersDialog *ui;
-    DexDB *db;
 
 protected Q_SLOTS:
     virtual void clickedColumn(QModelIndex index) = 0;

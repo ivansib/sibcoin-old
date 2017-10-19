@@ -11,6 +11,8 @@ class ConvertDexData {
 public:
     static QtOfferInfo toQtOfferInfo(const OfferInfo &offer);
     static QList<QtOfferInfo> toListQtOfferInfo(const std::list<OfferInfo> &offers);
+
+    static OfferInfo fromQtOfferInfo(const QtOfferInfo &qtOffer);
 };
 
 #endif

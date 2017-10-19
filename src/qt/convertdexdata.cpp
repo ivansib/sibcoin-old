@@ -29,3 +29,22 @@ QList<QtOfferInfo> ConvertDexData::toListQtOfferInfo(const std::list<OfferInfo> 
 
     return qtOffers;
 }
+
+OfferInfo ConvertDexData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
+{
+    OfferInfo offer;
+
+    offer.idTransaction.SetHex(qtOffer.idTransaction.toUtf8().constData());
+    offer.hash.SetHex(qtOffer.hash.toUtf8().constData());
+    offer.countryIso = qtOffer.countryIso.toUtf8().constData();
+    offer.currencyIso = qtOffer.currencyIso.toUtf8().constData();
+    offer.paymentMethod = qtOffer.paymentMethod;
+    offer.price = qtOffer.price;
+    offer.minAmount = qtOffer.minAmount;
+    offer.timeCreate = qtOffer.timeCreate;
+    offer.timeExpiration = qtOffer.timeExpiration;
+    offer.shortInfo = qtOffer.shortInfo.toUtf8().constData();
+    offer.details = qtOffer.details.toUtf8().constData();
+
+    return offer;
+}
