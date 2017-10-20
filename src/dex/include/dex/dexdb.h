@@ -27,7 +27,7 @@ public:
     void deleteCurrency(const std::string &iso);
     std::list<CurrencyInfo> getCurrenciesInfo(const TypeView &type = All);
 
-    void addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
+    void addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder);
     void editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
     void deletePaymentMethod(const unsigned char &type);
     std::list<PaymentMethodInfo> getPaymentMethodsInfo();

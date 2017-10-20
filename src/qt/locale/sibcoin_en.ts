@@ -5044,6 +5044,14 @@ that paper wallet has been printed successfully!</translation>
         <translation>All</translation>
     </message>
     <message>
+        <source>Cash</source>
+        <translation>Cash</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Online</translation>
+    </message>
+    <message>
         <source>Afghanistan</source>
         <translation>Afghanistan</translation>
     </message>

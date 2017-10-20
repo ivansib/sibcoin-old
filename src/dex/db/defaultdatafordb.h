@@ -33,6 +33,7 @@ struct DefaultPaymentMethod {
     unsigned char type;
     std::string name;
     std::string description;
+    int sortOrder;
 };
 
 class DefaultDataForDb {

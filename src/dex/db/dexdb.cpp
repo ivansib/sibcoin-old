@@ -137,12 +137,13 @@ std::list<CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
 }
 
 
-void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description)
+void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description) VALUES (?, ?, ?)");
+    sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description, sortOrder) VALUES (?, ?, ?, ?)");
     cmd.bind(1, type);
     cmd.bind(2, name, sqlite3pp::nocopy);
     cmd.bind(3, description, sqlite3pp::nocopy);
+    cmd.bind(4, sortOrder);
     cmd.execute();
 }
 
@@ -168,7 +169,8 @@ std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
 {
     std::list<PaymentMethodInfo> payments;
 
-    sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods");
+    sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods "
+                             "ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder");
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         unsigned char type;
@@ -328,7 +330,7 @@ void DexDB::createTables()
     db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT)");
     db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), "
                "symbol VARCHAR(10), enabled BOOLEAN, sortOrder INT)");
-    db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB)");
+    db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB, sortOrder INT)");
     db.execute(templateOffersTable("offersSell").c_str());
     db.execute(templateOffersTable("offersBuy").c_str());
 }
@@ -360,7 +362,7 @@ void DexDB::addDefaultData()
         std::list<DefaultPaymentMethod> countries = def.dataPaymentMethods();
 
         for (auto item : countries) {
-            addPaymentMethod(item.type, item.name, item.description);
+            addPaymentMethod(item.type, item.name, item.description, item.sortOrder);
         }
     }
 
