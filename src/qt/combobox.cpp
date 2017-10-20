@@ -24,6 +24,7 @@ void ComboBox::addData(const std::map<std::string, CurrencyInfo> &data)
 {
     auto it = data.begin();
 
+    addItem(tr("All"));
     while (it != data.end()) {
         QString viewStr = toString(it->second.symbol) + " " + toString(it->first);
         QString key = toString(it->first);

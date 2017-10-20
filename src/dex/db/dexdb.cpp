@@ -42,11 +42,19 @@ void DexDB::deleteCountry(const std::string &iso)
     cmd.execute();
 }
 
-std::map<std::string, CountryInfo> DexDB::getCountriesInfo()
+std::map<std::string, CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
 {
     std::map<std::string, CountryInfo> countries;
 
-    sqlite3pp::query qry(db, "SELECT iso, name, enabled FROM countries");
+    std::string query = "SELECT iso, name, enabled FROM countries";
+
+    if (type == Enabled) {
+        query += " WHERE enabled = 1";
+    } else if (type == Disabled) {
+        query += " WHERE enabled = 0";
+    }
+
+    sqlite3pp::query qry(db, query.c_str());
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         std::string iso;
@@ -91,11 +99,19 @@ void DexDB::deleteCurrency(const std::string &iso)
     cmd.execute();
 }
 
-std::map<std::string, CurrencyInfo> DexDB::getCurrenciesInfo()
+std::map<std::string, CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
 {
     std::map<std::string, CurrencyInfo> currencies;
 
-    sqlite3pp::query qry(db, "SELECT iso, name, symbol, enabled FROM currencies");
+    std::string query = "SELECT iso, name, symbol, enabled FROM currencies";
+
+    if (type == Enabled) {
+        query += " WHERE enabled = 1";
+    } else if (type == Disabled) {
+        query += " WHERE enabled = 0";
+    }
+
+    sqlite3pp::query qry(db, query.c_str());
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         std::string iso;
