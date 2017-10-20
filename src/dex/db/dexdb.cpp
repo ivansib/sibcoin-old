@@ -335,7 +335,7 @@ void DexDB::addDefaultData()
         std::list<DefaultCurrency> currencies = def.dataCurrencies();
 
         for (auto item : currencies) {
-            addCurrency(item.iso, item.name, item.symbol);
+            addCurrency(item.iso, item.name, item.symbol, item.enabled);
         }
     }
 

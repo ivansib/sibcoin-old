@@ -16,6 +16,15 @@ struct DefaultCurrency {
     std::string iso;
     std::string name;
     std::string symbol;
+    bool enabled;
+
+    DefaultCurrency(std::string iso, std::string name, std::string symbol, bool enabled = false)
+    {
+        this->iso = iso;
+        this->name = name;
+        this->symbol = symbol;
+        this->enabled = enabled;
+    }
 };
 
 struct DefaultPaymentMethod {

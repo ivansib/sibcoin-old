@@ -6539,6 +6539,18 @@ rpcpassword=%s
         <translation>Афгани</translation>
     </message>
     <message>
+        <source>South Korean won</source>
+        <translation>Южнокорейская вона</translation>
+    </message>
+    <message>
+        <source>New Taiwan dollar</source>
+        <translation>Новый тайваньский доллар</translation>
+    </message>
+    <message>
+        <source>Moldovan leu</source>
+        <translation>Молдавский лей</translation>
+    </message>
+    <message>
         <source>Lek</source>
         <translation>Лек</translation>
     </message>

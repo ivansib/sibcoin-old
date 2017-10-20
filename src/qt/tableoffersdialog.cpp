@@ -17,7 +17,7 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     auto countries = db->getCountriesInfo();
     ui->cBoxCountry->addData(countries);
 
-    auto currencies = db->getCurrenciesInfo();
+    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
     ui->cBoxCurrency->addData(currencies);
 
     connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),

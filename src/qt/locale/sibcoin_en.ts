@@ -6036,6 +6036,18 @@ that paper wallet has been printed successfully!</translation>
         <translation>Afghani</translation>
     </message>
     <message>
+        <source>South Korean won</source>
+        <translation>South Korean won</translation>
+    </message>
+    <message>
+        <source>New Taiwan dollar</source>
+        <translation>New Taiwan dollar</translation>
+    </message>
+    <message>
+        <source>Moldovan leu</source>
+        <translation>Moldovan leu</translation>
+    </message>
+    <message>
         <source>Lek</source>
         <translation>Lek</translation>
     </message>

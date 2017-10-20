@@ -12,7 +12,7 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : QDialog(par
     auto countries = db->getCountriesInfo();
     ui->cBoxCountry->addData(countries);
 
-    auto currencies = db->getCurrenciesInfo();
+    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
     ui->cBoxCurrency->addData(currencies);
 
     connect(ui->btnBox, &QDialogButtonBox::accepted, this, &OfferDetailsEditor::saveData);
