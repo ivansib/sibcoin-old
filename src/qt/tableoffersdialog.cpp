@@ -12,13 +12,13 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     ui->tableView->setModel(pModel);
 
     auto payments = db->getPaymentMethodsInfo();
-    ui->cBoxPayment->addData(payments);
+    ui->cBoxPayment->addData(payments, ComboBox::View);
 
     auto countries = db->getCountriesInfo();
-    ui->cBoxCountry->addData(countries);
+    ui->cBoxCountry->addData(countries, ComboBox::View);
 
     auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
-    ui->cBoxCurrency->addData(currencies);
+    ui->cBoxCurrency->addData(currencies, ComboBox::View);
 
     connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterCountryIso);

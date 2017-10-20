@@ -1,15 +1,15 @@
 #include "tableoffersview.h"
-#include "convertdexdata.h"
+#include "convertdata.h"
 
 TableOffersView::TableOffersView(DexDB *db, const TableOffersView::TypeOffer &type, QDialog *parent) : TableOffersDialog(db, parent)
 {
-    details = new OfferDetails(this);
+    details = new OfferDetails(db, this);
 
     QList<QtOfferInfo> offers;
     if (type == Buy) {
-        offers = ConvertDexData::toListQtOfferInfo(db->getOffersBuy());
+        offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
     } else {
-        offers = ConvertDexData::toListQtOfferInfo(db->getOffersSell());
+        offers = ConvertData::toListQtOfferInfo(db->getOffersSell());
     }
 
     pModel->setOffers(offers);
@@ -28,7 +28,7 @@ void TableOffersView::clickedColumn(QModelIndex index)
         QString country = currentCountry();
         QString currency = currentCurrency();
         QString payment = currentPayment();
-        details->setOfferInfo(info, country, currency, payment);
+        details->setOfferInfo(info);
         details->show();
     }
 }

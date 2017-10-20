@@ -21,16 +21,19 @@ public:
     void editCountry(const std::string &iso, const bool &enabled);
     void deleteCountry(const std::string &iso);
     std::list<CountryInfo> getCountriesInfo(const TypeView &type = All);
+    CountryInfo getCountryInfo(const std::string &iso);
 
     void addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
     void editCurrency(const std::string &iso, const bool &enabled);
     void deleteCurrency(const std::string &iso);
     std::list<CurrencyInfo> getCurrenciesInfo(const TypeView &type = All);
+    CurrencyInfo getCurrencyInfo(const std::string &iso);
 
     void addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder);
     void editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
     void deletePaymentMethod(const unsigned char &type);
     std::list<PaymentMethodInfo> getPaymentMethodsInfo();
+    PaymentMethodInfo getPaymentMethodInfo(const unsigned char &type);
 
     void addOfferSell(const OfferInfo &offer);
     void editOfferSell(const OfferInfo &offer);

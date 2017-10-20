@@ -12,11 +12,16 @@ class ComboBox : public QComboBox
 public:
     ComboBox(QWidget *parent = nullptr);
 
+    enum ComboType {
+        View,
+        Editor
+    };
+
     void setCurrentData(const QString &data);
 
-    void addData(const std::list<PaymentMethodInfo> &data);
-    void addData(const std::list<CountryInfo> &data);
-    void addData(const std::list<CurrencyInfo> &data);
+    void addData(const std::list<PaymentMethodInfo> &data, const ComboType &type);
+    void addData(const std::list<CountryInfo> &data, const ComboType &type);
+    void addData(const std::list<CurrencyInfo> &data, const ComboType &type);
 
 private:
     QString toString(const std::string &str) const;

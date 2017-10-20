@@ -1,5 +1,5 @@
 #include "tableofferseditor.h"
-#include "convertdexdata.h"
+#include "convertdata.h"
 
 TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDialog(db, parent)
 {
@@ -19,7 +19,7 @@ TableOffersEditor::~TableOffersEditor()
 
 void TableOffersEditor::updateData()
 {
-    QList<QtOfferInfo> offers = ConvertDexData::toListQtOfferInfo(db->getOffersBuy());
+    QList<QtOfferInfo> offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
     pModel->setOffers(offers);
 }
 
@@ -34,7 +34,7 @@ void TableOffersEditor::clickedColumn(QModelIndex index)
 
 void TableOffersEditor::changedRowData(const QtOfferInfo &info)
 {
-    OfferInfo offer = ConvertDexData::fromQtOfferInfo(info);
+    OfferInfo offer = ConvertData::fromQtOfferInfo(info);
     db->editOfferBuy(offer);
     updateData();
 }

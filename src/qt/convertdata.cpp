@@ -1,6 +1,7 @@
-#include "convertdexdata.h"
+#include <QObject>
+#include "convertdata.h"
 
-QtOfferInfo ConvertDexData::toQtOfferInfo(const OfferInfo &offer)
+QtOfferInfo ConvertData::toQtOfferInfo(const OfferInfo &offer)
 {
     QtOfferInfo qtOffer;
 
@@ -19,18 +20,18 @@ QtOfferInfo ConvertDexData::toQtOfferInfo(const OfferInfo &offer)
     return qtOffer;
 }
 
-QList<QtOfferInfo> ConvertDexData::toListQtOfferInfo(const std::list<OfferInfo> &offers)
+QList<QtOfferInfo> ConvertData::toListQtOfferInfo(const std::list<OfferInfo> &offers)
 {
     QList<QtOfferInfo> qtOffers;
 
     for (auto item : offers) {
-        qtOffers << ConvertDexData::toQtOfferInfo(item);
+        qtOffers << ConvertData::toQtOfferInfo(item);
     }
 
     return qtOffers;
 }
 
-OfferInfo ConvertDexData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
+OfferInfo ConvertData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
 {
     OfferInfo offer;
 
@@ -47,4 +48,19 @@ OfferInfo ConvertDexData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
     offer.details = qtOffer.details.toUtf8().constData();
 
     return offer;
+}
+
+QString ConvertData::toQString(const std::string &str)
+{
+    return QString::fromUtf8(str.c_str());
+}
+
+std::string ConvertData::fromQString(const QString &str)
+{
+    return str.toUtf8().constData();
+}
+
+QString ConvertData::toTr(const std::string &str)
+{
+    return QObject::tr(str.c_str());
 }

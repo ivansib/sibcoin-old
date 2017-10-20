@@ -7,13 +7,13 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : QDialog(par
     ui->setupUi(this);
 
     auto payments = db->getPaymentMethodsInfo();
-    ui->cBoxPayment->addData(payments);
+    ui->cBoxPayment->addData(payments, ComboBox::Editor);
 
     auto countries = db->getCountriesInfo();
-    ui->cBoxCountry->addData(countries);
+    ui->cBoxCountry->addData(countries, ComboBox::Editor);
 
     auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
-    ui->cBoxCurrency->addData(currencies);
+    ui->cBoxCurrency->addData(currencies, ComboBox::Editor);
 
     connect(ui->btnBox, &QDialogButtonBox::accepted, this, &OfferDetailsEditor::saveData);
     connect(ui->btnBox, &QDialogButtonBox::rejected, this, &OfferDetailsEditor::close);

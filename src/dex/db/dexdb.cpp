@@ -73,6 +73,25 @@ std::list<CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
     return countries;
 }
 
+CountryInfo DexDB::getCountryInfo(const std::string &iso)
+{
+    CountryInfo info;
+
+    std::string query = "SELECT name, enabled FROM countries WHERE iso = '" + iso + "'";
+    sqlite3pp::query qry(db, query.c_str());
+
+    sqlite3pp::query::iterator i = qry.begin();
+    std::string name;
+    bool enabled;
+    std::tie(name, enabled) = (*i).get_columns<std::string, bool>(0, 1);
+
+    info.iso = iso;
+    info.name = name;
+    info.enabled = enabled;
+
+    return info;
+}
+
 void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled, sortOrder) VALUES (?, ?, ?, ?, ?)");
@@ -136,6 +155,28 @@ std::list<CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
     return currencies;
 }
 
+CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
+{
+    CurrencyInfo info;
+
+    std::string query = "SELECT name, symbol, enabled FROM currencies WHERE iso = '" + iso + "'";
+
+    sqlite3pp::query qry(db, query.c_str());
+
+    sqlite3pp::query::iterator i = qry.begin();
+    std::string name;
+    std::string symbol;
+    bool enabled;
+    std::tie(name, symbol, enabled) = (*i).get_columns<std::string, std::string, bool>(0, 1, 2);
+
+    info.iso = iso;
+    info.name = name;
+    info.symbol = symbol;
+    info.enabled = enabled;
+
+    return info;
+}
+
 
 void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
@@ -186,6 +227,25 @@ std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
     }
 
     return payments;
+}
+
+PaymentMethodInfo DexDB::getPaymentMethodInfo(const unsigned char &type)
+{
+    PaymentMethodInfo info;
+
+    sqlite3pp::query qry(db, "SELECT name, description, description FROM paymentMethods WHERE type = ?");
+    qry.bind(1, type);
+
+    sqlite3pp::query::iterator i = qry.begin();
+    std::string name;
+    std::string description;
+    std::tie(name, description) = (*i).get_columns<std::string, std::string>(0, 1);
+
+    info.type = type;
+    info.name = name;
+    info.description = description;
+
+    return info;
 }
 
 void DexDB::addOfferSell(const OfferInfo &offer)

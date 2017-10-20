@@ -2261,53 +2261,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Amount</source>
-        <translation>Сумма</translation>
-    </message>
-    <message>
-        <source>Enter a Sibcoin address (e.g. %1)</source>
-        <translation>Введите адрес сети червонца (напр. %1)</translation>
-    </message>
-    <message>
-        <source>%1 d</source>
-        <translation>%1 д</translation>
-    </message>
-    <message>
-        <source>%1 h</source>
-        <translation>%1 ч</translation>
-    </message>
-    <message>
-        <source>%1 m</source>
-        <translation>%1 мин</translation>
-    </message>
-    <message>
-        <source>%1 s</source>
-        <translation>%1 с</translation>
-    </message>
-    <message>
-        <source>NETWORK</source>
-        <translation>СЕТЬ</translation>
-    </message>
-    <message>
-        <source>UNKNOWN</source>
-        <translation>НЕИЗВЕСТНО</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation>Нет</translation>
-    </message>
-    <message>
-        <source>N/A</source>
-        <translation>Н/Д</translation>
-    </message>
-    <message>
-        <source>%1 ms</source>
-        <translation>%1 мс</translation>
-    </message>
-</context>
-<context>
     <name>QRImageWidget</name>
     <message>
         <source>&amp;Save Image...</source>
@@ -5541,7 +5494,55 @@ rpcpassword=%s
     </message>
 </context>
 <context>
-    <name>ComboBox</name>
+    <name>QObject</name>
+    <message>
+        <source>Amount</source>
+        <translation>Сумма</translation>
+    </message>
+    <message>
+        <source>Enter a Sibcoin address (e.g. %1)</source>
+        <translation>Введите адрес сети червонца (напр. %1)</translation>
+    </message>
+    <message>
+        <source>%1 d</source>
+        <translation>%1 д</translation>
+    </message>
+    <message>
+        <source>%1 h</source>
+        <translation>%1 ч</translation>
+    </message>
+    <message>
+        <source>%1 m</source>
+        <translation>%1 мин</translation>
+    </message>
+    <message>
+        <source>%1 s</source>
+        <translation>%1 с</translation>
+    </message>
+    <message>
+        <source>NETWORK</source>
+        <translation>СЕТЬ</translation>
+    </message>
+    <message>
+        <source>UNKNOWN</source>
+        <translation>НЕИЗВЕСТНО</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Нет</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>Н/Д</translation>
+    </message>
+    <message>
+        <source>%1 ms</source>
+        <translation>%1 мс</translation>
+    </message>
+    <message>
+        <source>test</source>
+        <translation>проверка данных</translation>
+    </message>
     <message>
         <source>Cash</source>
         <translation>Наличные</translation>

@@ -304,7 +304,7 @@ QT_MOC_CPP += \
   moc_offermodel.cpp \
   moc_tableoffersdialog.cpp \
   moc_offerdetails.cpp \
-  moc_convertdexdata.cpp \
+  moc_convertdata.cpp \
   moc_offerdetailseditor.cpp \
   moc_tableoffersview.cpp \
   moc_tableofferseditor.cpp \
@@ -315,7 +315,7 @@ BITCOIN_QT_H += \
   offermodel.h \
   tableoffersdialog.h \
   offerdetails.h \
-  convertdexdata.h \
+  convertdata.h \
   dto.h \
   offerdetailseditor.h \
   tableoffersview.h \
@@ -327,7 +327,7 @@ BITCOIN_QT_CPP += \
   offermodel.cpp \
   tableoffersdialog.cpp \
   offerdetails.cpp \
-  convertdexdata.cpp \
+  convertdata.cpp \
   offerdetailseditor.cpp \
   tableoffersview.cpp \
   tableofferseditor.cpp \

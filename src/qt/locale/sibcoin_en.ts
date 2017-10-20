@@ -2148,25 +2148,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Amount</source>
-        <translation type="obsolete">Amount</translation>
-    </message>
-    <message>
-        <source>%1 h</source>
-        <translation type="obsolete">%1 h</translation>
-    </message>
-    <message>
-        <source>%1 m</source>
-        <translation type="obsolete">%1 m</translation>
-    </message>
-    <message>
-        <source>N/A</source>
-        <translation type="obsolete">N/A</translation>
-    </message>
-</context>
-<context>
     <name>QRImageWidget</name>
     <message>
         <source>&amp;Save Image...</source>
@@ -5038,7 +5019,23 @@ that paper wallet has been printed successfully!</translation>
     </message>
 </context>
 <context>
-    <name>ComboBox</name>
+    <name>QObject</name>
+    <message>
+        <source>Amount</source>
+        <translation type="obsolete">Amount</translation>
+    </message>
+    <message>
+        <source>%1 h</source>
+        <translation type="obsolete">%1 h</translation>
+    </message>
+    <message>
+        <source>%1 m</source>
+        <translation type="obsolete">%1 m</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation type="obsolete">N/A</translation>
+    </message>
     <message>
         <source>All</source>
         <translation>All</translation>
