@@ -7,6 +7,8 @@
 #include "net.h"
 #include "timedata.h"
 #include "dex/dexdto.h"
+#include "dexoffer.h"
+
 
 class CDexBroadcast;
 
@@ -14,7 +16,8 @@ class CDex
 {
 private:
     mutable CCriticalSection cs;
-    dex::OfferInfo offer;
+
+    CDexOffer offer;
 
 public:
 
@@ -23,11 +26,6 @@ public:
     CDex(const CDexBroadcast&);
 
 
-//??
-//    Create(uint256 idTransaction, uint256 hash, std::string countryIso, std::string currencyIso,
-//           uint8_t paymentMethod, uint64_t price, uint64_t minAmount, uint64_t timeCreate,
-//           uint64_t timeExpiration, std::string shortInfo, std::string details);
-
 
 
     ADD_SERIALIZE_METHODS;
@@ -35,17 +33,7 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         LOCK(cs);
-        READWRITE(offer.idTransaction);
-        READWRITE(offer.hash);
-        READWRITE(offer.countryIso);
-        READWRITE(offer.currencyIso);
-        READWRITE(offer.paymentMethod);
-        READWRITE(offer.price);
-        READWRITE(offer.minAmount);
-        READWRITE(offer.timeCreate);
-        READWRITE(offer.timeExpiration);
-        READWRITE(offer.shortInfo);
-        READWRITE(offer.details);
+        READWRITE(offer);
     }
 
 //    void Check(bool fForce = false);
