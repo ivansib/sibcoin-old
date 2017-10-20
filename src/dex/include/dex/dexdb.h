@@ -20,17 +20,17 @@ public:
     void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled = true);
     void editCountry(const std::string &iso, const bool &enabled);
     void deleteCountry(const std::string &iso);
-    std::map<std::string, CountryInfo> getCountriesInfo(const TypeView &type = All);
+    std::list<CountryInfo> getCountriesInfo(const TypeView &type = All);
 
-    void addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled = true);
+    void addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
     void editCurrency(const std::string &iso, const bool &enabled);
     void deleteCurrency(const std::string &iso);
-    std::map<std::string, CurrencyInfo> getCurrenciesInfo(const TypeView &type = All);
+    std::list<CurrencyInfo> getCurrenciesInfo(const TypeView &type = All);
 
     void addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
     void editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
     void deletePaymentMethod(const unsigned char &type);
-    std::map<unsigned char, PaymentMethodInfo> getPaymentMethodsInfo();
+    std::list<PaymentMethodInfo> getPaymentMethodsInfo();
 
     void addOfferSell(const OfferInfo &offer);
     void editOfferSell(const OfferInfo &offer);

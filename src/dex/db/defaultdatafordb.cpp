@@ -371,7 +371,7 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     currencies.push_back({"QAR", "Qatari Rial", "ر.ق"});
     currencies.push_back({"RON", "Romanian New Leu", "lei"});
     currencies.push_back({"RSD", "Serbian Dinar", "din."});
-    currencies.push_back({"RUB", "Russian Ruble", "₽"});
+    currencies.push_back({"RUB", "Russian Ruble", "₽", true, 1});
     currencies.push_back({"RWF", "Rwanda Franc", "Fr"});
     currencies.push_back({"SAR", "Saudi Riyal", "ر.س"});
     currencies.push_back({"SBD", "Solomon Islands Dollar", "$"});

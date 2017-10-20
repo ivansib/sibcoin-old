@@ -42,9 +42,9 @@ void DexDB::deleteCountry(const std::string &iso)
     cmd.execute();
 }
 
-std::map<std::string, CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
+std::list<CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
 {
-    std::map<std::string, CountryInfo> countries;
+    std::list<CountryInfo> countries;
 
     std::string query = "SELECT iso, name, enabled FROM countries";
 
@@ -63,22 +63,24 @@ std::map<std::string, CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
         std::tie(iso, name, enabled) = (*i).get_columns<std::string, std::string, bool>(0, 1, 2);
 
         CountryInfo info;
+        info.iso = iso;
         info.name = name;
         info.enabled = enabled;
 
-        countries[iso] = info;
+        countries.push_back(info);
     }
 
     return countries;
 }
 
-void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled)
+void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled) VALUES (?, ?, ?, ?)");
+    sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled, sortOrder) VALUES (?, ?, ?, ?, ?)");
     cmd.bind(1, iso, sqlite3pp::nocopy);
     cmd.bind(2, name, sqlite3pp::nocopy);
     cmd.bind(3, symbol, sqlite3pp::nocopy);
     cmd.bind(4, enabled);
+    cmd.bind(5, sortOrder);
     cmd.execute();
 }
 
@@ -99,9 +101,9 @@ void DexDB::deleteCurrency(const std::string &iso)
     cmd.execute();
 }
 
-std::map<std::string, CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
+std::list<CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
 {
-    std::map<std::string, CurrencyInfo> currencies;
+    std::list<CurrencyInfo> currencies;
 
     std::string query = "SELECT iso, name, symbol, enabled FROM currencies";
 
@@ -110,6 +112,8 @@ std::map<std::string, CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &typ
     } else if (type == Disabled) {
         query += " WHERE enabled = 0";
     }
+
+    query += " ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder";
 
     sqlite3pp::query qry(db, query.c_str());
 
@@ -121,11 +125,12 @@ std::map<std::string, CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &typ
         std::tie(iso, name, symbol, enabled) = (*i).get_columns<std::string, std::string, std::string, bool>(0, 1, 2, 3);
 
         CurrencyInfo info;
+        info.iso = iso;
         info.name = name;
         info.symbol = symbol;
         info.enabled = enabled;
 
-        currencies[iso] = info;
+        currencies.push_back(info);
     }
 
     return currencies;
@@ -159,9 +164,9 @@ void DexDB::deletePaymentMethod(const unsigned char &type)
     cmd.execute();
 }
 
-std::map<unsigned char, PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
+std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
 {
-    std::map<unsigned char, PaymentMethodInfo> payments;
+    std::list<PaymentMethodInfo> payments;
 
     sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods");
 
@@ -172,9 +177,10 @@ std::map<unsigned char, PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
         std::tie(type, name, description) = (*i).get_columns<unsigned char, std::string, std::string>(0, 1, 2);
 
         PaymentMethodInfo info;
+        info.type = type;
         info.name = name;
         info.description = description;
-        payments[type] = info;
+        payments.push_back(info);
     }
 
     return payments;
@@ -320,7 +326,8 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
 void DexDB::createTables()
 {
     db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT)");
-    db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), symbol VARCHAR(10), enabled BOOLEAN)");
+    db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), "
+               "symbol VARCHAR(10), enabled BOOLEAN, sortOrder INT)");
     db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB)");
     db.execute(templateOffersTable("offersSell").c_str());
     db.execute(templateOffersTable("offersBuy").c_str());
@@ -335,7 +342,7 @@ void DexDB::addDefaultData()
         std::list<DefaultCurrency> currencies = def.dataCurrencies();
 
         for (auto item : currencies) {
-            addCurrency(item.iso, item.name, item.symbol, item.enabled);
+            addCurrency(item.iso, item.name, item.symbol, item.enabled, item.sortOrder);
         }
     }
 

@@ -14,26 +14,9 @@ public:
 
     void setCurrentData(const QString &data);
 
-    void addData(const std::map<std::string, CurrencyInfo> &data);
-
-    template <typename type>
-    void addData(const type &data)
-    {
-        auto it = data.begin();
-
-        QMap<QString, QString> sort;
-        while (it != data.end()) {
-            sort[tr(it->second.name.c_str())] = toString(it->first);
-            ++it;
-        }
-
-        auto itSort = sort.begin();
-        addItem(tr("All"));
-        while (itSort != sort.end()) {
-            addItem(itSort.key(), itSort.value());
-            ++itSort;
-        }
-    }
+    void addData(const std::list<PaymentMethodInfo> &data);
+    void addData(const std::list<CountryInfo> &data);
+    void addData(const std::list<CurrencyInfo> &data);
 
 private:
     QString toString(const std::string &str) const;

@@ -6,17 +6,20 @@
 namespace dex {
 
 struct CountryInfo {
+    std::string iso;
     std::string name;
     bool enabled;
 };
 
 struct CurrencyInfo {
+    std::string iso;
     std::string name;
     std::string symbol;
     bool enabled;
 };
 
 struct PaymentMethodInfo {
+    unsigned char type;
     std::string name;
     std::string description;
 };
