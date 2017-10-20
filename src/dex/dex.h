@@ -15,12 +15,13 @@ class CDex
 private:
     mutable CCriticalSection cs;
 
+    CDexOffer offer;
+
 public:
 
     CDex();
-    CDex(const CDex& other);
-    CDex(const CDexBroadcast& mnb);
-/*
+
+
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
@@ -28,7 +29,6 @@ public:
         LOCK(cs);
         READWRITE(offer);
     }
-*/
 
 //    void Check(bool fForce = false);
 

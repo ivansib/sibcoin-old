@@ -5,14 +5,10 @@
 
 
 
-
 CDex::CDex()
 {
 }
 
 
-CDex::CDex(const CDex& other)
-{
-}
 
 
