@@ -285,6 +285,10 @@ This product includes software developed by the OpenSSL Project for use in the O
         <source>Warning: The Caps Lock key is on!</source>
         <translation>Внимание: включен Caps Lock!</translation>
     </message>
+    <message>
+        <source>Enter the old passphrase and new passphrase to the wallet.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BanTableModel</name>
@@ -801,6 +805,10 @@ Address: %4
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt; for mixing only</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>A fatal error occurred. Sibcoin can no longer continue safely and will quit.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ClientModel</name>
@@ -993,7 +1001,7 @@ Address: %4
     </message>
     <message>
         <source>Can vary +/- %1 duff(s) per input.</source>
-        <translation type="obsolete">Может отличаться +/- %1 коп. на адрес.</translation>
+        <translation type="unfinished">Может отличаться +/- %1 коп. на адрес.</translation>
     </message>
     <message>
         <source>n/a</source>
@@ -1058,6 +1066,13 @@ Address: %4
     <message>
         <source>(change)</source>
         <translation>(сдача)</translation>
+    </message>
+</context>
+<context>
+    <name>ComboBox</name>
+    <message>
+        <source>All</source>
+        <translation>Все</translation>
     </message>
 </context>
 <context>
@@ -1183,6 +1198,33 @@ Address: %4
     </message>
 </context>
 <context>
+    <name>ExchangeDialog</name>
+    <message>
+        <source>Buy Sibcoin</source>
+        <translation>Покупка Sibcoin</translation>
+    </message>
+    <message>
+        <source>Sell Sibcoin</source>
+        <translation>Продажа Sibcoin</translation>
+    </message>
+    <message>
+        <source>My Offers</source>
+        <translation>Мои предложения</translation>
+    </message>
+    <message>
+        <source>Exchanges</source>
+        <translation>Обмен</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FreespaceChecker</name>
     <message>
         <source>A new data directory will be created.</source>
@@ -1298,6 +1340,17 @@ Address: %4
     <message>
         <source>Warning: The Caps Lock key is on!</source>
         <translation>Внимание: включен Caps Lock!</translation>
+    </message>
+</context>
+<context>
+    <name>GoodsDialog</name>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Lucida Grande UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1538,6 +1591,131 @@ Address: %4
     </message>
 </context>
 <context>
+    <name>OfferDetails</name>
+    <message>
+        <source>Details</source>
+        <translation>Детали</translation>
+    </message>
+    <message>
+        <source>Id Transaction:</source>
+        <translation>ID транзакции:</translation>
+    </message>
+    <message>
+        <source>Hash:</source>
+        <translation>Хеш:</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Страна:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Платеж:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Цена:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Мин. Сумма:</translation>
+    </message>
+    <message>
+        <source>Time Create:</source>
+        <translation>Дата Создания:</translation>
+    </message>
+    <message>
+        <source>Time Expiration:</source>
+        <translation>Дата Истечения:</translation>
+    </message>
+    <message>
+        <source>Short Info:</source>
+        <translation>Краткая Информация:</translation>
+    </message>
+    <message>
+        <source>Details:</source>
+        <translation>Детали:</translation>
+    </message>
+</context>
+<context>
+    <name>OfferDetailsEditor</name>
+    <message>
+        <source>Edit Details</source>
+        <translation>Редактирование Деталей</translation>
+    </message>
+    <message>
+        <source>Id Transaction:</source>
+        <translation>ID транзакции:</translation>
+    </message>
+    <message>
+        <source>Hash:</source>
+        <translation>Хеш:</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Страна:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Платеж:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Цена:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Мин. Сумма:</translation>
+    </message>
+    <message>
+        <source>Time Create:</source>
+        <translation>Дата Создания:</translation>
+    </message>
+    <message>
+        <source>Time To Expiration:</source>
+        <translation>Период До Истечения:</translation>
+    </message>
+    <message>
+        <source>days     Time Expiration:</source>
+        <translation>дней     Дата Истечения:</translation>
+    </message>
+    <message>
+        <source>Short Info:</source>
+        <translation>Краткая Информация:</translation>
+    </message>
+    <message>
+        <source>Details:</source>
+        <translation>Детали:</translation>
+    </message>
+</context>
+<context>
+    <name>OfferModel</name>
+    <message>
+        <source>Price</source>
+        <translation>Цена</translation>
+    </message>
+    <message>
+        <source>Short Info</source>
+        <translation>Краткая Информация</translation>
+    </message>
+    <message>
+        <source>Min Amount</source>
+        <translation>Мин. сумма</translation>
+    </message>
+    <message>
+        <source>More Details</source>
+        <translation>Больше Деталей</translation>
+    </message>
+</context>
+<context>
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
@@ -1732,7 +1910,7 @@ Address: %4
     </message>
     <message>
         <source>This setting determines the amount of individual masternodes that an input will be anonymized through.&lt;br/&gt;More rounds of anonymization gives a higher degree of privacy, but also costs more in fees.</source>
-        <translation type="obsolete">Этот параметр определяет количество мастернод для процесса анонимизации.&lt;br/&gt;Большее количество раундов дает более высокую степень приватности, однако и расходы на комиссии будут выше.</translation>
+        <translation type="unfinished">Этот параметр определяет количество мастернод для процесса анонимизации.&lt;br/&gt;Большее количество раундов дает более высокую степень приватности, однако и расходы на комиссии будут выше.</translation>
     </message>
     <message>
         <source>Accept connections from outside</source>
@@ -1855,6 +2033,10 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>The supplied proxy address is invalid.</source>
         <translation>Адрес прокси неверен.</translation>
+    </message>
+    <message>
+        <source>Client will be shut down. Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2258,6 +2440,1669 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Node/Service</source>
         <translation>Узел/Сервис</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Amount</source>
+        <translation>Сумма</translation>
+    </message>
+    <message>
+        <source>Enter a Sibcoin address (e.g. %1)</source>
+        <translation>Введите адрес сети червонца (напр. %1)</translation>
+    </message>
+    <message>
+        <source>%1 d</source>
+        <translation>%1 д</translation>
+    </message>
+    <message>
+        <source>%1 h</source>
+        <translation>%1 ч</translation>
+    </message>
+    <message>
+        <source>%1 m</source>
+        <translation>%1 мин</translation>
+    </message>
+    <message>
+        <source>%1 s</source>
+        <translation>%1 с</translation>
+    </message>
+    <message>
+        <source>NETWORK</source>
+        <translation>СЕТЬ</translation>
+    </message>
+    <message>
+        <source>UNKNOWN</source>
+        <translation>НЕИЗВЕСТНО</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Нет</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>Н/Д</translation>
+    </message>
+    <message>
+        <source>%1 ms</source>
+        <translation>%1 мс</translation>
+    </message>
+    <message>
+        <source>test</source>
+        <translation>проверка данных</translation>
+    </message>
+    <message>
+        <source>Cash</source>
+        <translation>Наличные</translation>
+    </message>
+    <message>
+        <source>Online</source>
+        <translation>Онлайн</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Все</translation>
+    </message>
+    <message>
+        <source>Afghanistan</source>
+        <translation>Афганистан</translation>
+    </message>
+    <message>
+        <source>Åland Islands</source>
+        <translation>Эландские Острова</translation>
+    </message>
+    <message>
+        <source>Albania</source>
+        <translation>Албания</translation>
+    </message>
+    <message>
+        <source>Algeria</source>
+        <translation>Алжир</translation>
+    </message>
+    <message>
+        <source>American Samoa</source>
+        <translation>Восточное Самоа</translation>
+    </message>
+    <message>
+        <source>Andorra</source>
+        <translation>Андорра</translation>
+    </message>
+    <message>
+        <source>Angola</source>
+        <translation>Ангола</translation>
+    </message>
+    <message>
+        <source>Anguilla</source>
+        <translation>Ангилья</translation>
+    </message>
+    <message>
+        <source>Antigua and Barbuda</source>
+        <translation>Антигуа И Барбуда</translation>
+    </message>
+    <message>
+        <source>Argentina</source>
+        <translation>Аргентина</translation>
+    </message>
+    <message>
+        <source>Armenia</source>
+        <translation>Армения</translation>
+    </message>
+    <message>
+        <source>Aruba</source>
+        <translation>Аруба</translation>
+    </message>
+    <message>
+        <source>Australia</source>
+        <translation>Австралия</translation>
+    </message>
+    <message>
+        <source>Austria</source>
+        <translation>Австрия</translation>
+    </message>
+    <message>
+        <source>Azerbaijan</source>
+        <translation>Азербайджан</translation>
+    </message>
+    <message>
+        <source>Bahamas</source>
+        <translation>Багамы</translation>
+    </message>
+    <message>
+        <source>Bahrain</source>
+        <translation>Бахрейн</translation>
+    </message>
+    <message>
+        <source>Bangladesh</source>
+        <translation>Бангладеш</translation>
+    </message>
+    <message>
+        <source>Barbados</source>
+        <translation>Барбадос</translation>
+    </message>
+    <message>
+        <source>Belarus</source>
+        <translation>Беларусь</translation>
+    </message>
+    <message>
+        <source>Belgium</source>
+        <translation>Бельгия</translation>
+    </message>
+    <message>
+        <source>Belize</source>
+        <translation>Белиз</translation>
+    </message>
+    <message>
+        <source>Benin</source>
+        <translation>Бенин</translation>
+    </message>
+    <message>
+        <source>Bermuda</source>
+        <translation>Бермуды</translation>
+    </message>
+    <message>
+        <source>Bhutan</source>
+        <translation>Бутан</translation>
+    </message>
+    <message>
+        <source>Bolivia</source>
+        <translation>Боливия</translation>
+    </message>
+    <message>
+        <source>Caribbean Netherlands</source>
+        <translation>Карибские Нидерланды</translation>
+    </message>
+    <message>
+        <source>Bosnia and Herzegovina</source>
+        <translation>Босния И Герцеговина</translation>
+    </message>
+    <message>
+        <source>Botswana</source>
+        <translation>Ботсвана</translation>
+    </message>
+    <message>
+        <source>Bouvet Island</source>
+        <translation>Буве</translation>
+    </message>
+    <message>
+        <source>Brazil</source>
+        <translation>Бразилия</translation>
+    </message>
+    <message>
+        <source>British Indian Ocean Territory</source>
+        <translation>Британ. Террит.</translation>
+    </message>
+    <message>
+        <source>Brunei Darussalam</source>
+        <translation>Бруней</translation>
+    </message>
+    <message>
+        <source>Bulgaria</source>
+        <translation>Болгария</translation>
+    </message>
+    <message>
+        <source>Burkina Faso</source>
+        <translation>Буркина-Фасо</translation>
+    </message>
+    <message>
+        <source>Burundi</source>
+        <translation>Бурунди</translation>
+    </message>
+    <message>
+        <source>Cambodia</source>
+        <translation>Камбоджа</translation>
+    </message>
+    <message>
+        <source>Cameroon</source>
+        <translation>Камерун</translation>
+    </message>
+    <message>
+        <source>Canada</source>
+        <translation>Канада</translation>
+    </message>
+    <message>
+        <source>Cape Verde</source>
+        <translation>Кабо-Верде</translation>
+    </message>
+    <message>
+        <source>Cayman Islands</source>
+        <translation>Кайман</translation>
+    </message>
+    <message>
+        <source>CAR</source>
+        <translation>Центр. - Афр. Республика</translation>
+    </message>
+    <message>
+        <source>Chad</source>
+        <translation>Чад</translation>
+    </message>
+    <message>
+        <source>Chile</source>
+        <translation>Чили</translation>
+    </message>
+    <message>
+        <source>China</source>
+        <translation>Китай</translation>
+    </message>
+    <message>
+        <source>Christmas Island</source>
+        <translation>О-В Рождества</translation>
+    </message>
+    <message>
+        <source>Cocos Islands</source>
+        <translation>Кокосовые О-Ва</translation>
+    </message>
+    <message>
+        <source>Colombia</source>
+        <translation>Колумбия</translation>
+    </message>
+    <message>
+        <source>Comoros</source>
+        <translation>Коморы</translation>
+    </message>
+    <message>
+        <source>Congo</source>
+        <translation>Конго</translation>
+    </message>
+    <message>
+        <source>Cook Islands</source>
+        <translation>Острова Кука</translation>
+    </message>
+    <message>
+        <source>Costa Rica</source>
+        <translation>Коста-Рика</translation>
+    </message>
+    <message>
+        <source>Côte d&apos;Ivoire</source>
+        <translation>Кот Д&apos;Ивуар</translation>
+    </message>
+    <message>
+        <source>Croatia</source>
+        <translation>Хорватия</translation>
+    </message>
+    <message>
+        <source>Cuba</source>
+        <translation>Куба</translation>
+    </message>
+    <message>
+        <source>Curaçao</source>
+        <translation>Кюрасао</translation>
+    </message>
+    <message>
+        <source>Cyprus</source>
+        <translation>Кипр</translation>
+    </message>
+    <message>
+        <source>Czechia</source>
+        <translation>Чехия</translation>
+    </message>
+    <message>
+        <source>Denmark</source>
+        <translation>Дания</translation>
+    </message>
+    <message>
+        <source>Djibouti</source>
+        <translation>Джибути</translation>
+    </message>
+    <message>
+        <source>Dominica</source>
+        <translation>Доминика</translation>
+    </message>
+    <message>
+        <source>Dominican Republic</source>
+        <translation>Доминиканская Республика</translation>
+    </message>
+    <message>
+        <source>Ecuador</source>
+        <translation>Эквадор</translation>
+    </message>
+    <message>
+        <source>Egypt</source>
+        <translation>Египет</translation>
+    </message>
+    <message>
+        <source>El Salvador</source>
+        <translation>Эль-Сальвадор</translation>
+    </message>
+    <message>
+        <source>Equatorial Guinea</source>
+        <translation>Экваториальная Гвинея</translation>
+    </message>
+    <message>
+        <source>Eritrea</source>
+        <translation>Эритрея</translation>
+    </message>
+    <message>
+        <source>Estonia</source>
+        <translation>Эстония</translation>
+    </message>
+    <message>
+        <source>Ethiopia</source>
+        <translation>Эфиопия</translation>
+    </message>
+    <message>
+        <source>Falkland Islands</source>
+        <translation>Фолклендские О-Ва</translation>
+    </message>
+    <message>
+        <source>Faroe Islands</source>
+        <translation>Фарерские О-Ва</translation>
+    </message>
+    <message>
+        <source>Fiji</source>
+        <translation>Фиджи</translation>
+    </message>
+    <message>
+        <source>Finland</source>
+        <translation>Финляндия</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation>Франция</translation>
+    </message>
+    <message>
+        <source>French Guiana</source>
+        <translation>Гвиана</translation>
+    </message>
+    <message>
+        <source>French Polynesia</source>
+        <translation>Французская Полинезия</translation>
+    </message>
+    <message>
+        <source>French Southern Territories</source>
+        <translation>Фр. Южные Территории</translation>
+    </message>
+    <message>
+        <source>Gabon</source>
+        <translation>Габон</translation>
+    </message>
+    <message>
+        <source>Gambia</source>
+        <translation>Гамбия</translation>
+    </message>
+    <message>
+        <source>Georgia</source>
+        <translation>Грузия</translation>
+    </message>
+    <message>
+        <source>Germany</source>
+        <translation>Германия</translation>
+    </message>
+    <message>
+        <source>Ghana</source>
+        <translation>Гана</translation>
+    </message>
+    <message>
+        <source>Gibraltar</source>
+        <translation>Гибралтар</translation>
+    </message>
+    <message>
+        <source>Greece</source>
+        <translation>Греция</translation>
+    </message>
+    <message>
+        <source>Greenland</source>
+        <translation>Гренландия</translation>
+    </message>
+    <message>
+        <source>Grenada</source>
+        <translation>Гренада</translation>
+    </message>
+    <message>
+        <source>Guadeloupe</source>
+        <translation>Гваделупа</translation>
+    </message>
+    <message>
+        <source>Guam</source>
+        <translation>Гуам</translation>
+    </message>
+    <message>
+        <source>Guatemala</source>
+        <translation>Гватемала</translation>
+    </message>
+    <message>
+        <source>Guernsey</source>
+        <translation>Гернси</translation>
+    </message>
+    <message>
+        <source>Guinea</source>
+        <translation>Гвинея</translation>
+    </message>
+    <message>
+        <source>Guinea-Bissau</source>
+        <translation>Гвинея-Бисау</translation>
+    </message>
+    <message>
+        <source>Guyana</source>
+        <translation>Гайана</translation>
+    </message>
+    <message>
+        <source>Haiti</source>
+        <translation>Гаити</translation>
+    </message>
+    <message>
+        <source>Heard Island and McDonald Islands</source>
+        <translation>Херд И Макдональд</translation>
+    </message>
+    <message>
+        <source>Holy See</source>
+        <translation>Ватикан</translation>
+    </message>
+    <message>
+        <source>Honduras</source>
+        <translation>Гондурас</translation>
+    </message>
+    <message>
+        <source>Hong Kong</source>
+        <translation>Гонконг</translation>
+    </message>
+    <message>
+        <source>Hungary</source>
+        <translation>Венгрия</translation>
+    </message>
+    <message>
+        <source>Iceland</source>
+        <translation>Исландия</translation>
+    </message>
+    <message>
+        <source>India</source>
+        <translation>Индия</translation>
+    </message>
+    <message>
+        <source>Indonesia</source>
+        <translation>Индонезия</translation>
+    </message>
+    <message>
+        <source>Iran</source>
+        <translation>Иран</translation>
+    </message>
+    <message>
+        <source>Iraq</source>
+        <translation>Ирак</translation>
+    </message>
+    <message>
+        <source>Ireland</source>
+        <translation>Ирландия</translation>
+    </message>
+    <message>
+        <source>Isle of Man</source>
+        <translation>О-В Мэн</translation>
+    </message>
+    <message>
+        <source>Israel</source>
+        <translation>Израиль</translation>
+    </message>
+    <message>
+        <source>Italy</source>
+        <translation>Италия</translation>
+    </message>
+    <message>
+        <source>Jamaica</source>
+        <translation>Ямайка</translation>
+    </message>
+    <message>
+        <source>Japan</source>
+        <translation>Япония</translation>
+    </message>
+    <message>
+        <source>Jersey</source>
+        <translation>Джерси</translation>
+    </message>
+    <message>
+        <source>Jordan</source>
+        <translation>Иордания</translation>
+    </message>
+    <message>
+        <source>Kazakhstan</source>
+        <translation>Казахстан</translation>
+    </message>
+    <message>
+        <source>Kenya</source>
+        <translation>Кения</translation>
+    </message>
+    <message>
+        <source>Kiribati</source>
+        <translation>Кирибати</translation>
+    </message>
+    <message>
+        <source>North Korea</source>
+        <translation>Корея (Кндр)</translation>
+    </message>
+    <message>
+        <source>South Korea</source>
+        <translation>Корея</translation>
+    </message>
+    <message>
+        <source>Kuwait</source>
+        <translation>Кувейт</translation>
+    </message>
+    <message>
+        <source>Kyrgyzstan</source>
+        <translation>Кыргызстан</translation>
+    </message>
+    <message>
+        <source>Laos</source>
+        <translation>Лаос</translation>
+    </message>
+    <message>
+        <source>Latvia</source>
+        <translation>Латвия</translation>
+    </message>
+    <message>
+        <source>Lebanon</source>
+        <translation>Ливан</translation>
+    </message>
+    <message>
+        <source>Lesotho</source>
+        <translation>Лесото</translation>
+    </message>
+    <message>
+        <source>Liberia</source>
+        <translation>Либерия</translation>
+    </message>
+    <message>
+        <source>Libya</source>
+        <translation>Ливия</translation>
+    </message>
+    <message>
+        <source>Liechtenstein</source>
+        <translation>Лихтенштейн</translation>
+    </message>
+    <message>
+        <source>Lithuania</source>
+        <translation>Литва</translation>
+    </message>
+    <message>
+        <source>Luxembourg</source>
+        <translation>Люксембург</translation>
+    </message>
+    <message>
+        <source>Macao</source>
+        <translation>Макао</translation>
+    </message>
+    <message>
+        <source>Macedonia</source>
+        <translation>Македония</translation>
+    </message>
+    <message>
+        <source>Madagascar</source>
+        <translation>Мадагаскар</translation>
+    </message>
+    <message>
+        <source>Malawi</source>
+        <translation>Малави</translation>
+    </message>
+    <message>
+        <source>Malaysia</source>
+        <translation>Малайзия</translation>
+    </message>
+    <message>
+        <source>Maldives</source>
+        <translation>Мальдивы</translation>
+    </message>
+    <message>
+        <source>Mali</source>
+        <translation>Мали</translation>
+    </message>
+    <message>
+        <source>Malta</source>
+        <translation>Мальта</translation>
+    </message>
+    <message>
+        <source>Marshall Islands</source>
+        <translation>Маршалловы Острова</translation>
+    </message>
+    <message>
+        <source>Martinique</source>
+        <translation>Мартиника</translation>
+    </message>
+    <message>
+        <source>Mauritania</source>
+        <translation>Мавритания</translation>
+    </message>
+    <message>
+        <source>Mauritius</source>
+        <translation>Маврикий</translation>
+    </message>
+    <message>
+        <source>Mayotte</source>
+        <translation>Майотта</translation>
+    </message>
+    <message>
+        <source>Mexico</source>
+        <translation>Мексика</translation>
+    </message>
+    <message>
+        <source>Micronesia</source>
+        <translation>Микронезия</translation>
+    </message>
+    <message>
+        <source>Moldova</source>
+        <translation>Молдова</translation>
+    </message>
+    <message>
+        <source>Monaco</source>
+        <translation>Монако</translation>
+    </message>
+    <message>
+        <source>Mongolia</source>
+        <translation>Монголия</translation>
+    </message>
+    <message>
+        <source>Montenegro</source>
+        <translation>Черногория</translation>
+    </message>
+    <message>
+        <source>Montserrat</source>
+        <translation>Монтсеррат</translation>
+    </message>
+    <message>
+        <source>Morocco</source>
+        <translation>Марокко</translation>
+    </message>
+    <message>
+        <source>Mozambique</source>
+        <translation>Мозамбик</translation>
+    </message>
+    <message>
+        <source>Myanmar</source>
+        <translation>Мьянма</translation>
+    </message>
+    <message>
+        <source>Namibia</source>
+        <translation>Намибия</translation>
+    </message>
+    <message>
+        <source>Nauru</source>
+        <translation>Науру</translation>
+    </message>
+    <message>
+        <source>Nepal</source>
+        <translation>Непал</translation>
+    </message>
+    <message>
+        <source>Netherlands</source>
+        <translation>Нидерланды</translation>
+    </message>
+    <message>
+        <source>New Caledonia</source>
+        <translation>Новая Каледония</translation>
+    </message>
+    <message>
+        <source>New Zealand</source>
+        <translation>Новая Зеландия</translation>
+    </message>
+    <message>
+        <source>Nicaragua</source>
+        <translation>Никарагуа</translation>
+    </message>
+    <message>
+        <source>Niger</source>
+        <translation>Нигер</translation>
+    </message>
+    <message>
+        <source>Nigeria</source>
+        <translation>Нигерия</translation>
+    </message>
+    <message>
+        <source>Niue</source>
+        <translation>Ниуэ</translation>
+    </message>
+    <message>
+        <source>Norfolk Island</source>
+        <translation>Норфолк</translation>
+    </message>
+    <message>
+        <source>Northern Mariana Islands</source>
+        <translation>Марианские Острова</translation>
+    </message>
+    <message>
+        <source>Norway</source>
+        <translation>Норвегия</translation>
+    </message>
+    <message>
+        <source>Oman</source>
+        <translation>Оман</translation>
+    </message>
+    <message>
+        <source>Pakistan</source>
+        <translation>Пакистан</translation>
+    </message>
+    <message>
+        <source>Palau</source>
+        <translation>Палау</translation>
+    </message>
+    <message>
+        <source>Palestine</source>
+        <translation>Палестина</translation>
+    </message>
+    <message>
+        <source>Panama</source>
+        <translation>Панама</translation>
+    </message>
+    <message>
+        <source>Papua New Guinea</source>
+        <translation>Папуа - Новая Гвинея</translation>
+    </message>
+    <message>
+        <source>Paraguay</source>
+        <translation>Парагвай</translation>
+    </message>
+    <message>
+        <source>Peru</source>
+        <translation>Перу</translation>
+    </message>
+    <message>
+        <source>Philippines</source>
+        <translation>Филиппины</translation>
+    </message>
+    <message>
+        <source>Pitcairn</source>
+        <translation>Питкэрн</translation>
+    </message>
+    <message>
+        <source>Poland</source>
+        <translation>Польша</translation>
+    </message>
+    <message>
+        <source>Portugal</source>
+        <translation>Португалия</translation>
+    </message>
+    <message>
+        <source>Puerto Rico</source>
+        <translation>Пуэрто-Рико</translation>
+    </message>
+    <message>
+        <source>Qatar</source>
+        <translation>Катар</translation>
+    </message>
+    <message>
+        <source>Réunion</source>
+        <translation>Реюньон</translation>
+    </message>
+    <message>
+        <source>Romania</source>
+        <translation>Румыния</translation>
+    </message>
+    <message>
+        <source>Russia</source>
+        <translation>Россия</translation>
+    </message>
+    <message>
+        <source>Rwanda</source>
+        <translation>Руанда</translation>
+    </message>
+    <message>
+        <source>Saint Barthélemy</source>
+        <translation>Сен-Бартелеми</translation>
+    </message>
+    <message>
+        <source>Saint Hele</source>
+        <translation>Святая Елена</translation>
+    </message>
+    <message>
+        <source>Saint Kitts and Nevis</source>
+        <translation>Сент-Китс И Невис</translation>
+    </message>
+    <message>
+        <source>Saint Lucia</source>
+        <translation>Сент-Люсия</translation>
+    </message>
+    <message>
+        <source>Saint Martin</source>
+        <translation>Сен-Мартен</translation>
+    </message>
+    <message>
+        <source>Saint Pierre and Miquelon</source>
+        <translation>Сен-Пьер И Микелон</translation>
+    </message>
+    <message>
+        <source>Saint Vincent and the Grenadines</source>
+        <translation>Сент-Винсент И Гренадины</translation>
+    </message>
+    <message>
+        <source>Samoa</source>
+        <translation>Самоа</translation>
+    </message>
+    <message>
+        <source>San Marino</source>
+        <translation>Сан-Марино</translation>
+    </message>
+    <message>
+        <source>Sao Tome and Principe</source>
+        <translation>Сан-Томе И Принсипи</translation>
+    </message>
+    <message>
+        <source>Saudi Arabia</source>
+        <translation>Саудовская Аравия</translation>
+    </message>
+    <message>
+        <source>Senegal</source>
+        <translation>Сенегал</translation>
+    </message>
+    <message>
+        <source>Serbia</source>
+        <translation>Сербия</translation>
+    </message>
+    <message>
+        <source>Seychelles</source>
+        <translation>Сейшелы</translation>
+    </message>
+    <message>
+        <source>Sierra Leone</source>
+        <translation>Сьерра-Леоне</translation>
+    </message>
+    <message>
+        <source>Singapore</source>
+        <translation>Сингапур</translation>
+    </message>
+    <message>
+        <source>Sint Maarten</source>
+        <translation>Синт-Мартен</translation>
+    </message>
+    <message>
+        <source>Slovakia</source>
+        <translation>Словакия</translation>
+    </message>
+    <message>
+        <source>Slovenia</source>
+        <translation>Словения</translation>
+    </message>
+    <message>
+        <source>Solomon Islands</source>
+        <translation>Соломоновы О-Ва</translation>
+    </message>
+    <message>
+        <source>Somalia</source>
+        <translation>Сомали</translation>
+    </message>
+    <message>
+        <source>South Africa</source>
+        <translation>Южная Африка</translation>
+    </message>
+    <message>
+        <source>South Sudan</source>
+        <translation>Южный Судан</translation>
+    </message>
+    <message>
+        <source>Spain</source>
+        <translation>Испания</translation>
+    </message>
+    <message>
+        <source>Sri Lanka</source>
+        <translation>Шри-Ланка</translation>
+    </message>
+    <message>
+        <source>Sudan</source>
+        <translation>Судан</translation>
+    </message>
+    <message>
+        <source>Suriname</source>
+        <translation>Суринам</translation>
+    </message>
+    <message>
+        <source>Svalbard and Jan Mayen</source>
+        <translation>Шпицберген И Ян-Майен</translation>
+    </message>
+    <message>
+        <source>Swaziland</source>
+        <translation>Свазиленд</translation>
+    </message>
+    <message>
+        <source>Sweden</source>
+        <translation>Швеция</translation>
+    </message>
+    <message>
+        <source>Switzerland</source>
+        <translation>Швейцария</translation>
+    </message>
+    <message>
+        <source>Syrian</source>
+        <translation>Сирия</translation>
+    </message>
+    <message>
+        <source>Taiwan</source>
+        <translation>Тайвань</translation>
+    </message>
+    <message>
+        <source>Tajikistan</source>
+        <translation>Таджикистан</translation>
+    </message>
+    <message>
+        <source>Tanzania</source>
+        <translation>Танзания</translation>
+    </message>
+    <message>
+        <source>Thailand</source>
+        <translation>Таиланд</translation>
+    </message>
+    <message>
+        <source>Timor-Leste</source>
+        <translation>Восточный Тимор</translation>
+    </message>
+    <message>
+        <source>Togo</source>
+        <translation>Того</translation>
+    </message>
+    <message>
+        <source>Tokelau</source>
+        <translation>Токелау</translation>
+    </message>
+    <message>
+        <source>Tonga</source>
+        <translation>Тонга</translation>
+    </message>
+    <message>
+        <source>Trinidad and Tobago</source>
+        <translation>Тринидад И Тобаго</translation>
+    </message>
+    <message>
+        <source>Tunisia</source>
+        <translation>Тунис</translation>
+    </message>
+    <message>
+        <source>Turkey</source>
+        <translation>Турция</translation>
+    </message>
+    <message>
+        <source>Turkmenistan</source>
+        <translation>Туркмения</translation>
+    </message>
+    <message>
+        <source>Turks and Caicos Islands</source>
+        <translation>Теркс И Кайкос</translation>
+    </message>
+    <message>
+        <source>Tuvalu</source>
+        <translation>Тувалу</translation>
+    </message>
+    <message>
+        <source>Uganda</source>
+        <translation>Уганда</translation>
+    </message>
+    <message>
+        <source>Ukraine</source>
+        <translation>Украина</translation>
+    </message>
+    <message>
+        <source>UAE</source>
+        <translation>Объед. Арабские Эмираты</translation>
+    </message>
+    <message>
+        <source>United Kingdom</source>
+        <translation>Соединенное Королевство</translation>
+    </message>
+    <message>
+        <source>USA</source>
+        <translation>Сша</translation>
+    </message>
+    <message>
+        <source>United States Minor Outlying Islands</source>
+        <translation>Малые Тихоок. Острова (Сша)</translation>
+    </message>
+    <message>
+        <source>Uruguay</source>
+        <translation>Уругвай</translation>
+    </message>
+    <message>
+        <source>Uzbekistan</source>
+        <translation>Узбекистан</translation>
+    </message>
+    <message>
+        <source>Vanuatu</source>
+        <translation>Вануату</translation>
+    </message>
+    <message>
+        <source>Venezuela</source>
+        <translation>Венесуэла</translation>
+    </message>
+    <message>
+        <source>Viet Nam</source>
+        <translation>Вьетнам</translation>
+    </message>
+    <message>
+        <source>British Virgin Islands</source>
+        <translation>Виргин. О-Ва, Британские</translation>
+    </message>
+    <message>
+        <source>U.S. Virgin Islands</source>
+        <translation>Виргин. О-Ва</translation>
+    </message>
+    <message>
+        <source>Wallis and Futuna</source>
+        <translation>Уоллис И Футуна</translation>
+    </message>
+    <message>
+        <source>Western Sahara</source>
+        <translation>Западная Сахара</translation>
+    </message>
+    <message>
+        <source>Yemen</source>
+        <translation>Йемен</translation>
+    </message>
+    <message>
+        <source>Zambia</source>
+        <translation>Замбия</translation>
+    </message>
+    <message>
+        <source>Zimbabwe</source>
+        <translation>Зимбабве</translation>
+    </message>
+    <message>
+        <source>United Arab Emirates dirham</source>
+        <translation>Дирхам (Оаэ)</translation>
+    </message>
+    <message>
+        <source>Afghani</source>
+        <translation>Афгани</translation>
+    </message>
+    <message>
+        <source>South Korean won</source>
+        <translation>Южнокорейская вона</translation>
+    </message>
+    <message>
+        <source>New Taiwan dollar</source>
+        <translation>Новый тайваньский доллар</translation>
+    </message>
+    <message>
+        <source>Moldovan leu</source>
+        <translation>Молдавский лей</translation>
+    </message>
+    <message>
+        <source>Lek</source>
+        <translation>Лек</translation>
+    </message>
+    <message>
+        <source>Armenian Dram</source>
+        <translation>Армянский Драм</translation>
+    </message>
+    <message>
+        <source>Netherlands Antillian Guilder</source>
+        <translation>Нидерландский Антильский Гульден</translation>
+    </message>
+    <message>
+        <source>Kwanza</source>
+        <translation>Кванза</translation>
+    </message>
+    <message>
+        <source>Argentine Peso</source>
+        <translation>Аргентинское Песо</translation>
+    </message>
+    <message>
+        <source>Australian Dollar</source>
+        <translation>Австралийский Доллар</translation>
+    </message>
+    <message>
+        <source>Aruban Guilder</source>
+        <translation>Арубанский Флорин</translation>
+    </message>
+    <message>
+        <source>Azerbaijanian Manat</source>
+        <translation>Азербайджанский Манат</translation>
+    </message>
+    <message>
+        <source>Convertible Marks</source>
+        <translation>Конвертируемая Марка</translation>
+    </message>
+    <message>
+        <source>Barbados Dollar</source>
+        <translation>Барбадосский Доллар</translation>
+    </message>
+    <message>
+        <source>Bangladeshi Taka</source>
+        <translation>Така</translation>
+    </message>
+    <message>
+        <source>Bulgarian Lev</source>
+        <translation>Болгарский Лев</translation>
+    </message>
+    <message>
+        <source>Bahraini Dinar</source>
+        <translation>Бахрейнский Динар</translation>
+    </message>
+    <message>
+        <source>Burundian Franc</source>
+        <translation>Бурундийский Франк</translation>
+    </message>
+    <message>
+        <source>Bermudian Dollar</source>
+        <translation>Бермудский Доллар</translation>
+    </message>
+    <message>
+        <source>Brunei Dollar</source>
+        <translation>Брунейский Доллар</translation>
+    </message>
+    <message>
+        <source>Brazilian Real</source>
+        <translation>Бразильский Реал</translation>
+    </message>
+    <message>
+        <source>Bahamian Dollar</source>
+        <translation>Багамский Доллар</translation>
+    </message>
+    <message>
+        <source>Ngultrum</source>
+        <translation>Нгултрум</translation>
+    </message>
+    <message>
+        <source>Pula</source>
+        <translation>Пула</translation>
+    </message>
+    <message>
+        <source>Belarussian Ruble</source>
+        <translation>Белорусский Рубль</translation>
+    </message>
+    <message>
+        <source>Belize Dollar</source>
+        <translation>Белизский Доллар</translation>
+    </message>
+    <message>
+        <source>Canadian Dollar</source>
+        <translation>Канадский Доллар</translation>
+    </message>
+    <message>
+        <source>Franc Congolais</source>
+        <translation>Конголезский Франк</translation>
+    </message>
+    <message>
+        <source>Swiss Franc</source>
+        <translation>Швейцарский Франк</translation>
+    </message>
+    <message>
+        <source>Chilean Peso</source>
+        <translation>Чилийское Песо</translation>
+    </message>
+    <message>
+        <source>Yuan Renminbi</source>
+        <translation>Юань</translation>
+    </message>
+    <message>
+        <source>Colombian Peso</source>
+        <translation>Колумбийское Песо</translation>
+    </message>
+    <message>
+        <source>Costa Rican Colon</source>
+        <translation>Костариканский Колон</translation>
+    </message>
+    <message>
+        <source>Cuban Peso</source>
+        <translation>Кубинское Песо</translation>
+    </message>
+    <message>
+        <source>Cape Verde Escudo</source>
+        <translation>Эскудо Кабо-Верде</translation>
+    </message>
+    <message>
+        <source>Czech Koruna</source>
+        <translation>Чешская Крона</translation>
+    </message>
+    <message>
+        <source>Djibouti Franc</source>
+        <translation>Франк Джибути</translation>
+    </message>
+    <message>
+        <source>Danish Krone</source>
+        <translation>Датская Крона</translation>
+    </message>
+    <message>
+        <source>Dominican Peso</source>
+        <translation>Доминиканское Песо</translation>
+    </message>
+    <message>
+        <source>Algerian Dinar</source>
+        <translation>Алжирский Динар</translation>
+    </message>
+    <message>
+        <source>Egyptian Pound</source>
+        <translation>Египетский Фунт</translation>
+    </message>
+    <message>
+        <source>Nakfa</source>
+        <translation>Накфа</translation>
+    </message>
+    <message>
+        <source>Ethiopian Birr</source>
+        <translation>Эфиопский Быр</translation>
+    </message>
+    <message>
+        <source>Euro</source>
+        <translation>Евро</translation>
+    </message>
+    <message>
+        <source>Fiji Dollar</source>
+        <translation>Доллар Фиджи</translation>
+    </message>
+    <message>
+        <source>Falkland Islands Pound</source>
+        <translation>Фунт Фолклендских Островов</translation>
+    </message>
+    <message>
+        <source>Pound Sterling</source>
+        <translation>Фунт Стерлингов</translation>
+    </message>
+    <message>
+        <source>Lari</source>
+        <translation>Лари</translation>
+    </message>
+    <message>
+        <source>Cedi</source>
+        <translation>Ганский Седи</translation>
+    </message>
+    <message>
+        <source>Gibraltar pound</source>
+        <translation>Гибралтарский Фунт</translation>
+    </message>
+    <message>
+        <source>Dalasi</source>
+        <translation>Даласи</translation>
+    </message>
+    <message>
+        <source>Guinea Franc</source>
+        <translation>Гвинейский Франк</translation>
+    </message>
+    <message>
+        <source>Quetzal</source>
+        <translation>Кетсаль</translation>
+    </message>
+    <message>
+        <source>Guyana Dollar</source>
+        <translation>Гайанский Доллар</translation>
+    </message>
+    <message>
+        <source>Hong Kong Dollar</source>
+        <translation>Гонконгский Доллар</translation>
+    </message>
+    <message>
+        <source>Lempira</source>
+        <translation>Лемпира</translation>
+    </message>
+    <message>
+        <source>Croatian Kuna</source>
+        <translation>Хорватская Куна</translation>
+    </message>
+    <message>
+        <source>Haiti Gourde</source>
+        <translation>Гурд</translation>
+    </message>
+    <message>
+        <source>Forint</source>
+        <translation>Форинт</translation>
+    </message>
+    <message>
+        <source>Rupiah</source>
+        <translation>Рупия</translation>
+    </message>
+    <message>
+        <source>New Israeli Shekel</source>
+        <translation>Новый Израильский Шекель</translation>
+    </message>
+    <message>
+        <source>Indian Rupee</source>
+        <translation>Индийская Рупия</translation>
+    </message>
+    <message>
+        <source>Iraqi Dinar</source>
+        <translation>Иракский Динар</translation>
+    </message>
+    <message>
+        <source>Iceland Krona</source>
+        <translation>Исландская Крона</translation>
+    </message>
+    <message>
+        <source>Jamaican Dollar</source>
+        <translation>Ямайский Доллар</translation>
+    </message>
+    <message>
+        <source>Jordanian Dinar</source>
+        <translation>Иорданский Динар</translation>
+    </message>
+    <message>
+        <source>Japanese yen</source>
+        <translation>Иена</translation>
+    </message>
+    <message>
+        <source>Kenyan Shilling</source>
+        <translation>Кенийский Шиллинг</translation>
+    </message>
+    <message>
+        <source>Som</source>
+        <translation>Сом</translation>
+    </message>
+    <message>
+        <source>Riel</source>
+        <translation>Риель</translation>
+    </message>
+    <message>
+        <source>Comoro Franc</source>
+        <translation>Франк Комор</translation>
+    </message>
+    <message>
+        <source>Kuwaiti Dinar</source>
+        <translation>Кувейтский Динар</translation>
+    </message>
+    <message>
+        <source>Cayman Islands Dollar</source>
+        <translation>Доллар Островов Кайман</translation>
+    </message>
+    <message>
+        <source>Tenge</source>
+        <translation>Тенге</translation>
+    </message>
+    <message>
+        <source>Kip</source>
+        <translation>Кип</translation>
+    </message>
+    <message>
+        <source>Lebanese Pound</source>
+        <translation>Ливанский Фунт</translation>
+    </message>
+    <message>
+        <source>Sri Lanka Rupee</source>
+        <translation>Шри-Ланкийская Рупия</translation>
+    </message>
+    <message>
+        <source>Liberian Dollar</source>
+        <translation>Либерийский Доллар</translation>
+    </message>
+    <message>
+        <source>Loti</source>
+        <translation>Лоти</translation>
+    </message>
+    <message>
+        <source>Libyan Dinar</source>
+        <translation>Ливийский Динар</translation>
+    </message>
+    <message>
+        <source>Moroccan Dirham</source>
+        <translation>Марокканский Дирхам</translation>
+    </message>
+    <message>
+        <source>Malagasy Ariary</source>
+        <translation>Малагасийский Ариари</translation>
+    </message>
+    <message>
+        <source>Kyat</source>
+        <translation>Кьят</translation>
+    </message>
+    <message>
+        <source>Tugrik</source>
+        <translation>Тугрик</translation>
+    </message>
+    <message>
+        <source>Pataca</source>
+        <translation>Патака</translation>
+    </message>
+    <message>
+        <source>Ouguiya</source>
+        <translation>Угия</translation>
+    </message>
+    <message>
+        <source>Mauritius Rupee</source>
+        <translation>Маврикийская Рупия</translation>
+    </message>
+    <message>
+        <source>Rufiyaa</source>
+        <translation>Руфия</translation>
+    </message>
+    <message>
+        <source>Kwacha</source>
+        <translation>Квача</translation>
+    </message>
+    <message>
+        <source>Mexican Peso</source>
+        <translation>Мексиканское Песо</translation>
+    </message>
+    <message>
+        <source>Malaysian Ringgit</source>
+        <translation>Малайзийский Ринггит</translation>
+    </message>
+    <message>
+        <source>Metical</source>
+        <translation>Мозамбикский Метикал</translation>
+    </message>
+    <message>
+        <source>Namibian Dollar</source>
+        <translation>Доллар Намибии</translation>
+    </message>
+    <message>
+        <source>Naira</source>
+        <translation>Найра</translation>
+    </message>
+    <message>
+        <source>Cordoba Oro</source>
+        <translation>Золотая Кордоба</translation>
+    </message>
+    <message>
+        <source>Norwegian Krone</source>
+        <translation>Норвежская Крона</translation>
+    </message>
+    <message>
+        <source>Nepalese Rupee</source>
+        <translation>Непальская Рупия</translation>
+    </message>
+    <message>
+        <source>New Zealand Dollar</source>
+        <translation>Новозеландский Доллар</translation>
+    </message>
+    <message>
+        <source>Rial Omani</source>
+        <translation>Оманский Риал</translation>
+    </message>
+    <message>
+        <source>Balboa</source>
+        <translation>Бальбоа</translation>
+    </message>
+    <message>
+        <source>Nuevo Sol</source>
+        <translation>Новый Соль</translation>
+    </message>
+    <message>
+        <source>Kina</source>
+        <translation>Кина</translation>
+    </message>
+    <message>
+        <source>Philippine Peso</source>
+        <translation>Филиппинское Песо</translation>
+    </message>
+    <message>
+        <source>Pakistan Rupee</source>
+        <translation>Пакистанская Рупия</translation>
+    </message>
+    <message>
+        <source>Zloty</source>
+        <translation>Злотый</translation>
+    </message>
+    <message>
+        <source>Guarani</source>
+        <translation>Гуарани</translation>
+    </message>
+    <message>
+        <source>Qatari Rial</source>
+        <translation>Катарский Риал</translation>
+    </message>
+    <message>
+        <source>Romanian New Leu</source>
+        <translation>Новый Румынский Лей</translation>
+    </message>
+    <message>
+        <source>Serbian Dinar</source>
+        <translation>Сербский Динар</translation>
+    </message>
+    <message>
+        <source>Russian Ruble</source>
+        <translation>Российский Рубль</translation>
+    </message>
+    <message>
+        <source>Rwanda Franc</source>
+        <translation>Франк Руанды</translation>
+    </message>
+    <message>
+        <source>Saudi Riyal</source>
+        <translation>Саудовский Риял</translation>
+    </message>
+    <message>
+        <source>Solomon Islands Dollar</source>
+        <translation>Доллар Соломоновых Островов</translation>
+    </message>
+    <message>
+        <source>Seychelles Rupee</source>
+        <translation>Сейшельская Рупия</translation>
+    </message>
+    <message>
+        <source>Sudanese Pound</source>
+        <translation>Суданский Фунт</translation>
+    </message>
+    <message>
+        <source>Swedish Krona</source>
+        <translation>Шведская Крона</translation>
+    </message>
+    <message>
+        <source>Singapore Dollar</source>
+        <translation>Сингапурский Доллар</translation>
+    </message>
+    <message>
+        <source>Leone</source>
+        <translation>Леоне</translation>
+    </message>
+    <message>
+        <source>Somali Shilling</source>
+        <translation>Сомалийский Шиллинг</translation>
+    </message>
+    <message>
+        <source>Surinam Dollar</source>
+        <translation>Суринамский Доллар</translation>
+    </message>
+    <message>
+        <source>South Sudanese pound</source>
+        <translation>Южносуданский Фунт</translation>
+    </message>
+    <message>
+        <source>Dobra</source>
+        <translation>Добра</translation>
+    </message>
+    <message>
+        <source>Syrian Pound</source>
+        <translation>Сирийский Фунт</translation>
+    </message>
+    <message>
+        <source>Lilangeni</source>
+        <translation>Лилангени</translation>
+    </message>
+    <message>
+        <source>Baht</source>
+        <translation>Бат</translation>
+    </message>
+    <message>
+        <source>Somoni</source>
+        <translation>Сомони</translation>
+    </message>
+    <message>
+        <source>Manat</source>
+        <translation>Азербайджанский манат</translation>
+    </message>
+    <message>
+        <source>Tunisian Dinar</source>
+        <translation>Тунисский Динар</translation>
+    </message>
+    <message>
+        <source>Pa&apos;anga</source>
+        <translation>Паанга</translation>
+    </message>
+    <message>
+        <source>New Turkish Lira</source>
+        <translation>Турецкая Лира</translation>
+    </message>
+    <message>
+        <source>Trinidad and Tobago Dollar</source>
+        <translation>Доллар Тринидада И Тобаго</translation>
+    </message>
+    <message>
+        <source>Hryvnia</source>
+        <translation>Гривна</translation>
+    </message>
+    <message>
+        <source>Uganda Shilling</source>
+        <translation>Угандийский Шиллинг</translation>
+    </message>
+    <message>
+        <source>US Dollar</source>
+        <translation>Доллар Сша</translation>
+    </message>
+    <message>
+        <source>Peso Uruguayo</source>
+        <translation>Уругвайское Песо</translation>
+    </message>
+    <message>
+        <source>Uzbekistan Som</source>
+        <translation>Узбекский Сум</translation>
+    </message>
+    <message>
+        <source>Vietnamese đồng</source>
+        <translation>Донг</translation>
+    </message>
+    <message>
+        <source>Vatu</source>
+        <translation>Вату</translation>
+    </message>
+    <message>
+        <source>CFA Franc BEAC</source>
+        <translation>Франк Кфа Веас</translation>
+    </message>
+    <message>
+        <source>East Caribbean Dollar</source>
+        <translation>Восточно-Карибский Доллар</translation>
+    </message>
+    <message>
+        <source>CFA Franc BCEAO</source>
+        <translation>Франк Кфа Всеао</translation>
+    </message>
+    <message>
+        <source>CFP franc</source>
+        <translation>Франк Кфп</translation>
+    </message>
+    <message>
+        <source>Yemeni Rial</source>
+        <translation>Йеменский Риал</translation>
+    </message>
+    <message>
+        <source>South African Rand</source>
+        <translation>Рэнд</translation>
+    </message>
+    <message>
+        <source>Zimbabwe Dollar</source>
+        <translation>Доллар Зимбабве</translation>
+    </message>
+    <message>
+        <source>Sibcoin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wrong path to dexdb file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Can`t open dex database: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error reading masternode configuration file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sibcoin Core didn&apos;t yet exit safely...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3432,6 +5277,41 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>[testnet]</source>
         <translation>[тестовая сеть]</translation>
+    </message>
+</context>
+<context>
+    <name>TableOffersDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>Предложение:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Платеж:</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Страна:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Все</translation>
+    </message>
+    <message>
+        <source>Buy</source>
+        <translation>Покупка</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Продажа</translation>
     </message>
 </context>
 <context>
@@ -5469,1659 +7349,290 @@ rpcpassword=%s
         <source>wallet.dat corrupt, salvage failed</source>
         <translation>wallet.dat повреждён, спасение данных не удалось</translation>
     </message>
-</context>
-<context>
-    <name>ExchangeDialog</name>
     <message>
-        <source>Buy Sibcoin</source>
-        <translation>Покупка Sibcoin</translation>
+        <source>An error occurred while setting up the RPC address %s port %u for listening: %s</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sell Sibcoin</source>
-        <translation>Продажа Sibcoin</translation>
+        <source>Change automatic finalized budget voting behavior. mode=auto: Vote for only exact finalized budget match to my generated budget. (string, default: auto)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My Offers</source>
-        <translation>Мои предложения</translation>
+        <source>Continuously rate-limit free transactions to &lt;n&gt;*1000 bytes per minute (default:%u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exchanges</source>
-        <translation>Обмен</translation>
+        <source>Darksend uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Settings</source>
-        <translation>Настройки</translation>
+        <source>Disable all Sibcoin/Dash specific functionality (Masternodes, Darksend, InstantX, Budgeting) (0-1, default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>QObject</name>
     <message>
-        <source>Amount</source>
-        <translation>Сумма</translation>
+        <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter a Sibcoin address (e.g. %1)</source>
-        <translation>Введите адрес сети червонца (напр. %1)</translation>
+        <source>In this mode -genproclimit controls how many blocks are generated immediately.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 d</source>
-        <translation>%1 д</translation>
+        <source>InstantX requires inputs with at least 6 confirmations, you might need to wait a few minutes and try again.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 h</source>
-        <translation>%1 ч</translation>
+        <source>Log transaction priority and fee per kB when mining blocks (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 m</source>
-        <translation>%1 мин</translation>
+        <source>Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 s</source>
-        <translation>%1 с</translation>
+        <source>Provide liquidity to Darksend by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>NETWORK</source>
-        <translation>СЕТЬ</translation>
+        <source>Unable to locate enough Darksend denominated funds for this transaction.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>UNKNOWN</source>
-        <translation>НЕИЗВЕСТНО</translation>
+        <source>Unable to locate enough Darksend non-denominated funds for this transaction that are not equal 1000 SIB.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>None</source>
-        <translation>Нет</translation>
+        <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>N/A</source>
-        <translation>Н/Д</translation>
+        <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 ms</source>
-        <translation>%1 мс</translation>
+        <source>(1945 could be used only on mainnet)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>test</source>
-        <translation>проверка данных</translation>
+        <source>(default: 1)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cash</source>
-        <translation>Наличные</translation>
+        <source>(must be 1945 for mainnet)</source>
+        <translation type="unfinished">(должно быть 9999 в главной сети) {1945 ?}</translation>
     </message>
     <message>
-        <source>Online</source>
-        <translation>Онлайн</translation>
+        <source>&lt;category&gt; can be:
+</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All</source>
-        <translation>Все</translation>
+        <source>Acceptable ciphers (default: %s)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Afghanistan</source>
-        <translation>Афганистан</translation>
+        <source>Attempt to recover private keys from a corrupt wallet.dat</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Åland Islands</source>
-        <translation>Эландские Острова</translation>
+        <source>Could not parse -rpcbind value %s as network address</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Albania</source>
-        <translation>Албания</translation>
+        <source>Darksend is idle.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Algeria</source>
-        <translation>Алжир</translation>
+        <source>Darksend options:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>American Samoa</source>
-        <translation>Восточное Самоа</translation>
+        <source>Darksend request complete:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Andorra</source>
-        <translation>Андорра</translation>
+        <source>Darksend request incomplete:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Angola</source>
-        <translation>Ангола</translation>
+        <source>Disable safemode, override a real safe mode event (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Anguilla</source>
-        <translation>Ангилья</translation>
+        <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Antigua and Barbuda</source>
-        <translation>Антигуа И Барбуда</translation>
+        <source>Error recovering public key.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Argentina</source>
-        <translation>Аргентина</translation>
+        <source>Error: Wallet locked, unable to create transaction!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Armenia</source>
-        <translation>Армения</translation>
+        <source>Error: You already have pending entries in the Darksend pool</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Aruba</source>
-        <translation>Аруба</translation>
+        <source>Failed to read block</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Australia</source>
-        <translation>Австралия</translation>
+        <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Austria</source>
-        <translation>Австрия</translation>
+        <source>Imports blocks from external blk000??.dat file</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Azerbaijan</source>
-        <translation>Азербайджан</translation>
+        <source>InstantX options:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bahamas</source>
-        <translation>Багамы</translation>
+        <source>Invalid private key.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bahrain</source>
-        <translation>Бахрейн</translation>
+        <source>Last Darksend was too recent.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bangladesh</source>
-        <translation>Бангладеш</translation>
+        <source>Last successful Darksend action was too recent.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Barbados</source>
-        <translation>Барбадос</translation>
+        <source>Limit size of signature cache to &lt;n&gt; entries (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Belarus</source>
-        <translation>Беларусь</translation>
+        <source>Maintain at most &lt;n&gt; connections to peers (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Belgium</source>
-        <translation>Бельгия</translation>
+        <source>Number of automatic wallet backups (default: 10)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Belize</source>
-        <translation>Белиз</translation>
+        <source>Only accept block chain matching built-in checkpoints (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Benin</source>
-        <translation>Бенин</translation>
+        <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bermuda</source>
-        <translation>Бермуды</translation>
+        <source>RPC support for HTTP persistent connections (default: %d)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bhutan</source>
-        <translation>Бутан</translation>
+        <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bolivia</source>
-        <translation>Боливия</translation>
+        <source>Randomly fuzz 1 of every &lt;n&gt; network messages</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Caribbean Netherlands</source>
-        <translation>Карибские Нидерланды</translation>
+        <source>Rebuild block chain index from current blk000??.dat files</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bosnia and Herzegovina</source>
-        <translation>Босния И Герцеговина</translation>
+        <source>Rescan the block chain for missing wallet transactions</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Botswana</source>
-        <translation>Ботсвана</translation>
+        <source>Run a thread to flush wallet periodically (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bouvet Island</source>
-        <translation>Буве</translation>
+        <source>Server certificate file (default: %s)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Brazil</source>
-        <translation>Бразилия</translation>
+        <source>Server private key (default: %s)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>British Indian Ocean Territory</source>
-        <translation>Британ. Террит.</translation>
+        <source>Set external address:port to get to this masternode (example: %s)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Brunei Darussalam</source>
-        <translation>Бруней</translation>
+        <source>Sets the DB_PRIVATE flag in the wallet db environment (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bulgaria</source>
-        <translation>Болгария</translation>
+        <source>Signing failed.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Burkina Faso</source>
-        <translation>Буркина-Фасо</translation>
+        <source>Signing timed out.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Burundi</source>
-        <translation>Бурунди</translation>
+        <source>Stop running after importing blocks from disk (default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cambodia</source>
-        <translation>Камбоджа</translation>
+        <source>Synchronization doesn&apos;t yet started</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cameroon</source>
-        <translation>Камерун</translation>
+        <source>Synchronizing budgets...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Canada</source>
-        <translation>Канада</translation>
+        <source>Synchronizing masternode winners...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cape Verde</source>
-        <translation>Кабо-Верде</translation>
+        <source>This is intended for regression testing tools and app development.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cayman Islands</source>
-        <translation>Кайман</translation>
+        <source>Transmitting final transaction.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>CAR</source>
-        <translation>Центр. - Афр. Республика</translation>
+        <source>Upgrade wallet to latest format</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Chad</source>
-        <translation>Чад</translation>
+        <source>Use N separate masternodes to anonymize funds  (2-8, default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Chile</source>
-        <translation>Чили</translation>
+        <source>Use OpenSSL (https) for JSON-RPC connections</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>China</source>
-        <translation>Китай</translation>
+        <source>Use UPnP to map the listening port (default: 1 when listening)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Christmas Island</source>
-        <translation>О-В Рождества</translation>
+        <source>Use the test network</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cocos Islands</source>
-        <translation>Кокосовые О-Ва</translation>
+        <source>Value more than Darksend pool maximum allows.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Colombia</source>
-        <translation>Колумбия</translation>
+        <source>Warning: This version is obsolete, upgrade required!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Comoros</source>
-        <translation>Коморы</translation>
+        <source>Warning: Unsupported argument -benchmark ignored, use -debug=bench.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Congo</source>
-        <translation>Конго</translation>
+        <source>Warning: Unsupported argument -debugnet ignored, use -debug=net.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cook Islands</source>
-        <translation>Острова Кука</translation>
-    </message>
-    <message>
-        <source>Costa Rica</source>
-        <translation>Коста-Рика</translation>
-    </message>
-    <message>
-        <source>Côte d&apos;Ivoire</source>
-        <translation>Кот Д&apos;Ивуар</translation>
-    </message>
-    <message>
-        <source>Croatia</source>
-        <translation>Хорватия</translation>
-    </message>
-    <message>
-        <source>Cuba</source>
-        <translation>Куба</translation>
-    </message>
-    <message>
-        <source>Curaçao</source>
-        <translation>Кюрасао</translation>
-    </message>
-    <message>
-        <source>Cyprus</source>
-        <translation>Кипр</translation>
-    </message>
-    <message>
-        <source>Czechia</source>
-        <translation>Чехия</translation>
-    </message>
-    <message>
-        <source>Denmark</source>
-        <translation>Дания</translation>
-    </message>
-    <message>
-        <source>Djibouti</source>
-        <translation>Джибути</translation>
-    </message>
-    <message>
-        <source>Dominica</source>
-        <translation>Доминика</translation>
-    </message>
-    <message>
-        <source>Dominican Republic</source>
-        <translation>Доминиканская Республика</translation>
-    </message>
-    <message>
-        <source>Ecuador</source>
-        <translation>Эквадор</translation>
-    </message>
-    <message>
-        <source>Egypt</source>
-        <translation>Египет</translation>
-    </message>
-    <message>
-        <source>El Salvador</source>
-        <translation>Эль-Сальвадор</translation>
-    </message>
-    <message>
-        <source>Equatorial Guinea</source>
-        <translation>Экваториальная Гвинея</translation>
-    </message>
-    <message>
-        <source>Eritrea</source>
-        <translation>Эритрея</translation>
-    </message>
-    <message>
-        <source>Estonia</source>
-        <translation>Эстония</translation>
-    </message>
-    <message>
-        <source>Ethiopia</source>
-        <translation>Эфиопия</translation>
-    </message>
-    <message>
-        <source>Falkland Islands</source>
-        <translation>Фолклендские О-Ва</translation>
-    </message>
-    <message>
-        <source>Faroe Islands</source>
-        <translation>Фарерские О-Ва</translation>
-    </message>
-    <message>
-        <source>Fiji</source>
-        <translation>Фиджи</translation>
-    </message>
-    <message>
-        <source>Finland</source>
-        <translation>Финляндия</translation>
-    </message>
-    <message>
-        <source>France</source>
-        <translation>Франция</translation>
-    </message>
-    <message>
-        <source>French Guiana</source>
-        <translation>Гвиана</translation>
-    </message>
-    <message>
-        <source>French Polynesia</source>
-        <translation>Французская Полинезия</translation>
-    </message>
-    <message>
-        <source>French Southern Territories</source>
-        <translation>Фр. Южные Территории</translation>
-    </message>
-    <message>
-        <source>Gabon</source>
-        <translation>Габон</translation>
-    </message>
-    <message>
-        <source>Gambia</source>
-        <translation>Гамбия</translation>
-    </message>
-    <message>
-        <source>Georgia</source>
-        <translation>Грузия</translation>
-    </message>
-    <message>
-        <source>Germany</source>
-        <translation>Германия</translation>
-    </message>
-    <message>
-        <source>Ghana</source>
-        <translation>Гана</translation>
-    </message>
-    <message>
-        <source>Gibraltar</source>
-        <translation>Гибралтар</translation>
-    </message>
-    <message>
-        <source>Greece</source>
-        <translation>Греция</translation>
-    </message>
-    <message>
-        <source>Greenland</source>
-        <translation>Гренландия</translation>
-    </message>
-    <message>
-        <source>Grenada</source>
-        <translation>Гренада</translation>
-    </message>
-    <message>
-        <source>Guadeloupe</source>
-        <translation>Гваделупа</translation>
-    </message>
-    <message>
-        <source>Guam</source>
-        <translation>Гуам</translation>
-    </message>
-    <message>
-        <source>Guatemala</source>
-        <translation>Гватемала</translation>
-    </message>
-    <message>
-        <source>Guernsey</source>
-        <translation>Гернси</translation>
-    </message>
-    <message>
-        <source>Guinea</source>
-        <translation>Гвинея</translation>
-    </message>
-    <message>
-        <source>Guinea-Bissau</source>
-        <translation>Гвинея-Бисау</translation>
-    </message>
-    <message>
-        <source>Guyana</source>
-        <translation>Гайана</translation>
-    </message>
-    <message>
-        <source>Haiti</source>
-        <translation>Гаити</translation>
-    </message>
-    <message>
-        <source>Heard Island and McDonald Islands</source>
-        <translation>Херд И Макдональд</translation>
-    </message>
-    <message>
-        <source>Holy See</source>
-        <translation>Ватикан</translation>
-    </message>
-    <message>
-        <source>Honduras</source>
-        <translation>Гондурас</translation>
-    </message>
-    <message>
-        <source>Hong Kong</source>
-        <translation>Гонконг</translation>
-    </message>
-    <message>
-        <source>Hungary</source>
-        <translation>Венгрия</translation>
-    </message>
-    <message>
-        <source>Iceland</source>
-        <translation>Исландия</translation>
-    </message>
-    <message>
-        <source>India</source>
-        <translation>Индия</translation>
-    </message>
-    <message>
-        <source>Indonesia</source>
-        <translation>Индонезия</translation>
-    </message>
-    <message>
-        <source>Iran</source>
-        <translation>Иран</translation>
-    </message>
-    <message>
-        <source>Iraq</source>
-        <translation>Ирак</translation>
-    </message>
-    <message>
-        <source>Ireland</source>
-        <translation>Ирландия</translation>
-    </message>
-    <message>
-        <source>Isle of Man</source>
-        <translation>О-В Мэн</translation>
-    </message>
-    <message>
-        <source>Israel</source>
-        <translation>Израиль</translation>
-    </message>
-    <message>
-        <source>Italy</source>
-        <translation>Италия</translation>
-    </message>
-    <message>
-        <source>Jamaica</source>
-        <translation>Ямайка</translation>
-    </message>
-    <message>
-        <source>Japan</source>
-        <translation>Япония</translation>
-    </message>
-    <message>
-        <source>Jersey</source>
-        <translation>Джерси</translation>
-    </message>
-    <message>
-        <source>Jordan</source>
-        <translation>Иордания</translation>
-    </message>
-    <message>
-        <source>Kazakhstan</source>
-        <translation>Казахстан</translation>
-    </message>
-    <message>
-        <source>Kenya</source>
-        <translation>Кения</translation>
-    </message>
-    <message>
-        <source>Kiribati</source>
-        <translation>Кирибати</translation>
-    </message>
-    <message>
-        <source>North Korea</source>
-        <translation>Корея (Кндр)</translation>
-    </message>
-    <message>
-        <source>South Korea</source>
-        <translation>Корея</translation>
-    </message>
-    <message>
-        <source>Kuwait</source>
-        <translation>Кувейт</translation>
-    </message>
-    <message>
-        <source>Kyrgyzstan</source>
-        <translation>Кыргызстан</translation>
-    </message>
-    <message>
-        <source>Laos</source>
-        <translation>Лаос</translation>
-    </message>
-    <message>
-        <source>Latvia</source>
-        <translation>Латвия</translation>
-    </message>
-    <message>
-        <source>Lebanon</source>
-        <translation>Ливан</translation>
-    </message>
-    <message>
-        <source>Lesotho</source>
-        <translation>Лесото</translation>
-    </message>
-    <message>
-        <source>Liberia</source>
-        <translation>Либерия</translation>
-    </message>
-    <message>
-        <source>Libya</source>
-        <translation>Ливия</translation>
-    </message>
-    <message>
-        <source>Liechtenstein</source>
-        <translation>Лихтенштейн</translation>
-    </message>
-    <message>
-        <source>Lithuania</source>
-        <translation>Литва</translation>
-    </message>
-    <message>
-        <source>Luxembourg</source>
-        <translation>Люксембург</translation>
-    </message>
-    <message>
-        <source>Macao</source>
-        <translation>Макао</translation>
-    </message>
-    <message>
-        <source>Macedonia</source>
-        <translation>Македония</translation>
-    </message>
-    <message>
-        <source>Madagascar</source>
-        <translation>Мадагаскар</translation>
-    </message>
-    <message>
-        <source>Malawi</source>
-        <translation>Малави</translation>
-    </message>
-    <message>
-        <source>Malaysia</source>
-        <translation>Малайзия</translation>
-    </message>
-    <message>
-        <source>Maldives</source>
-        <translation>Мальдивы</translation>
-    </message>
-    <message>
-        <source>Mali</source>
-        <translation>Мали</translation>
-    </message>
-    <message>
-        <source>Malta</source>
-        <translation>Мальта</translation>
-    </message>
-    <message>
-        <source>Marshall Islands</source>
-        <translation>Маршалловы Острова</translation>
-    </message>
-    <message>
-        <source>Martinique</source>
-        <translation>Мартиника</translation>
-    </message>
-    <message>
-        <source>Mauritania</source>
-        <translation>Мавритания</translation>
-    </message>
-    <message>
-        <source>Mauritius</source>
-        <translation>Маврикий</translation>
-    </message>
-    <message>
-        <source>Mayotte</source>
-        <translation>Майотта</translation>
-    </message>
-    <message>
-        <source>Mexico</source>
-        <translation>Мексика</translation>
-    </message>
-    <message>
-        <source>Micronesia</source>
-        <translation>Микронезия</translation>
-    </message>
-    <message>
-        <source>Moldova</source>
-        <translation>Молдова</translation>
-    </message>
-    <message>
-        <source>Monaco</source>
-        <translation>Монако</translation>
-    </message>
-    <message>
-        <source>Mongolia</source>
-        <translation>Монголия</translation>
-    </message>
-    <message>
-        <source>Montenegro</source>
-        <translation>Черногория</translation>
-    </message>
-    <message>
-        <source>Montserrat</source>
-        <translation>Монтсеррат</translation>
-    </message>
-    <message>
-        <source>Morocco</source>
-        <translation>Марокко</translation>
-    </message>
-    <message>
-        <source>Mozambique</source>
-        <translation>Мозамбик</translation>
-    </message>
-    <message>
-        <source>Myanmar</source>
-        <translation>Мьянма</translation>
-    </message>
-    <message>
-        <source>Namibia</source>
-        <translation>Намибия</translation>
-    </message>
-    <message>
-        <source>Nauru</source>
-        <translation>Науру</translation>
-    </message>
-    <message>
-        <source>Nepal</source>
-        <translation>Непал</translation>
-    </message>
-    <message>
-        <source>Netherlands</source>
-        <translation>Нидерланды</translation>
-    </message>
-    <message>
-        <source>New Caledonia</source>
-        <translation>Новая Каледония</translation>
-    </message>
-    <message>
-        <source>New Zealand</source>
-        <translation>Новая Зеландия</translation>
-    </message>
-    <message>
-        <source>Nicaragua</source>
-        <translation>Никарагуа</translation>
-    </message>
-    <message>
-        <source>Niger</source>
-        <translation>Нигер</translation>
-    </message>
-    <message>
-        <source>Nigeria</source>
-        <translation>Нигерия</translation>
-    </message>
-    <message>
-        <source>Niue</source>
-        <translation>Ниуэ</translation>
-    </message>
-    <message>
-        <source>Norfolk Island</source>
-        <translation>Норфолк</translation>
-    </message>
-    <message>
-        <source>Northern Mariana Islands</source>
-        <translation>Марианские Острова</translation>
-    </message>
-    <message>
-        <source>Norway</source>
-        <translation>Норвегия</translation>
-    </message>
-    <message>
-        <source>Oman</source>
-        <translation>Оман</translation>
-    </message>
-    <message>
-        <source>Pakistan</source>
-        <translation>Пакистан</translation>
-    </message>
-    <message>
-        <source>Palau</source>
-        <translation>Палау</translation>
-    </message>
-    <message>
-        <source>Palestine</source>
-        <translation>Палестина</translation>
-    </message>
-    <message>
-        <source>Panama</source>
-        <translation>Панама</translation>
-    </message>
-    <message>
-        <source>Papua New Guinea</source>
-        <translation>Папуа - Новая Гвинея</translation>
-    </message>
-    <message>
-        <source>Paraguay</source>
-        <translation>Парагвай</translation>
-    </message>
-    <message>
-        <source>Peru</source>
-        <translation>Перу</translation>
-    </message>
-    <message>
-        <source>Philippines</source>
-        <translation>Филиппины</translation>
-    </message>
-    <message>
-        <source>Pitcairn</source>
-        <translation>Питкэрн</translation>
-    </message>
-    <message>
-        <source>Poland</source>
-        <translation>Польша</translation>
-    </message>
-    <message>
-        <source>Portugal</source>
-        <translation>Португалия</translation>
-    </message>
-    <message>
-        <source>Puerto Rico</source>
-        <translation>Пуэрто-Рико</translation>
-    </message>
-    <message>
-        <source>Qatar</source>
-        <translation>Катар</translation>
-    </message>
-    <message>
-        <source>Réunion</source>
-        <translation>Реюньон</translation>
-    </message>
-    <message>
-        <source>Romania</source>
-        <translation>Румыния</translation>
-    </message>
-    <message>
-        <source>Russia</source>
-        <translation>Россия</translation>
-    </message>
-    <message>
-        <source>Rwanda</source>
-        <translation>Руанда</translation>
-    </message>
-    <message>
-        <source>Saint Barthélemy</source>
-        <translation>Сен-Бартелеми</translation>
-    </message>
-    <message>
-        <source>Saint Hele</source>
-        <translation>Святая Елена</translation>
-    </message>
-    <message>
-        <source>Saint Kitts and Nevis</source>
-        <translation>Сент-Китс И Невис</translation>
-    </message>
-    <message>
-        <source>Saint Lucia</source>
-        <translation>Сент-Люсия</translation>
-    </message>
-    <message>
-        <source>Saint Martin</source>
-        <translation>Сен-Мартен</translation>
-    </message>
-    <message>
-        <source>Saint Pierre and Miquelon</source>
-        <translation>Сен-Пьер И Микелон</translation>
-    </message>
-    <message>
-        <source>Saint Vincent and the Grenadines</source>
-        <translation>Сент-Винсент И Гренадины</translation>
-    </message>
-    <message>
-        <source>Samoa</source>
-        <translation>Самоа</translation>
-    </message>
-    <message>
-        <source>San Marino</source>
-        <translation>Сан-Марино</translation>
-    </message>
-    <message>
-        <source>Sao Tome and Principe</source>
-        <translation>Сан-Томе И Принсипи</translation>
-    </message>
-    <message>
-        <source>Saudi Arabia</source>
-        <translation>Саудовская Аравия</translation>
-    </message>
-    <message>
-        <source>Senegal</source>
-        <translation>Сенегал</translation>
-    </message>
-    <message>
-        <source>Serbia</source>
-        <translation>Сербия</translation>
-    </message>
-    <message>
-        <source>Seychelles</source>
-        <translation>Сейшелы</translation>
-    </message>
-    <message>
-        <source>Sierra Leone</source>
-        <translation>Сьерра-Леоне</translation>
-    </message>
-    <message>
-        <source>Singapore</source>
-        <translation>Сингапур</translation>
-    </message>
-    <message>
-        <source>Sint Maarten</source>
-        <translation>Синт-Мартен</translation>
-    </message>
-    <message>
-        <source>Slovakia</source>
-        <translation>Словакия</translation>
-    </message>
-    <message>
-        <source>Slovenia</source>
-        <translation>Словения</translation>
-    </message>
-    <message>
-        <source>Solomon Islands</source>
-        <translation>Соломоновы О-Ва</translation>
-    </message>
-    <message>
-        <source>Somalia</source>
-        <translation>Сомали</translation>
-    </message>
-    <message>
-        <source>South Africa</source>
-        <translation>Южная Африка</translation>
-    </message>
-    <message>
-        <source>South Sudan</source>
-        <translation>Южный Судан</translation>
-    </message>
-    <message>
-        <source>Spain</source>
-        <translation>Испания</translation>
-    </message>
-    <message>
-        <source>Sri Lanka</source>
-        <translation>Шри-Ланка</translation>
-    </message>
-    <message>
-        <source>Sudan</source>
-        <translation>Судан</translation>
-    </message>
-    <message>
-        <source>Suriname</source>
-        <translation>Суринам</translation>
-    </message>
-    <message>
-        <source>Svalbard and Jan Mayen</source>
-        <translation>Шпицберген И Ян-Майен</translation>
-    </message>
-    <message>
-        <source>Swaziland</source>
-        <translation>Свазиленд</translation>
-    </message>
-    <message>
-        <source>Sweden</source>
-        <translation>Швеция</translation>
-    </message>
-    <message>
-        <source>Switzerland</source>
-        <translation>Швейцария</translation>
-    </message>
-    <message>
-        <source>Syrian</source>
-        <translation>Сирия</translation>
-    </message>
-    <message>
-        <source>Taiwan</source>
-        <translation>Тайвань</translation>
-    </message>
-    <message>
-        <source>Tajikistan</source>
-        <translation>Таджикистан</translation>
-    </message>
-    <message>
-        <source>Tanzania</source>
-        <translation>Танзания</translation>
-    </message>
-    <message>
-        <source>Thailand</source>
-        <translation>Таиланд</translation>
-    </message>
-    <message>
-        <source>Timor-Leste</source>
-        <translation>Восточный Тимор</translation>
-    </message>
-    <message>
-        <source>Togo</source>
-        <translation>Того</translation>
-    </message>
-    <message>
-        <source>Tokelau</source>
-        <translation>Токелау</translation>
-    </message>
-    <message>
-        <source>Tonga</source>
-        <translation>Тонга</translation>
-    </message>
-    <message>
-        <source>Trinidad and Tobago</source>
-        <translation>Тринидад И Тобаго</translation>
-    </message>
-    <message>
-        <source>Tunisia</source>
-        <translation>Тунис</translation>
-    </message>
-    <message>
-        <source>Turkey</source>
-        <translation>Турция</translation>
-    </message>
-    <message>
-        <source>Turkmenistan</source>
-        <translation>Туркмения</translation>
-    </message>
-    <message>
-        <source>Turks and Caicos Islands</source>
-        <translation>Теркс И Кайкос</translation>
-    </message>
-    <message>
-        <source>Tuvalu</source>
-        <translation>Тувалу</translation>
-    </message>
-    <message>
-        <source>Uganda</source>
-        <translation>Уганда</translation>
-    </message>
-    <message>
-        <source>Ukraine</source>
-        <translation>Украина</translation>
-    </message>
-    <message>
-        <source>UAE</source>
-        <translation>Объед. Арабские Эмираты</translation>
-    </message>
-    <message>
-        <source>United Kingdom</source>
-        <translation>Соединенное Королевство</translation>
-    </message>
-    <message>
-        <source>USA</source>
-        <translation>Сша</translation>
-    </message>
-    <message>
-        <source>United States Minor Outlying Islands</source>
-        <translation>Малые Тихоок. Острова (Сша)</translation>
-    </message>
-    <message>
-        <source>Uruguay</source>
-        <translation>Уругвай</translation>
-    </message>
-    <message>
-        <source>Uzbekistan</source>
-        <translation>Узбекистан</translation>
-    </message>
-    <message>
-        <source>Vanuatu</source>
-        <translation>Вануату</translation>
-    </message>
-    <message>
-        <source>Venezuela</source>
-        <translation>Венесуэла</translation>
-    </message>
-    <message>
-        <source>Viet Nam</source>
-        <translation>Вьетнам</translation>
-    </message>
-    <message>
-        <source>British Virgin Islands</source>
-        <translation>Виргин. О-Ва, Британские</translation>
-    </message>
-    <message>
-        <source>U.S. Virgin Islands</source>
-        <translation>Виргин. О-Ва</translation>
-    </message>
-    <message>
-        <source>Wallis and Futuna</source>
-        <translation>Уоллис И Футуна</translation>
-    </message>
-    <message>
-        <source>Western Sahara</source>
-        <translation>Западная Сахара</translation>
-    </message>
-    <message>
-        <source>Yemen</source>
-        <translation>Йемен</translation>
-    </message>
-    <message>
-        <source>Zambia</source>
-        <translation>Замбия</translation>
-    </message>
-    <message>
-        <source>Zimbabwe</source>
-        <translation>Зимбабве</translation>
-    </message>
-    <message>
-        <source>United Arab Emirates dirham</source>
-        <translation>Дирхам (Оаэ)</translation>
-    </message>
-    <message>
-        <source>Afghani</source>
-        <translation>Афгани</translation>
-    </message>
-    <message>
-        <source>South Korean won</source>
-        <translation>Южнокорейская вона</translation>
-    </message>
-    <message>
-        <source>New Taiwan dollar</source>
-        <translation>Новый тайваньский доллар</translation>
-    </message>
-    <message>
-        <source>Moldovan leu</source>
-        <translation>Молдавский лей</translation>
-    </message>
-    <message>
-        <source>Lek</source>
-        <translation>Лек</translation>
-    </message>
-    <message>
-        <source>Armenian Dram</source>
-        <translation>Армянский Драм</translation>
-    </message>
-    <message>
-        <source>Netherlands Antillian Guilder</source>
-        <translation>Нидерландский Антильский Гульден</translation>
-    </message>
-    <message>
-        <source>Kwanza</source>
-        <translation>Кванза</translation>
-    </message>
-    <message>
-        <source>Argentine Peso</source>
-        <translation>Аргентинское Песо</translation>
-    </message>
-    <message>
-        <source>Australian Dollar</source>
-        <translation>Австралийский Доллар</translation>
-    </message>
-    <message>
-        <source>Aruban Guilder</source>
-        <translation>Арубанский Флорин</translation>
-    </message>
-    <message>
-        <source>Azerbaijanian Manat</source>
-        <translation>Азербайджанский Манат</translation>
-    </message>
-    <message>
-        <source>Convertible Marks</source>
-        <translation>Конвертируемая Марка</translation>
-    </message>
-    <message>
-        <source>Barbados Dollar</source>
-        <translation>Барбадосский Доллар</translation>
-    </message>
-    <message>
-        <source>Bangladeshi Taka</source>
-        <translation>Така</translation>
-    </message>
-    <message>
-        <source>Bulgarian Lev</source>
-        <translation>Болгарский Лев</translation>
-    </message>
-    <message>
-        <source>Bahraini Dinar</source>
-        <translation>Бахрейнский Динар</translation>
-    </message>
-    <message>
-        <source>Burundian Franc</source>
-        <translation>Бурундийский Франк</translation>
-    </message>
-    <message>
-        <source>Bermudian Dollar</source>
-        <translation>Бермудский Доллар</translation>
-    </message>
-    <message>
-        <source>Brunei Dollar</source>
-        <translation>Брунейский Доллар</translation>
-    </message>
-    <message>
-        <source>Brazilian Real</source>
-        <translation>Бразильский Реал</translation>
-    </message>
-    <message>
-        <source>Bahamian Dollar</source>
-        <translation>Багамский Доллар</translation>
-    </message>
-    <message>
-        <source>Ngultrum</source>
-        <translation>Нгултрум</translation>
-    </message>
-    <message>
-        <source>Pula</source>
-        <translation>Пула</translation>
-    </message>
-    <message>
-        <source>Belarussian Ruble</source>
-        <translation>Белорусский Рубль</translation>
-    </message>
-    <message>
-        <source>Belize Dollar</source>
-        <translation>Белизский Доллар</translation>
-    </message>
-    <message>
-        <source>Canadian Dollar</source>
-        <translation>Канадский Доллар</translation>
-    </message>
-    <message>
-        <source>Franc Congolais</source>
-        <translation>Конголезский Франк</translation>
-    </message>
-    <message>
-        <source>Swiss Franc</source>
-        <translation>Швейцарский Франк</translation>
-    </message>
-    <message>
-        <source>Chilean Peso</source>
-        <translation>Чилийское Песо</translation>
-    </message>
-    <message>
-        <source>Yuan Renminbi</source>
-        <translation>Юань</translation>
-    </message>
-    <message>
-        <source>Colombian Peso</source>
-        <translation>Колумбийское Песо</translation>
-    </message>
-    <message>
-        <source>Costa Rican Colon</source>
-        <translation>Костариканский Колон</translation>
-    </message>
-    <message>
-        <source>Cuban Peso</source>
-        <translation>Кубинское Песо</translation>
-    </message>
-    <message>
-        <source>Cape Verde Escudo</source>
-        <translation>Эскудо Кабо-Верде</translation>
-    </message>
-    <message>
-        <source>Czech Koruna</source>
-        <translation>Чешская Крона</translation>
-    </message>
-    <message>
-        <source>Djibouti Franc</source>
-        <translation>Франк Джибути</translation>
-    </message>
-    <message>
-        <source>Danish Krone</source>
-        <translation>Датская Крона</translation>
-    </message>
-    <message>
-        <source>Dominican Peso</source>
-        <translation>Доминиканское Песо</translation>
-    </message>
-    <message>
-        <source>Algerian Dinar</source>
-        <translation>Алжирский Динар</translation>
-    </message>
-    <message>
-        <source>Egyptian Pound</source>
-        <translation>Египетский Фунт</translation>
-    </message>
-    <message>
-        <source>Nakfa</source>
-        <translation>Накфа</translation>
-    </message>
-    <message>
-        <source>Ethiopian Birr</source>
-        <translation>Эфиопский Быр</translation>
-    </message>
-    <message>
-        <source>Euro</source>
-        <translation>Евро</translation>
-    </message>
-    <message>
-        <source>Fiji Dollar</source>
-        <translation>Доллар Фиджи</translation>
-    </message>
-    <message>
-        <source>Falkland Islands Pound</source>
-        <translation>Фунт Фолклендских Островов</translation>
-    </message>
-    <message>
-        <source>Pound Sterling</source>
-        <translation>Фунт Стерлингов</translation>
-    </message>
-    <message>
-        <source>Lari</source>
-        <translation>Лари</translation>
-    </message>
-    <message>
-        <source>Cedi</source>
-        <translation>Ганский Седи</translation>
-    </message>
-    <message>
-        <source>Gibraltar pound</source>
-        <translation>Гибралтарский Фунт</translation>
-    </message>
-    <message>
-        <source>Dalasi</source>
-        <translation>Даласи</translation>
-    </message>
-    <message>
-        <source>Guinea Franc</source>
-        <translation>Гвинейский Франк</translation>
-    </message>
-    <message>
-        <source>Quetzal</source>
-        <translation>Кетсаль</translation>
-    </message>
-    <message>
-        <source>Guyana Dollar</source>
-        <translation>Гайанский Доллар</translation>
-    </message>
-    <message>
-        <source>Hong Kong Dollar</source>
-        <translation>Гонконгский Доллар</translation>
-    </message>
-    <message>
-        <source>Lempira</source>
-        <translation>Лемпира</translation>
-    </message>
-    <message>
-        <source>Croatian Kuna</source>
-        <translation>Хорватская Куна</translation>
-    </message>
-    <message>
-        <source>Haiti Gourde</source>
-        <translation>Гурд</translation>
-    </message>
-    <message>
-        <source>Forint</source>
-        <translation>Форинт</translation>
-    </message>
-    <message>
-        <source>Rupiah</source>
-        <translation>Рупия</translation>
-    </message>
-    <message>
-        <source>New Israeli Shekel</source>
-        <translation>Новый Израильский Шекель</translation>
-    </message>
-    <message>
-        <source>Indian Rupee</source>
-        <translation>Индийская Рупия</translation>
-    </message>
-    <message>
-        <source>Iraqi Dinar</source>
-        <translation>Иракский Динар</translation>
-    </message>
-    <message>
-        <source>Iceland Krona</source>
-        <translation>Исландская Крона</translation>
-    </message>
-    <message>
-        <source>Jamaican Dollar</source>
-        <translation>Ямайский Доллар</translation>
-    </message>
-    <message>
-        <source>Jordanian Dinar</source>
-        <translation>Иорданский Динар</translation>
-    </message>
-    <message>
-        <source>Japanese yen</source>
-        <translation>Иена</translation>
-    </message>
-    <message>
-        <source>Kenyan Shilling</source>
-        <translation>Кенийский Шиллинг</translation>
-    </message>
-    <message>
-        <source>Som</source>
-        <translation>Сом</translation>
-    </message>
-    <message>
-        <source>Riel</source>
-        <translation>Риель</translation>
-    </message>
-    <message>
-        <source>Comoro Franc</source>
-        <translation>Франк Комор</translation>
-    </message>
-    <message>
-        <source>Kuwaiti Dinar</source>
-        <translation>Кувейтский Динар</translation>
-    </message>
-    <message>
-        <source>Cayman Islands Dollar</source>
-        <translation>Доллар Островов Кайман</translation>
-    </message>
-    <message>
-        <source>Tenge</source>
-        <translation>Тенге</translation>
-    </message>
-    <message>
-        <source>Kip</source>
-        <translation>Кип</translation>
-    </message>
-    <message>
-        <source>Lebanese Pound</source>
-        <translation>Ливанский Фунт</translation>
-    </message>
-    <message>
-        <source>Sri Lanka Rupee</source>
-        <translation>Шри-Ланкийская Рупия</translation>
-    </message>
-    <message>
-        <source>Liberian Dollar</source>
-        <translation>Либерийский Доллар</translation>
-    </message>
-    <message>
-        <source>Loti</source>
-        <translation>Лоти</translation>
-    </message>
-    <message>
-        <source>Libyan Dinar</source>
-        <translation>Ливийский Динар</translation>
-    </message>
-    <message>
-        <source>Moroccan Dirham</source>
-        <translation>Марокканский Дирхам</translation>
-    </message>
-    <message>
-        <source>Malagasy Ariary</source>
-        <translation>Малагасийский Ариари</translation>
-    </message>
-    <message>
-        <source>Kyat</source>
-        <translation>Кьят</translation>
-    </message>
-    <message>
-        <source>Tugrik</source>
-        <translation>Тугрик</translation>
-    </message>
-    <message>
-        <source>Pataca</source>
-        <translation>Патака</translation>
-    </message>
-    <message>
-        <source>Ouguiya</source>
-        <translation>Угия</translation>
-    </message>
-    <message>
-        <source>Mauritius Rupee</source>
-        <translation>Маврикийская Рупия</translation>
-    </message>
-    <message>
-        <source>Rufiyaa</source>
-        <translation>Руфия</translation>
-    </message>
-    <message>
-        <source>Kwacha</source>
-        <translation>Квача</translation>
-    </message>
-    <message>
-        <source>Mexican Peso</source>
-        <translation>Мексиканское Песо</translation>
-    </message>
-    <message>
-        <source>Malaysian Ringgit</source>
-        <translation>Малайзийский Ринггит</translation>
-    </message>
-    <message>
-        <source>Metical</source>
-        <translation>Мозамбикский Метикал</translation>
-    </message>
-    <message>
-        <source>Namibian Dollar</source>
-        <translation>Доллар Намибии</translation>
-    </message>
-    <message>
-        <source>Naira</source>
-        <translation>Найра</translation>
-    </message>
-    <message>
-        <source>Cordoba Oro</source>
-        <translation>Золотая Кордоба</translation>
-    </message>
-    <message>
-        <source>Norwegian Krone</source>
-        <translation>Норвежская Крона</translation>
-    </message>
-    <message>
-        <source>Nepalese Rupee</source>
-        <translation>Непальская Рупия</translation>
-    </message>
-    <message>
-        <source>New Zealand Dollar</source>
-        <translation>Новозеландский Доллар</translation>
-    </message>
-    <message>
-        <source>Rial Omani</source>
-        <translation>Оманский Риал</translation>
-    </message>
-    <message>
-        <source>Balboa</source>
-        <translation>Бальбоа</translation>
-    </message>
-    <message>
-        <source>Nuevo Sol</source>
-        <translation>Новый Соль</translation>
-    </message>
-    <message>
-        <source>Kina</source>
-        <translation>Кина</translation>
-    </message>
-    <message>
-        <source>Philippine Peso</source>
-        <translation>Филиппинское Песо</translation>
-    </message>
-    <message>
-        <source>Pakistan Rupee</source>
-        <translation>Пакистанская Рупия</translation>
-    </message>
-    <message>
-        <source>Zloty</source>
-        <translation>Злотый</translation>
-    </message>
-    <message>
-        <source>Guarani</source>
-        <translation>Гуарани</translation>
-    </message>
-    <message>
-        <source>Qatari Rial</source>
-        <translation>Катарский Риал</translation>
-    </message>
-    <message>
-        <source>Romanian New Leu</source>
-        <translation>Новый Румынский Лей</translation>
-    </message>
-    <message>
-        <source>Serbian Dinar</source>
-        <translation>Сербский Динар</translation>
-    </message>
-    <message>
-        <source>Russian Ruble</source>
-        <translation>Российский Рубль</translation>
-    </message>
-    <message>
-        <source>Rwanda Franc</source>
-        <translation>Франк Руанды</translation>
-    </message>
-    <message>
-        <source>Saudi Riyal</source>
-        <translation>Саудовский Риял</translation>
-    </message>
-    <message>
-        <source>Solomon Islands Dollar</source>
-        <translation>Доллар Соломоновых Островов</translation>
-    </message>
-    <message>
-        <source>Seychelles Rupee</source>
-        <translation>Сейшельская Рупия</translation>
-    </message>
-    <message>
-        <source>Sudanese Pound</source>
-        <translation>Суданский Фунт</translation>
-    </message>
-    <message>
-        <source>Swedish Krona</source>
-        <translation>Шведская Крона</translation>
-    </message>
-    <message>
-        <source>Singapore Dollar</source>
-        <translation>Сингапурский Доллар</translation>
-    </message>
-    <message>
-        <source>Leone</source>
-        <translation>Леоне</translation>
-    </message>
-    <message>
-        <source>Somali Shilling</source>
-        <translation>Сомалийский Шиллинг</translation>
-    </message>
-    <message>
-        <source>Surinam Dollar</source>
-        <translation>Суринамский Доллар</translation>
-    </message>
-    <message>
-        <source>South Sudanese pound</source>
-        <translation>Южносуданский Фунт</translation>
-    </message>
-    <message>
-        <source>Dobra</source>
-        <translation>Добра</translation>
-    </message>
-    <message>
-        <source>Syrian Pound</source>
-        <translation>Сирийский Фунт</translation>
-    </message>
-    <message>
-        <source>Lilangeni</source>
-        <translation>Лилангени</translation>
-    </message>
-    <message>
-        <source>Baht</source>
-        <translation>Бат</translation>
-    </message>
-    <message>
-        <source>Somoni</source>
-        <translation>Сомони</translation>
-    </message>
-    <message>
-        <source>Manat</source>
-        <translation>Азербайджанский манат</translation>
-    </message>
-    <message>
-        <source>Tunisian Dinar</source>
-        <translation>Тунисский Динар</translation>
-    </message>
-    <message>
-        <source>Pa&apos;anga</source>
-        <translation>Паанга</translation>
-    </message>
-    <message>
-        <source>New Turkish Lira</source>
-        <translation>Турецкая Лира</translation>
-    </message>
-    <message>
-        <source>Trinidad and Tobago Dollar</source>
-        <translation>Доллар Тринидада И Тобаго</translation>
-    </message>
-    <message>
-        <source>Hryvnia</source>
-        <translation>Гривна</translation>
-    </message>
-    <message>
-        <source>Uganda Shilling</source>
-        <translation>Угандийский Шиллинг</translation>
-    </message>
-    <message>
-        <source>US Dollar</source>
-        <translation>Доллар Сша</translation>
-    </message>
-    <message>
-        <source>Peso Uruguayo</source>
-        <translation>Уругвайское Песо</translation>
-    </message>
-    <message>
-        <source>Uzbekistan Som</source>
-        <translation>Узбекский Сум</translation>
-    </message>
-    <message>
-        <source>Vietnamese đồng</source>
-        <translation>Донг</translation>
-    </message>
-    <message>
-        <source>Vatu</source>
-        <translation>Вату</translation>
-    </message>
-    <message>
-        <source>CFA Franc BEAC</source>
-        <translation>Франк Кфа Веас</translation>
-    </message>
-    <message>
-        <source>East Caribbean Dollar</source>
-        <translation>Восточно-Карибский Доллар</translation>
-    </message>
-    <message>
-        <source>CFA Franc BCEAO</source>
-        <translation>Франк Кфа Всеао</translation>
-    </message>
-    <message>
-        <source>CFP franc</source>
-        <translation>Франк Кфп</translation>
-    </message>
-    <message>
-        <source>Yemeni Rial</source>
-        <translation>Йеменский Риал</translation>
-    </message>
-    <message>
-        <source>South African Rand</source>
-        <translation>Рэнд</translation>
-    </message>
-    <message>
-        <source>Zimbabwe Dollar</source>
-        <translation>Доллар Зимбабве</translation>
+        <source>on startup</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
