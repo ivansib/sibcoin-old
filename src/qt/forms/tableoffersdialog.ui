@@ -30,6 +30,20 @@
       </spacer>
      </item>
      <item>
+      <widget class="QLabel" name="labelOffer">
+       <property name="text">
+        <string>Offer:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cBoxOffer">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Payment:</string>

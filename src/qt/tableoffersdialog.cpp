@@ -20,14 +20,22 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
     ui->cBoxCurrency->addData(currencies, ComboBox::View);
 
+    ui->cBoxOffer->addItem(tr("All"));
+    ui->cBoxOffer->addItem(tr("Buy"));
+    ui->cBoxOffer->addItem(tr("Sell"));
+
     connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterCountryIso);
     connect(ui->cBoxCurrency, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterCurrencyIso);
     connect(ui->cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterPaymentMethod);
+    connect(ui->cBoxOffer, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &TableOffersDialog::changedFilterOffer);
 
     connect(ui->tableView, &QTableView::doubleClicked, this, &TableOffersDialog::clickedColumn);
+
+    useOfferSort(false);
 }
 
 TableOffersDialog::~TableOffersDialog()
@@ -55,6 +63,21 @@ QString TableOffersDialog::currentCurrency() const
 QString TableOffersDialog::currentPayment() const
 {
     return ui->cBoxPayment->currentText();
+}
+
+int TableOffersDialog::currentOfferIndex() const
+{
+    return ui->cBoxOffer->currentIndex();
+}
+
+void TableOffersDialog::useOfferSort(const bool &b)
+{
+    ui->cBoxOffer->setVisible(b);
+    ui->labelOffer->setVisible(b);
+}
+
+void TableOffersDialog::changedFilterOffer(const int &)
+{
 }
 
 void TableOffersDialog::changedFilterCountryIso(const int &) {

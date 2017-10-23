@@ -9,6 +9,7 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     connect(details,  &OfferDetailsEditor::dataChanged, this, &TableOffersEditor::changedRowData);
 
+    useOfferSort(true);
     init();
 }
 
@@ -19,7 +20,16 @@ TableOffersEditor::~TableOffersEditor()
 
 void TableOffersEditor::updateData()
 {
-    QList<QtOfferInfo> offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
+    QList<QtOfferInfo> offers;
+    if (currentOfferIndex() == 1) {
+        offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
+    } else if (currentOfferIndex() == 2) {
+        offers = ConvertData::toListQtOfferInfo(db->getOffersSell());
+    } else {
+        offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
+        offers.append(ConvertData::toListQtOfferInfo(db->getOffersSell()));
+    }
+
     pModel->setOffers(offers);
 }
 
@@ -30,6 +40,11 @@ void TableOffersEditor::clickedColumn(QModelIndex index)
         details->setOfferInfo(info);
         details->show();
     }
+}
+
+void TableOffersEditor::changedFilterOffer(const int &)
+{
+    updateData();
 }
 
 void TableOffersEditor::changedRowData(const QtOfferInfo &info)

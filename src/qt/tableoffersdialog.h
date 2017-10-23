@@ -29,12 +29,16 @@ protected:
     QString currentCountry() const;
     QString currentCurrency() const;
     QString currentPayment() const;
+    int currentOfferIndex() const;
+
+    void useOfferSort(const bool &b);
 
 private:
     Ui::TableOffersDialog *ui;
 
 protected Q_SLOTS:
     virtual void clickedColumn(QModelIndex index) = 0;
+    virtual void changedFilterOffer(const int &);
 
 private Q_SLOTS:
     void changedFilterCountryIso(const int &);

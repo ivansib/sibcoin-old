@@ -513,6 +513,16 @@ void dex::DexDB::createTestOffers()
     info.currencyIso = "AUD";
     info.paymentMethod = 1;
     addOfferBuy(info);
+
+    info.hash = GetRandHash();
+    info.idTransaction = GetRandHash();
+    info.price = 1111111;
+    info.minAmount = 1000;
+    info.shortInfo = "some info";
+    info.countryIso = "US";
+    info.currencyIso = "USD";
+    info.paymentMethod = 1;
+    addOfferSell(info);
 }
 
 }
