@@ -21,14 +21,9 @@ TableOffersView::~TableOffersView()
 {
 }
 
-void TableOffersView::clickedColumn(QModelIndex index)
+void TableOffersView::clickedButton(const int &index)
 {
-    if (index.column() == 3) {
-        QtOfferInfo info = pModel->offerInfo(index.row());
-        QString country = currentCountry();
-        QString currency = currentCurrency();
-        QString payment = currentPayment();
-        details->setOfferInfo(info);
-        details->show();
-    }
+    QtOfferInfo info = pModel->offerInfo(index);
+    details->setOfferInfo(info);
+    details->show();
 }

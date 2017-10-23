@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QComboBox>
+#include <QSignalMapper>
 #include "dex/dexdb.h"
 #include "offermodel.h"
 #include "offerdetails.h"
@@ -35,10 +36,12 @@ protected:
 
 private:
     Ui::TableOffersDialog *ui;
+    QSignalMapper *pMapper;
+    void addButtons();
 
 protected Q_SLOTS:
-    virtual void clickedColumn(QModelIndex index) = 0;
     virtual void changedFilterOffer(const int &);
+    virtual void clickedButton(const int &index) = 0;
 
 private Q_SLOTS:
     void changedFilterCountryIso(const int &);

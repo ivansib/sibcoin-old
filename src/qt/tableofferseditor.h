@@ -18,7 +18,7 @@ private:
     void updateData();
 
 protected Q_SLOTS:
-    virtual void clickedColumn(QModelIndex index);
+    virtual void clickedButton(const int &index);
     virtual void changedFilterOffer(const int &);
 
 private Q_SLOTS:

@@ -1265,7 +1265,7 @@
     <message>
         <location filename="../combobox.cpp" line="+19"/>
         <location line="+22"/>
-        <location line="+23"/>
+        <location line="+28"/>
         <source>All</source>
         <translation>All</translation>
     </message>
@@ -6147,37 +6147,42 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+21"/>
         <source>Offer:</source>
-        <translation type="unfinished"></translation>
+        <translation>Offer:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Payment:</source>
-        <translation type="unfinished"></translation>
+        <translation>Payment:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Country:</source>
-        <translation type="unfinished"></translation>
+        <translation>Country:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Currency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Currency:</translation>
     </message>
     <message>
-        <location filename="../tableoffersdialog.cpp" line="+23"/>
+        <location filename="../tableoffersdialog.cpp" line="+25"/>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>All</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Buy</source>
-        <translation type="unfinished"></translation>
+        <translation>Buy</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sell</source>
-        <translation type="unfinished"></translation>
+        <translation>Sell</translation>
+    </message>
+    <message>
+        <location line="+57"/>
+        <source>Show</source>
+        <translation>Show</translation>
     </message>
 </context>
 <context>

@@ -20,7 +20,7 @@ private:
     OfferDetails *details;
 
 protected Q_SLOTS:
-    virtual void clickedColumn(QModelIndex index);
+    virtual void clickedButton(const int &index);
 };
 
 #endif

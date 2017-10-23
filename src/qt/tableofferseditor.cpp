@@ -33,13 +33,11 @@ void TableOffersEditor::updateData()
     pModel->setOffers(offers);
 }
 
-void TableOffersEditor::clickedColumn(QModelIndex index)
+void TableOffersEditor::clickedButton(const int &index)
 {
-    if (index.column() == 3) {
-        QtOfferInfo info = pModel->offerInfo(index.row());
-        details->setOfferInfo(info);
-        details->show();
-    }
+    QtOfferInfo info = pModel->offerInfo(index);
+    details->setOfferInfo(info);
+    details->show();
 }
 
 void TableOffersEditor::changedFilterOffer(const int &)

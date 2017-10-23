@@ -5313,6 +5313,10 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <source>Sell</source>
         <translation>Продажа</translation>
     </message>
+    <message>
+        <source>Show</source>
+        <translation>Подробнее</translation>
+    </message>
 </context>
 <context>
     <name>TrafficGraphWidget</name>

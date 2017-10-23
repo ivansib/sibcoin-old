@@ -1,3 +1,4 @@
+#include <QPushButton>
 #include "tableoffersdialog.h"
 #include "ui_tableoffersdialog.h"
 
@@ -7,6 +8,7 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     ui->setupUi(this);
 
     pModel = new OfferModel();
+    pMapper = new QSignalMapper(this);
 
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(pModel);
@@ -33,7 +35,7 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     connect(ui->cBoxOffer, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterOffer);
 
-    connect(ui->tableView, &QTableView::doubleClicked, this, &TableOffersDialog::clickedColumn);
+    connect(pModel, &OfferModel::layoutChanged, this, &TableOffersDialog::addButtons);
 
     useOfferSort(false);
 }
@@ -74,6 +76,18 @@ void TableOffersDialog::useOfferSort(const bool &b)
 {
     ui->cBoxOffer->setVisible(b);
     ui->labelOffer->setVisible(b);
+}
+
+void TableOffersDialog::addButtons()
+{
+    for (int i = 0; i < pModel->rowCount(); i++) {
+        QPushButton *pBtn = new QPushButton(tr("Show"));
+        ui->tableView->setIndexWidget(pModel->index(i, 3), pBtn);
+        connect(pBtn, SIGNAL(clicked()), pMapper, SLOT(map()));
+        pMapper->setMapping(pBtn, i);
+    }
+
+    connect(pMapper, static_cast<void(QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &TableOffersDialog::clickedButton);
 }
 
 void TableOffersDialog::changedFilterOffer(const int &)
