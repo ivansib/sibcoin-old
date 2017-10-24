@@ -6,6 +6,8 @@
 OfferDetails::OfferDetails(DexDB *db, QDialog *parent) : QDialog(parent), ui(new Ui::OfferDetails), db(db)
 {
     ui->setupUi(this);
+
+    connect(ui->btnClose, &QPushButton::clicked, this, &OfferDetails::close);
 }
 
 OfferDetails::~OfferDetails()

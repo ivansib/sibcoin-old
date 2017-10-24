@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>863</width>
-    <height>653</height>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,9 +22,18 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lEditId">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditId">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -36,9 +45,18 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lEditHash">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditHash">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -50,9 +68,18 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lEditCountry">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditCountry">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -64,9 +91,18 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="lEditCurrency">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditCurrency">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -78,9 +114,18 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QLineEdit" name="lEditPayment">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditPayment">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -92,9 +137,18 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QLineEdit" name="lEditPrice">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditPrice">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -106,9 +160,18 @@
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="QLineEdit" name="lEditMinAmount">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditMinAmount">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -120,9 +183,18 @@
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QLineEdit" name="lEditTimeCreate">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditTimeCreate">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -134,9 +206,18 @@
     </widget>
    </item>
    <item row="8" column="1">
-    <widget class="QLineEdit" name="lEditTimeExpiration">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditTimeExpiration">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
@@ -148,7 +229,7 @@
     </widget>
    </item>
    <item row="9" column="1">
-    <widget class="QTextEdit" name="tEditShortInfo">
+    <widget class="QTextBrowser" name="tEditShortInfo">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -168,7 +249,7 @@
     </widget>
    </item>
    <item row="10" column="1">
-    <widget class="QTextEdit" name="tEditDetails">
+    <widget class="QTextBrowser" name="tEditDetails">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -179,6 +260,30 @@
       <bool>true</bool>
      </property>
     </widget>
+   </item>
+   <item row="11" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnClose">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
