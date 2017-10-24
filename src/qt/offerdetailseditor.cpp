@@ -1,6 +1,7 @@
 #include <QDateTime>
 #include "offerdetailseditor.h"
 #include "ui_offerdetailseditor.h"
+#include "convertdata.h"
 
 OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : QDialog(parent), ui(new Ui::OfferDetailsEditor)
 {

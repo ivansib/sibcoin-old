@@ -7,6 +7,8 @@
 
 using namespace dex;
 
+const int decimals = 8;
+
 class ConvertData {
 public:
     static QtOfferInfo toQtOfferInfo(const OfferInfo &offer);
@@ -17,6 +19,9 @@ public:
     static QString toQString(const std::string &str);
     static QString toTr(const std::string &str);
     static std::string fromQString(const QString &str);
+
+    static QString toUiPrice(const quint64 &i);
+    static quint64 fromUiPrice(QString str);
 };
 
 #endif

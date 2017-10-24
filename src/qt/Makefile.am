@@ -308,7 +308,8 @@ QT_MOC_CPP += \
   moc_offerdetailseditor.cpp \
   moc_tableoffersview.cpp \
   moc_tableofferseditor.cpp \
-  moc_combobox.cpp
+  moc_combobox.cpp \
+  moc_pricespinbox.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -320,7 +321,8 @@ BITCOIN_QT_H += \
   offerdetailseditor.h \
   tableoffersview.h \
   tableofferseditor.h \
-  combobox.h
+  combobox.h \
+  pricespinbox.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \ 
@@ -331,7 +333,8 @@ BITCOIN_QT_CPP += \
   offerdetailseditor.cpp \
   tableoffersview.cpp \
   tableofferseditor.cpp \
-  combobox.cpp
+  combobox.cpp \
+  pricespinbox.cpp
 endif
 
 RES_IMAGES = \

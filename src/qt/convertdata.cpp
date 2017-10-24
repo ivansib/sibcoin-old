@@ -60,6 +60,56 @@ std::string ConvertData::fromQString(const QString &str)
     return str.toUtf8().constData();
 }
 
+QString ConvertData::toUiPrice(const quint64 &i)
+{
+    QString num = QString::number(i);
+    if (num.size() >= decimals) {
+        int dot = num.size()-decimals;
+
+        num = num.insert(dot, ".");
+
+        bool stop = false;
+        while (!stop) {
+            int size = num.size();
+            if (size > dot && num[size-1] == "0") {
+                num = num.mid(0, size-1);
+            } else {
+                stop = true;
+            }
+        }
+
+        if (num[num.size() - 1] == ".") {
+            num = num.mid(0, num.size()-1);
+        }
+    } else {
+        num = "0";
+    }
+
+    return num;
+}
+
+quint64 ConvertData::fromUiPrice(QString str)
+{
+    if (str.indexOf(".") > -1) {
+        QStringList l = str.split(".");
+        QString dec = l[1];
+        if (dec.size() < decimals) {
+            int size = decimals-dec.size();
+            for (int i = 0; i < size; i++) {
+                dec += "0";
+            }
+        }
+
+        str = l[0] + dec;
+    } else {
+        QString zero("0");
+        zero = zero.repeated(decimals);
+        str += zero;
+    }
+    quint64 num = str.toULongLong();
+    return num;
+}
+
 QString ConvertData::toTr(const std::string &str)
 {
     return QObject::tr(str.c_str());

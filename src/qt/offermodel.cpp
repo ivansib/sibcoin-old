@@ -1,4 +1,5 @@
 #include "offermodel.h"
+#include "convertdata.h"
 
 OfferModel::OfferModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -60,13 +61,13 @@ QVariant OfferModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         switch (index.column()) {
         case 0:
-            return offersView[index.row()].price;
+            return ConvertData::toUiPrice(offersView[index.row()].price);
         case 1:
             return offersView[index.row()].shortInfo;
         case 2:
-            return offersView[index.row()].minAmount;
+            return ConvertData::toUiPrice(offersView[index.row()].minAmount);
         case 3:
-            return tr("More Details");
+            return tr("Show");
         default:
             break;
         }

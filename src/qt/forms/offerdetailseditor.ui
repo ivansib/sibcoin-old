@@ -101,18 +101,12 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QDoubleSpinBox" name="sBoxPrice">
+    <widget class="PriceSpinBox" name="sBoxPrice">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="decimals">
-      <number>0</number>
-     </property>
-     <property name="maximum">
-      <double>1000000000000000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -124,18 +118,12 @@
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="QDoubleSpinBox" name="sBoxMinAmount">
+    <widget class="PriceSpinBox" name="sBoxMinAmount">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="decimals">
-      <number>0</number>
-     </property>
-     <property name="maximum">
-      <double>1000000000000000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -148,6 +136,12 @@
    </item>
    <item row="7" column="1">
     <widget class="QLineEdit" name="lEditTimeCreate">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -242,6 +236,11 @@
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header>combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PriceSpinBox</class>
+   <extends>QLineEdit</extends>
+   <header>pricespinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
