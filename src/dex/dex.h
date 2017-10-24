@@ -35,5 +35,4 @@ public:
 };
 
 
-
 #endif // __DEX_H__

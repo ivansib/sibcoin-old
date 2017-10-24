@@ -31,7 +31,7 @@ public:
     uint64_t price;
     uint64_t minAmount;
     uint64_t timeCreate;
-    uint64_t timeExpiration;
+    int timeExpiration;
     std::string shortInfo;
     std::string details;
 
@@ -48,9 +48,16 @@ public:
     }
 
     bool Create(const uint256 &idTransaction, Type type, const std::string &countryIso, const std::string &currencyIso,
-           uint8_t paymentMethod, uint64_t price, uint64_t minAmount, uint64_t timeExpiration,
+           uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
            const std::string &shortInfo, const std::string &details);
 
+
+    operator dex::OfferInfo() const;
+
+
+    std::string getType() const;
+    bool isBuy() const;
+    bool isSell() const;
 
 
 
@@ -75,6 +82,8 @@ public:
     }
 
     uint256 MakeHash();
+
+    std::string dump() const;
 
 };
 

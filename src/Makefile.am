@@ -417,8 +417,8 @@ sibcoind_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_DEX
-sibcoind_LDADD += $(LIBDEXDB)
 sibcoind_LDADD += $(LIBDEX)
+sibcoind_LDADD += $(LIBDEXDB)
 endif
 
 if ENABLE_WALLET

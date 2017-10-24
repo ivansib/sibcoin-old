@@ -4,6 +4,8 @@
 #include "init.h"
 #include "util.h"
 
+#include "dexoffer.h"
+#include "dex/dexdb.h"
 
 
 CDexManager dexman;
@@ -21,12 +23,16 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
 {
     if (strCommand == NetMsgType::DEXOFFBCST) {
 
-        CDexBroadcast dexbc;
-        vRecv >> dexbc;
+        CDexOffer offer;
+        vRecv >> offer;
 
         //pfrom->setAskFor.erase(mnb.GetHash());
 
-        LogPrint("dex", "DEXOFFBCST -- \n");
+        dex::DexDB db(strDexDbFile);
+        if (offer.isBuy())  db.addOfferBuy(offer);
+        if (offer.isSell()) db.addOfferSell(offer);
+
+        LogPrint("dex", "DEXOFFBCST --\n%s\n", offer.dump().c_str());
 
 /*
         int nDos = 0;
