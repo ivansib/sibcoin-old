@@ -18,6 +18,11 @@ public:
 
 private:
     OfferDetails *details;
+    DexDB *db;
+    const TypeOffer type;
+
+public Q_SLOTS:
+   void updateData();
 
 protected Q_SLOTS:
     virtual void clickedButton(const int &index);

@@ -56,4 +56,5 @@ void TableOffersEditor::changedRowData(const QtOfferInfo &info)
     }
 
     updateData();
+    Q_EMIT dataChanged();
 }

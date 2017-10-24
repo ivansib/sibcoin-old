@@ -25,6 +25,9 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     connect(ui->btnMyOffers, &QPushButton::clicked, this, &ExchangeDialog::currentPageMyOffers);
     connect(ui->btnExchanges, &QPushButton::clicked, this, &ExchangeDialog::currentPageExchanges);
     connect(ui->btnSettings, &QPushButton::clicked, this, &ExchangeDialog::currentPageSettings);
+
+    connect(tableMyOffers, &TableOffersEditor::dataChanged, tableBuy, &TableOffersView::updateData);
+    connect(tableMyOffers, &TableOffersEditor::dataChanged, tableSell, &TableOffersView::updateData);
 }
 
 ExchangeDialog::~ExchangeDialog()
