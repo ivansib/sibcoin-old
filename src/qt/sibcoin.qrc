@@ -316,7 +316,7 @@
         <file alias="spinner-035">res/movies/spinner-035.png</file>
     </qresource>
     <qresource prefix="/fonts">
-        <file alias="NotoSans">res/fonts/NotoSans.ttc</file>
+        <file alias="NotoSansOwn">res/fonts/NotoSansOwn.ttf</file>
     </qresource>
 
 </RCC>

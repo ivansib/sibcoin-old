@@ -58,10 +58,8 @@ QString ComboBox::toString(const uint8_t &i) const
 
 void ComboBox::addData(const std::list<CurrencyInfo> &data, const ComboType &type)
 {
-    QFont f("NotoSans-Bold");
+    QFont f("NotoSansOwn");
     setFont(f);
-
-    QString s= f.styleName();
 
     auto it = data.begin();
 

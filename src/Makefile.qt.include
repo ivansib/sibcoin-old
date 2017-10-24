@@ -538,7 +538,7 @@ RES_HTML = \
   qt/res/html/sibcoindesc_ru.html
 
 RES_FONTS = \
-  qt/res/fonts/NotoSans.ttc
+  qt/res/fonts/NotoSansOwn.ttf
 
 RES_MOVIES = $(wildcard qt/res/movies/spinner-*.png)
 
