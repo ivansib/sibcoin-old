@@ -48,6 +48,12 @@ void TableOffersEditor::changedFilterOffer(const int &)
 void TableOffersEditor::changedRowData(const QtOfferInfo &info)
 {
     OfferInfo offer = ConvertData::fromQtOfferInfo(info);
-    db->editOfferBuy(offer);
+
+    if (db->isExistOfferBuy(offer.idTransaction)) {
+        db->editOfferBuy(offer);
+    } else if (db->isExistOfferSell(offer.idTransaction)) {
+        db->editOfferSell(offer);
+    }
+
     updateData();
 }

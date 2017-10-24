@@ -268,6 +268,11 @@ std::list<OfferInfo> DexDB::getOffersSell()
     return getOffers("offersSell");
 }
 
+bool DexDB::isExistOfferSell(const uint256 &idTransaction)
+{
+    return isExistOffer("offersSell", idTransaction);
+}
+
 void DexDB::addOfferBuy(const OfferInfo &offer)
 {
     addOffer("offersBuy", offer);
@@ -286,6 +291,11 @@ void DexDB::deleteOfferBuy(const int &idTransaction)
 std::list<OfferInfo> DexDB::getOffersBuy()
 {
     return getOffers("offersBuy");
+}
+
+bool DexDB::isExistOfferBuy(const uint256 &idTransaction)
+{
+    return isExistOffer("offersBuy", idTransaction);
 }
 
 void DexDB::addOffer(const std::string &tableName, const OfferInfo &offer)
@@ -383,6 +393,25 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     }
 
     return offers;
+}
+
+bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransaction)
+{
+    int count = 0;
+
+    std::string query = "SELECT count() FROM " + tableName + " WHERE idTransaction = \"" + idTransaction.GetHex() + "\"";
+    sqlite3pp::query qry(db, query.c_str());
+
+    std::string str;
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> str;
+    count = std::stoi(str);
+
+    if (count > 0) {
+        return true;
+    }
+
+    return false;
 }
 
 void DexDB::createTables()

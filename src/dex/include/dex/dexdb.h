@@ -39,11 +39,13 @@ public:
     void editOfferSell(const OfferInfo &offer);
     void deleteOfferSell(const int &idTransaction);
     std::list<OfferInfo> getOffersSell();
+    bool isExistOfferSell(const uint256 &idTransaction);
 
     void addOfferBuy(const OfferInfo &offer);
     void editOfferBuy(const OfferInfo &offer);
     void deleteOfferBuy(const int &idTransaction);
     std::list<OfferInfo> getOffersBuy();
+    bool isExistOfferBuy(const uint256 &idTransaction);
 
 private:
     void createTables();
@@ -56,6 +58,7 @@ private:
     void deleteOffer(const std::string &tableName, const int &idTransaction);
     std::list<OfferInfo> getOffers(const std::string &tableName);
     void addOrEditOffer(const std::string &query, const OfferInfo &offer);
+    bool isExistOffer(const std::string &tableName, const uint256 &idTransaction);
 
     sqlite3pp::database db;
 
