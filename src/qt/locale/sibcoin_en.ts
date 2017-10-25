@@ -454,7 +454,7 @@
     </message>
     <message>
         <source>Modify configuration options for Sibcoin</source>
-        <translation type="vanished">Modify configuration options for Sibcoin</translation>
+        <translation>Modify configuration options for Sibcoin</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -563,7 +563,7 @@
     </message>
     <message>
         <source>Open &amp;Configuration File</source>
-        <translation type="vanished">Open &amp;Configuration File</translation>
+        <translation>Open &amp;Configuration File</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -637,7 +637,7 @@
     </message>
     <message>
         <source>Show the Sibcoin Core help message to get a list with possible Sibcoin command-line options</source>
-        <translation type="vanished">Show the Sibcoin Core help message to get a list with possible Sibcoin command-line options</translation>
+        <translation>Show the Sibcoin Core help message to get a list with possible Sibcoin command-line options</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1265,7 +1265,7 @@
     <message>
         <location filename="../combobox.cpp" line="+19"/>
         <location line="+22"/>
-        <location line="+28"/>
+        <location line="+26"/>
         <source>All</source>
         <translation>All</translation>
     </message>
@@ -1850,7 +1850,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Amount of Sibcoin to keep anonymized</source>
-        <translation type="vanished">Amount of Sibcoin to keep anonymized</translation>
+        <translation>Amount of Sibcoin to keep anonymized</translation>
     </message>
     <message>
         <location line="-97"/>
@@ -2164,11 +2164,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Automatically start Sibcoin Core after logging in to the system.</source>
-        <translation type="vanished">Automatically start Sibcoin Core after logging in to the system.</translation>
+        <translation>Automatically start Sibcoin Core after logging in to the system.</translation>
     </message>
     <message>
         <source>&amp;Start Sibcoin Core on system login</source>
-        <translation type="vanished">&amp;Start Sibcoin Core on system login</translation>
+        <translation>&amp;Start Sibcoin Core on system login</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -2237,7 +2237,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The user interface language can be set here. This setting will take effect after restarting Sibcoin Core.</source>
-        <translation type="vanished">The user interface language can be set here. This setting will take effect after restarting Sibcoin Core.</translation>
+        <translation>The user interface language can be set here. This setting will take effect after restarting Sibcoin Core.</translation>
     </message>
     <message>
         <location line="+144"/>
@@ -3049,1583 +3049,1583 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="vanished">All</translation>
+        <translation>All</translation>
     </message>
     <message>
         <source>Cash</source>
-        <translation type="vanished">Cash</translation>
+        <translation>Cash</translation>
     </message>
     <message>
         <source>Online</source>
-        <translation type="vanished">Online</translation>
+        <translation>Online</translation>
     </message>
     <message>
         <source>Afghanistan</source>
-        <translation type="vanished">Afghanistan</translation>
+        <translation>Afghanistan</translation>
     </message>
     <message>
         <source>Åland Islands</source>
-        <translation type="vanished">Åland Islands</translation>
+        <translation>Åland Islands</translation>
     </message>
     <message>
         <source>Albania</source>
-        <translation type="vanished">Albania</translation>
+        <translation>Albania</translation>
     </message>
     <message>
         <source>Algeria</source>
-        <translation type="vanished">Algeria</translation>
+        <translation>Algeria</translation>
     </message>
     <message>
         <source>American Samoa</source>
-        <translation type="vanished">American Samoa</translation>
+        <translation>American Samoa</translation>
     </message>
     <message>
         <source>Andorra</source>
-        <translation type="vanished">Andorra</translation>
+        <translation>Andorra</translation>
     </message>
     <message>
         <source>Angola</source>
-        <translation type="vanished">Angola</translation>
+        <translation>Angola</translation>
     </message>
     <message>
         <source>Anguilla</source>
-        <translation type="vanished">Anguilla</translation>
+        <translation>Anguilla</translation>
     </message>
     <message>
         <source>Antigua and Barbuda</source>
-        <translation type="vanished">Antigua and Barbuda</translation>
+        <translation>Antigua and Barbuda</translation>
     </message>
     <message>
         <source>Argentina</source>
-        <translation type="vanished">Argentina</translation>
+        <translation>Argentina</translation>
     </message>
     <message>
         <source>Armenia</source>
-        <translation type="vanished">Armenia</translation>
+        <translation>Armenia</translation>
     </message>
     <message>
         <source>Aruba</source>
-        <translation type="vanished">Aruba</translation>
+        <translation>Aruba</translation>
     </message>
     <message>
         <source>Australia</source>
-        <translation type="vanished">Australia</translation>
+        <translation>Australia</translation>
     </message>
     <message>
         <source>Austria</source>
-        <translation type="vanished">Austria</translation>
+        <translation>Austria</translation>
     </message>
     <message>
         <source>Azerbaijan</source>
-        <translation type="vanished">Azerbaijan</translation>
+        <translation>Azerbaijan</translation>
     </message>
     <message>
         <source>Bahamas</source>
-        <translation type="vanished">Bahamas</translation>
+        <translation>Bahamas</translation>
     </message>
     <message>
         <source>Bahrain</source>
-        <translation type="vanished">Bahrain</translation>
+        <translation>Bahrain</translation>
     </message>
     <message>
         <source>Bangladesh</source>
-        <translation type="vanished">Bangladesh</translation>
+        <translation>Bangladesh</translation>
     </message>
     <message>
         <source>Barbados</source>
-        <translation type="vanished">Barbados</translation>
+        <translation>Barbados</translation>
     </message>
     <message>
         <source>Belarus</source>
-        <translation type="vanished">Belarus</translation>
+        <translation>Belarus</translation>
     </message>
     <message>
         <source>Belgium</source>
-        <translation type="vanished">Belgium</translation>
+        <translation>Belgium</translation>
     </message>
     <message>
         <source>Belize</source>
-        <translation type="vanished">Belize</translation>
+        <translation>Belize</translation>
     </message>
     <message>
         <source>Benin</source>
-        <translation type="vanished">Benin</translation>
+        <translation>Benin</translation>
     </message>
     <message>
         <source>Bermuda</source>
-        <translation type="vanished">Bermuda</translation>
+        <translation>Bermuda</translation>
     </message>
     <message>
         <source>Bhutan</source>
-        <translation type="vanished">Bhutan</translation>
+        <translation>Bhutan</translation>
     </message>
     <message>
         <source>Bolivia</source>
-        <translation type="vanished">Bolivia</translation>
+        <translation>Bolivia</translation>
     </message>
     <message>
         <source>Caribbean Netherlands</source>
-        <translation type="vanished">Caribbean Netherlands</translation>
+        <translation>Caribbean Netherlands</translation>
     </message>
     <message>
         <source>Bosnia and Herzegovina</source>
-        <translation type="vanished">Bosnia and Herzegovina</translation>
+        <translation>Bosnia and Herzegovina</translation>
     </message>
     <message>
         <source>Botswana</source>
-        <translation type="vanished">Botswana</translation>
+        <translation>Botswana</translation>
     </message>
     <message>
         <source>Bouvet Island</source>
-        <translation type="vanished">Bouvet Island</translation>
+        <translation>Bouvet Island</translation>
     </message>
     <message>
         <source>Brazil</source>
-        <translation type="vanished">Brazil</translation>
+        <translation>Brazil</translation>
     </message>
     <message>
         <source>British Indian Ocean Territory</source>
-        <translation type="vanished">British Indian Ocean Territory</translation>
+        <translation>British Indian Ocean Territory</translation>
     </message>
     <message>
         <source>Brunei Darussalam</source>
-        <translation type="vanished">Brunei Darussalam</translation>
+        <translation>Brunei Darussalam</translation>
     </message>
     <message>
         <source>Bulgaria</source>
-        <translation type="vanished">Bulgaria</translation>
+        <translation>Bulgaria</translation>
     </message>
     <message>
         <source>Burkina Faso</source>
-        <translation type="vanished">Burkina Faso</translation>
+        <translation>Burkina Faso</translation>
     </message>
     <message>
         <source>Burundi</source>
-        <translation type="vanished">Burundi</translation>
+        <translation>Burundi</translation>
     </message>
     <message>
         <source>Cambodia</source>
-        <translation type="vanished">Cambodia</translation>
+        <translation>Cambodia</translation>
     </message>
     <message>
         <source>Cameroon</source>
-        <translation type="vanished">Cameroon</translation>
+        <translation>Cameroon</translation>
     </message>
     <message>
         <source>Canada</source>
-        <translation type="vanished">Canada</translation>
+        <translation>Canada</translation>
     </message>
     <message>
         <source>Cape Verde</source>
-        <translation type="vanished">Cape Verde</translation>
+        <translation>Cape Verde</translation>
     </message>
     <message>
         <source>Cayman Islands</source>
-        <translation type="vanished">Cayman Islands</translation>
+        <translation>Cayman Islands</translation>
     </message>
     <message>
         <source>CAR</source>
-        <translation type="vanished">CAR</translation>
+        <translation>CAR</translation>
     </message>
     <message>
         <source>Chad</source>
-        <translation type="vanished">Chad</translation>
+        <translation>Chad</translation>
     </message>
     <message>
         <source>Chile</source>
-        <translation type="vanished">Chile</translation>
+        <translation>Chile</translation>
     </message>
     <message>
         <source>China</source>
-        <translation type="vanished">China</translation>
+        <translation>China</translation>
     </message>
     <message>
         <source>Christmas Island</source>
-        <translation type="vanished">Christmas Island</translation>
+        <translation>Christmas Island</translation>
     </message>
     <message>
         <source>Cocos Islands</source>
-        <translation type="vanished">Cocos Islands</translation>
+        <translation>Cocos Islands</translation>
     </message>
     <message>
         <source>Colombia</source>
-        <translation type="vanished">Colombia</translation>
+        <translation>Colombia</translation>
     </message>
     <message>
         <source>Comoros</source>
-        <translation type="vanished">Comoros</translation>
+        <translation>Comoros</translation>
     </message>
     <message>
         <source>Congo</source>
-        <translation type="vanished">Congo</translation>
+        <translation>Congo</translation>
     </message>
     <message>
         <source>Cook Islands</source>
-        <translation type="vanished">Cook Islands</translation>
+        <translation>Cook Islands</translation>
     </message>
     <message>
         <source>Costa Rica</source>
-        <translation type="vanished">Costa Rica</translation>
+        <translation>Costa Rica</translation>
     </message>
     <message>
         <source>Côte d&apos;Ivoire</source>
-        <translation type="vanished">Côte d&apos;Ivoire</translation>
+        <translation>Côte d&apos;Ivoire</translation>
     </message>
     <message>
         <source>Croatia</source>
-        <translation type="vanished">Croatia</translation>
+        <translation>Croatia</translation>
     </message>
     <message>
         <source>Cuba</source>
-        <translation type="vanished">Cuba</translation>
+        <translation>Cuba</translation>
     </message>
     <message>
         <source>Curaçao</source>
-        <translation type="vanished">Curaçao</translation>
+        <translation>Curaçao</translation>
     </message>
     <message>
         <source>Cyprus</source>
-        <translation type="vanished">Cyprus</translation>
+        <translation>Cyprus</translation>
     </message>
     <message>
         <source>Czechia</source>
-        <translation type="vanished">Czechia</translation>
+        <translation>Czechia</translation>
     </message>
     <message>
         <source>Denmark</source>
-        <translation type="vanished">Denmark</translation>
+        <translation>Denmark</translation>
     </message>
     <message>
         <source>Djibouti</source>
-        <translation type="vanished">Djibouti</translation>
+        <translation>Djibouti</translation>
     </message>
     <message>
         <source>Dominica</source>
-        <translation type="vanished">Dominica</translation>
+        <translation>Dominica</translation>
     </message>
     <message>
         <source>Dominican Republic</source>
-        <translation type="vanished">Dominican Republic</translation>
+        <translation>Dominican Republic</translation>
     </message>
     <message>
         <source>Ecuador</source>
-        <translation type="vanished">Ecuador</translation>
+        <translation>Ecuador</translation>
     </message>
     <message>
         <source>Egypt</source>
-        <translation type="vanished">Egypt</translation>
+        <translation>Egypt</translation>
     </message>
     <message>
         <source>El Salvador</source>
-        <translation type="vanished">El Salvador</translation>
+        <translation>El Salvador</translation>
     </message>
     <message>
         <source>Equatorial Guinea</source>
-        <translation type="vanished">Equatorial Guinea</translation>
+        <translation>Equatorial Guinea</translation>
     </message>
     <message>
         <source>Eritrea</source>
-        <translation type="vanished">Eritrea</translation>
+        <translation>Eritrea</translation>
     </message>
     <message>
         <source>Estonia</source>
-        <translation type="vanished">Estonia</translation>
+        <translation>Estonia</translation>
     </message>
     <message>
         <source>Ethiopia</source>
-        <translation type="vanished">Ethiopia</translation>
+        <translation>Ethiopia</translation>
     </message>
     <message>
         <source>Falkland Islands</source>
-        <translation type="vanished">Falkland Islands</translation>
+        <translation>Falkland Islands</translation>
     </message>
     <message>
         <source>Faroe Islands</source>
-        <translation type="vanished">Faroe Islands</translation>
+        <translation>Faroe Islands</translation>
     </message>
     <message>
         <source>Fiji</source>
-        <translation type="vanished">Fiji</translation>
+        <translation>Fiji</translation>
     </message>
     <message>
         <source>Finland</source>
-        <translation type="vanished">Finland</translation>
+        <translation>Finland</translation>
     </message>
     <message>
         <source>France</source>
-        <translation type="vanished">France</translation>
+        <translation>France</translation>
     </message>
     <message>
         <source>French Guiana</source>
-        <translation type="vanished">French Guiana</translation>
+        <translation>French Guiana</translation>
     </message>
     <message>
         <source>French Polynesia</source>
-        <translation type="vanished">French Polynesia</translation>
+        <translation>French Polynesia</translation>
     </message>
     <message>
         <source>French Southern Territories</source>
-        <translation type="vanished">French Southern Territories</translation>
+        <translation>French Southern Territories</translation>
     </message>
     <message>
         <source>Gabon</source>
-        <translation type="vanished">Gabon</translation>
+        <translation>Gabon</translation>
     </message>
     <message>
         <source>Gambia</source>
-        <translation type="vanished">Gambia</translation>
+        <translation>Gambia</translation>
     </message>
     <message>
         <source>Georgia</source>
-        <translation type="vanished">Georgia</translation>
+        <translation>Georgia</translation>
     </message>
     <message>
         <source>Germany</source>
-        <translation type="vanished">Germany</translation>
+        <translation>Germany</translation>
     </message>
     <message>
         <source>Ghana</source>
-        <translation type="vanished">Ghana</translation>
+        <translation>Ghana</translation>
     </message>
     <message>
         <source>Gibraltar</source>
-        <translation type="vanished">Gibraltar</translation>
+        <translation>Gibraltar</translation>
     </message>
     <message>
         <source>Greece</source>
-        <translation type="vanished">Greece</translation>
+        <translation>Greece</translation>
     </message>
     <message>
         <source>Greenland</source>
-        <translation type="vanished">Greenland</translation>
+        <translation>Greenland</translation>
     </message>
     <message>
         <source>Grenada</source>
-        <translation type="vanished">Grenada</translation>
+        <translation>Grenada</translation>
     </message>
     <message>
         <source>Guadeloupe</source>
-        <translation type="vanished">Guadeloupe</translation>
+        <translation>Guadeloupe</translation>
     </message>
     <message>
         <source>Guam</source>
-        <translation type="vanished">Guam</translation>
+        <translation>Guam</translation>
     </message>
     <message>
         <source>Guatemala</source>
-        <translation type="vanished">Guatemala</translation>
+        <translation>Guatemala</translation>
     </message>
     <message>
         <source>Guernsey</source>
-        <translation type="vanished">Guernsey</translation>
+        <translation>Guernsey</translation>
     </message>
     <message>
         <source>Guinea</source>
-        <translation type="vanished">Guinea</translation>
+        <translation>Guinea</translation>
     </message>
     <message>
         <source>Guinea-Bissau</source>
-        <translation type="vanished">Guinea-Bissau</translation>
+        <translation>Guinea-Bissau</translation>
     </message>
     <message>
         <source>Guyana</source>
-        <translation type="vanished">Guyana</translation>
+        <translation>Guyana</translation>
     </message>
     <message>
         <source>Haiti</source>
-        <translation type="vanished">Haiti</translation>
+        <translation>Haiti</translation>
     </message>
     <message>
         <source>Heard Island and McDonald Islands</source>
-        <translation type="vanished">Heard Island and McDonald Islands</translation>
+        <translation>Heard Island and McDonald Islands</translation>
     </message>
     <message>
         <source>Holy See</source>
-        <translation type="vanished">Holy See</translation>
+        <translation>Holy See</translation>
     </message>
     <message>
         <source>Honduras</source>
-        <translation type="vanished">Honduras</translation>
+        <translation>Honduras</translation>
     </message>
     <message>
         <source>Hong Kong</source>
-        <translation type="vanished">Hong Kong</translation>
+        <translation>Hong Kong</translation>
     </message>
     <message>
         <source>Hungary</source>
-        <translation type="vanished">Hungary</translation>
+        <translation>Hungary</translation>
     </message>
     <message>
         <source>Iceland</source>
-        <translation type="vanished">Iceland</translation>
+        <translation>Iceland</translation>
     </message>
     <message>
         <source>India</source>
-        <translation type="vanished">India</translation>
+        <translation>India</translation>
     </message>
     <message>
         <source>Indonesia</source>
-        <translation type="vanished">Indonesia</translation>
+        <translation>Indonesia</translation>
     </message>
     <message>
         <source>Iran</source>
-        <translation type="vanished">Iran</translation>
+        <translation>Iran</translation>
     </message>
     <message>
         <source>Iraq</source>
-        <translation type="vanished">Iraq</translation>
+        <translation>Iraq</translation>
     </message>
     <message>
         <source>Ireland</source>
-        <translation type="vanished">Ireland</translation>
+        <translation>Ireland</translation>
     </message>
     <message>
         <source>Isle of Man</source>
-        <translation type="vanished">Isle of Man</translation>
+        <translation>Isle of Man</translation>
     </message>
     <message>
         <source>Israel</source>
-        <translation type="vanished">Israel</translation>
+        <translation>Israel</translation>
     </message>
     <message>
         <source>Italy</source>
-        <translation type="vanished">Italy</translation>
+        <translation>Italy</translation>
     </message>
     <message>
         <source>Jamaica</source>
-        <translation type="vanished">Jamaica</translation>
+        <translation>Jamaica</translation>
     </message>
     <message>
         <source>Japan</source>
-        <translation type="vanished">Japan</translation>
+        <translation>Japan</translation>
     </message>
     <message>
         <source>Jersey</source>
-        <translation type="vanished">Jersey</translation>
+        <translation>Jersey</translation>
     </message>
     <message>
         <source>Jordan</source>
-        <translation type="vanished">Jordan</translation>
+        <translation>Jordan</translation>
     </message>
     <message>
         <source>Kazakhstan</source>
-        <translation type="vanished">Kazakhstan</translation>
+        <translation>Kazakhstan</translation>
     </message>
     <message>
         <source>Kenya</source>
-        <translation type="vanished">Kenya</translation>
+        <translation>Kenya</translation>
     </message>
     <message>
         <source>Kiribati</source>
-        <translation type="vanished">Kiribati</translation>
+        <translation>Kiribati</translation>
     </message>
     <message>
         <source>North Korea</source>
-        <translation type="vanished">North Korea</translation>
+        <translation>North Korea</translation>
     </message>
     <message>
         <source>South Korea</source>
-        <translation type="vanished">South Korea</translation>
+        <translation>South Korea</translation>
     </message>
     <message>
         <source>Kuwait</source>
-        <translation type="vanished">Kuwait</translation>
+        <translation>Kuwait</translation>
     </message>
     <message>
         <source>Kyrgyzstan</source>
-        <translation type="vanished">Kyrgyzstan</translation>
+        <translation>Kyrgyzstan</translation>
     </message>
     <message>
         <source>Laos</source>
-        <translation type="vanished">Laos</translation>
+        <translation>Laos</translation>
     </message>
     <message>
         <source>Latvia</source>
-        <translation type="vanished">Latvia</translation>
+        <translation>Latvia</translation>
     </message>
     <message>
         <source>Lebanon</source>
-        <translation type="vanished">Lebanon</translation>
+        <translation>Lebanon</translation>
     </message>
     <message>
         <source>Lesotho</source>
-        <translation type="vanished">Lesotho</translation>
+        <translation>Lesotho</translation>
     </message>
     <message>
         <source>Liberia</source>
-        <translation type="vanished">Liberia</translation>
+        <translation>Liberia</translation>
     </message>
     <message>
         <source>Libya</source>
-        <translation type="vanished">Libya</translation>
+        <translation>Libya</translation>
     </message>
     <message>
         <source>Liechtenstein</source>
-        <translation type="vanished">Liechtenstein</translation>
+        <translation>Liechtenstein</translation>
     </message>
     <message>
         <source>Lithuania</source>
-        <translation type="vanished">Lithuania</translation>
+        <translation>Lithuania</translation>
     </message>
     <message>
         <source>Luxembourg</source>
-        <translation type="vanished">Luxembourg</translation>
+        <translation>Luxembourg</translation>
     </message>
     <message>
         <source>Macao</source>
-        <translation type="vanished">Macao</translation>
+        <translation>Macao</translation>
     </message>
     <message>
         <source>Macedonia</source>
-        <translation type="vanished">Macedonia</translation>
+        <translation>Macedonia</translation>
     </message>
     <message>
         <source>Madagascar</source>
-        <translation type="vanished">Madagascar</translation>
+        <translation>Madagascar</translation>
     </message>
     <message>
         <source>Malawi</source>
-        <translation type="vanished">Malawi</translation>
+        <translation>Malawi</translation>
     </message>
     <message>
         <source>Malaysia</source>
-        <translation type="vanished">Malaysia</translation>
+        <translation>Malaysia</translation>
     </message>
     <message>
         <source>Maldives</source>
-        <translation type="vanished">Maldives</translation>
+        <translation>Maldives</translation>
     </message>
     <message>
         <source>Mali</source>
-        <translation type="vanished">Mali</translation>
+        <translation>Mali</translation>
     </message>
     <message>
         <source>Malta</source>
-        <translation type="vanished">Malta</translation>
+        <translation>Malta</translation>
     </message>
     <message>
         <source>Marshall Islands</source>
-        <translation type="vanished">Marshall Islands</translation>
+        <translation>Marshall Islands</translation>
     </message>
     <message>
         <source>Martinique</source>
-        <translation type="vanished">Martinique</translation>
+        <translation>Martinique</translation>
     </message>
     <message>
         <source>Mauritania</source>
-        <translation type="vanished">Mauritania</translation>
+        <translation>Mauritania</translation>
     </message>
     <message>
         <source>Mauritius</source>
-        <translation type="vanished">Mauritius</translation>
+        <translation>Mauritius</translation>
     </message>
     <message>
         <source>Mayotte</source>
-        <translation type="vanished">Mayotte</translation>
+        <translation>Mayotte</translation>
     </message>
     <message>
         <source>Mexico</source>
-        <translation type="vanished">Mexico</translation>
+        <translation>Mexico</translation>
     </message>
     <message>
         <source>Micronesia</source>
-        <translation type="vanished">Micronesia</translation>
+        <translation>Micronesia</translation>
     </message>
     <message>
         <source>Moldova</source>
-        <translation type="vanished">Moldova</translation>
+        <translation>Moldova</translation>
     </message>
     <message>
         <source>Monaco</source>
-        <translation type="vanished">Monaco</translation>
+        <translation>Monaco</translation>
     </message>
     <message>
         <source>Mongolia</source>
-        <translation type="vanished">Mongolia</translation>
+        <translation>Mongolia</translation>
     </message>
     <message>
         <source>Montenegro</source>
-        <translation type="vanished">Montenegro</translation>
+        <translation>Montenegro</translation>
     </message>
     <message>
         <source>Montserrat</source>
-        <translation type="vanished">Montserrat</translation>
+        <translation>Montserrat</translation>
     </message>
     <message>
         <source>Morocco</source>
-        <translation type="vanished">Morocco</translation>
+        <translation>Morocco</translation>
     </message>
     <message>
         <source>Mozambique</source>
-        <translation type="vanished">Mozambique</translation>
+        <translation>Mozambique</translation>
     </message>
     <message>
         <source>Myanmar</source>
-        <translation type="vanished">Myanmar</translation>
+        <translation>Myanmar</translation>
     </message>
     <message>
         <source>Namibia</source>
-        <translation type="vanished">Namibia</translation>
+        <translation>Namibia</translation>
     </message>
     <message>
         <source>Nauru</source>
-        <translation type="vanished">Nauru</translation>
+        <translation>Nauru</translation>
     </message>
     <message>
         <source>Nepal</source>
-        <translation type="vanished">Nepal</translation>
+        <translation>Nepal</translation>
     </message>
     <message>
         <source>Netherlands</source>
-        <translation type="vanished">Netherlands</translation>
+        <translation>Netherlands</translation>
     </message>
     <message>
         <source>New Caledonia</source>
-        <translation type="vanished">New Caledonia</translation>
+        <translation>New Caledonia</translation>
     </message>
     <message>
         <source>New Zealand</source>
-        <translation type="vanished">New Zealand</translation>
+        <translation>New Zealand</translation>
     </message>
     <message>
         <source>Nicaragua</source>
-        <translation type="vanished">Nicaragua</translation>
+        <translation>Nicaragua</translation>
     </message>
     <message>
         <source>Niger</source>
-        <translation type="vanished">Niger</translation>
+        <translation>Niger</translation>
     </message>
     <message>
         <source>Nigeria</source>
-        <translation type="vanished">Nigeria</translation>
+        <translation>Nigeria</translation>
     </message>
     <message>
         <source>Niue</source>
-        <translation type="vanished">Niue</translation>
+        <translation>Niue</translation>
     </message>
     <message>
         <source>Norfolk Island</source>
-        <translation type="vanished">Norfolk Island</translation>
+        <translation>Norfolk Island</translation>
     </message>
     <message>
         <source>Northern Mariana Islands</source>
-        <translation type="vanished">Northern Mariana Islands</translation>
+        <translation>Northern Mariana Islands</translation>
     </message>
     <message>
         <source>Norway</source>
-        <translation type="vanished">Norway</translation>
+        <translation>Norway</translation>
     </message>
     <message>
         <source>Oman</source>
-        <translation type="vanished">Oman</translation>
+        <translation>Oman</translation>
     </message>
     <message>
         <source>Pakistan</source>
-        <translation type="vanished">Pakistan</translation>
+        <translation>Pakistan</translation>
     </message>
     <message>
         <source>Palau</source>
-        <translation type="vanished">Palau</translation>
+        <translation>Palau</translation>
     </message>
     <message>
         <source>Palestine</source>
-        <translation type="vanished">Palestine</translation>
+        <translation>Palestine</translation>
     </message>
     <message>
         <source>Panama</source>
-        <translation type="vanished">Panama</translation>
+        <translation>Panama</translation>
     </message>
     <message>
         <source>Papua New Guinea</source>
-        <translation type="vanished">Papua New Guinea</translation>
+        <translation>Papua New Guinea</translation>
     </message>
     <message>
         <source>Paraguay</source>
-        <translation type="vanished">Paraguay</translation>
+        <translation>Paraguay</translation>
     </message>
     <message>
         <source>Peru</source>
-        <translation type="vanished">Peru</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>Philippines</source>
-        <translation type="vanished">Philippines</translation>
+        <translation>Philippines</translation>
     </message>
     <message>
         <source>Pitcairn</source>
-        <translation type="vanished">Pitcairn</translation>
+        <translation>Pitcairn</translation>
     </message>
     <message>
         <source>Poland</source>
-        <translation type="vanished">Poland</translation>
+        <translation>Poland</translation>
     </message>
     <message>
         <source>Portugal</source>
-        <translation type="vanished">Portugal</translation>
+        <translation>Portugal</translation>
     </message>
     <message>
         <source>Puerto Rico</source>
-        <translation type="vanished">Puerto Rico</translation>
+        <translation>Puerto Rico</translation>
     </message>
     <message>
         <source>Qatar</source>
-        <translation type="vanished">Qatar</translation>
+        <translation>Qatar</translation>
     </message>
     <message>
         <source>Réunion</source>
-        <translation type="vanished">Réunion</translation>
+        <translation>Réunion</translation>
     </message>
     <message>
         <source>Romania</source>
-        <translation type="vanished">Romania</translation>
+        <translation>Romania</translation>
     </message>
     <message>
         <source>Russia</source>
-        <translation type="vanished">Russia</translation>
+        <translation>Russia</translation>
     </message>
     <message>
         <source>Rwanda</source>
-        <translation type="vanished">Rwanda</translation>
+        <translation>Rwanda</translation>
     </message>
     <message>
         <source>Saint Barthélemy</source>
-        <translation type="vanished">Saint Barthélemy</translation>
+        <translation>Saint Barthélemy</translation>
     </message>
     <message>
         <source>Saint Hele</source>
-        <translation type="vanished">Saint Hele</translation>
+        <translation>Saint Hele</translation>
     </message>
     <message>
         <source>Saint Kitts and Nevis</source>
-        <translation type="vanished">Saint Kitts and Nevis</translation>
+        <translation>Saint Kitts and Nevis</translation>
     </message>
     <message>
         <source>Saint Lucia</source>
-        <translation type="vanished">Saint Lucia</translation>
+        <translation>Saint Lucia</translation>
     </message>
     <message>
         <source>Saint Martin</source>
-        <translation type="vanished">Saint Martin</translation>
+        <translation>Saint Martin</translation>
     </message>
     <message>
         <source>Saint Pierre and Miquelon</source>
-        <translation type="vanished">Saint Pierre and Miquelon</translation>
+        <translation>Saint Pierre and Miquelon</translation>
     </message>
     <message>
         <source>Saint Vincent and the Grenadines</source>
-        <translation type="vanished">Saint Vincent and the Grenadines</translation>
+        <translation>Saint Vincent and the Grenadines</translation>
     </message>
     <message>
         <source>Samoa</source>
-        <translation type="vanished">Samoa</translation>
+        <translation>Samoa</translation>
     </message>
     <message>
         <source>San Marino</source>
-        <translation type="vanished">San Marino</translation>
+        <translation>San Marino</translation>
     </message>
     <message>
         <source>Sao Tome and Principe</source>
-        <translation type="vanished">Sao Tome and Principe</translation>
+        <translation>Sao Tome and Principe</translation>
     </message>
     <message>
         <source>Saudi Arabia</source>
-        <translation type="vanished">Saudi Arabia</translation>
+        <translation>Saudi Arabia</translation>
     </message>
     <message>
         <source>Senegal</source>
-        <translation type="vanished">Senegal</translation>
+        <translation>Senegal</translation>
     </message>
     <message>
         <source>Serbia</source>
-        <translation type="vanished">Serbia</translation>
+        <translation>Serbia</translation>
     </message>
     <message>
         <source>Seychelles</source>
-        <translation type="vanished">Seychelles</translation>
+        <translation>Seychelles</translation>
     </message>
     <message>
         <source>Sierra Leone</source>
-        <translation type="vanished">Sierra Leone</translation>
+        <translation>Sierra Leone</translation>
     </message>
     <message>
         <source>Singapore</source>
-        <translation type="vanished">Singapore</translation>
+        <translation>Singapore</translation>
     </message>
     <message>
         <source>Sint Maarten</source>
-        <translation type="vanished">Sint Maarten</translation>
+        <translation>Sint Maarten</translation>
     </message>
     <message>
         <source>Slovakia</source>
-        <translation type="vanished">Slovakia</translation>
+        <translation>Slovakia</translation>
     </message>
     <message>
         <source>Slovenia</source>
-        <translation type="vanished">Slovenia</translation>
+        <translation>Slovenia</translation>
     </message>
     <message>
         <source>Solomon Islands</source>
-        <translation type="vanished">Solomon Islands</translation>
+        <translation>Solomon Islands</translation>
     </message>
     <message>
         <source>Somalia</source>
-        <translation type="vanished">Somalia</translation>
+        <translation>Somalia</translation>
     </message>
     <message>
         <source>South Africa</source>
-        <translation type="vanished">South Africa</translation>
+        <translation>South Africa</translation>
     </message>
     <message>
         <source>South Sudan</source>
-        <translation type="vanished">South Sudan</translation>
+        <translation>South Sudan</translation>
     </message>
     <message>
         <source>Spain</source>
-        <translation type="vanished">Spain</translation>
+        <translation>Spain</translation>
     </message>
     <message>
         <source>Sri Lanka</source>
-        <translation type="vanished">Sri Lanka</translation>
+        <translation>Sri Lanka</translation>
     </message>
     <message>
         <source>Sudan</source>
-        <translation type="vanished">Sudan</translation>
+        <translation>Sudan</translation>
     </message>
     <message>
         <source>Suriname</source>
-        <translation type="vanished">Suriname</translation>
+        <translation>Suriname</translation>
     </message>
     <message>
         <source>Svalbard and Jan Mayen</source>
-        <translation type="vanished">Svalbard and Jan Mayen</translation>
+        <translation>Svalbard and Jan Mayen</translation>
     </message>
     <message>
         <source>Swaziland</source>
-        <translation type="vanished">Swaziland</translation>
+        <translation>Swaziland</translation>
     </message>
     <message>
         <source>Sweden</source>
-        <translation type="vanished">Sweden</translation>
+        <translation>Sweden</translation>
     </message>
     <message>
         <source>Switzerland</source>
-        <translation type="vanished">Switzerland</translation>
+        <translation>Switzerland</translation>
     </message>
     <message>
         <source>Syrian</source>
-        <translation type="vanished">Syrian</translation>
+        <translation>Syrian</translation>
     </message>
     <message>
         <source>Taiwan</source>
-        <translation type="vanished">Taiwan</translation>
+        <translation>Taiwan</translation>
     </message>
     <message>
         <source>Tajikistan</source>
-        <translation type="vanished">Tajikistan</translation>
+        <translation>Tajikistan</translation>
     </message>
     <message>
         <source>Tanzania</source>
-        <translation type="vanished">Tanzania</translation>
+        <translation>Tanzania</translation>
     </message>
     <message>
         <source>Thailand</source>
-        <translation type="vanished">Thailand</translation>
+        <translation>Thailand</translation>
     </message>
     <message>
         <source>Timor-Leste</source>
-        <translation type="vanished">Timor-Leste</translation>
+        <translation>Timor-Leste</translation>
     </message>
     <message>
         <source>Togo</source>
-        <translation type="vanished">Togo</translation>
+        <translation>Togo</translation>
     </message>
     <message>
         <source>Tokelau</source>
-        <translation type="vanished">Tokelau</translation>
+        <translation>Tokelau</translation>
     </message>
     <message>
         <source>Tonga</source>
-        <translation type="vanished">Tonga</translation>
+        <translation>Tonga</translation>
     </message>
     <message>
         <source>Trinidad and Tobago</source>
-        <translation type="vanished">Trinidad and Tobago</translation>
+        <translation>Trinidad and Tobago</translation>
     </message>
     <message>
         <source>Tunisia</source>
-        <translation type="vanished">Tunisia</translation>
+        <translation>Tunisia</translation>
     </message>
     <message>
         <source>Turkey</source>
-        <translation type="vanished">Turkey</translation>
+        <translation>Turkey</translation>
     </message>
     <message>
         <source>Turkmenistan</source>
-        <translation type="vanished">Turkmenistan</translation>
+        <translation>Turkmenistan</translation>
     </message>
     <message>
         <source>Turks and Caicos Islands</source>
-        <translation type="vanished">Turks and Caicos Islands</translation>
+        <translation>Turks and Caicos Islands</translation>
     </message>
     <message>
         <source>Tuvalu</source>
-        <translation type="vanished">Tuvalu</translation>
+        <translation>Tuvalu</translation>
     </message>
     <message>
         <source>Uganda</source>
-        <translation type="vanished">Uganda</translation>
+        <translation>Uganda</translation>
     </message>
     <message>
         <source>Ukraine</source>
-        <translation type="vanished">Ukraine</translation>
+        <translation>Ukraine</translation>
     </message>
     <message>
         <source>UAE</source>
-        <translation type="vanished">UAE</translation>
+        <translation>UAE</translation>
     </message>
     <message>
         <source>United Kingdom</source>
-        <translation type="vanished">United Kingdom</translation>
+        <translation>United Kingdom</translation>
     </message>
     <message>
         <source>USA</source>
-        <translation type="vanished">USA</translation>
+        <translation>USA</translation>
     </message>
     <message>
         <source>United States Minor Outlying Islands</source>
-        <translation type="vanished">United States Minor Outlying Islands</translation>
+        <translation>United States Minor Outlying Islands</translation>
     </message>
     <message>
         <source>Uruguay</source>
-        <translation type="vanished">Uruguay</translation>
+        <translation>Uruguay</translation>
     </message>
     <message>
         <source>Uzbekistan</source>
-        <translation type="vanished">Uzbekistan</translation>
+        <translation>Uzbekistan</translation>
     </message>
     <message>
         <source>Vanuatu</source>
-        <translation type="vanished">Vanuatu</translation>
+        <translation>Vanuatu</translation>
     </message>
     <message>
         <source>Venezuela</source>
-        <translation type="vanished">Venezuela</translation>
+        <translation>Venezuela</translation>
     </message>
     <message>
         <source>Viet Nam</source>
-        <translation type="vanished">Viet Nam</translation>
+        <translation>Viet Nam</translation>
     </message>
     <message>
         <source>British Virgin Islands</source>
-        <translation type="vanished">British Virgin Islands</translation>
+        <translation>British Virgin Islands</translation>
     </message>
     <message>
         <source>U.S. Virgin Islands</source>
-        <translation type="vanished">U.S. Virgin Islands</translation>
+        <translation>U.S. Virgin Islands</translation>
     </message>
     <message>
         <source>Wallis and Futuna</source>
-        <translation type="vanished">Wallis and Futuna</translation>
+        <translation>Wallis and Futuna</translation>
     </message>
     <message>
         <source>Western Sahara</source>
-        <translation type="vanished">Western Sahara</translation>
+        <translation>Western Sahara</translation>
     </message>
     <message>
         <source>Yemen</source>
-        <translation type="vanished">Yemen</translation>
+        <translation>Yemen</translation>
     </message>
     <message>
         <source>Zambia</source>
-        <translation type="vanished">Zambia</translation>
+        <translation>Zambia</translation>
     </message>
     <message>
         <source>Zimbabwe</source>
-        <translation type="vanished">Zimbabwe</translation>
+        <translation>Zimbabwe</translation>
     </message>
     <message>
         <source>United Arab Emirates dirham</source>
-        <translation type="vanished">United Arab Emirates dirham</translation>
+        <translation>United Arab Emirates dirham</translation>
     </message>
     <message>
         <source>Afghani</source>
-        <translation type="vanished">Afghani</translation>
+        <translation>Afghani</translation>
     </message>
     <message>
         <source>South Korean won</source>
-        <translation type="vanished">South Korean won</translation>
+        <translation>South Korean won</translation>
     </message>
     <message>
         <source>New Taiwan dollar</source>
-        <translation type="vanished">New Taiwan dollar</translation>
+        <translation>New Taiwan dollar</translation>
     </message>
     <message>
         <source>Moldovan leu</source>
-        <translation type="vanished">Moldovan leu</translation>
+        <translation>Moldovan leu</translation>
     </message>
     <message>
         <source>Lek</source>
-        <translation type="vanished">Lek</translation>
+        <translation>Lek</translation>
     </message>
     <message>
         <source>Armenian Dram</source>
-        <translation type="vanished">Armenian Dram</translation>
+        <translation>Armenian Dram</translation>
     </message>
     <message>
         <source>Netherlands Antillian Guilder</source>
-        <translation type="vanished">Netherlands Antillian Guilder</translation>
+        <translation>Netherlands Antillian Guilder</translation>
     </message>
     <message>
         <source>Kwanza</source>
-        <translation type="vanished">Kwanza</translation>
+        <translation>Kwanza</translation>
     </message>
     <message>
         <source>Argentine Peso</source>
-        <translation type="vanished">Argentine Peso</translation>
+        <translation>Argentine Peso</translation>
     </message>
     <message>
         <source>Australian Dollar</source>
-        <translation type="vanished">Australian Dollar</translation>
+        <translation>Australian Dollar</translation>
     </message>
     <message>
         <source>Aruban Guilder</source>
-        <translation type="vanished">Aruban Guilder</translation>
+        <translation>Aruban Guilder</translation>
     </message>
     <message>
         <source>Azerbaijanian Manat</source>
-        <translation type="vanished">Azerbaijanian Manat</translation>
+        <translation>Azerbaijanian Manat</translation>
     </message>
     <message>
         <source>Convertible Marks</source>
-        <translation type="vanished">Convertible Marks</translation>
+        <translation>Convertible Marks</translation>
     </message>
     <message>
         <source>Barbados Dollar</source>
-        <translation type="vanished">Barbados Dollar</translation>
+        <translation>Barbados Dollar</translation>
     </message>
     <message>
         <source>Bangladeshi Taka</source>
-        <translation type="vanished">Bangladeshi Taka</translation>
+        <translation>Bangladeshi Taka</translation>
     </message>
     <message>
         <source>Bulgarian Lev</source>
-        <translation type="vanished">Bulgarian Lev</translation>
+        <translation>Bulgarian Lev</translation>
     </message>
     <message>
         <source>Bahraini Dinar</source>
-        <translation type="vanished">Bahraini Dinar</translation>
+        <translation>Bahraini Dinar</translation>
     </message>
     <message>
         <source>Burundian Franc</source>
-        <translation type="vanished">Burundian Franc</translation>
+        <translation>Burundian Franc</translation>
     </message>
     <message>
         <source>Bermudian Dollar</source>
-        <translation type="vanished">Bermudian Dollar</translation>
+        <translation>Bermudian Dollar</translation>
     </message>
     <message>
         <source>Brunei Dollar</source>
-        <translation type="vanished">Brunei Dollar</translation>
+        <translation>Brunei Dollar</translation>
     </message>
     <message>
         <source>Brazilian Real</source>
-        <translation type="vanished">Brazilian Real</translation>
+        <translation>Brazilian Real</translation>
     </message>
     <message>
         <source>Bahamian Dollar</source>
-        <translation type="vanished">Bahamian Dollar</translation>
+        <translation>Bahamian Dollar</translation>
     </message>
     <message>
         <source>Ngultrum</source>
-        <translation type="vanished">Ngultrum</translation>
+        <translation>Ngultrum</translation>
     </message>
     <message>
         <source>Pula</source>
-        <translation type="vanished">Pula</translation>
+        <translation>Pula</translation>
     </message>
     <message>
         <source>Belarussian Ruble</source>
-        <translation type="vanished">Belarussian Ruble</translation>
+        <translation>Belarussian Ruble</translation>
     </message>
     <message>
         <source>Belize Dollar</source>
-        <translation type="vanished">Belize Dollar</translation>
+        <translation>Belize Dollar</translation>
     </message>
     <message>
         <source>Canadian Dollar</source>
-        <translation type="vanished">Canadian Dollar</translation>
+        <translation>Canadian Dollar</translation>
     </message>
     <message>
         <source>Franc Congolais</source>
-        <translation type="vanished">Franc Congolais</translation>
+        <translation>Franc Congolais</translation>
     </message>
     <message>
         <source>Swiss Franc</source>
-        <translation type="vanished">Swiss Franc</translation>
+        <translation>Swiss Franc</translation>
     </message>
     <message>
         <source>Chilean Peso</source>
-        <translation type="vanished">Chilean Peso</translation>
+        <translation>Chilean Peso</translation>
     </message>
     <message>
         <source>Yuan Renminbi</source>
-        <translation type="vanished">Yuan Renminbi</translation>
+        <translation>Yuan Renminbi</translation>
     </message>
     <message>
         <source>Colombian Peso</source>
-        <translation type="vanished">Colombian Peso</translation>
+        <translation>Colombian Peso</translation>
     </message>
     <message>
         <source>Costa Rican Colon</source>
-        <translation type="vanished">Costa Rican Colon</translation>
+        <translation>Costa Rican Colon</translation>
     </message>
     <message>
         <source>Cuban Peso</source>
-        <translation type="vanished">Cuban Peso</translation>
+        <translation>Cuban Peso</translation>
     </message>
     <message>
         <source>Cape Verde Escudo</source>
-        <translation type="vanished">Cape Verde Escudo</translation>
+        <translation>Cape Verde Escudo</translation>
     </message>
     <message>
         <source>Czech Koruna</source>
-        <translation type="vanished">Czech Koruna</translation>
+        <translation>Czech Koruna</translation>
     </message>
     <message>
         <source>Djibouti Franc</source>
-        <translation type="vanished">Djibouti Franc</translation>
+        <translation>Djibouti Franc</translation>
     </message>
     <message>
         <source>Danish Krone</source>
-        <translation type="vanished">Danish Krone</translation>
+        <translation>Danish Krone</translation>
     </message>
     <message>
         <source>Dominican Peso</source>
-        <translation type="vanished">Dominican Peso</translation>
+        <translation>Dominican Peso</translation>
     </message>
     <message>
         <source>Algerian Dinar</source>
-        <translation type="vanished">Algerian Dinar</translation>
+        <translation>Algerian Dinar</translation>
     </message>
     <message>
         <source>Egyptian Pound</source>
-        <translation type="vanished">Egyptian Pound</translation>
+        <translation>Egyptian Pound</translation>
     </message>
     <message>
         <source>Nakfa</source>
-        <translation type="vanished">Nakfa</translation>
+        <translation>Nakfa</translation>
     </message>
     <message>
         <source>Ethiopian Birr</source>
-        <translation type="vanished">Ethiopian Birr</translation>
+        <translation>Ethiopian Birr</translation>
     </message>
     <message>
         <source>Euro</source>
-        <translation type="vanished">Euro</translation>
+        <translation>Euro</translation>
     </message>
     <message>
         <source>Fiji Dollar</source>
-        <translation type="vanished">Fiji Dollar</translation>
+        <translation>Fiji Dollar</translation>
     </message>
     <message>
         <source>Falkland Islands Pound</source>
-        <translation type="vanished">Falkland Islands Pound</translation>
+        <translation>Falkland Islands Pound</translation>
     </message>
     <message>
         <source>Pound Sterling</source>
-        <translation type="vanished">Pound Sterling</translation>
+        <translation>Pound Sterling</translation>
     </message>
     <message>
         <source>Lari</source>
-        <translation type="vanished">Lari</translation>
+        <translation>Lari</translation>
     </message>
     <message>
         <source>Cedi</source>
-        <translation type="vanished">Cedi</translation>
+        <translation>Cedi</translation>
     </message>
     <message>
         <source>Gibraltar pound</source>
-        <translation type="vanished">Gibraltar pound</translation>
+        <translation>Gibraltar pound</translation>
     </message>
     <message>
         <source>Dalasi</source>
-        <translation type="vanished">Dalasi</translation>
+        <translation>Dalasi</translation>
     </message>
     <message>
         <source>Guinea Franc</source>
-        <translation type="vanished">Guinea Franc</translation>
+        <translation>Guinea Franc</translation>
     </message>
     <message>
         <source>Quetzal</source>
-        <translation type="vanished">Quetzal</translation>
+        <translation>Quetzal</translation>
     </message>
     <message>
         <source>Guyana Dollar</source>
-        <translation type="vanished">Guyana Dollar</translation>
+        <translation>Guyana Dollar</translation>
     </message>
     <message>
         <source>Hong Kong Dollar</source>
-        <translation type="vanished">Hong Kong Dollar</translation>
+        <translation>Hong Kong Dollar</translation>
     </message>
     <message>
         <source>Lempira</source>
-        <translation type="vanished">Lempira</translation>
+        <translation>Lempira</translation>
     </message>
     <message>
         <source>Croatian Kuna</source>
-        <translation type="vanished">Croatian Kuna</translation>
+        <translation>Croatian Kuna</translation>
     </message>
     <message>
         <source>Haiti Gourde</source>
-        <translation type="vanished">Haiti Gourde</translation>
+        <translation>Haiti Gourde</translation>
     </message>
     <message>
         <source>Forint</source>
-        <translation type="vanished">Forint</translation>
+        <translation>Forint</translation>
     </message>
     <message>
         <source>Rupiah</source>
-        <translation type="vanished">Rupiah</translation>
+        <translation>Rupiah</translation>
     </message>
     <message>
         <source>New Israeli Shekel</source>
-        <translation type="vanished">New Israeli Shekel</translation>
+        <translation>New Israeli Shekel</translation>
     </message>
     <message>
         <source>Indian Rupee</source>
-        <translation type="vanished">Indian Rupee</translation>
+        <translation>Indian Rupee</translation>
     </message>
     <message>
         <source>Iraqi Dinar</source>
-        <translation type="vanished">Iraqi Dinar</translation>
+        <translation>Iraqi Dinar</translation>
     </message>
     <message>
         <source>Iceland Krona</source>
-        <translation type="vanished">Iceland Krona</translation>
+        <translation>Iceland Krona</translation>
     </message>
     <message>
         <source>Jamaican Dollar</source>
-        <translation type="vanished">Jamaican Dollar</translation>
+        <translation>Jamaican Dollar</translation>
     </message>
     <message>
         <source>Jordanian Dinar</source>
-        <translation type="vanished">Jordanian Dinar</translation>
+        <translation>Jordanian Dinar</translation>
     </message>
     <message>
         <source>Japanese yen</source>
-        <translation type="vanished">Japanese yen</translation>
+        <translation>Japanese yen</translation>
     </message>
     <message>
         <source>Kenyan Shilling</source>
-        <translation type="vanished">Kenyan Shilling</translation>
+        <translation>Kenyan Shilling</translation>
     </message>
     <message>
         <source>Som</source>
-        <translation type="vanished">Som</translation>
+        <translation>Som</translation>
     </message>
     <message>
         <source>Riel</source>
-        <translation type="vanished">Riel</translation>
+        <translation>Riel</translation>
     </message>
     <message>
         <source>Comoro Franc</source>
-        <translation type="vanished">Comoro Franc</translation>
+        <translation>Comoro Franc</translation>
     </message>
     <message>
         <source>Kuwaiti Dinar</source>
-        <translation type="vanished">Kuwaiti Dinar</translation>
+        <translation>Kuwaiti Dinar</translation>
     </message>
     <message>
         <source>Cayman Islands Dollar</source>
-        <translation type="vanished">Cayman Islands Dollar</translation>
+        <translation>Cayman Islands Dollar</translation>
     </message>
     <message>
         <source>Tenge</source>
-        <translation type="vanished">Tenge</translation>
+        <translation>Tenge</translation>
     </message>
     <message>
         <source>Kip</source>
-        <translation type="vanished">Kip</translation>
+        <translation>Kip</translation>
     </message>
     <message>
         <source>Lebanese Pound</source>
-        <translation type="vanished">Lebanese Pound</translation>
+        <translation>Lebanese Pound</translation>
     </message>
     <message>
         <source>Sri Lanka Rupee</source>
-        <translation type="vanished">Sri Lanka Rupee</translation>
+        <translation>Sri Lanka Rupee</translation>
     </message>
     <message>
         <source>Liberian Dollar</source>
-        <translation type="vanished">Liberian Dollar</translation>
+        <translation>Liberian Dollar</translation>
     </message>
     <message>
         <source>Loti</source>
-        <translation type="vanished">Loti</translation>
+        <translation>Loti</translation>
     </message>
     <message>
         <source>Libyan Dinar</source>
-        <translation type="vanished">Libyan Dinar</translation>
+        <translation>Libyan Dinar</translation>
     </message>
     <message>
         <source>Moroccan Dirham</source>
-        <translation type="vanished">Moroccan Dirham</translation>
+        <translation>Moroccan Dirham</translation>
     </message>
     <message>
         <source>Malagasy Ariary</source>
-        <translation type="vanished">Malagasy Ariary</translation>
+        <translation>Malagasy Ariary</translation>
     </message>
     <message>
         <source>Kyat</source>
-        <translation type="vanished">Kyat</translation>
+        <translation>Kyat</translation>
     </message>
     <message>
         <source>Tugrik</source>
-        <translation type="vanished">Tugrik</translation>
+        <translation>Tugrik</translation>
     </message>
     <message>
         <source>Pataca</source>
-        <translation type="vanished">Pataca</translation>
+        <translation>Pataca</translation>
     </message>
     <message>
         <source>Ouguiya</source>
-        <translation type="vanished">Ouguiya</translation>
+        <translation>Ouguiya</translation>
     </message>
     <message>
         <source>Mauritius Rupee</source>
-        <translation type="vanished">Mauritius Rupee</translation>
+        <translation>Mauritius Rupee</translation>
     </message>
     <message>
         <source>Rufiyaa</source>
-        <translation type="vanished">Rufiyaa</translation>
+        <translation>Rufiyaa</translation>
     </message>
     <message>
         <source>Kwacha</source>
-        <translation type="vanished">Kwacha</translation>
+        <translation>Kwacha</translation>
     </message>
     <message>
         <source>Mexican Peso</source>
-        <translation type="vanished">Mexican Peso</translation>
+        <translation>Mexican Peso</translation>
     </message>
     <message>
         <source>Malaysian Ringgit</source>
-        <translation type="vanished">Malaysian Ringgit</translation>
+        <translation>Malaysian Ringgit</translation>
     </message>
     <message>
         <source>Metical</source>
-        <translation type="vanished">Metical</translation>
+        <translation>Metical</translation>
     </message>
     <message>
         <source>Namibian Dollar</source>
-        <translation type="vanished">Namibian Dollar</translation>
+        <translation>Namibian Dollar</translation>
     </message>
     <message>
         <source>Naira</source>
-        <translation type="vanished">Naira</translation>
+        <translation>Naira</translation>
     </message>
     <message>
         <source>Cordoba Oro</source>
-        <translation type="vanished">Cordoba Oro</translation>
+        <translation>Cordoba Oro</translation>
     </message>
     <message>
         <source>Norwegian Krone</source>
-        <translation type="vanished">Norwegian Krone</translation>
+        <translation>Norwegian Krone</translation>
     </message>
     <message>
         <source>Nepalese Rupee</source>
-        <translation type="vanished">Nepalese Rupee</translation>
+        <translation>Nepalese Rupee</translation>
     </message>
     <message>
         <source>New Zealand Dollar</source>
-        <translation type="vanished">New Zealand Dollar</translation>
+        <translation>New Zealand Dollar</translation>
     </message>
     <message>
         <source>Rial Omani</source>
-        <translation type="vanished">Rial Omani</translation>
+        <translation>Rial Omani</translation>
     </message>
     <message>
         <source>Balboa</source>
-        <translation type="vanished">Balboa</translation>
+        <translation>Balboa</translation>
     </message>
     <message>
         <source>Nuevo Sol</source>
-        <translation type="vanished">Nuevo Sol</translation>
+        <translation>Nuevo Sol</translation>
     </message>
     <message>
         <source>Kina</source>
-        <translation type="vanished">Kina</translation>
+        <translation>Kina</translation>
     </message>
     <message>
         <source>Philippine Peso</source>
-        <translation type="vanished">Philippine Peso</translation>
+        <translation>Philippine Peso</translation>
     </message>
     <message>
         <source>Pakistan Rupee</source>
-        <translation type="vanished">Pakistan Rupee</translation>
+        <translation>Pakistan Rupee</translation>
     </message>
     <message>
         <source>Zloty</source>
-        <translation type="vanished">Zloty</translation>
+        <translation>Zloty</translation>
     </message>
     <message>
         <source>Guarani</source>
-        <translation type="vanished">Guarani</translation>
+        <translation>Guarani</translation>
     </message>
     <message>
         <source>Qatari Rial</source>
-        <translation type="vanished">Qatari Rial</translation>
+        <translation>Qatari Rial</translation>
     </message>
     <message>
         <source>Romanian New Leu</source>
-        <translation type="vanished">Romanian New Leu</translation>
+        <translation>Romanian New Leu</translation>
     </message>
     <message>
         <source>Serbian Dinar</source>
-        <translation type="vanished">Serbian Dinar</translation>
+        <translation>Serbian Dinar</translation>
     </message>
     <message>
         <source>Russian Ruble</source>
-        <translation type="vanished">Russian Ruble</translation>
+        <translation>Russian Ruble</translation>
     </message>
     <message>
         <source>Rwanda Franc</source>
-        <translation type="vanished">Rwanda Franc</translation>
+        <translation>Rwanda Franc</translation>
     </message>
     <message>
         <source>Saudi Riyal</source>
-        <translation type="vanished">Saudi Riyal</translation>
+        <translation>Saudi Riyal</translation>
     </message>
     <message>
         <source>Solomon Islands Dollar</source>
-        <translation type="vanished">Solomon Islands Dollar</translation>
+        <translation>Solomon Islands Dollar</translation>
     </message>
     <message>
         <source>Seychelles Rupee</source>
-        <translation type="vanished">Seychelles Rupee</translation>
+        <translation>Seychelles Rupee</translation>
     </message>
     <message>
         <source>Sudanese Pound</source>
-        <translation type="vanished">Sudanese Pound</translation>
+        <translation>Sudanese Pound</translation>
     </message>
     <message>
         <source>Swedish Krona</source>
-        <translation type="vanished">Swedish Krona</translation>
+        <translation>Swedish Krona</translation>
     </message>
     <message>
         <source>Singapore Dollar</source>
-        <translation type="vanished">Singapore Dollar</translation>
+        <translation>Singapore Dollar</translation>
     </message>
     <message>
         <source>Leone</source>
-        <translation type="vanished">Leone</translation>
+        <translation>Leone</translation>
     </message>
     <message>
         <source>Somali Shilling</source>
-        <translation type="vanished">Somali Shilling</translation>
+        <translation>Somali Shilling</translation>
     </message>
     <message>
         <source>Surinam Dollar</source>
-        <translation type="vanished">Surinam Dollar</translation>
+        <translation>Surinam Dollar</translation>
     </message>
     <message>
         <source>South Sudanese pound</source>
-        <translation type="vanished">South Sudanese pound</translation>
+        <translation>South Sudanese pound</translation>
     </message>
     <message>
         <source>Dobra</source>
-        <translation type="vanished">Dobra</translation>
+        <translation>Dobra</translation>
     </message>
     <message>
         <source>Syrian Pound</source>
-        <translation type="vanished">Syrian Pound</translation>
+        <translation>Syrian Pound</translation>
     </message>
     <message>
         <source>Lilangeni</source>
-        <translation type="vanished">Lilangeni</translation>
+        <translation>Lilangeni</translation>
     </message>
     <message>
         <source>Baht</source>
-        <translation type="vanished">Baht</translation>
+        <translation>Baht</translation>
     </message>
     <message>
         <source>Somoni</source>
-        <translation type="vanished">Somoni</translation>
+        <translation>Somoni</translation>
     </message>
     <message>
         <source>Manat</source>
-        <translation type="vanished">Manat</translation>
+        <translation>Manat</translation>
     </message>
     <message>
         <source>Tunisian Dinar</source>
-        <translation type="vanished">Tunisian Dinar</translation>
+        <translation>Tunisian Dinar</translation>
     </message>
     <message>
         <source>Pa&apos;anga</source>
-        <translation type="vanished">Pa&apos;anga</translation>
+        <translation>Pa&apos;anga</translation>
     </message>
     <message>
         <source>New Turkish Lira</source>
-        <translation type="vanished">New Turkish Lira</translation>
+        <translation>New Turkish Lira</translation>
     </message>
     <message>
         <source>Trinidad and Tobago Dollar</source>
-        <translation type="vanished">Trinidad and Tobago Dollar</translation>
+        <translation>Trinidad and Tobago Dollar</translation>
     </message>
     <message>
         <source>Hryvnia</source>
-        <translation type="vanished">Hryvnia</translation>
+        <translation>Hryvnia</translation>
     </message>
     <message>
         <source>Uganda Shilling</source>
-        <translation type="vanished">Uganda Shilling</translation>
+        <translation>Uganda Shilling</translation>
     </message>
     <message>
         <source>US Dollar</source>
-        <translation type="vanished">US Dollar</translation>
+        <translation>US Dollar</translation>
     </message>
     <message>
         <source>Peso Uruguayo</source>
-        <translation type="vanished">Peso Uruguayo</translation>
+        <translation>Peso Uruguayo</translation>
     </message>
     <message>
         <source>Uzbekistan Som</source>
-        <translation type="vanished">Uzbekistan Som</translation>
+        <translation>Uzbekistan Som</translation>
     </message>
     <message>
         <source>Vietnamese đồng</source>
-        <translation type="vanished">Vietnamese đồng</translation>
+        <translation>Vietnamese đồng</translation>
     </message>
     <message>
         <source>Vatu</source>
-        <translation type="vanished">Vatu</translation>
+        <translation>Vatu</translation>
     </message>
     <message>
         <source>CFA Franc BEAC</source>
-        <translation type="vanished">CFA Franc BEAC</translation>
+        <translation>CFA Franc BEAC</translation>
     </message>
     <message>
         <source>East Caribbean Dollar</source>
-        <translation type="vanished">East Caribbean Dollar</translation>
+        <translation>East Caribbean Dollar</translation>
     </message>
     <message>
         <source>CFA Franc BCEAO</source>
-        <translation type="vanished">CFA Franc BCEAO</translation>
+        <translation>CFA Franc BCEAO</translation>
     </message>
     <message>
         <source>CFP franc</source>
-        <translation type="vanished">CFP franc</translation>
+        <translation>CFP franc</translation>
     </message>
     <message>
         <source>Yemeni Rial</source>
-        <translation type="vanished">Yemeni Rial</translation>
+        <translation>Yemeni Rial</translation>
     </message>
     <message>
         <source>South African Rand</source>
-        <translation type="vanished">South African Rand</translation>
+        <translation>South African Rand</translation>
     </message>
     <message>
         <source>Zimbabwe Dollar</source>
-        <translation type="vanished">Zimbabwe Dollar</translation>
+        <translation>Zimbabwe Dollar</translation>
     </message>
     <message>
         <location filename="../sibcoin.cpp" line="+86"/>
@@ -5760,7 +5760,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation type="vanished">The recipient address is not valid, please recheck.</translation>
+        <translation>The recipient address is not valid, please recheck.</translation>
     </message>
     <message>
         <location line="+212"/>
@@ -5794,7 +5794,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <source>Error: The wallet was unlocked only to anonymize coins.</source>
-        <translation type="vanished">Error: The wallet was unlocked only to anonymize coins.</translation>
+        <translation>Error: The wallet was unlocked only to anonymize coins.</translation>
     </message>
     <message>
         <location line="+229"/>
@@ -7472,23 +7472,23 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>-fallbackfee is set very high! This is the transaction fee you may pay when fee estimates are not available.</source>
-        <translation type="vanished">-fallbackfee is set very high! This is the transaction fee you may pay when fee estimates are not available.</translation>
+        <translation>-fallbackfee is set very high! This is the transaction fee you may pay when fee estimates are not available.</translation>
     </message>
     <message>
         <source>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
-        <translation type="vanished">-maxtxfee is set very high! Fees this large could be paid on a single transaction.</translation>
+        <translation>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</translation>
     </message>
     <message>
         <source>-paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation type="vanished">-paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</translation>
+        <translation>-paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</translation>
     </message>
     <message>
         <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
-        <translation type="vanished">A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</translation>
+        <translation>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</translation>
     </message>
     <message>
         <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
-        <translation type="vanished">Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</translation>
+        <translation>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -7747,11 +7747,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Loading masternode cache...</source>
-        <translation type="vanished">Loading masternode cache...</translation>
+        <translation>Loading masternode cache...</translation>
     </message>
     <message>
         <source>Loading masternode payment cache...</source>
-        <translation type="vanished">Loading masternode payment cache...</translation>
+        <translation>Loading masternode payment cache...</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -7825,7 +7825,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Port: %d</source>
-        <translation type="vanished">Port: %d</translation>
+        <translation>Port: %d</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -7834,7 +7834,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Send trace/debug info to debug.log file (default: %u)</source>
-        <translation type="vanished">Send trace/debug info to debug.log file (default: %u)</translation>
+        <translation>Send trace/debug info to debug.log file (default: %u)</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -7983,39 +7983,39 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Too many %f denominations, removing.</source>
-        <translation type="vanished">Too many %f denominations, removing.</translation>
+        <translation>Too many %f denominations, removing.</translation>
     </message>
     <message>
         <source>Tor control port password (default: empty)</source>
-        <translation type="vanished">Tor control port password (default: empty)</translation>
+        <translation>Tor control port password (default: empty)</translation>
     </message>
     <message>
         <source>Tor control port to use if onion listening enabled (default: %s)</source>
-        <translation type="vanished">Tor control port to use if onion listening enabled (default: %s)</translation>
+        <translation>Tor control port to use if onion listening enabled (default: %s)</translation>
     </message>
     <message>
         <source>Unable to start HTTP server. See debug log for details.</source>
-        <translation type="vanished">Unable to start HTTP server. See debug log for details.</translation>
+        <translation>Unable to start HTTP server. See debug log for details.</translation>
     </message>
     <message>
         <source>Unknown response.</source>
-        <translation type="vanished">Unknown response.</translation>
+        <translation>Unknown response.</translation>
     </message>
     <message>
         <source>Unsupported argument -benchmark ignored, use -debug=bench.</source>
-        <translation type="vanished">Unsupported argument -benchmark ignored, use -debug=bench.</translation>
+        <translation>Unsupported argument -benchmark ignored, use -debug=bench.</translation>
     </message>
     <message>
         <source>Unsupported argument -debugnet ignored, use -debug=net.</source>
-        <translation type="vanished">Unsupported argument -debugnet ignored, use -debug=net.</translation>
+        <translation>Unsupported argument -debugnet ignored, use -debug=net.</translation>
     </message>
     <message>
         <source>Unsupported argument -tor found, use -onion.</source>
-        <translation type="vanished">Unsupported argument -tor found, use -onion.</translation>
+        <translation>Unsupported argument -tor found, use -onion.</translation>
     </message>
     <message>
         <source>Upgrade wallet to latest format on startup</source>
-        <translation type="vanished">Upgrade wallet to latest format on startup</translation>
+        <translation>Upgrade wallet to latest format on startup</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -8029,11 +8029,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>User Agent comment (%s) contains unsafe characters.</source>
-        <translation type="vanished">User Agent comment (%s) contains unsafe characters.</translation>
+        <translation>User Agent comment (%s) contains unsafe characters.</translation>
     </message>
     <message>
         <source>Value more than PrivateSend pool maximum allows.</source>
-        <translation type="vanished">Value more than PrivateSend pool maximum allows.</translation>
+        <translation>Value more than PrivateSend pool maximum allows.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -8102,319 +8102,319 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Disable all Dash/Sibcoin specific functionality (Masternodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
-        <translation type="vanished">Disable all Dash/Sibcoin specific functionality (Masternodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</translation>
+        <translation>Disable all Dash/Sibcoin specific functionality (Masternodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</translation>
     </message>
     <message>
         <source>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</source>
-        <translation type="vanished">Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</translation>
+        <translation>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</translation>
     </message>
     <message>
         <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
-        <translation type="vanished">Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</translation>
+        <translation>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</translation>
     </message>
     <message>
         <source>Enable InstantSend, show confirmations for locked transactions (0-1, default: %u)</source>
-        <translation type="vanished">Enable InstantSend, show confirmations for locked transactions (0-1, default: %u)</translation>
+        <translation>Enable InstantSend, show confirmations for locked transactions (0-1, default: %u)</translation>
     </message>
     <message>
         <source>Enable multiple PrivateSend mixing sessions per block, experimental (0-1, default: %u)</source>
-        <translation type="vanished">Enable multiple PrivateSend mixing sessions per block, experimental (0-1, default: %u)</translation>
+        <translation>Enable multiple PrivateSend mixing sessions per block, experimental (0-1, default: %u)</translation>
     </message>
     <message>
         <source>Enable use of automated PrivateSend for funds stored in this wallet (0-1, default: %u)</source>
-        <translation type="vanished">Enable use of automated PrivateSend for funds stored in this wallet (0-1, default: %u)</translation>
+        <translation>Enable use of automated PrivateSend for funds stored in this wallet (0-1, default: %u)</translation>
     </message>
     <message>
         <source>Error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation type="vanished">Error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</translation>
+        <translation>Error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</translation>
     </message>
     <message>
         <source>Execute command when a wallet InstantSend transaction is successfully locked (%s in cmd is replaced by TxID)</source>
-        <translation type="vanished">Execute command when a wallet InstantSend transaction is successfully locked (%s in cmd is replaced by TxID)</translation>
+        <translation>Execute command when a wallet InstantSend transaction is successfully locked (%s in cmd is replaced by TxID)</translation>
     </message>
     <message>
         <source>Failed to create backup, file already exists! This could happen if you restarted wallet in less than 60 seconds. You can continue if you are ok with this.</source>
-        <translation type="vanished">Failed to create backup, file already exists! This could happen if you restarted wallet in less than 60 seconds. You can continue if you are ok with this.</translation>
+        <translation>Failed to create backup, file already exists! This could happen if you restarted wallet in less than 60 seconds. You can continue if you are ok with this.</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
-        <translation type="vanished">Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</translation>
+        <translation>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
-        <translation type="vanished">Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</translation>
+        <translation>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</translation>
     </message>
     <message>
         <source>Force relay of transactions from whitelisted peers even they violate local relay policy (default: %d)</source>
-        <translation type="vanished">Force relay of transactions from whitelisted peers even they violate local relay policy (default: %d)</translation>
+        <translation>Force relay of transactions from whitelisted peers even they violate local relay policy (default: %d)</translation>
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied or if &lt;category&gt; = 1, output all debugging information.</source>
-        <translation type="vanished">If &lt;category&gt; is not supplied or if &lt;category&gt; = 1, output all debugging information.</translation>
+        <translation>If &lt;category&gt; is not supplied or if &lt;category&gt; = 1, output all debugging information.</translation>
     </message>
     <message>
         <source>InstantSend doesn&apos;t support sending values that high yet. Transactions are currently limited to %1 SIB.</source>
-        <translation type="vanished">InstantSend doesn&apos;t support sending values that high yet. Transactions are currently limited to %1 SIB.</translation>
+        <translation>InstantSend doesn&apos;t support sending values that high yet. Transactions are currently limited to %1 SIB.</translation>
     </message>
     <message>
         <source>InstantSend requires inputs with at least %d confirmations, you might need to wait a few minutes and try again.</source>
-        <translation type="vanished">InstantSend requires inputs with at least %d confirmations, you might need to wait a few minutes and try again.</translation>
+        <translation>InstantSend requires inputs with at least %d confirmations, you might need to wait a few minutes and try again.</translation>
     </message>
     <message>
         <source>Maintain a full address index, used to query for the balance, txids and unspent outputs for addresses (default: %u)</source>
-        <translation type="vanished">Maintain a full address index, used to query for the balance, txids and unspent outputs for addresses (default: %u)</translation>
+        <translation>Maintain a full address index, used to query for the balance, txids and unspent outputs for addresses (default: %u)</translation>
     </message>
     <message>
         <source>Maintain a full spent index, used to query the spending txid and input index for an outpoint (default: %u)</source>
-        <translation type="vanished">Maintain a full spent index, used to query the spending txid and input index for an outpoint (default: %u)</translation>
+        <translation>Maintain a full spent index, used to query the spending txid and input index for an outpoint (default: %u)</translation>
     </message>
     <message>
         <source>Maintain a timestamp index for block hashes, used to query blocks hashes by a range of timestamps (default: %u)</source>
-        <translation type="vanished">Maintain a timestamp index for block hashes, used to query blocks hashes by a range of timestamps (default: %u)</translation>
+        <translation>Maintain a timestamp index for block hashes, used to query blocks hashes by a range of timestamps (default: %u)</translation>
     </message>
     <message>
         <source>Maintain at most &lt;n&gt; connections to peers (temporary service connections excluded) (default: %u)</source>
-        <translation type="vanished">Maintain at most &lt;n&gt; connections to peers (temporary service connections excluded) (default: %u)</translation>
+        <translation>Maintain at most &lt;n&gt; connections to peers (temporary service connections excluded) (default: %u)</translation>
     </message>
     <message>
         <source>Maximum total fees (in %s) to use in a single wallet transaction; setting this too low may abort large transactions (default: %s)</source>
-        <translation type="vanished">Maximum total fees (in %s) to use in a single wallet transaction; setting this too low may abort large transactions (default: %s)</translation>
+        <translation>Maximum total fees (in %s) to use in a single wallet transaction; setting this too low may abort large transactions (default: %s)</translation>
     </message>
     <message>
         <source>Please check that your computer&apos;s date and time are correct! If your clock is wrong Sibcoin Core will not work properly.</source>
-        <translation type="vanished">Please check that your computer&apos;s date and time are correct! If your clock is wrong Sibcoin Core will not work properly.</translation>
+        <translation>Please check that your computer&apos;s date and time are correct! If your clock is wrong Sibcoin Core will not work properly.</translation>
     </message>
     <message>
         <source>PrivateSend uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
-        <translation type="vanished">PrivateSend uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</translation>
+        <translation>PrivateSend uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</translation>
     </message>
     <message>
         <source>Provide liquidity to PrivateSend by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</source>
-        <translation type="vanished">Provide liquidity to PrivateSend by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</translation>
+        <translation>Provide liquidity to PrivateSend by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</translation>
     </message>
     <message>
         <source>Prune configured below the minimum of %d MiB.  Please use a higher number.</source>
-        <translation type="vanished">Prune configured below the minimum of %d MiB.  Please use a higher number.</translation>
+        <translation>Prune configured below the minimum of %d MiB.  Please use a higher number.</translation>
     </message>
     <message>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation type="vanished">Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</translation>
+        <translation>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</translation>
     </message>
     <message>
         <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
-        <translation type="vanished">Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</translation>
+        <translation>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</translation>
     </message>
     <message>
         <source>Reduce storage requirements by pruning (deleting) old blocks. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, &gt;%u = target size in MiB to use for block files)</source>
-        <translation type="vanished">Reduce storage requirements by pruning (deleting) old blocks. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, &gt;%u = target size in MiB to use for block files)</translation>
+        <translation>Reduce storage requirements by pruning (deleting) old blocks. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, &gt;%u = target size in MiB to use for block files)</translation>
     </message>
     <message>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
-        <translation type="vanished">Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</translation>
+        <translation>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</translation>
     </message>
     <message>
         <source>Specify full path to directory for automatic wallet backups (must exist)</source>
-        <translation type="vanished">Specify full path to directory for automatic wallet backups (must exist)</translation>
+        <translation>Specify full path to directory for automatic wallet backups (must exist)</translation>
     </message>
     <message>
         <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
-        <translation type="vanished">Support filtering of blocks and transaction with bloom filters (default: %u)</translation>
+        <translation>Support filtering of blocks and transaction with bloom filters (default: %u)</translation>
     </message>
     <message>
         <source>The block database contains a block which appears to be from the future. This may be due to your computer&apos;s date and time being set incorrectly. Only rebuild the block database if you are sure that your computer&apos;s date and time are correct</source>
-        <translation type="vanished">The block database contains a block which appears to be from the future. This may be due to your computer&apos;s date and time being set incorrectly. Only rebuild the block database if you are sure that your computer&apos;s date and time are correct</translation>
+        <translation>The block database contains a block which appears to be from the future. This may be due to your computer&apos;s date and time being set incorrectly. Only rebuild the block database if you are sure that your computer&apos;s date and time are correct</translation>
     </message>
     <message>
         <source>The transaction amount is too small to send after the fee has been deducted</source>
-        <translation type="vanished">The transaction amount is too small to send after the fee has been deducted</translation>
+        <translation>The transaction amount is too small to send after the fee has been deducted</translation>
     </message>
     <message>
         <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
-        <translation type="vanished">Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</translation>
+        <translation>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</translation>
     </message>
     <message>
         <source>Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)</source>
-        <translation type="vanished">Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)</translation>
+        <translation>Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)</translation>
     </message>
     <message>
         <source>Unable to locate enough PrivateSend denominated funds for this transaction.</source>
-        <translation type="vanished">Unable to locate enough PrivateSend denominated funds for this transaction.</translation>
+        <translation>Unable to locate enough PrivateSend denominated funds for this transaction.</translation>
     </message>
     <message>
         <source>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal 1000 SIB.</source>
-        <translation type="vanished">Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal 1000 SIB.</translation>
+        <translation>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal 1000 SIB.</translation>
     </message>
     <message>
         <source>Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>
-        <translation type="vanished">Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</translation>
+        <translation>Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</translation>
     </message>
     <message>
         <source>Unsupported argument -whitelistalwaysrelay ignored, use -whitelistrelay and/or -whitelistforcerelay.</source>
-        <translation type="vanished">Unsupported argument -whitelistalwaysrelay ignored, use -whitelistrelay and/or -whitelistforcerelay.</translation>
+        <translation>Unsupported argument -whitelistalwaysrelay ignored, use -whitelistrelay and/or -whitelistforcerelay.</translation>
     </message>
     <message>
         <source>Use N separate masternodes for each denominated input to mix funds (2-16, default: %u)</source>
-        <translation type="vanished">Use N separate masternodes for each denominated input to mix funds (2-16, default: %u)</translation>
+        <translation>Use N separate masternodes for each denominated input to mix funds (2-16, default: %u)</translation>
     </message>
     <message>
         <source>Use UPnP to map the listening port (default: 1 when listening and no -proxy)</source>
-        <translation type="vanished">Use UPnP to map the listening port (default: 1 when listening and no -proxy)</translation>
+        <translation>Use UPnP to map the listening port (default: 1 when listening and no -proxy)</translation>
     </message>
     <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</source>
-        <translation type="vanished">Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</translation>
+        <translation>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</translation>
     </message>
     <message>
         <source>WARNING! Failed to replenish keypool, please unlock your wallet to do so.</source>
-        <translation type="vanished">WARNING! Failed to replenish keypool, please unlock your wallet to do so.</translation>
+        <translation>WARNING! Failed to replenish keypool, please unlock your wallet to do so.</translation>
     </message>
     <message>
         <source>WARNING: abnormally high number of blocks generated, %d blocks received in the last %d hours (%d expected)</source>
-        <translation type="vanished">WARNING: abnormally high number of blocks generated, %d blocks received in the last %d hours (%d expected)</translation>
+        <translation>WARNING: abnormally high number of blocks generated, %d blocks received in the last %d hours (%d expected)</translation>
     </message>
     <message>
         <source>WARNING: check your network connection, %d blocks received in the last %d hours (%d expected)</source>
-        <translation type="vanished">WARNING: check your network connection, %d blocks received in the last %d hours (%d expected)</translation>
+        <translation>WARNING: check your network connection, %d blocks received in the last %d hours (%d expected)</translation>
     </message>
     <message>
         <source>Wallet is locked, can&apos;t replenish keypool! Automatic backups and mixing are disabled, please unlock your wallet to replenish keypool.</source>
-        <translation type="vanished">Wallet is locked, can&apos;t replenish keypool! Automatic backups and mixing are disabled, please unlock your wallet to replenish keypool.</translation>
+        <translation>Wallet is locked, can&apos;t replenish keypool! Automatic backups and mixing are disabled, please unlock your wallet to replenish keypool.</translation>
     </message>
     <message>
         <source>Warning: Unknown block versions being mined! It&apos;s possible unknown rules are in effect</source>
-        <translation type="vanished">Warning: Unknown block versions being mined! It&apos;s possible unknown rules are in effect</translation>
+        <translation>Warning: Unknown block versions being mined! It&apos;s possible unknown rules are in effect</translation>
     </message>
     <message>
         <source>You need to rebuild the database using -reindex to go back to unpruned mode.  This will redownload the entire blockchain</source>
-        <translation type="vanished">You need to rebuild the database using -reindex to go back to unpruned mode.  This will redownload the entire blockchain</translation>
+        <translation>You need to rebuild the database using -reindex to go back to unpruned mode.  This will redownload the entire blockchain</translation>
     </message>
     <message>
         <source>masternodeaddr option is deprecated. Please use masternode.conf to manage your remote masternodes.</source>
-        <translation type="vanished">masternodeaddr option is deprecated. Please use masternode.conf to manage your remote masternodes.</translation>
+        <translation>masternodeaddr option is deprecated. Please use masternode.conf to manage your remote masternodes.</translation>
     </message>
     <message>
         <source>%s - %d confirmations</source>
-        <translation type="vanished">%s - %d confirmations</translation>
+        <translation>%s - %d confirmations</translation>
     </message>
     <message>
         <source>(%d could be used only on mainnet)</source>
-        <translation type="vanished">(%d could be used only on mainnet)</translation>
+        <translation>(%d could be used only on mainnet)</translation>
     </message>
     <message>
         <source>(default: %u)</source>
-        <translation type="vanished">(default: %u)</translation>
+        <translation>(default: %u)</translation>
     </message>
     <message>
         <source>(must be %d for mainnet)</source>
-        <translation type="vanished">(must be %d for mainnet)</translation>
+        <translation>(must be %d for mainnet)</translation>
     </message>
     <message>
         <source>-maxmempool must be at least %d MB</source>
-        <translation type="vanished">-maxmempool must be at least %d MB</translation>
+        <translation>-maxmempool must be at least %d MB</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>
-        <translation type="vanished">&lt;category&gt; can be:</translation>
+        <translation>&lt;category&gt; can be:</translation>
     </message>
     <message>
         <source>Activating best chain...</source>
-        <translation type="vanished">Activating best chain...</translation>
+        <translation>Activating best chain...</translation>
     </message>
     <message>
         <source>Append comment to the user agent string</source>
-        <translation type="vanished">Append comment to the user agent string</translation>
+        <translation>Append comment to the user agent string</translation>
     </message>
     <message>
         <source>Attempt to recover private keys from a corrupt wallet.dat on startup</source>
-        <translation type="vanished">Attempt to recover private keys from a corrupt wallet.dat on startup</translation>
+        <translation>Attempt to recover private keys from a corrupt wallet.dat on startup</translation>
     </message>
     <message>
         <source>Automatic backups disabled</source>
-        <translation type="vanished">Automatic backups disabled</translation>
+        <translation>Automatic backups disabled</translation>
     </message>
     <message>
         <source>Automatically create Tor hidden service (default: %d)</source>
-        <translation type="vanished">Automatically create Tor hidden service (default: %d)</translation>
+        <translation>Automatically create Tor hidden service (default: %d)</translation>
     </message>
     <message>
         <source>ERROR! Failed to create automatic backup</source>
-        <translation type="vanished">ERROR! Failed to create automatic backup</translation>
+        <translation>ERROR! Failed to create automatic backup</translation>
     </message>
     <message>
         <source>Enable publish hash block in &lt;address&gt;</source>
-        <translation type="vanished">Enable publish hash block in &lt;address&gt;</translation>
+        <translation>Enable publish hash block in &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable publish hash transaction (locked via InstantSend) in &lt;address&gt;</source>
-        <translation type="vanished">Enable publish hash transaction (locked via InstantSend) in &lt;address&gt;</translation>
+        <translation>Enable publish hash transaction (locked via InstantSend) in &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable publish hash transaction in &lt;address&gt;</source>
-        <translation type="vanished">Enable publish hash transaction in &lt;address&gt;</translation>
+        <translation>Enable publish hash transaction in &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable publish raw block in &lt;address&gt;</source>
-        <translation type="vanished">Enable publish raw block in &lt;address&gt;</translation>
+        <translation>Enable publish raw block in &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable publish raw transaction (locked via InstantSend) in &lt;address&gt;</source>
-        <translation type="vanished">Enable publish raw transaction (locked via InstantSend) in &lt;address&gt;</translation>
+        <translation>Enable publish raw transaction (locked via InstantSend) in &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable publish raw transaction in &lt;address&gt;</source>
-        <translation type="vanished">Enable publish raw transaction in &lt;address&gt;</translation>
+        <translation>Enable publish raw transaction in &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable transaction replacement in the memory pool (default: %u)</source>
-        <translation type="vanished">Enable transaction replacement in the memory pool (default: %u)</translation>
+        <translation>Enable transaction replacement in the memory pool (default: %u)</translation>
     </message>
     <message>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
-        <translation type="vanished">Error: A fatal internal error occurred, see debug.log for details</translation>
+        <translation>Error: A fatal internal error occurred, see debug.log for details</translation>
     </message>
     <message>
         <source>Failed to create backup %s!</source>
-        <translation type="vanished">Failed to create backup %s!</translation>
+        <translation>Failed to create backup %s!</translation>
     </message>
     <message>
         <source>Failed to create backup, error: %s</source>
-        <translation type="vanished">Failed to create backup, error: %s</translation>
+        <translation>Failed to create backup, error: %s</translation>
     </message>
     <message>
         <source>Failed to delete backup, error: %s</source>
-        <translation type="vanished">Failed to delete backup, error: %s</translation>
+        <translation>Failed to delete backup, error: %s</translation>
     </message>
     <message>
         <source>Failed to parse host:port string</source>
-        <translation type="vanished">Failed to parse host:port string</translation>
+        <translation>Failed to parse host:port string</translation>
     </message>
     <message>
         <source>Fee (in %s/kB) to add to transactions you send (default: %s)</source>
-        <translation type="vanished">Fee (in %s/kB) to add to transactions you send (default: %s)</translation>
+        <translation>Fee (in %s/kB) to add to transactions you send (default: %s)</translation>
     </message>
     <message>
         <source>Imports blocks from external blk000??.dat file on startup</source>
-        <translation type="vanished">Imports blocks from external blk000??.dat file on startup</translation>
+        <translation>Imports blocks from external blk000??.dat file on startup</translation>
     </message>
     <message>
         <source>InstantSend options:</source>
-        <translation type="vanished">InstantSend options:</translation>
+        <translation>InstantSend options:</translation>
     </message>
     <message>
         <source>Invalid amount for -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation type="vanished">Invalid amount for -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+        <translation>Invalid amount for -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Keep the transaction memory pool below &lt;n&gt; megabytes (default: %u)</source>
-        <translation type="vanished">Keep the transaction memory pool below &lt;n&gt; megabytes (default: %u)</translation>
+        <translation>Keep the transaction memory pool below &lt;n&gt; megabytes (default: %u)</translation>
     </message>
     <message>
         <source>Last PrivateSend was too recent.</source>
-        <translation type="vanished">Last PrivateSend was too recent.</translation>
+        <translation>Last PrivateSend was too recent.</translation>
     </message>
     <message>
         <source>Last successful PrivateSend action was too recent.</source>
-        <translation type="vanished">Last successful PrivateSend action was too recent.</translation>
+        <translation>Last successful PrivateSend action was too recent.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8433,11 +8433,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Loading fullfiled requests cache...</source>
-        <translation type="vanished">Loading fullfiled requests cache...</translation>
+        <translation>Loading fullfiled requests cache...</translation>
     </message>
     <message>
         <source>Loading governance cache...</source>
-        <translation type="vanished">Loading governance cache...</translation>
+        <translation>Loading governance cache...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8451,15 +8451,15 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Location of the auth cookie (default: data dir)</source>
-        <translation type="vanished">Location of the auth cookie (default: data dir)</translation>
+        <translation>Location of the auth cookie (default: data dir)</translation>
     </message>
     <message>
         <source>Make the wallet broadcast transactions</source>
-        <translation type="vanished">Make the wallet broadcast transactions</translation>
+        <translation>Make the wallet broadcast transactions</translation>
     </message>
     <message>
         <source>Masternode cache is empty, skipping payments and governance cache...</source>
-        <translation type="vanished">Masternode cache is empty, skipping payments and governance cache...</translation>
+        <translation>Masternode cache is empty, skipping payments and governance cache...</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8478,7 +8478,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Minimum bytes per sigop in transactions we relay and mine (default: %u)</source>
-        <translation type="vanished">Minimum bytes per sigop in transactions we relay and mine (default: %u)</translation>
+        <translation>Minimum bytes per sigop in transactions we relay and mine (default: %u)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -8487,7 +8487,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>No errors detected.</source>
-        <translation type="vanished">No errors detected.</translation>
+        <translation>No errors detected.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -8516,11 +8516,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Not enough funds to anonymize.</source>
-        <translation type="vanished">Not enough funds to anonymize.</translation>
+        <translation>Not enough funds to anonymize.</translation>
     </message>
     <message>
         <source>Number of automatic wallet backups (default: %u)</source>
-        <translation type="vanished">Number of automatic wallet backups (default: %u)</translation>
+        <translation>Number of automatic wallet backups (default: %u)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -8569,67 +8569,67 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Print version and exit</source>
-        <translation type="vanished">Print version and exit</translation>
+        <translation>Print version and exit</translation>
     </message>
     <message>
         <source>PrivateSend is idle.</source>
-        <translation type="vanished">PrivateSend is idle.</translation>
+        <translation>PrivateSend is idle.</translation>
     </message>
     <message>
         <source>PrivateSend options:</source>
-        <translation type="vanished">PrivateSend options:</translation>
+        <translation>PrivateSend options:</translation>
     </message>
     <message>
         <source>PrivateSend request complete:</source>
-        <translation type="vanished">PrivateSend request complete:</translation>
+        <translation>PrivateSend request complete:</translation>
     </message>
     <message>
         <source>PrivateSend request incomplete:</source>
-        <translation type="vanished">PrivateSend request incomplete:</translation>
+        <translation>PrivateSend request incomplete:</translation>
     </message>
     <message>
         <source>Prune cannot be configured with a negative value.</source>
-        <translation type="vanished">Prune cannot be configured with a negative value.</translation>
+        <translation>Prune cannot be configured with a negative value.</translation>
     </message>
     <message>
         <source>Prune mode is incompatible with -txindex.</source>
-        <translation type="vanished">Prune mode is incompatible with -txindex.</translation>
+        <translation>Prune mode is incompatible with -txindex.</translation>
     </message>
     <message>
         <source>Pruning blockstore...</source>
-        <translation type="vanished">Pruning blockstore...</translation>
+        <translation>Pruning blockstore...</translation>
     </message>
     <message>
         <source>Rebuild block chain index from current blk000??.dat files on startup</source>
-        <translation type="vanished">Rebuild block chain index from current blk000??.dat files on startup</translation>
+        <translation>Rebuild block chain index from current blk000??.dat files on startup</translation>
     </message>
     <message>
         <source>Rescan the block chain for missing wallet transactions on startup</source>
-        <translation type="vanished">Rescan the block chain for missing wallet transactions on startup</translation>
+        <translation>Rescan the block chain for missing wallet transactions on startup</translation>
     </message>
     <message>
         <source>Warning: unknown new rules activated (versionbit %i)</source>
-        <translation type="vanished">Warning: unknown new rules activated (versionbit %i)</translation>
+        <translation>Warning: unknown new rules activated (versionbit %i)</translation>
     </message>
     <message>
         <source>Wasn&apos;t able to create wallet backup folder %s!</source>
-        <translation type="vanished">Wasn&apos;t able to create wallet backup folder %s!</translation>
+        <translation>Wasn&apos;t able to create wallet backup folder %s!</translation>
     </message>
     <message>
         <source>Whether to operate in a blocks only mode (default: %u)</source>
-        <translation type="vanished">Whether to operate in a blocks only mode (default: %u)</translation>
+        <translation>Whether to operate in a blocks only mode (default: %u)</translation>
     </message>
     <message>
         <source>ZeroMQ notification options:</source>
-        <translation type="vanished">ZeroMQ notification options:</translation>
+        <translation>ZeroMQ notification options:</translation>
     </message>
     <message>
         <source>no mixing available.</source>
-        <translation type="vanished">no mixing available.</translation>
+        <translation>no mixing available.</translation>
     </message>
     <message>
         <source>see debug.log for details.</source>
-        <translation type="vanished">see debug.log for details.</translation>
+        <translation>see debug.log for details.</translation>
     </message>
     <message>
         <location line="-3"/>
@@ -8638,7 +8638,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
-        <translation type="vanished">Reducing -maxconnections from %d to %d, because of system limitations.</translation>
+        <translation>Reducing -maxconnections from %d to %d, because of system limitations.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -8667,7 +8667,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation type="vanished">Send trace/debug info to console instead of debug.log file</translation>
+        <translation>Send trace/debug info to console instead of debug.log file</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -8726,19 +8726,19 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Synchronization pending...</source>
-        <translation type="vanished">Synchronization pending...</translation>
+        <translation>Synchronization pending...</translation>
     </message>
     <message>
         <source>Synchronizing governance objects...</source>
-        <translation type="vanished">Synchronizing governance objects...</translation>
+        <translation>Synchronizing governance objects...</translation>
     </message>
     <message>
         <source>Synchronizing masternode payments...</source>
-        <translation type="vanished">Synchronizing masternode payments...</translation>
+        <translation>Synchronizing masternode payments...</translation>
     </message>
     <message>
         <source>The transaction amount is too small to pay the fee</source>
-        <translation type="vanished">The transaction amount is too small to pay the fee</translation>
+        <translation>The transaction amount is too small to pay the fee</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -8857,7 +8857,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     </message>
     <message>
         <source>Very low number of keys left: %d</source>
-        <translation type="vanished">Very low number of keys left: %d</translation>
+        <translation>Very low number of keys left: %d</translation>
     </message>
     <message>
         <location line="+1"/>
