@@ -1,4 +1,5 @@
 #include <QObject>
+#include <QStringList>
 #include "convertdata.h"
 
 QtOfferInfo ConvertData::toQtOfferInfo(const OfferInfo &offer)
@@ -66,19 +67,19 @@ QString ConvertData::toUiPrice(const quint64 &i)
     if (num.size() >= decimals) {
         int dot = num.size()-decimals;
 
-        num = num.insert(dot, ".");
+        num = num.insert(dot, '.');
 
         bool stop = false;
         while (!stop) {
             int size = num.size();
-            if (size > dot && num[size-1] == "0") {
+            if (size > dot && num[size-1] == '0') {
                 num = num.mid(0, size-1);
             } else {
                 stop = true;
             }
         }
 
-        if (num[num.size() - 1] == ".") {
+        if (num[num.size() - 1] == '.') {
             num = num.mid(0, num.size()-1);
         }
     } else {
@@ -90,8 +91,8 @@ QString ConvertData::toUiPrice(const quint64 &i)
 
 quint64 ConvertData::fromUiPrice(QString str)
 {
-    if (str.indexOf(".") > -1) {
-        QStringList l = str.split(".");
+    if (str.indexOf('.') > -1) {
+        QStringList l = str.split('.');
         QString dec = l[1];
         if (dec.size() < decimals) {
             int size = decimals-dec.size();
