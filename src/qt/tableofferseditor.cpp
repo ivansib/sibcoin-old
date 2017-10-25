@@ -3,13 +3,14 @@
 
 TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDialog(db, parent)
 {
-    details = new OfferDetailsEditor(db, this);
+    editor = new OfferDetailsEditor(db, this);
+    creator = new OfferDetailsCreator(db, this);
 
     updateData();
 
-    connect(details,  &OfferDetailsEditor::dataChanged, this, &TableOffersEditor::changedRowData);
+    connect(editor,  &OfferDetails::dataChanged, this, &TableOffersEditor::changedRowData);
 
-    useOfferSort(true);
+    useMyOfferMode(true);
     init();
 }
 
@@ -36,8 +37,13 @@ void TableOffersEditor::updateData()
 void TableOffersEditor::clickedButton(const int &index)
 {
     QtOfferInfo info = pModel->offerInfo(index);
-    details->setOfferInfo(info);
-    details->show();
+    editor->setOfferInfo(info);
+    editor->show();
+}
+
+void TableOffersEditor::openCreatorOffer()
+{
+    creator->show();
 }
 
 void TableOffersEditor::changedFilterOffer(const int &)

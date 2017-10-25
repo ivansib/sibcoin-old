@@ -2,6 +2,7 @@
 #define TABLEOFFERSVIEW_H
 
 #include "tableoffersdialog.h"
+#include "offerdetailsview.h"
 
 class TableOffersView : public TableOffersDialog
 {
@@ -17,7 +18,7 @@ public:
     ~TableOffersView();
 
 private:
-    OfferDetails *details;
+    OfferDetailsView *details;
     DexDB *db;
     const TypeOffer type;
 

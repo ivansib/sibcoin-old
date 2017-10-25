@@ -1,43 +1,67 @@
 #include <QDateTime>
 #include "offerdetails.h"
 #include "convertdata.h"
-#include "ui_offerdetails.h"
 
-OfferDetails::OfferDetails(DexDB *db, QDialog *parent) : QDialog(parent), ui(new Ui::OfferDetails), db(db)
+OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDialog(parent), type(type)
 {
-    ui->setupUi(this);
+    setupUi(this);
 
-    connect(ui->btnClose, &QPushButton::clicked, this, &OfferDetails::close);
+    auto payments = db->getPaymentMethodsInfo();
+    cBoxPayment->addData(payments, ComboBox::Editor);
+
+    auto countries = db->getCountriesInfo();
+    cBoxCountry->addData(countries, ComboBox::Editor);
+
+    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
+    cBoxCurrency->addData(currencies, ComboBox::Editor);
+
+    connect(btnBox, &QDialogButtonBox::accepted, this, &OfferDetails::saveData);
+    connect(btnBox, &QDialogButtonBox::rejected, this, &OfferDetails::close);
+    connect(sBoxExpiration, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &OfferDetails::changedTimeToExpiration);
+    connect(tEditShortInfo, &QTextEdit::textChanged, this, &OfferDetails::changedShortInfo);
+
+    initMode();
 }
 
 OfferDetails::~OfferDetails()
 {
-    delete ui;
 }
 
-void OfferDetails::setOfferInfo(const QtOfferInfo &info)
+const void OfferDetails::initMode()
 {
-    QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
+    if (type == Edit) {
+        lOffer->setVisible(false);
+        cBoxOffer->setVisible(false);
+    } else {
+        lIdTransaction->setVisible(false);
+        lEditId->setVisible(false);
+        lHash->setVisible(false);
+        lEditHash->setVisible(false);
 
-    ui->lEditId->setText(info.idTransaction);
-    ui->lEditHash->setText(info.hash);
+        lTimeCreate->setText(tr("Approximate Time Create:"));
+        lInfoExpiration->setText(tr("Approximate Time Expiration:"));
 
-    auto countryInfo = db->getCountryInfo(ConvertData::fromQString(info.countryIso));
-    QString country = ConvertData::toTr(countryInfo.name);
-    ui->lEditCountry->setText(country);
+        lEditTimeCreate->setText(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
 
-    auto currencyInfo = db->getCurrencyInfo(ConvertData::fromQString(info.currencyIso));
-    QString currency = ConvertData::toTr(currencyInfo.name);
-    ui->lEditCurrency->setText(currency);
+        cBoxOffer->addItem(tr("Buy"));
+        cBoxOffer->addItem(tr("Sell"));
+    }
+}
 
-    auto paymentInfo = db->getPaymentMethodInfo((unsigned char)info.paymentMethod);
-    QString payment = ConvertData::toTr(paymentInfo.name);
-    ui->lEditPayment->setText(payment);
+void OfferDetails::changedTimeToExpiration(const int &i)
+{
+    QDateTime timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm");
+    QDateTime timeExpiration = timeCreate.addDays(i);
+    lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+}
 
-    ui->lEditPrice->setText(ConvertData::toUiPrice(info.price));
-    ui->lEditMinAmount->setText(ConvertData::toUiPrice(info.minAmount));
-    ui->lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
-    ui->lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
-    ui->tEditShortInfo->setText(info.shortInfo);
-    ui->tEditDetails->setText(info.details);
+void OfferDetails::changedShortInfo()
+{
+    QString text = tEditShortInfo->toPlainText();
+    int size = text.size();
+
+    if (size > 140) {
+        tEditShortInfo->setText(text.mid(0, 140));
+        tEditShortInfo->moveCursor(QTextCursor::End);
+    }
 }

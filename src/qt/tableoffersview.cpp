@@ -3,7 +3,7 @@
 
 TableOffersView::TableOffersView(DexDB *db, const TableOffersView::TypeOffer &type, QDialog *parent) : TableOffersDialog(db, parent), db(db), type(type)
 {
-    details = new OfferDetails(db, this);
+    details = new OfferDetailsView(db, this);
 
     updateData();
 }

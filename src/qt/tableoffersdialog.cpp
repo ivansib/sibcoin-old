@@ -32,12 +32,10 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
             this, &TableOffersDialog::changedFilterCurrencyIso);
     connect(ui->cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterPaymentMethod);
-    connect(ui->cBoxOffer, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &TableOffersDialog::changedFilterOffer);
 
     connect(pModel, &OfferModel::layoutChanged, this, &TableOffersDialog::addButtons);
 
-    useOfferSort(false);
+    useMyOfferMode(false);
 }
 
 TableOffersDialog::~TableOffersDialog()
@@ -72,10 +70,18 @@ int TableOffersDialog::currentOfferIndex() const
     return ui->cBoxOffer->currentIndex();
 }
 
-void TableOffersDialog::useOfferSort(const bool &b)
+void TableOffersDialog::useMyOfferMode(const bool &b)
 {
     ui->cBoxOffer->setVisible(b);
     ui->labelOffer->setVisible(b);
+    ui->widgetBottom->setVisible(b);
+
+    if (b) {
+        connect(ui->cBoxOffer, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+                this, &TableOffersDialog::changedFilterOffer);
+
+        connect(ui->btnCreate, &QPushButton::clicked, this, &TableOffersDialog::openCreatorOffer);
+    }
 }
 
 void TableOffersDialog::addButtons()
@@ -91,6 +97,10 @@ void TableOffersDialog::addButtons()
 }
 
 void TableOffersDialog::changedFilterOffer(const int &)
+{
+}
+
+void TableOffersDialog::openCreatorOffer()
 {
 }
 

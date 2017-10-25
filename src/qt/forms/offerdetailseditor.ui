@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>863</width>
-    <height>674</height>
+    <width>747</width>
+    <height>726</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,42 +15,60 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="lIdTransaction">
      <property name="text">
       <string>Id Transaction:</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lEditId">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditId">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="lHash">
      <property name="text">
       <string>Hash:</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lEditHash">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QLabel" name="lEditHash">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="lOffer">
      <property name="text">
-      <string>Country:</string>
+      <string>Offer:</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="ComboBox" name="cBoxCountry">
+    <widget class="QComboBox" name="cBoxOffer">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -60,14 +78,14 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Currency:</string>
+      <string>Country:</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="ComboBox" name="cBoxCurrency">
+    <widget class="ComboBox" name="cBoxCountry">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -77,14 +95,14 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Payment:</string>
+      <string>Currency:</string>
      </property>
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="ComboBox" name="cBoxPayment">
+    <widget class="ComboBox" name="cBoxCurrency">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -94,14 +112,14 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Price:</string>
+      <string>Payment:</string>
      </property>
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="PriceSpinBox" name="sBoxPrice">
+    <widget class="ComboBox" name="cBoxPayment">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -111,14 +129,14 @@
     </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>Min Amount:</string>
+      <string>Price:</string>
      </property>
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="PriceSpinBox" name="sBoxMinAmount">
+    <widget class="PriceSpinBox" name="sBoxPrice">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -128,34 +146,57 @@
     </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="label_7">
      <property name="text">
-      <string>Time Create:</string>
+      <string>Min Amount:</string>
      </property>
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QLineEdit" name="lEditTimeCreate">
+    <widget class="PriceSpinBox" name="sBoxMinAmount">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
     </widget>
    </item>
    <item row="8" column="0">
+    <widget class="QLabel" name="lTimeCreate">
+     <property name="text">
+      <string>Time Create:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLabel" name="lEditTimeCreate">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
     <widget class="QLabel" name="label_9">
      <property name="text">
       <string>Time To Expiration:</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="9" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
      <item>
       <widget class="QSpinBox" name="sBoxExpiration">
        <property name="maximum">
@@ -164,29 +205,38 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_12">
+      <widget class="QLabel" name="lInfoExpiration">
        <property name="text">
         <string>days     Time Expiration:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lEditTimeExpiration">
-       <property name="readOnly">
-        <bool>true</bool>
+      <widget class="QLabel" name="lEditTimeExpiration">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="label_10">
      <property name="text">
       <string>Short Info:</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="10" column="1">
     <widget class="QTextEdit" name="tEditShortInfo">
      <property name="enabled">
       <bool>true</bool>
@@ -202,14 +252,14 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
+   <item row="11" column="0">
     <widget class="QLabel" name="label_11">
      <property name="text">
       <string>Details:</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
+   <item row="11" column="1">
     <widget class="QTextEdit" name="tEditDetails">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -222,7 +272,7 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="1">
+   <item row="12" column="1">
     <widget class="QDialogButtonBox" name="btnBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>

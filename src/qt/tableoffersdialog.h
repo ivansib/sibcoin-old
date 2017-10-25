@@ -6,7 +6,6 @@
 #include <QSignalMapper>
 #include "dex/dexdb.h"
 #include "offermodel.h"
-#include "offerdetails.h"
 
 using namespace dex;
 
@@ -32,7 +31,7 @@ protected:
     QString currentPayment() const;
     int currentOfferIndex() const;
 
-    void useOfferSort(const bool &b);
+    void useMyOfferMode(const bool &b);
 
 private:
     Ui::TableOffersDialog *ui;
@@ -41,6 +40,7 @@ private:
 
 protected Q_SLOTS:
     virtual void changedFilterOffer(const int &);
+    virtual void openCreatorOffer();
     virtual void clickedButton(const int &index) = 0;
 
 private Q_SLOTS:

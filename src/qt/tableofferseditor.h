@@ -3,6 +3,7 @@
 
 #include "tableoffersdialog.h"
 #include "offerdetailseditor.h"
+#include "offerdetailscreator.h"
 
 class TableOffersEditor : public TableOffersDialog
 {
@@ -13,12 +14,14 @@ public:
     ~TableOffersEditor();
 
 private:
-    OfferDetailsEditor *details;
+    OfferDetailsEditor *editor;
+    OfferDetailsCreator *creator;
 
     void updateData();
 
 protected Q_SLOTS:
     virtual void clickedButton(const int &index);
+    virtual void openCreatorOffer();
     virtual void changedFilterOffer(const int &);
 
 private Q_SLOTS:

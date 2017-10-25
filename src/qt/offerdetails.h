@@ -2,28 +2,41 @@
 #define OFFERDETAILS_H
 
 #include <QDialog>
-#include "dto.h"
 #include "dex/dexdb.h"
-
-namespace Ui {
-    class OfferDetails;
-}
+#include "dto.h"
+#include "ui_offerdetailseditor.h"
 
 using namespace dex;
 
-class OfferDetails : public QDialog
+class OfferDetails : public QDialog, public Ui::OfferDetailsEditor
 {
     Q_OBJECT
 
 public:
-    OfferDetails(DexDB *db, QDialog *parent = nullptr);
-    ~OfferDetails();
+    enum Type {
+        Edit,
+        Create
+    };
 
-    void setOfferInfo(const QtOfferInfo &info);
+    OfferDetails(DexDB *db, const Type &type, QDialog *parent = nullptr);
+    virtual ~OfferDetails();
 
 private:
-    Ui::OfferDetails *ui;
     DexDB *db;
+    const Type type;
+
+    const void initMode();
+
+protected Q_SLOTS:
+    virtual void saveData() = 0;
+
+private Q_SLOTS:
+    void changedTimeToExpiration(const int &i);
+    void changedShortInfo();
+
+Q_SIGNALS:
+    void dataChanged(const QtOfferInfo &info);
 };
+
 
 #endif

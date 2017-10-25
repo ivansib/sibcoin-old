@@ -1,37 +1,19 @@
 #ifndef OFFERDETAILSEDITOR_H
 #define OFFERDETAILSEDITOR_H
 
-#include <QDialog>
-#include "dex/dexdb.h"
-#include "dto.h"
+#include "offerdetails.h"
 
-using namespace dex;
-
-namespace Ui {
-    class OfferDetailsEditor;
-}
-
-class OfferDetailsEditor : public QDialog
+class OfferDetailsEditor : public OfferDetails
 {
     Q_OBJECT
 
 public:
     OfferDetailsEditor(DexDB *db, QDialog *parent = nullptr);
-    ~OfferDetailsEditor();
 
     void setOfferInfo(const QtOfferInfo &info);
 
-private:
-    Ui::OfferDetailsEditor *ui;
-    DexDB *db;
-
-private Q_SLOTS:
-    void saveData();
-    void changedTimeToExpiration(const int &i);
-    void changedShortInfo();
-
-Q_SIGNALS:
-    void dataChanged(const QtOfferInfo &info);
+protected Q_SLOTS:
+    virtual void saveData();
 };
 
 #endif
