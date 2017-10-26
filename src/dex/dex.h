@@ -15,11 +15,17 @@ class CDex
 private:
     mutable CCriticalSection cs;
 
+public:
     CDexOffer offer;
 
 public:
 
     CDex();
+
+    bool CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const std::string &countryIso,
+                     const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
+                     uint64_t minAmount, int timeExpiration, const std::string &shortInfo, const std::string &details);
+
 
 
     ADD_SERIALIZE_METHODS;

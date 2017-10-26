@@ -22,33 +22,35 @@ CDexManager::CDexManager()
 void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
     if (strCommand == NetMsgType::DEXOFFBCST) {
-
         CDexOffer offer;
         vRecv >> offer;
+        if (offer.Check(true)) {
+            dex::DexDB db(strDexDbFile);
+            bool bFound = false;
+            if (offer.isBuy())  {
+                if (db.isExistOfferBuy(offer.idTransaction.GetHex())) {
+                  bFound = true;
+                } else {
+                    db.addOfferBuy(offer);
+                }
+            }
 
-        //pfrom->setAskFor.erase(mnb.GetHash());
+            if (offer.isSell())  {
+                if (db.isExistOfferSell(offer.idTransaction.GetHex())) {
+                  bFound = true;
+                } else {
+                    db.addOfferSell(offer);
+                }
+            }
 
-        dex::DexDB db(strDexDbFile);
-        if (offer.isBuy())  db.addOfferBuy(offer);
-        if (offer.isSell()) db.addOfferSell(offer);
-
-        LogPrint("dex", "DEXOFFBCST --\n%s\n", offer.dump().c_str());
-
-/*
-        int nDos = 0;
-
-        if (CheckMnbAndUpdateMasternodeList(pfrom, mnb, nDos)) {
-            // use announced Masternode as a peer
-            addrman.Add(CAddress(mnb.addr), pfrom->addr, 2*60*60);
-        } else if(nDos > 0) {
-            Misbehaving(pfrom->GetId(), nDos);
+            if (!bFound) { // need to save and relay
+                LOCK2(cs_main, cs_vNodes);
+                BOOST_FOREACH(CNode* pNode, vNodes) {
+                    pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                }
+            }
+            LogPrint("dex", "DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         }
-
-        if(fMasternodesAdded) {
-            NotifyMasternodeUpdates();
-        }
-*/
-
     }
 }
 

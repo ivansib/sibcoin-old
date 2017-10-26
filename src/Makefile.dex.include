@@ -29,7 +29,6 @@ dex_libdex_a_CPPFLAGS = -I$(srcdir)/univalue/include -I$(srcdir)/dex/include
 dex_libdex_a_SOURCES = \
   dex/dex.cpp \
   dex/dexmanager.cpp \
-  dex/dexbc.cpp \
   dex/rpc.cpp \
   dex/dexoffer.cpp
 

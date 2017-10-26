@@ -486,6 +486,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     return offers;
 }
 
+<<<<<<< HEAD
 bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransaction)
 {
     int count = 0;

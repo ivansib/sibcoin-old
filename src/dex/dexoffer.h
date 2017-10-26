@@ -85,6 +85,8 @@ public:
 
     std::string dump() const;
 
+    bool Check(bool fullcheck);
+
 };
 
 
