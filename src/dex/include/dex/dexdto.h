@@ -38,6 +38,56 @@ struct OfferInfo {
     std::string details;
 };
 
+enum TypeOffer {
+    Buy,
+    Sell
+};
+
+enum StatusOffer {
+    Active,
+    Draft,
+    Expired,
+    Cancelled,
+    Suspended
+};
+
+struct MyOfferInfo : OfferInfo {
+    TypeOffer type;
+    StatusOffer status;
+
+    OfferInfo getOfferInfo() const {
+        OfferInfo info;
+
+        info.idTransaction = idTransaction;
+        info.hash = hash;
+        info.countryIso = countryIso;
+        info.currencyIso = currencyIso;
+        info.paymentMethod = paymentMethod;
+        info.price = price;
+        info.minAmount = minAmount;
+        info.timeCreate = timeCreate;
+        info.timeToExpiration = timeToExpiration;
+        info.shortInfo = shortInfo;
+        info.details = details;
+
+        return info;
+    }
+
+    void setOfferInfo(const OfferInfo &info) {
+        idTransaction = info.idTransaction;
+        hash = info.hash;
+        countryIso = info.countryIso;
+        currencyIso = info.currencyIso;
+        paymentMethod = info.paymentMethod;
+        price = info.price;
+        minAmount = info.minAmount;
+        timeCreate = info.timeCreate;
+        timeToExpiration = info.timeToExpiration;
+        shortInfo = info.shortInfo;
+        details = info.details;
+    }
+};
+
 }
 
 #endif

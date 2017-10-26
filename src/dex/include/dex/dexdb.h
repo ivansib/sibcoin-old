@@ -37,15 +37,20 @@ public:
 
     void addOfferSell(const OfferInfo &offer);
     void editOfferSell(const OfferInfo &offer);
-    void deleteOfferSell(const int &idTransaction);
+    void deleteOfferSell(const uint256 &idTransaction);
     std::list<OfferInfo> getOffersSell();
     bool isExistOfferSell(const uint256 &idTransaction);
 
     void addOfferBuy(const OfferInfo &offer);
     void editOfferBuy(const OfferInfo &offer);
-    void deleteOfferBuy(const int &idTransaction);
+    void deleteOfferBuy(const uint256 &idTransaction);
     std::list<OfferInfo> getOffersBuy();
     bool isExistOfferBuy(const uint256 &idTransaction);
+
+    void addMyOffer(const MyOfferInfo &offer);
+    void editMyOffer(const MyOfferInfo &offer);
+    void deleteMyOffer(const uint256 &idTransaction);
+    std::list<MyOfferInfo> getMyOffers();
 
 private:
     void createTables();
@@ -55,9 +60,11 @@ private:
 
     void addOffer(const std::string &tableName, const OfferInfo &offer);
     void editOffer(const std::string &tableName, const OfferInfo &offer);
-    void deleteOffer(const std::string &tableName, const int &idTransaction);
+    void deleteOffer(const std::string &tableName, const uint256 &idTransaction);
     std::list<OfferInfo> getOffers(const std::string &tableName);
     void addOrEditOffer(const std::string &query, const OfferInfo &offer);
+    void addOrEditMyOffer(const std::string &query, const MyOfferInfo &offer);
+    void bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer);
     bool isExistOffer(const std::string &tableName, const uint256 &idTransaction);
 
     sqlite3pp::database db;
