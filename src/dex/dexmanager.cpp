@@ -28,7 +28,7 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             dex::DexDB db(strDexDbFile);
             bool bFound = false;
             if (offer.isBuy())  {
-                if (db.isExistOfferBuy(offer.idTransaction.GetHex())) {
+                if (db.isExistOfferBuy(offer.idTransaction)) {
                   bFound = true;
                 } else {
                     db.addOfferBuy(offer);
@@ -36,7 +36,7 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
             }
 
             if (offer.isSell())  {
-                if (db.isExistOfferSell(offer.idTransaction.GetHex())) {
+                if (db.isExistOfferSell(offer.idTransaction)) {
                   bFound = true;
                 } else {
                     db.addOfferSell(offer);
