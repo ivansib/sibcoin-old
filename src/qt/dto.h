@@ -2,6 +2,9 @@
 #define DTO_H
 
 #include <QString>
+#include "dex/dexdto.h"
+
+using namespace dex;
 
 struct QtOfferInfo {
     QString idTransaction;
@@ -15,6 +18,43 @@ struct QtOfferInfo {
     int timeToExpiration;
     QString shortInfo;
     QString details;
+};
+
+struct QtMyOfferInfo : QtOfferInfo {
+    TypeOffer type;
+    StatusOffer status;
+
+    QtOfferInfo getOfferInfo() const {
+        QtOfferInfo info;
+
+        info.idTransaction = idTransaction;
+        info.hash = hash;
+        info.countryIso = countryIso;
+        info.currencyIso = currencyIso;
+        info.paymentMethod = paymentMethod;
+        info.price = price;
+        info.minAmount = minAmount;
+        info.timeCreate = timeCreate;
+        info.timeToExpiration = timeToExpiration;
+        info.shortInfo = shortInfo;
+        info.details = details;
+
+        return info;
+    }
+
+    void setOfferInfo(const QtOfferInfo &info) {
+        idTransaction = info.idTransaction;
+        hash = info.hash;
+        countryIso = info.countryIso;
+        currencyIso = info.currencyIso;
+        paymentMethod = info.paymentMethod;
+        price = info.price;
+        minAmount = info.minAmount;
+        timeCreate = info.timeCreate;
+        timeToExpiration = info.timeToExpiration;
+        shortInfo = info.shortInfo;
+        details = info.details;
+    }
 };
 
 #endif

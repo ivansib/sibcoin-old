@@ -51,6 +51,41 @@ OfferInfo ConvertData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
     return offer;
 }
 
+QtMyOfferInfo ConvertData::toQtMyOfferInfo(const MyOfferInfo &offer)
+{
+    QtMyOfferInfo qtOffer;
+
+    qtOffer.type = offer.type;
+    qtOffer.status = offer.status;
+
+    qtOffer.setOfferInfo(ConvertData::toQtOfferInfo(offer.getOfferInfo()));
+
+    return qtOffer;
+}
+
+QList<QtMyOfferInfo> ConvertData::toListQtMyOfferInfo(const std::list<MyOfferInfo> &offers)
+{
+    QList<QtMyOfferInfo> qtOffers;
+
+    for (auto item : offers) {
+        qtOffers << ConvertData::toQtMyOfferInfo(item);
+    }
+
+    return qtOffers;
+}
+
+MyOfferInfo ConvertData::fromQtMyOfferInfo(const QtMyOfferInfo &qtOffer)
+{
+    MyOfferInfo offer;
+
+    offer.type = qtOffer.type;
+    offer.status = qtOffer.status;
+
+    offer.setOfferInfo(ConvertData::fromQtOfferInfo(qtOffer.getOfferInfo()));
+
+    return offer;
+}
+
 QString ConvertData::toQString(const std::string &str)
 {
     return QString::fromUtf8(str.c_str());
