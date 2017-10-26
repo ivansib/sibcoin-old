@@ -24,6 +24,7 @@
 #include "winshutdownmonitor.h"
 
 #ifdef ENABLE_DEX
+#include <QFontDatabase>
 #include "dex/dexdb.h"
 #endif
 
@@ -679,6 +680,10 @@ int main(int argc, char *argv[])
     initTranslations(qtTranslatorBase, qtTranslator, translatorBase, translator);
 
 #ifdef ENABLE_DEX
+    if (QFontDatabase::addApplicationFont(":/fonts/FontAwesome.ttf") < 0) {
+        QMessageBox::critical(0, QObject::tr("Sibcoin"), QObject::tr("FontAwesome cannot be loaded"));
+    }
+
     boost::filesystem::path dexdbpath = GetArg("-dexdb", DEX_DB_FILENAME);
     if (dexdbpath == dexdbpath.filename()) {
       dexdbpath = GetDataDir(false) / dexdbpath;

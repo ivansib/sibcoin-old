@@ -271,7 +271,7 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     currencies.push_back({"ARS", "Argentine Peso", "$"});
     currencies.push_back({"AUD", "Australian Dollar", "$", true});
     currencies.push_back({"AWG", "Aruban Guilder", "ƒ"});
-    currencies.push_back({"AZN", "Azerbaijanian Manat", "₼", true});
+    currencies.push_back({"AZN", "Azerbaijanian Manat", "\uf158", true});
     currencies.push_back({"BAM", "Convertible Marks", "КМ"});
     currencies.push_back({"BBD", "Barbados Dollar", "$"});
     currencies.push_back({"BDT", "Bangladeshi Taka", "৳"});
@@ -371,7 +371,7 @@ std::list<DefaultCurrency> DefaultDataForDb::dataCurrencies()
     currencies.push_back({"QAR", "Qatari Rial", "ر.ق"});
     currencies.push_back({"RON", "Romanian New Leu", "lei"});
     currencies.push_back({"RSD", "Serbian Dinar", "din."});
-    currencies.push_back({"RUB", "Russian Ruble", "₽", true, 1});
+    currencies.push_back({"RUB", "Russian Ruble", "\uf158", true, 1});
     currencies.push_back({"RWF", "Rwanda Franc", "Fr"});
     currencies.push_back({"SAR", "Saudi Riyal", "ر.س"});
     currencies.push_back({"SBD", "Solomon Islands Dollar", "$"});
