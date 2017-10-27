@@ -39,7 +39,6 @@ private:
     void addButtons();
 
 protected Q_SLOTS:
-    virtual void changedFilterOffer(const int &);
     virtual void openCreatorOffer();
     virtual void clickedButton(const int &index) = 0;
 
@@ -47,6 +46,7 @@ private Q_SLOTS:
     void changedFilterCountryIso(const int &);
     void changedFilterCurrencyIso(const int &);
     void changedFilterPaymentMethod(const int &);
+    void changedFilterOfferType(const int &);
 };
 
 #endif

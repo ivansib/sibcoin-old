@@ -78,7 +78,7 @@ void TableOffersDialog::useMyOfferMode(const bool &b)
 
     if (b) {
         connect(ui->cBoxOffer, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-                this, &TableOffersDialog::changedFilterOffer);
+                this, &TableOffersDialog::changedFilterOfferType);
 
         connect(ui->btnCreate, &QPushButton::clicked, this, &TableOffersDialog::openCreatorOffer);
     }
@@ -96,8 +96,10 @@ void TableOffersDialog::addButtons()
     connect(pMapper, static_cast<void(QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &TableOffersDialog::clickedButton);
 }
 
-void TableOffersDialog::changedFilterOffer(const int &)
+void TableOffersDialog::changedFilterOfferType(const int &)
 {
+    int type = ui->cBoxOffer->currentIndex();
+    pModel->setFilterTypeOffer(type);
 }
 
 void TableOffersDialog::openCreatorOffer()

@@ -17,6 +17,7 @@ public:
     void setFilterCountryIso(const QString &iso);
     void setFilterCurrencyIso(const QString &iso);
     void setFilterPaymentMethod(const uint8_t &payment);
+    void setFilterTypeOffer(const int &typeOffer);
 
     QtOfferInfo offerInfo(const int &row);
     QtMyOfferInfo myOfferInfo(const int &row);
@@ -32,13 +33,21 @@ public:
     virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 private:
+    enum Type {
+        Offer,
+        MyOffer
+    };
+
     QStringList listHead;
     QList<QtMyOfferInfo> offers;
     QList<QtMyOfferInfo> offersView;
 
+    Type type;
+
     QString countryIso;
     QString currencyIso;
     uint8_t paymentMethod;
+    int typeOffer;
 
     void filterOffers();
 };

@@ -37,11 +37,6 @@ void TableOffersEditor::openCreatorOffer()
     creator->show();
 }
 
-void TableOffersEditor::changedFilterOffer(const int &)
-{
-    updateData();
-}
-
 void TableOffersEditor::changedRowData(const QtMyOfferInfo &info)
 {
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);

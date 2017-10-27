@@ -22,7 +22,6 @@ private:
 protected Q_SLOTS:
     virtual void clickedButton(const int &index);
     virtual void openCreatorOffer();
-    virtual void changedFilterOffer(const int &);
 
 private Q_SLOTS:
     void changedRowData(const QtMyOfferInfo &info);

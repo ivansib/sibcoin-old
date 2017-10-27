@@ -25,6 +25,7 @@ void OfferModel::setOffers(const QList<QtOfferInfo> &offers)
     this->offers = myOffers;
     offersView = this->offers;
 
+    type = Offer;
     filterOffers();
 
     Q_EMIT layoutChanged();
@@ -35,6 +36,7 @@ void OfferModel::setOffers(const QList<QtMyOfferInfo> &offers)
     this->offers = offers;
     offersView = this->offers;
 
+    type = MyOffer;
     filterOffers();
 
     Q_EMIT layoutChanged();
@@ -55,6 +57,12 @@ void OfferModel::setFilterCurrencyIso(const QString &iso)
 void OfferModel::setFilterPaymentMethod(const uint8_t &payment)
 {
     paymentMethod = payment;
+    filterOffers();
+}
+
+void OfferModel::setFilterTypeOffer(const int &typeOffer)
+{
+    this->typeOffer = typeOffer;
     filterOffers();
 }
 
@@ -179,7 +187,20 @@ void OfferModel::filterOffers()
         bool b2 = countryIso == item.countryIso || countryIso == "";
         bool b3 = currencyIso == item.currencyIso || currencyIso == "";
 
-        if (b1 && b2 && b3) {
+        bool b4 = false;
+        if (type == Offer) {
+            b4 = true;
+        } else {
+            if (item.type == TypeOffer::Buy && typeOffer == 1) {
+                b4 = true;
+            } else if (item.type == TypeOffer::Sell && typeOffer == 2) {
+                b4 = true;
+            } else if (typeOffer == 0) {
+                b4 = true;
+            }
+        }
+
+        if (b1 && b2 && b3 && b4) {
             offersView << item;
         }
     }
