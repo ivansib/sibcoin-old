@@ -10,7 +10,7 @@ class OfferDetailsEditor : public OfferDetails
 public:
     OfferDetailsEditor(DexDB *db, QDialog *parent = nullptr);
 
-    void setOfferInfo(const QtOfferInfo &info);
+    void setOfferInfo(const QtMyOfferInfo &info);
 
 protected Q_SLOTS:
     virtual void saveData();

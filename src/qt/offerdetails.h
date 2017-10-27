@@ -35,7 +35,7 @@ private Q_SLOTS:
     void changedShortInfo();
 
 Q_SIGNALS:
-    void dataChanged(const QtOfferInfo &info);
+    void dataChanged(const QtMyOfferInfo &info);
 };
 
 

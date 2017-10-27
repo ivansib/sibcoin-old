@@ -6,7 +6,7 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
 }
 
-void OfferDetailsEditor::setOfferInfo(const QtOfferInfo &info)
+void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
     QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
@@ -26,7 +26,7 @@ void OfferDetailsEditor::setOfferInfo(const QtOfferInfo &info)
 
 void OfferDetailsEditor::saveData()
 {
-    QtOfferInfo info;
+    QtMyOfferInfo info;
     info.idTransaction = lEditId->text();
     info.hash = lEditHash->text();
     info.countryIso = cBoxCountry->currentData().toString();

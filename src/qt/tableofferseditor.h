@@ -25,7 +25,7 @@ protected Q_SLOTS:
     virtual void changedFilterOffer(const int &);
 
 private Q_SLOTS:
-    void changedRowData(const QtOfferInfo &info);
+    void changedRowData(const QtMyOfferInfo &info);
 
 Q_SIGNALS:
     void dataChanged();

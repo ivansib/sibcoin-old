@@ -12,7 +12,26 @@ OfferModel::~OfferModel()
 }
 
 void OfferModel::setOffers(const QList<QtOfferInfo> &offers)
-{    
+{
+    QList<QtMyOfferInfo> myOffers;
+
+    for (QtOfferInfo item : offers) {
+        QtMyOfferInfo myItem;
+        myItem.setOfferInfo(item);
+
+        myOffers << myItem;
+    }
+
+    this->offers = myOffers;
+    offersView = this->offers;
+
+    filterOffers();
+
+    Q_EMIT layoutChanged();
+}
+
+void OfferModel::setOffers(const QList<QtMyOfferInfo> &offers)
+{
     this->offers = offers;
     offersView = this->offers;
 
@@ -46,6 +65,15 @@ QtOfferInfo OfferModel::offerInfo(const int &row)
     }
 
     return QtOfferInfo();
+}
+
+QtMyOfferInfo OfferModel::myOfferInfo(const int &row)
+{
+    if (row < offersView.size()) {
+        return offersView[row];
+    }
+
+    return QtMyOfferInfo();
 }
 
 QVariant OfferModel::data(const QModelIndex &index, int role) const

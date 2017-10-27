@@ -21,22 +21,13 @@ TableOffersEditor::~TableOffersEditor()
 
 void TableOffersEditor::updateData()
 {
-    QList<QtOfferInfo> offers;
-    if (currentOfferIndex() == 1) {
-        offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
-    } else if (currentOfferIndex() == 2) {
-        offers = ConvertData::toListQtOfferInfo(db->getOffersSell());
-    } else {
-        offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
-        offers.append(ConvertData::toListQtOfferInfo(db->getOffersSell()));
-    }
-
+    QList<QtMyOfferInfo> offers = ConvertData::toListQtMyOfferInfo(db->getMyOffers());
     pModel->setOffers(offers);
 }
 
 void TableOffersEditor::clickedButton(const int &index)
 {
-    QtOfferInfo info = pModel->offerInfo(index);
+    QtMyOfferInfo info = pModel->myOfferInfo(index);
     editor->setOfferInfo(info);
     editor->show();
 }
@@ -51,15 +42,11 @@ void TableOffersEditor::changedFilterOffer(const int &)
     updateData();
 }
 
-void TableOffersEditor::changedRowData(const QtOfferInfo &info)
+void TableOffersEditor::changedRowData(const QtMyOfferInfo &info)
 {
-    OfferInfo offer = ConvertData::fromQtOfferInfo(info);
+    MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
 
-    if (db->isExistOfferBuy(offer.idTransaction)) {
-        db->editOfferBuy(offer);
-    } else if (db->isExistOfferSell(offer.idTransaction)) {
-        db->editOfferSell(offer);
-    }
+    db->editMyOffer(offer);
 
     updateData();
     Q_EMIT dataChanged();

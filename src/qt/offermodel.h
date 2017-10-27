@@ -13,11 +13,13 @@ public:
     ~OfferModel();
 
     void setOffers(const QList<QtOfferInfo> &offers);
+    void setOffers(const QList<QtMyOfferInfo> &offers);
     void setFilterCountryIso(const QString &iso);
     void setFilterCurrencyIso(const QString &iso);
     void setFilterPaymentMethod(const uint8_t &payment);
 
     QtOfferInfo offerInfo(const int &row);
+    QtMyOfferInfo myOfferInfo(const int &row);
 
     virtual QVariant data(const QModelIndex &index, int role) const;
 
@@ -31,8 +33,8 @@ public:
 
 private:
     QStringList listHead;
-    QList<QtOfferInfo> offers;
-    QList<QtOfferInfo> offersView;
+    QList<QtMyOfferInfo> offers;
+    QList<QtMyOfferInfo> offersView;
 
     QString countryIso;
     QString currencyIso;
