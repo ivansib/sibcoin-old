@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en">
+<TS version="2.0" language="en">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -929,7 +929,7 @@
         <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../sibcoin.cpp" line="+558"/>
+        <location filename="../sibcoin.cpp" line="+559"/>
         <source>A fatal error occurred. Sibcoin can no longer continue safely and will quit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1921,7 +1921,200 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OfferDetails</name>
     <message>
-        <location filename="../forms/offerdetails.ui" line="+14"/>
+        <source>Details</source>
+        <translation>Details</translation>
+    </message>
+    <message>
+        <source>Id Transaction:</source>
+        <translation>Transaction ID:</translation>
+    </message>
+    <message>
+        <source>Hash:</source>
+        <translation>Hash:</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Country:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Currency:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Payment:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Price:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Min Amount:</translation>
+    </message>
+    <message>
+        <source>Time Create:</source>
+        <translation>Time Create:</translation>
+    </message>
+    <message>
+        <source>Time Expiration:</source>
+        <translation>Time Expiration:</translation>
+    </message>
+    <message>
+        <source>Short Info:</source>
+        <translation>Short Info:</translation>
+    </message>
+    <message>
+        <source>Details:</source>
+        <translation>Details:</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Close</translation>
+    </message>
+    <message>
+        <location filename="../offerdetails.cpp" line="+47"/>
+        <source>Approximate Time Expiration:</source>
+        <translation>Approximate Time Expiration:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Buy</source>
+        <translation>Buy</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sell</source>
+        <translation>Sell</translation>
+    </message>
+</context>
+<context>
+    <name>OfferDetailsEditor</name>
+    <message>
+        <location filename="../forms/offerdetailseditor.ui" line="+14"/>
+        <source>Edit Details</source>
+        <translation>Edit Details</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Id Transaction:</source>
+        <translation>Transaction ID:</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Hash:</source>
+        <translation>Hash:</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Status:</source>
+        <translation>Status:</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <location line="+23"/>
+        <source>Offer:</source>
+        <translation>Offer:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Country:</source>
+        <translation>Country:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Currency:</source>
+        <translation>Currency:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Payment:</source>
+        <translation>Payment:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Price:</source>
+        <translation>Price:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Min Amount:</source>
+        <translation>Min Amount:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Time Create:</source>
+        <translation>Time Create:</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Time To Expiration:</source>
+        <translation>Time Expiration:</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>days   </source>
+        <translation>days   </translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Time Expiration:</source>
+        <translation>Time Expiration:</translation>
+    </message>
+    <message>
+        <source>days     Time Expiration:</source>
+        <translation>days     Time Expiration:</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Short Info:</source>
+        <translation>Short Info:</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Details:</source>
+        <translation>Details:</translation>
+    </message>
+    <message>
+        <location filename="../offerdetailseditor.cpp" line="+36"/>
+        <source>Active</source>
+        <translation>Active</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Draft</source>
+        <translation>Draft</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Expired</source>
+        <translation>Expired</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Cancelled</source>
+        <translation>Cancelled</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Suspended</source>
+        <translation>Suspended</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Buy</source>
+        <translation>Buy</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Sell</source>
+        <translation>Sell</translation>
+    </message>
+</context>
+<context>
+    <name>OfferDetailsView</name>
+    <message>
+        <location filename="../forms/offerdetailsview.ui" line="+14"/>
         <source>Details</source>
         <translation>Details</translation>
     </message>
@@ -1987,74 +2180,6 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>OfferDetailsEditor</name>
-    <message>
-        <location filename="../forms/offerdetailseditor.ui" line="+14"/>
-        <source>Edit Details</source>
-        <translation>Edit Details</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Id Transaction:</source>
-        <translation>Transaction ID:</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Hash:</source>
-        <translation>Hash:</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Country:</source>
-        <translation>Country:</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Currency:</source>
-        <translation>Currency:</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Payment:</source>
-        <translation>Payment:</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Price:</source>
-        <translation>Price:</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Min Amount:</source>
-        <translation>Min Amount:</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Time Create:</source>
-        <translation>Time Create:</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Time To Expiration:</source>
-        <translation>Time Expiration:</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>days     Time Expiration:</source>
-        <translation>days     Time Expiration:</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Short Info:</source>
-        <translation>Short Info:</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Details:</source>
-        <translation>Details:</translation>
-    </message>
-</context>
-<context>
     <name>OfferModel</name>
     <message>
         <location filename="../offermodel.cpp" line="+6"/>
@@ -2077,9 +2202,9 @@ p, li { white-space: pre-wrap; }
         <translation>Edit Details</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+100"/>
         <source>Show</source>
-        <translation type="unfinished">Show</translation>
+        <translation>Show</translation>
     </message>
 </context>
 <context>
@@ -2734,7 +2859,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <source>%n Rounds</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -2766,7 +2890,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+1"/>
         <source>Denominated inputs have %5 of %n rounds on average</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -4631,14 +4754,15 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location filename="../sibcoin.cpp" line="+86"/>
         <location line="+7"/>
         <location line="+15"/>
-        <location line="+27"/>
+        <location line="+17"/>
+        <location line="+14"/>
         <location line="+9"/>
         <location line="+9"/>
         <source>Sibcoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-66"/>
+        <location line="-70"/>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4653,7 +4777,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+17"/>
+        <source>FontAwesome cannot be loaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Wrong path to dexdb file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5732,7 +5861,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <source>Estimated to begin confirmation within %n block(s).</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -6177,6 +6305,11 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Currency:</translation>
     </message>
     <message>
+        <location line="+31"/>
+        <source>Create</source>
+        <translation>Create</translation>
+    </message>
+    <message>
         <location filename="../tableoffersdialog.cpp" line="+25"/>
         <source>All</source>
         <translation>All</translation>
@@ -6192,7 +6325,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Sell</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+63"/>
         <source>Show</source>
         <translation>Show</translation>
     </message>

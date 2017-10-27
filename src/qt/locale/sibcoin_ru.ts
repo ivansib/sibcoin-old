@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<TS version="2.0" language="ru">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -1644,6 +1644,18 @@ p, li { white-space: pre-wrap; }
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
+    <message>
+        <source>Approximate Time Expiration:</source>
+        <translation>Приблизительная Дата Истечения:</translation>
+    </message>
+    <message>
+        <source>Buy</source>
+        <translation>Покупка</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Продажа</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsEditor</name>
@@ -1698,6 +1710,105 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Details:</source>
         <translation>Детали:</translation>
+    </message>
+    <message>
+        <source>Status:</source>
+        <translation>Статус:</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>Предложение:</translation>
+    </message>
+    <message>
+        <source>days   </source>
+        <translation>дней   </translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активно</translation>
+    </message>
+    <message>
+        <source>Draft</source>
+        <translation>Черновик</translation>
+    </message>
+    <message>
+        <source>Expired</source>
+        <translation>Истекшее</translation>
+    </message>
+    <message>
+        <source>Cancelled</source>
+        <translation>Отменено</translation>
+    </message>
+    <message>
+        <source>Suspended</source>
+        <translation>Приостановлено</translation>
+    </message>
+    <message>
+        <source>Buy</source>
+        <translation>Покупка</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Продажа</translation>
+    </message>
+    <message>
+        <source>Time Expiration:</source>
+        <translation>Дата Истечения:</translation>
+    </message>
+</context>
+<context>
+    <name>OfferDetailsView</name>
+    <message>
+        <source>Details</source>
+        <translation>Детали</translation>
+    </message>
+    <message>
+        <source>Id Transaction:</source>
+        <translation>ID транзакции:</translation>
+    </message>
+    <message>
+        <source>Hash:</source>
+        <translation>Хеш:</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Страна:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Платеж:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Цена:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Мин. Сумма:</translation>
+    </message>
+    <message>
+        <source>Time Create:</source>
+        <translation>Дата Создания:</translation>
+    </message>
+    <message>
+        <source>Time Expiration:</source>
+        <translation>Дата Истечения:</translation>
+    </message>
+    <message>
+        <source>Short Info:</source>
+        <translation>Краткая Информация:</translation>
+    </message>
+    <message>
+        <source>Details:</source>
+        <translation>Детали:</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>
@@ -3442,7 +3553,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <source>USA</source>
-        <translation>Сша</translation>
+        <translation>США</translation>
     </message>
     <message>
         <source>United States Minor Outlying Islands</source>
@@ -4034,7 +4145,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <source>US Dollar</source>
-        <translation>Доллар Сша</translation>
+        <translation>Доллар США</translation>
     </message>
     <message>
         <source>Peso Uruguayo</source>
@@ -4110,6 +4221,10 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <source>Sibcoin Core didn&apos;t yet exit safely...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>FontAwesome cannot be loaded</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5324,6 +5439,10 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create</source>
+        <translation>Создать</translation>
     </message>
 </context>
 <context>

@@ -260,7 +260,7 @@
      <item>
       <widget class="QLabel" name="lInfoExpiration">
        <property name="text">
-        <string> Time Expiration:</string>
+        <string>Time Expiration:</string>
        </property>
       </widget>
      </item>
