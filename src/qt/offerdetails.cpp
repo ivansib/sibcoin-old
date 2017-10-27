@@ -30,18 +30,22 @@ OfferDetails::~OfferDetails()
 const void OfferDetails::initMode()
 {
     if (type == Edit) {
-        lOffer->setVisible(false);
-        cBoxOffer->setVisible(false);
+        delete lOffer;
+        delete cBoxOffer;
     } else {
-        lIdTransaction->setVisible(false);
-        lEditId->setVisible(false);
-        lHash->setVisible(false);
-        lEditHash->setVisible(false);
+        delete lIdTransaction;
+        delete lIdView;
+        delete lHash;
+        delete lHashView;
+        delete lStatus;
+        delete lStatusView;
+        delete lOfferInfo;
+        delete lOfferInfoView;
+        delete lTimeCreate;
+        delete lEditTimeCreate;
 
-        lTimeCreate->setText(tr("Approximate Time Create:"));
+        setWindowTitle("Create Offer");
         lInfoExpiration->setText(tr("Approximate Time Expiration:"));
-
-        lEditTimeCreate->setText(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
 
         cBoxOffer->addItem(tr("Buy"));
         cBoxOffer->addItem(tr("Sell"));

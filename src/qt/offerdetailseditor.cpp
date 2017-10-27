@@ -10,8 +10,8 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
     QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
-    lEditId->setText(info.idTransaction);
-    lEditHash->setText(info.hash);
+    lIdView->setText(info.idTransaction);
+    lHashView->setText(info.hash);
     cBoxCountry->setCurrentData(info.countryIso);
     cBoxCurrency->setCurrentData(info.currencyIso);
     cBoxPayment->setCurrentData(QString::number(info.paymentMethod));
@@ -27,8 +27,8 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 void OfferDetailsEditor::saveData()
 {
     QtMyOfferInfo info;
-    info.idTransaction = lEditId->text();
-    info.hash = lEditHash->text();
+    info.idTransaction = lIdView->text();
+    info.hash = lHashView->text();
     info.countryIso = cBoxCountry->currentData().toString();
     info.currencyIso = cBoxCurrency->currentData().toString();
     info.paymentMethod = cBoxPayment->currentData().toInt();
