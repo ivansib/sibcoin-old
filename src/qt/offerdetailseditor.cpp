@@ -7,6 +7,8 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
 void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
+    offerInfo = info;
+
     QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
     lIdView->setText(info.idTransaction);
@@ -72,19 +74,16 @@ QString OfferDetailsEditor::offerType(const TypeOffer &s) const
 
 void OfferDetailsEditor::saveData()
 {
-    QtMyOfferInfo info;
-    info.idTransaction = lIdView->text();
-    info.hash = lHashView->text();
-    info.countryIso = cBoxCountry->currentData().toString();
-    info.currencyIso = cBoxCurrency->currentData().toString();
-    info.paymentMethod = cBoxPayment->currentData().toInt();
-    info.price = sBoxPrice->value();
-    info.minAmount = sBoxMinAmount->value();
-    info.timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm").toTime_t();
-    info.timeToExpiration = sBoxExpiration->value();
-    info.shortInfo = tEditShortInfo->toPlainText();
-    info.details = tEditDetails->toPlainText();
+    offerInfo.countryIso = cBoxCountry->currentData().toString();
+    offerInfo.currencyIso = cBoxCurrency->currentData().toString();
+    offerInfo.paymentMethod = cBoxPayment->currentData().toInt();
+    offerInfo.price = sBoxPrice->value();
+    offerInfo.minAmount = sBoxMinAmount->value();
+    offerInfo.timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm").toTime_t();
+    offerInfo.timeToExpiration = sBoxExpiration->value();
+    offerInfo.shortInfo = tEditShortInfo->toPlainText();
+    offerInfo.details = tEditDetails->toPlainText();
 
-    Q_EMIT dataChanged(info);
+    Q_EMIT dataChanged(offerInfo);
     close();
 }
