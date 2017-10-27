@@ -99,7 +99,7 @@ std::string ConvertData::fromQString(const QString &str)
 QString ConvertData::toUiPrice(const quint64 &i)
 {
     QString num = QString::number(i);
-    if (num.size() >= decimals) {
+    if (num.size() > decimals) {
         int dot = num.size()-decimals;
 
         num = num.insert(dot, '.');
@@ -117,8 +117,23 @@ QString ConvertData::toUiPrice(const quint64 &i)
         if (num[num.size() - 1] == '.') {
             num = num.mid(0, num.size()-1);
         }
-    } else {
-        num = "0";
+    } else if (num != "0") {
+        int s = decimals - num.size();
+
+        QString zero("0");
+        zero = zero.repeated(s);
+
+        num = "0." + zero + num;
+
+        bool stop = false;
+        while (!stop) {
+            int size = num.size();
+            if (num[size-1] == '0') {
+                num = num.mid(0, size-1);
+            } else {
+                stop = true;
+            }
+        }
     }
 
     return num;
