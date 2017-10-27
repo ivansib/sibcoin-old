@@ -1,4 +1,3 @@
-#include <QDateTime>
 #include "offerdetailseditor.h"
 
 OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetails(db, OfferDetails::Edit, parent)
@@ -12,6 +11,8 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 
     lIdView->setText(info.idTransaction);
     lHashView->setText(info.hash);
+    lStatusView->setText(status(info.status));
+    lOfferInfoView->setText(offerType(info.type));
     cBoxCountry->setCurrentData(info.countryIso);
     cBoxCurrency->setCurrentData(info.currencyIso);
     cBoxPayment->setCurrentData(QString::number(info.paymentMethod));
@@ -22,6 +23,51 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
     tEditShortInfo->setText(info.shortInfo);
     tEditDetails->setText(info.details);
+}
+
+QString OfferDetailsEditor::status(const StatusOffer &s) const
+{
+    QString str;
+
+    switch (s) {
+    case Active:
+        str = tr("Active");
+        break;
+    case Draft:
+        str = tr("Draft");
+        break;
+    case Expired:
+        str = tr("Expired");
+        break;
+    case Cancelled:
+        str = tr("Cancelled");
+        break;
+    case Suspended:
+        str = tr("Suspended");
+        break;
+    default:
+        break;
+    }
+
+    return str;
+}
+
+QString OfferDetailsEditor::offerType(const TypeOffer &s) const
+{
+    QString str;
+
+    switch (s) {
+    case Buy:
+        str = tr("Buy");
+        break;
+    case Sell:
+        str = tr("Sell");
+        break;
+    default:
+        break;
+    }
+
+    return str;
 }
 
 void OfferDetailsEditor::saveData()

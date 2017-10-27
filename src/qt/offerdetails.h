@@ -2,6 +2,7 @@
 #define OFFERDETAILS_H
 
 #include <QDialog>
+#include <QDateTime>
 #include "dex/dexdb.h"
 #include "dto.h"
 #include "ui_offerdetailseditor.h"

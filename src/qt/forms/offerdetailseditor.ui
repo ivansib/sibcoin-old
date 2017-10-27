@@ -251,9 +251,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>days   </string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="lInfoExpiration">
        <property name="text">
-        <string>days     Time Expiration:</string>
+        <string> Time Expiration:</string>
        </property>
       </widget>
      </item>

@@ -8,7 +8,8 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     updateData();
 
-    connect(editor,  &OfferDetails::dataChanged, this, &TableOffersEditor::changedRowData);
+    connect(editor, &OfferDetails::dataChanged, this, &TableOffersEditor::changedRowData);
+    connect(creator, &OfferDetails::dataChanged, this, &TableOffersEditor::createNewOffer);
 
     useMyOfferMode(true);
     init();
@@ -34,6 +35,7 @@ void TableOffersEditor::clickedButton(const int &index)
 
 void TableOffersEditor::openCreatorOffer()
 {
+    creator->initData();
     creator->show();
 }
 
@@ -42,6 +44,16 @@ void TableOffersEditor::changedRowData(const QtMyOfferInfo &info)
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
 
     db->editMyOffer(offer);
+
+    updateData();
+    Q_EMIT dataChanged();
+}
+
+void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
+{
+    MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
+
+    db->addMyOffer(offer);
 
     updateData();
     Q_EMIT dataChanged();

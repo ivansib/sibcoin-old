@@ -10,6 +10,8 @@ class OfferDetailsCreator : public OfferDetails
 public:
     OfferDetailsCreator(DexDB *db, QDialog *parent = nullptr);
 
+    void initData();
+
 protected Q_SLOTS:
     virtual void saveData();
 };

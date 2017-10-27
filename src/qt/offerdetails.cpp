@@ -1,4 +1,3 @@
-#include <QDateTime>
 #include "offerdetails.h"
 #include "convertdata.h"
 
@@ -54,7 +53,14 @@ const void OfferDetails::initMode()
 
 void OfferDetails::changedTimeToExpiration(const int &i)
 {
-    QDateTime timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm");
+    QDateTime timeCreate;
+
+    if (type == Edit) {
+        timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm");
+    } else {
+        timeCreate = QDateTime::currentDateTime();
+    }
+
     QDateTime timeExpiration = timeCreate.addDays(i);
     lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
 }

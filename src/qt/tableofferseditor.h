@@ -25,6 +25,7 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void changedRowData(const QtMyOfferInfo &info);
+    void createNewOffer(const QtMyOfferInfo &info);
 
 Q_SIGNALS:
     void dataChanged();
