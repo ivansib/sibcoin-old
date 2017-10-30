@@ -37,6 +37,7 @@ private:
     Ui::TableOffersDialog *ui;
     QSignalMapper *pMapper;
     void addButtons();
+    void resizeColumns();
 
 protected Q_SLOTS:
     virtual void openCreatorOffer();

@@ -26,6 +26,8 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     ui->cBoxOffer->addItem(tr("Buy"));
     ui->cBoxOffer->addItem(tr("Sell"));
 
+    resizeColumns();
+
     connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterCountryIso);
     connect(ui->cBoxCurrency, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
@@ -94,6 +96,14 @@ void TableOffersDialog::addButtons()
     }
 
     connect(pMapper, static_cast<void(QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &TableOffersDialog::clickedButton);
+}
+
+void TableOffersDialog::resizeColumns()
+{
+    int defSize = ui->tableView->columnWidth(0);
+
+    ui->tableView->setColumnWidth(1, defSize * 2);
+    ui->tableView->setColumnWidth(3, defSize * 1.2);
 }
 
 void TableOffersDialog::changedFilterOfferType(const int &)
