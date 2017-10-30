@@ -22,6 +22,9 @@ public:
 
     static QString toUiPrice(const quint64 &i);
     static quint64 fromUiPrice(QString str);
+
+    static QtCountryInfo toQtCountryInfo(const CountryInfo &info);
+    static QList<QtCountryInfo> toListQtCountryInfo(const std::list<CountryInfo> &l);
 };
 
 #endif

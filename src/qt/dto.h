@@ -6,6 +6,12 @@
 
 using namespace dex;
 
+struct QtCountryInfo {
+    QString iso;
+    QString name;
+    bool enabled;
+};
+
 struct QtOfferInfo {
     QString idTransaction;
     QString hash;

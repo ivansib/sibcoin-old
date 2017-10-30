@@ -12,7 +12,7 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     tableSell = new TableOffersView(db, TableOffersView::Sell);
     tableMyOffers = new TableOffersEditor(db);
     widgetExchanges = new QWidget();
-    settings = new SettingsDialog();
+    settings = new SettingsDialog(db);
 
     ui->stackedWidget->addWidget(tableBuy);
     ui->stackedWidget->addWidget(tableSell);

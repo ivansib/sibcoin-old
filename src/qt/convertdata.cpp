@@ -161,6 +161,28 @@ quint64 ConvertData::fromUiPrice(QString str)
     return num;
 }
 
+QtCountryInfo ConvertData::toQtCountryInfo(const CountryInfo &info)
+{
+    QtCountryInfo qtInfo;
+
+    qtInfo.iso = QString::fromUtf8(info.iso.c_str());
+    qtInfo.name = ConvertData::toTr(info.name.c_str());
+    qtInfo.enabled = info.enabled;
+
+    return qtInfo;
+}
+
+QList<QtCountryInfo> ConvertData::toListQtCountryInfo(const std::list<CountryInfo> &l)
+{
+    QList<QtCountryInfo> qtl;
+
+    for (auto item : l) {
+        qtl << ConvertData::toQtCountryInfo(item);
+    }
+
+    return qtl;
+}
+
 QString ConvertData::toTr(const std::string &str)
 {
     return QObject::tr(str.c_str());

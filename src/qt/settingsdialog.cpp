@@ -1,9 +1,19 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 
-SettingsDialog::SettingsDialog(QDialog *parent) : QDialog(parent), ui(new Ui::SettingsDialog)
+SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui(new Ui::SettingsDialog), db(db)
 {
     ui->setupUi(this);
+
+    common = new QWidget();
+    countries = new TableCountries(db);
+    currencies = new QWidget();
+    filters = new QWidget();
+
+    ui->stackedWidget->addWidget(common);
+    ui->stackedWidget->addWidget(countries);
+    ui->stackedWidget->addWidget(currencies);
+    ui->stackedWidget->addWidget(filters);
 
     connect(ui->btnCommon, &QPushButton::clicked, this, &SettingsDialog::currentCommon);
     connect(ui->btnCountries, &QPushButton::clicked, this, &SettingsDialog::currentCountries);
@@ -18,21 +28,21 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::currentCommon()
 {
-//    ui->stackedWidget->setCurrentWidget();
+    ui->stackedWidget->setCurrentWidget(common);
 }
 
 void SettingsDialog::currentCountries()
 {
-//    ui->stackedWidget->setCurrentWidget();
+    ui->stackedWidget->setCurrentWidget(countries);
 }
 
 void SettingsDialog::currentCurrencies()
 {
-//    ui->stackedWidget->setCurrentWidget();
+    ui->stackedWidget->setCurrentWidget(currencies);
 }
 
 void SettingsDialog::currentFilters()
 {
-//    ui->stackedWidget->setCurrentWidget();
+    ui->stackedWidget->setCurrentWidget(filters);
 }
 

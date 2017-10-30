@@ -2,6 +2,10 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include "tablecountries.h"
+#include "dex/dexdb.h"
+
+using namespace dex;
 
 namespace Ui {
     class SettingsDialog;
@@ -12,11 +16,17 @@ class SettingsDialog : public QDialog
     Q_OBJECT
 
 public:
-    SettingsDialog(QDialog *parent = nullptr);
+    SettingsDialog(DexDB *db, QDialog *parent = nullptr);
     ~SettingsDialog();
 
 private:
     Ui::SettingsDialog *ui;
+    DexDB *db;
+
+    QWidget *common;
+    TableCountries *countries;
+    QWidget *currencies;
+    QWidget *filters;
 
 private Q_SLOTS:
     void currentCommon();
