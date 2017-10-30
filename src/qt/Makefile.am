@@ -71,7 +71,8 @@ QT_FORMS_UI = \
   forms/signverifymessagedialog.ui \
   forms/transactiondescdialog.ui \
   forms/offerdetailsview.ui \
-  forms/offerdetailseditor.ui
+  forms/offerdetailseditor.ui \
+  forms/settingsdialog.ui
 
 QT_MOC_CPP = \
   moc_addressbookpage.cpp \
@@ -311,7 +312,8 @@ QT_MOC_CPP += \
   moc_combobox.cpp \
   moc_pricespinbox.cpp \
   moc_offerdetailsview.cpp \
-  moc_offerdetailscretor.cpp
+  moc_offerdetailscretor.cpp \
+  moc_settingsdialog.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -326,7 +328,8 @@ BITCOIN_QT_H += \
   combobox.h \
   pricespinbox.h \
   offerdetailsview.h \
-  offerdetailscreator.h
+  offerdetailscreator.h \
+  settingsdialog.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \ 
@@ -340,7 +343,8 @@ BITCOIN_QT_CPP += \
   combobox.cpp \
   pricespinbox.cpp \
   offerdetailsview.cpp \
-  offerdetailscreator.cpp
+  offerdetailscreator.cpp \
+  settingsdialog.cpp
 endif
 
 RES_IMAGES = \

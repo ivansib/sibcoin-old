@@ -12,13 +12,13 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     tableSell = new TableOffersView(db, TableOffersView::Sell);
     tableMyOffers = new TableOffersEditor(db);
     widgetExchanges = new QWidget();
-    widgetSettings = new QWidget();
+    settings = new SettingsDialog();
 
     ui->stackedWidget->addWidget(tableBuy);
     ui->stackedWidget->addWidget(tableSell);
     ui->stackedWidget->addWidget(tableMyOffers);
     ui->stackedWidget->addWidget(widgetExchanges);
-    ui->stackedWidget->addWidget(widgetSettings);
+    ui->stackedWidget->addWidget(settings);
 
     connect(ui->btnBuy, &QPushButton::clicked, this, &ExchangeDialog::currentPageBuy);
     connect(ui->btnSell, &QPushButton::clicked, this, &ExchangeDialog::currentPageSell);
@@ -33,7 +33,7 @@ ExchangeDialog::~ExchangeDialog()
     delete tableSell;
     delete tableMyOffers;
     delete widgetExchanges;
-    delete widgetSettings;
+    delete settings;
     delete ui;
 }
 
@@ -59,5 +59,5 @@ void ExchangeDialog::currentPageExchanges()
 
 void ExchangeDialog::currentPageSettings()
 {
-    ui->stackedWidget->setCurrentWidget(widgetSettings);
+    ui->stackedWidget->setCurrentWidget(settings);
 }

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "tableoffersview.h"
 #include "tableofferseditor.h"
+#include "settingsdialog.h"
 #include "dex/dexdb.h"
 
 using namespace dex;
@@ -26,7 +27,7 @@ private:
     TableOffersView *tableSell;
     TableOffersEditor *tableMyOffers;
     QWidget *widgetExchanges;
-    QWidget *widgetSettings;
+    SettingsDialog *settings;
 
     DexDB *db;
 
