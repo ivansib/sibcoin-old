@@ -404,6 +404,10 @@ static const CRPCCommand vRPCCommands[] =
     { "wallet",             "walletpassphrasechange", &walletpassphrasechange, true  },
     { "wallet",             "walletpassphrase",       &walletpassphrase,       true  },
 #endif // ENABLE_WALLET
+
+#ifdef ENABLE_DEX
+    { "dex",                "dexoffer",               &dexoffer,               true },
+#endif // ENABLE_DEX
 };
 
 CRPCTable::CRPCTable()

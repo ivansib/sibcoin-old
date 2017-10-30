@@ -17,6 +17,10 @@
 #include "httprpc.h"
 #include "rpcserver.h"
 
+#ifdef ENABLE_DEX
+  #include "dex/dexdb.h"
+#endif
+
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
@@ -123,6 +127,34 @@ bool AppInit(int argc, char* argv[])
             fprintf(stderr,"Error reading masternode configuration file: %s\n", strErr.c_str());
             return false;
         }
+
+#ifdef ENABLE_DEX
+        {
+            boost::filesystem::path dexdbpath = GetArg("-dexdb", DEX_DB_FILENAME);
+            if (dexdbpath == dexdbpath.filename()) {
+                dexdbpath = GetDataDir(false) / dexdbpath;
+            } else {
+                if (boost::filesystem::exists(dexdbpath)) {
+                    if (boost::filesystem::is_directory(dexdbpath)) {
+                        dexdbpath /= DEX_DB_FILENAME;
+                    }
+                } else {
+                    if (!boost::filesystem::exists(dexdbpath.parent_path()) ||
+                        !boost::filesystem::is_directory(dexdbpath.parent_path())) {
+                      fprintf(stderr, "Sibcoin DEX: Wrong path to dexdb file %s\n", dexdbpath.c_str());
+                      return EXIT_FAILURE;
+                    }
+                }
+            }
+            strDexDbFile = dexdbpath.c_str();
+            try {
+                dex::DexDB db(strDexDbFile);
+            } catch (sqlite3pp::database_error e) {
+                fprintf(stderr, "Sibcoin DEX: Can`t open dex database: %s\n",strDexDbFile.c_str());
+                return EXIT_FAILURE;
+            }
+        }
+#endif
 
         // Command-line RPC
         bool fCommandLine = false;

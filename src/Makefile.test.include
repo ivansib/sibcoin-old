@@ -114,6 +114,11 @@ if ENABLE_ZMQ
 test_test_sibcoin_LDADD += $(ZMQ_LIBS)
 endif
 
+if ENABLE_DEX
+test_test_sibcoin_LDADD += $(LIBDEX) $(LIBDEXDB)
+endif
+
+
 nodist_test_test_sibcoin_SOURCES = $(GENERATED_TEST_FILES)
 
 $(BITCOIN_TESTS): $(GENERATED_TEST_FILES)
