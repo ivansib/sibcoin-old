@@ -12,6 +12,7 @@ public:
     CountriesModel(const QList<QtCountryInfo> &countries, QObject *parent = nullptr);
 
     virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
     virtual int rowCount(const QModelIndex &parent=QModelIndex()) const;
     virtual int columnCount(const QModelIndex &parent) const;

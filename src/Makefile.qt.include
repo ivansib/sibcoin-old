@@ -452,7 +452,8 @@ QT_MOC_CPP += \
   qt/moc_offerdetailscreator.cpp \
   qt/moc_settingsdialog.cpp \
   qt/moc_tablecountries.cpp \
-  qt/moc_countriesmodel.cpp
+  qt/moc_countriesmodel.cpp \
+  qt/moc_countriesdelegate.cpp
 
 BITCOIN_QT_H += \
   qt/exchangedialog.h \
@@ -470,7 +471,8 @@ BITCOIN_QT_H += \
   qt/offerdetailscretor.h \
   qt/settingsdialog.h \
   qt/tablecountries.h \
-  qt/countriesmodel.h
+  qt/countriesmodel.h \
+  qt/countriesdelegate.h
 
 BITCOIN_QT_CPP += \
   qt/exchangedialog.cpp \
@@ -487,7 +489,8 @@ BITCOIN_QT_CPP += \
   qt/offerdetailscreator.cpp \
   qt/settingsdialog.cpp \
   qt/tablecountries.cpp \
-  qt/countriesmodel.cpp
+  qt/countriesmodel.cpp \
+  qt/countriesdelegate.cpp
 endif
 
 RES_IMAGES = \

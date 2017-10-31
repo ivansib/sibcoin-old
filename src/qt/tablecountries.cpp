@@ -1,6 +1,7 @@
 #include "tablecountries.h"
 #include "countriesmodel.h"
 #include "convertdata.h"
+#include "countriesdelegate.h"
 
 TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent), db(db)
 {
@@ -8,4 +9,5 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
     CountriesModel *model = new CountriesModel(countries);
 
     setModel(model);
+    setItemDelegate(new CountriesDelegate());
 }

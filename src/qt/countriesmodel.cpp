@@ -22,13 +22,27 @@ QVariant CountriesModel::data(const QModelIndex &index, int role) const
         case 1:
             return countries[index.row()].iso;
         case 2:
-            return countries[index.row()].enabled;
+            return countries[index.row()].enabled ? QString("x") : QString("");
         default:
             break;
         }
     }
 
     return QVariant();
+}
+
+bool CountriesModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    if (index.column() == 2) {
+        countries[index.row()].enabled = value.toBool();
+        Q_EMIT dataChanged(index, index);
+    }
+
+    return true;
 }
 
 int CountriesModel::rowCount(const QModelIndex &parent) const
@@ -60,6 +74,10 @@ Qt::ItemFlags CountriesModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return Qt::ItemIsEnabled;
+    }
+
+    if (index.column() == 2) {
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
     }
 
     return QAbstractItemModel::flags(index);
