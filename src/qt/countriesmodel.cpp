@@ -1,3 +1,5 @@
+#include <QMimeData>
+#include <QDataStream>
 #include "countriesmodel.h"
 
 CountriesModel::CountriesModel(const QList<QtCountryInfo> &countries, QObject *parent) : QAbstractTableModel(parent), countries(countries)
@@ -73,12 +75,71 @@ QVariant CountriesModel::headerData(int section, Qt::Orientation orientation, in
 Qt::ItemFlags CountriesModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid()) {
-        return Qt::ItemIsEnabled;
+        return Qt::ItemIsEnabled | QAbstractItemModel::flags(index);
     }
 
     if (index.column() == 2) {
-        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled ;
     }
 
-    return QAbstractItemModel::flags(index);
+    return QAbstractItemModel::flags(index) | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
+}
+
+Qt::DropActions CountriesModel::supportedDropActions() const
+{
+    return Qt::MoveAction;
+}
+
+QStringList CountriesModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/country.pos";
+    return types;
+}
+
+QMimeData *CountriesModel::mimeData(const QModelIndexList &indexes) const
+{
+    QMimeData *mimeData = new QMimeData();
+    QByteArray encodedData;
+    QDataStream stream(&encodedData, QIODevice::WriteOnly);
+
+    if (indexes.size() > 0 && indexes[0].isValid()) {
+        stream << indexes[0].row();
+    }
+
+    mimeData->setData("application/country.pos", encodedData);
+    return mimeData;
+}
+
+bool CountriesModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    if (!data->hasFormat("application/country.pos")) {
+        return false;
+    }
+
+    if (action == Qt::IgnoreAction) {
+        return true;
+    }
+
+    int endRow = 0;
+    if (!parent.isValid() && row < 0) {
+        endRow = countries.count();
+    } else if (!parent.isValid()) {
+        endRow = qMin(row, countries.count());
+    } else {
+        endRow = parent.row();
+    }
+
+    QByteArray encodedData = data->data("application/country.pos");
+    QDataStream stream(&encodedData, QIODevice::ReadOnly);
+
+    while (!stream.atEnd()) {
+        int pos;
+        stream >> pos;
+        beginMoveRows(parent, pos, pos, parent, endRow);
+        countries.move(pos, endRow);
+        endMoveRows();
+        endRow++;
+    }
+    return true;
 }

@@ -8,6 +8,16 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
     QList<QtCountryInfo> countries = ConvertData::toListQtCountryInfo(db->getCountriesInfo());
     CountriesModel *model = new CountriesModel(countries);
 
+    setAlternatingRowColors(true);
+    setDragDropOverwriteMode(true);
+    setDefaultDropAction(Qt::MoveAction);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setDragEnabled(true);
+    setDropIndicatorShown(true);
+    setAcceptDrops(true);
+
     setModel(model);
     setItemDelegate(new CountriesDelegate());
 }
