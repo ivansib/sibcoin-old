@@ -21,6 +21,8 @@ public:
     TableOffersDialog(DexDB *db, QDialog *parent = nullptr);
     virtual ~TableOffersDialog();
 
+    void updateNavigationData();
+
 protected:
     OfferModel *pModel;
     DexDB *db;
@@ -48,6 +50,9 @@ private Q_SLOTS:
     void changedFilterCurrencyIso(const int &);
     void changedFilterPaymentMethod(const int &);
     void changedFilterOfferType(const int &);
+
+Q_SIGNALS:
+    void navigationDataUpdate();
 };
 
 #endif

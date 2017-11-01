@@ -7,6 +7,17 @@ CountriesModel::CountriesModel(const QList<QtCountryInfo> &countries, QObject *p
     listHead << tr("Name") << tr("ISO") << tr("Enabled");
 }
 
+void CountriesModel::setCountries(const QList<QtCountryInfo> &countries)
+{
+    this->countries = countries;
+    Q_EMIT layoutChanged();
+}
+
+QList<QtCountryInfo> CountriesModel::getCountries() const
+{
+    return countries;
+}
+
 QVariant CountriesModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
@@ -41,7 +52,7 @@ bool CountriesModel::setData(const QModelIndex &index, const QVariant &value, in
 
     if (index.column() == 2) {
         countries[index.row()].enabled = value.toBool();
-        Q_EMIT dataChanged(index, index);
+        Q_EMIT dataChanged();
     }
 
     return true;
@@ -141,5 +152,7 @@ bool CountriesModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
         endMoveRows();
         endRow++;
     }
+
+    Q_EMIT dataChanged();
     return true;
 }

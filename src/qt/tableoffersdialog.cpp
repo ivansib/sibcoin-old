@@ -13,19 +13,7 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setModel(pModel);
 
-    auto payments = db->getPaymentMethodsInfo();
-    ui->cBoxPayment->addData(payments, ComboBox::View);
-
-    auto countries = db->getCountriesInfo();
-    ui->cBoxCountry->addData(countries, ComboBox::View);
-
-    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
-    ui->cBoxCurrency->addData(currencies, ComboBox::View);
-
-    ui->cBoxOffer->addItem(tr("All"));
-    ui->cBoxOffer->addItem(tr("Buy"));
-    ui->cBoxOffer->addItem(tr("Sell"));
-
+    updateNavigationData();
     resizeColumns();
 
     connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
@@ -43,6 +31,25 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
 TableOffersDialog::~TableOffersDialog()
 {
     delete ui;
+}
+
+void TableOffersDialog::updateNavigationData()
+{
+    auto payments = db->getPaymentMethodsInfo();
+    ui->cBoxPayment->addData(payments, ComboBox::View);
+
+    auto countries = db->getCountriesInfo(DexDB::Enabled);
+    ui->cBoxCountry->addData(countries, ComboBox::View);
+
+    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
+    ui->cBoxCurrency->addData(currencies, ComboBox::View);
+
+    ui->cBoxOffer->clear();
+    ui->cBoxOffer->addItem(tr("All"));
+    ui->cBoxOffer->addItem(tr("Buy"));
+    ui->cBoxOffer->addItem(tr("Sell"));
+
+    Q_EMIT navigationDataUpdate();
 }
 
 void TableOffersDialog::init()

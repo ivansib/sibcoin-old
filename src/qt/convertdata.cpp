@@ -183,6 +183,17 @@ QList<QtCountryInfo> ConvertData::toListQtCountryInfo(const std::list<CountryInf
     return qtl;
 }
 
+CountryInfo ConvertData::fromQtCountryInfo(const QtCountryInfo &qtInfo)
+{
+    CountryInfo info;
+
+    info.iso = qtInfo.iso.toUtf8().constData();
+    info.name = qtInfo.name.toUtf8().constData();
+    info.enabled = qtInfo.enabled;
+
+    return info;
+}
+
 QString ConvertData::toTr(const std::string &str)
 {
     return QObject::tr(str.c_str());

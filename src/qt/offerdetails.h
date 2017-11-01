@@ -28,6 +28,9 @@ private:
 
     const void initMode();
 
+public Q_SLOTS:
+    void updateNavigationData();
+
 protected Q_SLOTS:
     virtual void saveData() = 0;
 

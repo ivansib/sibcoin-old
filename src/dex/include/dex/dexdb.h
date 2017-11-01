@@ -17,8 +17,8 @@ public:
         All
     };
 
-    void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled = true);
-    void editCountry(const std::string &iso, const bool &enabled);
+    void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
+    void editCountry(const std::string &iso, const bool &enabled, const int &sortOrder);
     void deleteCountry(const std::string &iso);
     std::list<CountryInfo> getCountriesInfo(const TypeView &type = All);
     CountryInfo getCountryInfo(const std::string &iso);

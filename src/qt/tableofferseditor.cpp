@@ -11,6 +11,9 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
     connect(editor, &OfferDetails::dataChanged, this, &TableOffersEditor::changedRowData);
     connect(creator, &OfferDetails::dataChanged, this, &TableOffersEditor::createNewOffer);
 
+    connect(this, &TableOffersEditor::navigationDataUpdate, editor, &OfferDetailsEditor::updateNavigationData);
+    connect(this, &TableOffersEditor::navigationDataUpdate, creator, &OfferDetailsEditor::updateNavigationData);
+
     useMyOfferMode(true);
     init();
 }

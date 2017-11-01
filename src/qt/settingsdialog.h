@@ -33,6 +33,12 @@ private Q_SLOTS:
     void currentCountries();
     void currentCurrencies();
     void currentFilters();
+    void changedData();
+    void saveData();
+    void cancel();
+
+Q_SIGNALS:
+    void dataChanged();
 };
 
 #endif

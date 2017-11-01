@@ -1,18 +1,11 @@
 #include "offerdetails.h"
 #include "convertdata.h"
 
-OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDialog(parent), type(type)
+OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDialog(parent), db(db), type(type)
 {
     setupUi(this);
 
-    auto payments = db->getPaymentMethodsInfo();
-    cBoxPayment->addData(payments, ComboBox::Editor);
-
-    auto countries = db->getCountriesInfo();
-    cBoxCountry->addData(countries, ComboBox::Editor);
-
-    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
-    cBoxCurrency->addData(currencies, ComboBox::Editor);
+    updateNavigationData();
 
     connect(btnBox, &QDialogButtonBox::accepted, this, &OfferDetails::saveData);
     connect(btnBox, &QDialogButtonBox::rejected, this, &OfferDetails::close);
@@ -24,6 +17,18 @@ OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDial
 
 OfferDetails::~OfferDetails()
 {
+}
+
+void OfferDetails::updateNavigationData()
+{
+    auto payments = db->getPaymentMethodsInfo();
+    cBoxPayment->addData(payments, ComboBox::Editor);
+
+    auto countries = db->getCountriesInfo(DexDB::Enabled);
+    cBoxCountry->addData(countries, ComboBox::Editor);
+
+    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
+    cBoxCurrency->addData(currencies, ComboBox::Editor);
 }
 
 const void OfferDetails::initMode()

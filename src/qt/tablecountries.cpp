@@ -1,12 +1,11 @@
 #include "tablecountries.h"
-#include "countriesmodel.h"
 #include "convertdata.h"
 #include "countriesdelegate.h"
 
 TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent), db(db)
 {
     QList<QtCountryInfo> countries = ConvertData::toListQtCountryInfo(db->getCountriesInfo());
-    CountriesModel *model = new CountriesModel(countries);
+    model = new CountriesModel(countries);
 
     setAlternatingRowColors(true);
     setDragDropOverwriteMode(true);
@@ -20,4 +19,23 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
 
     setModel(model);
     setItemDelegate(new CountriesDelegate());
+
+    connect(model, &CountriesModel::dataChanged, this, &TableCountries::dataChanged);
+}
+
+void TableCountries::saveData()
+{
+    QList<QtCountryInfo> countries = model->getCountries();
+
+    for (int i = 0; i < countries.size(); i++) {
+        CountryInfo info = ConvertData::fromQtCountryInfo(countries[i]);
+
+        db->editCountry(info.iso, info.enabled, i);
+    }
+}
+
+void TableCountries::cancel()
+{
+    QList<QtCountryInfo> countries = ConvertData::toListQtCountryInfo(db->getCountriesInfo());
+    model->setCountries(countries);
 }

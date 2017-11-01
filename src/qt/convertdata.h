@@ -25,6 +25,7 @@ public:
 
     static QtCountryInfo toQtCountryInfo(const CountryInfo &info);
     static QList<QtCountryInfo> toListQtCountryInfo(const std::list<CountryInfo> &l);
+    static CountryInfo fromQtCountryInfo(const QtCountryInfo &qtInfo);
 };
 
 #endif

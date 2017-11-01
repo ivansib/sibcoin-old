@@ -13,6 +13,8 @@ void ComboBox::setCurrentData(const QString &data) {
 
 void ComboBox::addData(const std::list<PaymentMethodInfo> &data, const ComboType &type)
 {
+    clear();
+
     auto it = data.begin();
 
     if (type == View) {
@@ -28,21 +30,20 @@ void ComboBox::addData(const std::list<PaymentMethodInfo> &data, const ComboType
 
 void ComboBox::addData(const std::list<CountryInfo> &data, const ComboType &type)
 {
-    auto it = data.begin();
+    clear();
 
-    QMap<QString, QString> sort;
-    while (it != data.end()) {
-        sort[ConvertData::toTr(it->name.c_str())] = toString(it->iso);
-        ++it;
-    }
-
-    auto itSort = sort.begin();
     if (type == View) {
         addItem(tr("All"));
     }
-    while (itSort != sort.end()) {
-        addItem(itSort.key(), itSort.value());
-        ++itSort;
+
+    auto it = data.begin();
+
+    while (it != data.end()) {
+        QString name = ConvertData::toTr(it->name.c_str());
+        QString iso = toString(it->iso);
+
+        addItem(name, iso);
+        ++it;
     }
 }
 
@@ -58,6 +59,8 @@ QString ComboBox::toString(const uint8_t &i) const
 
 void ComboBox::addData(const std::list<CurrencyInfo> &data, const ComboType &type)
 {
+    clear();
+
     QFont f("FontAwesome");
     setFont(f);
 

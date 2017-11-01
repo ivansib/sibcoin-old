@@ -37,6 +37,7 @@ private Q_SLOTS:
     void currentPageMyOffers();
     void currentPageExchanges();
     void currentPageSettings();
+    void updateData();
 };
 
 #endif

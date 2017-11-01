@@ -15,10 +15,18 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
     ui->stackedWidget->addWidget(currencies);
     ui->stackedWidget->addWidget(filters);
 
+    ui->btnBox->setEnabled(false);
+
     connect(ui->btnCommon, &QPushButton::clicked, this, &SettingsDialog::currentCommon);
     connect(ui->btnCountries, &QPushButton::clicked, this, &SettingsDialog::currentCountries);
     connect(ui->btnCurrencies, &QPushButton::clicked, this, &SettingsDialog::currentCurrencies);
     connect(ui->btnFilters, &QPushButton::clicked, this, &SettingsDialog::currentFilters);
+
+    connect(countries, &TableCountries::dataChanged, this, &SettingsDialog::changedData);
+
+    QPushButton* btnApply = ui->btnBox->button(QDialogButtonBox::Apply);
+    connect(btnApply, &QPushButton::clicked, this, &SettingsDialog::saveData);
+    connect(ui->btnBox, &QDialogButtonBox::rejected, this, &SettingsDialog::cancel);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -44,5 +52,24 @@ void SettingsDialog::currentCurrencies()
 void SettingsDialog::currentFilters()
 {
     ui->stackedWidget->setCurrentWidget(filters);
+}
+
+void SettingsDialog::changedData()
+{
+    ui->btnBox->setEnabled(true);
+}
+
+void SettingsDialog::saveData()
+{
+    countries->saveData();
+    ui->btnBox->setEnabled(false);
+
+    Q_EMIT dataChanged();
+}
+
+void SettingsDialog::cancel()
+{
+    countries->cancel();
+    ui->btnBox->setEnabled(false);
 }
 

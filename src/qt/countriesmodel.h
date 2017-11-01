@@ -11,6 +11,9 @@ class CountriesModel : public QAbstractTableModel
 public:
     CountriesModel(const QList<QtCountryInfo> &countries, QObject *parent = nullptr);
 
+    void setCountries(const QList<QtCountryInfo> &countries);
+    QList<QtCountryInfo> getCountries() const;
+
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
@@ -29,6 +32,9 @@ private:
     QStringList listHead;
 
     QList<QtCountryInfo> countries;
+
+Q_SIGNALS:
+    void dataChanged();
 };
 
 #endif

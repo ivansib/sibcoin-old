@@ -15,21 +15,24 @@ DexDB::DexDB(const boost::filesystem::path &path)
     addDefaultData();
 }
 
-void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency,  const bool &enabled)
+void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled) SELECT ?, ?, currencies.id, ? FROM currencies WHERE iso = ?");
-    cmd.bind(1, iso, sqlite3pp::nocopy);
-    cmd.bind(2, name, sqlite3pp::nocopy);
-    cmd.bind(3, enabled);
-    cmd.bind(4, currency, sqlite3pp::nocopy);
+    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled, sortOrder) SELECT :iso, :name, "
+                               "currencies.id, :enabled, :sortOrder FROM currencies WHERE iso = :currencyIso");
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
+    cmd.bind(":name", name, sqlite3pp::nocopy);
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":currencyIso", currency, sqlite3pp::nocopy);
     cmd.execute();
 }
 
-void DexDB::editCountry(const std::string &iso, const bool &enabled)
+void DexDB::editCountry(const std::string &iso, const bool &enabled, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = ? WHERE iso = ?");
-    cmd.bind(1, enabled);
-    cmd.bind(2, iso, sqlite3pp::nocopy);
+    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
 
     cmd.execute();
 }
@@ -53,6 +56,8 @@ std::list<CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
     } else if (type == Disabled) {
         query += " WHERE enabled = 0";
     }
+
+    query += " ORDER BY sortOrder";
 
     sqlite3pp::query qry(db, query.c_str());
 
@@ -507,7 +512,7 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
 
 void DexDB::createTables()
 {
-    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT)");
+    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT, sortOrder INT)");
     db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), "
                "symbol VARCHAR(10), enabled BOOLEAN, sortOrder INT)");
     db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB, sortOrder INT)");
@@ -538,7 +543,7 @@ void DexDB::addDefaultData()
         std::list<DefaultCountry> countries = def.dataCountries();
 
         for (auto item : countries) {
-            addCountry(item.iso, item.name, item.currency);
+            addCountry(item.iso, item.name, item.currency, true, -1);
         }
     }
 
