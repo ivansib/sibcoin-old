@@ -316,7 +316,10 @@ QT_MOC_CPP += \
   moc_settingsdialog.cpp \
   moc_tablecountries.cpp \
   moc_countriesmodel.cpp \
-  moc_countriesdelegate.cpp
+  moc_countriesdelegate.cpp \
+  moc_tablecurrencies.cpp \
+  moc_settingsmodel.cpp \
+  moc_currenciesmodel.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -335,7 +338,10 @@ BITCOIN_QT_H += \
   settingsdialog.h \
   tablecountries.h \
   countriesmodel.h \
-  countriesdelegate.h
+  countriesdelegate.h \
+  tablecurrencies.h \
+  settingsmodel.h \
+  currenciesmodel.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
@@ -353,7 +359,10 @@ BITCOIN_QT_CPP += \
   settingsdialog.cpp \
   tablecountries.cpp \
   countriesmodel.cpp \
-  countriesdelegate.cpp
+  countriesdelegate.cpp \
+  tablecurrencies.cpp \
+  settingsmodel.cpp \
+  currenciesmodel.cpp
 endif
 
 RES_IMAGES = \
@@ -372,7 +381,7 @@ RES_IMAGES = \
 
 RES_CSS = \
   res/css/drkblue.css
-  
+
 RES_MOVIES = $(wildcard res/movies/spinner-*.png)
 
 SIBCOIN_RC = res/sibcoin-qt-res.rc

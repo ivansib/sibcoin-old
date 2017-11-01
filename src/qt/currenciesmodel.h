@@ -1,18 +1,18 @@
-#ifndef COUNTRIESMODEL_H
-#define COUNTRIESMODEL_H
+#ifndef CURRENCIESMODEL_H
+#define CURRENCIESMODEL_H
 
 #include "settingsmodel.h"
 #include "dto.h"
 
-class CountriesModel : public SettingsModel
+class CurrenciesModel : public SettingsModel
 {
     Q_OBJECT
 
 public:
-    CountriesModel(const QList<QtCountryInfo> &countries, QObject *parent = nullptr);
+    CurrenciesModel(const QList<QtCurrencyInfo> &currencies, QObject *parent = nullptr);
 
-    void setCountries(const QList<QtCountryInfo> &countries);
-    QList<QtCountryInfo> getCountries() const;
+    void setCurrencies(const QList<QtCurrencyInfo> &currencies);
+    QList<QtCurrencyInfo> getCurrencies() const;
 
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
@@ -22,7 +22,7 @@ public:
     virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
 
 private:
-    QList<QtCountryInfo> countries;
+    QList<QtCurrencyInfo> currencies;
 };
 
 #endif

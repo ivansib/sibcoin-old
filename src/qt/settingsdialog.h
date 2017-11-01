@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "tablecountries.h"
+#include "tablecurrencies.h"
 #include "dex/dexdb.h"
 
 using namespace dex;
@@ -25,7 +26,7 @@ private:
 
     QWidget *common;
     TableCountries *countries;
-    QWidget *currencies;
+    TableCurrencies *currencies;
     QWidget *filters;
 
 private Q_SLOTS:

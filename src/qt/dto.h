@@ -12,6 +12,13 @@ struct QtCountryInfo {
     bool enabled;
 };
 
+struct QtCurrencyInfo {
+    QString iso;
+    QString name;
+    QString symbol;
+    bool enabled;
+};
+
 struct QtOfferInfo {
     QString idTransaction;
     QString hash;

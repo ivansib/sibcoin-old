@@ -7,7 +7,7 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
 
     common = new QWidget();
     countries = new TableCountries(db);
-    currencies = new QWidget();
+    currencies = new TableCurrencies(db);
     filters = new QWidget();
 
     ui->stackedWidget->addWidget(common);
@@ -23,6 +23,7 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
     connect(ui->btnFilters, &QPushButton::clicked, this, &SettingsDialog::currentFilters);
 
     connect(countries, &TableCountries::dataChanged, this, &SettingsDialog::changedData);
+    connect(currencies, &TableCurrencies::dataChanged, this, &SettingsDialog::changedData);
 
     QPushButton* btnApply = ui->btnBox->button(QDialogButtonBox::Apply);
     connect(btnApply, &QPushButton::clicked, this, &SettingsDialog::saveData);
@@ -62,6 +63,7 @@ void SettingsDialog::changedData()
 void SettingsDialog::saveData()
 {
     countries->saveData();
+    currencies->saveData();
     ui->btnBox->setEnabled(false);
 
     Q_EMIT dataChanged();
@@ -70,6 +72,7 @@ void SettingsDialog::saveData()
 void SettingsDialog::cancel()
 {
     countries->cancel();
+    currencies->cancel();
     ui->btnBox->setEnabled(false);
 }
 

@@ -26,6 +26,10 @@ public:
     static QtCountryInfo toQtCountryInfo(const CountryInfo &info);
     static QList<QtCountryInfo> toListQtCountryInfo(const std::list<CountryInfo> &l);
     static CountryInfo fromQtCountryInfo(const QtCountryInfo &qtInfo);
+
+    static QtCurrencyInfo toQtCurrencyInfo(const CurrencyInfo &info);
+    static QList<QtCurrencyInfo> toListQtCurrencyInfo(const std::list<CurrencyInfo> &l);
+    static CurrencyInfo fromQtCurrencyInfo(const QtCurrencyInfo &qtInfo);
 };
 
 #endif

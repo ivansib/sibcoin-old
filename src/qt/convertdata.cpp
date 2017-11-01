@@ -91,6 +91,11 @@ QString ConvertData::toQString(const std::string &str)
     return QString::fromUtf8(str.c_str());
 }
 
+QString ConvertData::toTr(const std::string &str)
+{
+    return QObject::tr(str.c_str());
+}
+
 std::string ConvertData::fromQString(const QString &str)
 {
     return str.toUtf8().constData();
@@ -194,7 +199,37 @@ CountryInfo ConvertData::fromQtCountryInfo(const QtCountryInfo &qtInfo)
     return info;
 }
 
-QString ConvertData::toTr(const std::string &str)
+QtCurrencyInfo ConvertData::toQtCurrencyInfo(const CurrencyInfo &info)
 {
-    return QObject::tr(str.c_str());
+    QtCurrencyInfo qtInfo;
+
+    qtInfo.iso = QString::fromUtf8(info.iso.c_str());
+    qtInfo.name = ConvertData::toTr(info.name.c_str());
+    qtInfo.symbol = QString::fromUtf8(info.symbol.c_str());
+    qtInfo.enabled = info.enabled;
+
+    return qtInfo;
+}
+
+QList<QtCurrencyInfo> ConvertData::toListQtCurrencyInfo(const std::list<CurrencyInfo> &l)
+{
+    QList<QtCurrencyInfo> qtl;
+
+    for (auto item : l) {
+        qtl << ConvertData::toQtCurrencyInfo(item);
+    }
+
+    return qtl;
+}
+
+CurrencyInfo ConvertData::fromQtCurrencyInfo(const QtCurrencyInfo &qtInfo)
+{
+    CurrencyInfo info;
+
+    info.iso = qtInfo.iso.toUtf8().constData();
+    info.name = qtInfo.name.toUtf8().constData();
+    info.symbol = qtInfo.symbol.toUtf8().constData();
+    info.enabled = qtInfo.enabled;
+
+    return info;
 }
