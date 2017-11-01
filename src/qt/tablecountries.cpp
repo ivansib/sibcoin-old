@@ -1,6 +1,6 @@
 #include "tablecountries.h"
 #include "convertdata.h"
-#include "countriesdelegate.h"
+#include "settingsdelegate.h"
 
 TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent), db(db)
 {
@@ -18,7 +18,7 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
     setAcceptDrops(true);
 
     setModel(model);
-    setItemDelegate(new CountriesDelegate(model->columnEdit()));
+    setItemDelegate(new SettingsDelegate(model->columnEdit()));
 
     connect(model, &CountriesModel::dataChanged, this, &TableCountries::dataChanged);
 }

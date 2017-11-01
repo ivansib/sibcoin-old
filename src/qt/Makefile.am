@@ -316,7 +316,7 @@ QT_MOC_CPP += \
   moc_settingsdialog.cpp \
   moc_tablecountries.cpp \
   moc_countriesmodel.cpp \
-  moc_countriesdelegate.cpp \
+  moc_settingsdelegate.cpp \
   moc_tablecurrencies.cpp \
   moc_settingsmodel.cpp \
   moc_currenciesmodel.cpp
@@ -338,7 +338,7 @@ BITCOIN_QT_H += \
   settingsdialog.h \
   tablecountries.h \
   countriesmodel.h \
-  countriesdelegate.h \
+  settingsdelegate.h \
   tablecurrencies.h \
   settingsmodel.h \
   currenciesmodel.h
@@ -359,7 +359,7 @@ BITCOIN_QT_CPP += \
   settingsdialog.cpp \
   tablecountries.cpp \
   countriesmodel.cpp \
-  countriesdelegate.cpp \
+  settingsdelegate.cpp \
   tablecurrencies.cpp \
   settingsmodel.cpp \
   currenciesmodel.cpp

@@ -1,13 +1,13 @@
 #include <QApplication>
 #include <QPainter>
-#include "countriesdelegate.h"
+#include "settingsdelegate.h"
 
-CountriesDelegate::CountriesDelegate(const int &columnEdit, QObject *parent) : QItemDelegate(parent), columnEdit(columnEdit)
+SettingsDelegate::SettingsDelegate(const int &columnEdit, QObject *parent) : QItemDelegate(parent), columnEdit(columnEdit)
 {
 
 }
 
-void CountriesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void SettingsDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.column() == columnEdit) {
         bool value = index.data(Qt::EditRole).toBool();
@@ -42,7 +42,7 @@ void CountriesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     }
 }
 
-QWidget *CountriesDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *SettingsDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.column() == columnEdit) {
         QStyle::State s = option.state;
@@ -53,7 +53,7 @@ QWidget *CountriesDelegate::createEditor(QWidget *parent, const QStyleOptionView
     return QItemDelegate::createEditor(parent, option, index);
 }
 
-void CountriesDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+void SettingsDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     if (index.column() == columnEdit) {
         bool enabled = index.data().toBool();
@@ -64,7 +64,7 @@ void CountriesDelegate::setEditorData(QWidget *editor, const QModelIndex &index)
     }
 }
 
-void CountriesDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+void SettingsDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     if (index.column() == columnEdit) {
         BooleanWidget *w = qobject_cast<BooleanWidget *>(editor);
@@ -74,7 +74,7 @@ void CountriesDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     }
 }
 
-QSize CountriesDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize SettingsDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     return QItemDelegate::sizeHint(option, index);
 }

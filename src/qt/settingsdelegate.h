@@ -1,5 +1,5 @@
-#ifndef COUNTRIESDELEGATE_H
-#define COUNTRIESDELEGATE_H
+#ifndef SETTINGSDELEGATE_H
+#define SETTINGSDELEGATE_H
 
 #include <QItemDelegate>
 #include <QHBoxLayout>
@@ -26,12 +26,12 @@ public:
     }
 };
 
-class CountriesDelegate : public QItemDelegate
+class SettingsDelegate : public QItemDelegate
 {
     Q_OBJECT
 
 public:
-    CountriesDelegate(const int &columnEdit, QObject *parent = nullptr);
+    SettingsDelegate(const int &columnEdit, QObject *parent = nullptr);
 
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;

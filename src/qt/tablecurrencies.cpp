@@ -1,6 +1,6 @@
 #include "tablecurrencies.h"
 #include "convertdata.h"
-#include "countriesdelegate.h"
+#include "settingsdelegate.h"
 
 TableCurrencies::TableCurrencies(DexDB *db, QWidget *parent) : QTableView(parent), db(db)
 {
@@ -18,7 +18,7 @@ TableCurrencies::TableCurrencies(DexDB *db, QWidget *parent) : QTableView(parent
     setAcceptDrops(true);
 
     setModel(model);
-    setItemDelegate(new CountriesDelegate(model->columnEdit()));
+    setItemDelegate(new SettingsDelegate(model->columnEdit()));
 
     connect(model, &CurrenciesModel::dataChanged, this, &TableCurrencies::dataChanged);
 }
