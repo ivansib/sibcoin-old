@@ -31,13 +31,16 @@ class CountriesDelegate : public QItemDelegate
     Q_OBJECT
 
 public:
-    CountriesDelegate(QObject *parent = nullptr);
+    CountriesDelegate(const int &columnEdit, QObject *parent = nullptr);
 
     virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
     virtual void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
     virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+private:
+    const int columnEdit;
 };
 
 #endif

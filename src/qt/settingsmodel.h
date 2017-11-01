@@ -23,9 +23,11 @@ public:
     virtual QStringList mimeTypes() const;
     virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
 
+    int columnEdit() const;
+
 protected:
     QStringList listHead;
-    const int columnEdit;
+    const int m_columnEdit;
 
 Q_SIGNALS:
     void dataChanged();

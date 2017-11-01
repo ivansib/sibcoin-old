@@ -18,7 +18,7 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
     setAcceptDrops(true);
 
     setModel(model);
-    setItemDelegate(new CountriesDelegate());
+    setItemDelegate(new CountriesDelegate(model->columnEdit()));
 
     connect(model, &CountriesModel::dataChanged, this, &TableCountries::dataChanged);
 }

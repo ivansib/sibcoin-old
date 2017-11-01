@@ -108,11 +108,12 @@ void DexDB::addCurrency(const std::string &iso, const std::string &name, const s
     cmd.execute();
 }
 
-void DexDB::editCurrency(const std::string &iso, const bool &enabled)
+void DexDB::editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = ? WHERE iso = ?");
-    cmd.bind(1, enabled);
-    cmd.bind(2, iso, sqlite3pp::nocopy);
+    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
 
     cmd.execute();
 }
@@ -137,7 +138,7 @@ std::list<CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
         query += " WHERE enabled = 0";
     }
 
-    query += " ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder";
+    query += " ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder";
 
     sqlite3pp::query qry(db, query.c_str());
 
@@ -216,7 +217,7 @@ std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
     std::list<PaymentMethodInfo> payments;
 
     sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods "
-                             "ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder");
+                             "ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder");
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         unsigned char type;

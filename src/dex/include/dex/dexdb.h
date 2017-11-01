@@ -24,7 +24,7 @@ public:
     CountryInfo getCountryInfo(const std::string &iso);
 
     void addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
-    void editCurrency(const std::string &iso, const bool &enabled);
+    void editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder);
     void deleteCurrency(const std::string &iso);
     std::list<CurrencyInfo> getCurrenciesInfo(const TypeView &type = All);
     CurrencyInfo getCurrencyInfo(const std::string &iso);

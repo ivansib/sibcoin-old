@@ -19,7 +19,7 @@ struct DefaultCurrency {
     bool enabled;
     int sortOrder;
 
-    DefaultCurrency(std::string iso, std::string name, std::string symbol, bool enabled = false, int sortOrder = 0)
+    DefaultCurrency(std::string iso, std::string name, std::string symbol, bool enabled = false, int sortOrder = -1)
     {
         this->iso = iso;
         this->name = name;

@@ -1,6 +1,6 @@
 #include "settingsmodel.h"
 
-SettingsModel::SettingsModel(const int &columnEdit, QObject *parent) : QAbstractTableModel(parent), columnEdit(columnEdit)
+SettingsModel::SettingsModel(const int &columnEdit, QObject *parent) : QAbstractTableModel(parent), m_columnEdit(columnEdit)
 {
 
 }
@@ -31,7 +31,7 @@ Qt::ItemFlags SettingsModel::flags(const QModelIndex &index) const
         return Qt::ItemIsEnabled | QAbstractItemModel::flags(index);
     }
 
-    if (index.column() == columnEdit) {
+    if (index.column() == m_columnEdit) {
         return QAbstractItemModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
     }
 
@@ -62,4 +62,9 @@ QMimeData *SettingsModel::mimeData(const QModelIndexList &indexes) const
 
     mimeData->setData("application/country.pos", encodedData);
     return mimeData;
+}
+
+int SettingsModel::columnEdit() const
+{
+    return m_columnEdit;
 }

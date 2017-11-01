@@ -2,14 +2,14 @@
 #include <QPainter>
 #include "countriesdelegate.h"
 
-CountriesDelegate::CountriesDelegate(QObject *parent) : QItemDelegate(parent)
+CountriesDelegate::CountriesDelegate(const int &columnEdit, QObject *parent) : QItemDelegate(parent), columnEdit(columnEdit)
 {
 
 }
 
 void CountriesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if (index.column() == 2) {
+    if (index.column() == columnEdit) {
         bool value = index.data(Qt::EditRole).toBool();
         QStyleOptionButton checkboxIndicator;
 
@@ -44,7 +44,7 @@ void CountriesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
 QWidget *CountriesDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if (index.column() == 2) {
+    if (index.column() == columnEdit) {
         QStyle::State s = option.state;
         BooleanWidget *w = new BooleanWidget(parent);
         return w;
@@ -55,7 +55,7 @@ QWidget *CountriesDelegate::createEditor(QWidget *parent, const QStyleOptionView
 
 void CountriesDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    if (index.column() == 2) {
+    if (index.column() == columnEdit) {
         bool enabled = index.data().toBool();
         BooleanWidget *w = qobject_cast<BooleanWidget *>(editor);
         w->setChecked(enabled);
@@ -66,7 +66,7 @@ void CountriesDelegate::setEditorData(QWidget *editor, const QModelIndex &index)
 
 void CountriesDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    if (index.column() == 2) {
+    if (index.column() == columnEdit) {
         BooleanWidget *w = qobject_cast<BooleanWidget *>(editor);
         model->setData(index, QVariant::fromValue(w->isChecked()));
     } else {
