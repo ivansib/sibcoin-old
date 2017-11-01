@@ -13,26 +13,54 @@ DexDB::DexDB(const boost::filesystem::path &path)
 
     createTables();
     addDefaultData();
+
+    if( isDexDbOutdated() ) {
+       dropTables();
+       createTables();
+       addDefaultData();
+    }
 }
 
-void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
+bool DexDB::isDexDbOutdated()
 {
-    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled, sortOrder) SELECT :iso, :name, "
-                               "currencies.id, :enabled, :sortOrder FROM currencies WHERE iso = :currencyIso");
-    cmd.bind(":iso", iso, sqlite3pp::nocopy);
-    cmd.bind(":name", name, sqlite3pp::nocopy);
-    cmd.bind(":enabled", enabled);
-    cmd.bind(":sortOrder", sortOrder);
-    cmd.bind(":currencyIso", currency, sqlite3pp::nocopy);
+   sqlite3pp::query qry(db, "select version from dbversion");
+   sqlite3pp::query::iterator i = qry.begin();
+   std::string sDBversion;
+   std::tie(sDBversion) = (*i).get_columns<std::string>(0);
+   unsigned int uiDBversion = std::stoi( sDBversion );
+
+   if( dex::uiDexDBversionInCode != uiDBversion )
+      return true;  // dex DB file is is not up to date!
+   else
+      return false;
+}
+
+void DexDB::dropTables()
+{
+    db.execute("DROP TABLE IF EXISTS dbversion");
+    db.execute("DROP TABLE IF EXISTS countries");
+    db.execute("DROP TABLE IF EXISTS currencies");
+    db.execute("DROP TABLE IF EXISTS paymentMethods");
+    db.execute("DROP TABLE IF EXISTS myOffers");
+    db.execute("DROP TABLE IF EXISTS offersSell");
+    db.execute("DROP TABLE IF EXISTS offersBuy");
+}
+
+void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency,  const bool &enabled)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled) SELECT ?, ?, currencies.id, ? FROM currencies WHERE iso = ?");
+    cmd.bind(1, iso, sqlite3pp::nocopy);
+    cmd.bind(2, name, sqlite3pp::nocopy);
+    cmd.bind(3, enabled);
+    cmd.bind(4, currency, sqlite3pp::nocopy);
     cmd.execute();
 }
 
-void DexDB::editCountry(const std::string &iso, const bool &enabled, const int &sortOrder)
+void DexDB::editCountry(const std::string &iso, const bool &enabled)
 {
-    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
-    cmd.bind(":enabled", enabled);
-    cmd.bind(":sortOrder", sortOrder);
-    cmd.bind(":iso", iso, sqlite3pp::nocopy);
+    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = ? WHERE iso = ?");
+    cmd.bind(1, enabled);
+    cmd.bind(2, iso, sqlite3pp::nocopy);
 
     cmd.execute();
 }
@@ -56,8 +84,6 @@ std::list<CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
     } else if (type == Disabled) {
         query += " WHERE enabled = 0";
     }
-
-    query += " ORDER BY sortOrder";
 
     sqlite3pp::query qry(db, query.c_str());
 
@@ -108,12 +134,11 @@ void DexDB::addCurrency(const std::string &iso, const std::string &name, const s
     cmd.execute();
 }
 
-void DexDB::editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder)
+void DexDB::editCurrency(const std::string &iso, const bool &enabled)
 {
-    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
-    cmd.bind(":enabled", enabled);
-    cmd.bind(":sortOrder", sortOrder);
-    cmd.bind(":iso", iso, sqlite3pp::nocopy);
+    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = ? WHERE iso = ?");
+    cmd.bind(1, enabled);
+    cmd.bind(2, iso, sqlite3pp::nocopy);
 
     cmd.execute();
 }
@@ -138,7 +163,7 @@ std::list<CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
         query += " WHERE enabled = 0";
     }
 
-    query += " ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder";
+    query += " ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder";
 
     sqlite3pp::query qry(db, query.c_str());
 
@@ -183,7 +208,6 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
     return info;
 }
 
-
 void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description, sortOrder) VALUES (?, ?, ?, ?)");
@@ -217,7 +241,7 @@ std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
     std::list<PaymentMethodInfo> payments;
 
     sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods "
-                             "ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder");
+                             "ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder");
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         unsigned char type;
@@ -513,7 +537,8 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
 
 void DexDB::createTables()
 {
-    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT, sortOrder INT)");
+    db.execute("CREATE TABLE IF NOT EXISTS dbversion (version BIG INT)");
+    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT)");
     db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), "
                "symbol VARCHAR(10), enabled BOOLEAN, sortOrder INT)");
     db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB, sortOrder INT)");
@@ -530,7 +555,12 @@ void DexDB::addDefaultData()
 {
     DefaultDataForDb def;
 
-    int count = tableCount("currencies");
+    int count = tableCount("dbversion");
+    if (count <= 0) {
+            addDbVersion( dex::uiDexDBversionInCode ); 
+    }
+
+    count = tableCount("currencies");
     if (count <= 0) {
         std::list<DefaultCurrency> currencies = def.dataCurrencies();
 
@@ -544,7 +574,7 @@ void DexDB::addDefaultData()
         std::list<DefaultCountry> countries = def.dataCountries();
 
         for (auto item : countries) {
-            addCountry(item.iso, item.name, item.currency, true, -1);
+            addCountry(item.iso, item.name, item.currency);
         }
     }
 
@@ -561,6 +591,13 @@ void DexDB::addDefaultData()
     if (count <= 0) {
         createTestOffers();
     }
+}
+
+void DexDB::addDbVersion( const int& uiDexDbVersion )
+{
+   sqlite3pp::command cmd(db, "INSERT INTO dbversion (version) VALUES (?)");
+   cmd.bind(1, uiDexDbVersion);
+   cmd.execute();
 }
 
 int DexDB::tableCount(const std::string &tableName)
