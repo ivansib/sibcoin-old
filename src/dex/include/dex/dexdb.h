@@ -52,6 +52,10 @@ public:
     void deleteMyOffer(const uint256 &idTransaction);
     std::list<MyOfferInfo> getMyOffers();
 
+    void addFilter(const std::string &filter);
+    void deleteFilter(const std::string &filter);
+    std::list<std::string> getFilters();
+
 private:
     void createTables();
     void addDefaultData();

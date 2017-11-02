@@ -379,6 +379,37 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     return offers;
 }
 
+void DexDB::addFilter(const std::string &filter)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO filterList (filter) VALUES (:filter)");
+    cmd.bind(":filter", filter, sqlite3pp::nocopy);
+    cmd.execute();
+}
+
+void DexDB::deleteFilter(const std::string &filter)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM filterList WHERE filter = :filter");
+    cmd.bind(":filter", filter, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+std::list<std::string> DexDB::getFilters()
+{
+    std::list<std::string> filters;
+
+    sqlite3pp::query qry(db, "SELECT filter FROM filterList");
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        std::string item;
+        std::tie(item) = (*i).get_columns<std::string>(0);
+
+        filters.push_back(item);
+    }
+
+    return filters;
+}
+
 void DexDB::addOffer(const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "INSERT INTO " + tableName + " (idTransaction, hash, countryIso, currencyIso, "
@@ -524,6 +555,8 @@ void DexDB::createTables()
                "currencyIso VARCHAR(3), paymentMethod TINYINT, price UNSIGNED BIG INT, "
                "minAmount UNSIGNED BIG INT, timeCreate UNSIGNED BIG INT, timeToExpiration INT, "
                "shortInfo VARCHAR(140), details TEXT, type INT, status INT)");
+
+    db.execute("CREATE TABLE IF NOT EXISTS filterList (filter VARCHAR(100) NOT NULL PRIMARY KEY)");
 }
 
 void DexDB::addDefaultData()
@@ -662,11 +695,6 @@ void DexDB::createTestOffers()
 
     addMyOffer(myInfo);
     getMyOffers();
-//    deleteMyOffer(myInfo.idTransaction);
-
-//    myInfo.type = Sell;
-//    myInfo.status = Cancelled;
-//    editMyOffer(myInfo);
 }
 
 }
