@@ -20,6 +20,8 @@ public:
     CDexManager();
 
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
+
+
 };
 
 
