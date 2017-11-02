@@ -16,6 +16,6 @@ FilterItemEditor::~FilterItemEditor()
 
 void FilterItemEditor::clickedOk()
 {
-    Q_EMIT newItem(ui->lEdit->text());
+    Q_EMIT newItem(ui->lEdit->text().toLower());
     close();
 }

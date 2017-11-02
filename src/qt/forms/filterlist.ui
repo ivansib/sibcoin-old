@@ -19,6 +19,9 @@
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
+     <property name="isWrapping" stdset="0">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
    <item>
