@@ -66,9 +66,10 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         LOCK(cs);
-        if (!(nType & SER_GETHASH))
+        if (!(nType & SER_GETHASH)) {
             READWRITE(hash);
-        READWRITE(idTransaction);
+            READWRITE(idTransaction);
+        }
         READWRITE(type);
         READWRITE(countryIso);
         READWRITE(currencyIso);
