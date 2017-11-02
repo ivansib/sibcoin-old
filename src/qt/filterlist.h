@@ -21,6 +21,11 @@ public:
 private:
     Ui::FilterList *ui;
     DexDB *db;
+
+private Q_SLOTS:
+    void clikedAdd();
+    void clickedDelete();
+    void addItem(const QString &item);
 };
 
 #endif

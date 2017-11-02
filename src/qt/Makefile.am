@@ -71,7 +71,8 @@ QT_FORMS_UI = \
   forms/offerdetailsview.ui \
   forms/offerdetailseditor.ui \
   forms/settingsdialog.ui \
-  forms/filterlist.ui
+  forms/filterlist.ui \
+  forms/filteritemeditor.ui
 
 QT_MOC_CPP = \
   moc_addressbookpage.cpp \
@@ -319,7 +320,8 @@ QT_MOC_CPP += \
   moc_tablecurrencies.cpp \
   moc_settingsmodel.cpp \
   moc_currenciesmodel.cpp \
-  moc_filterlist.cpp
+  moc_filterlist.cpp \
+  moc_filteritemeditor.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -342,7 +344,8 @@ BITCOIN_QT_H += \
   tablecurrencies.h \
   settingsmodel.h \
   currenciesmodel.h \
-  filterlist.h
+  filterlist.h \
+  filteritemeditor.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
@@ -364,7 +367,8 @@ BITCOIN_QT_CPP += \
   tablecurrencies.cpp \
   settingsmodel.cpp \
   currenciesmodel.cpp \
-  filterlist.cpp
+  filterlist.cpp \
+  filteritemeditor.cpp
 endif
 
 RES_IMAGES = \
