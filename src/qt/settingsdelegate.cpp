@@ -11,6 +11,7 @@ void SettingsDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 {
     if (index.column() == columnEdit) {
         bool value = index.data(Qt::EditRole).toBool();
+
         QStyleOptionButton checkboxIndicator;
 
         checkboxIndicator.state |= QStyle::State_Enabled;
@@ -28,13 +29,16 @@ void SettingsDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
         if ((option.state & QStyle::State_Enabled) && !(option.state & QStyle::State_Selected)) {
             QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxIndicator, painter );
+        } else if (option.state & QStyle::State_Active) {
+            QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxIndicator, painter );
+            painter->fillRect(option.rect, QBrush(colorBackground));
         }
 
-        if ((option.state & QStyle::State_Enabled) && (option.state &  QStyle::State_HasFocus) && (option.state &  QStyle::State_Active)
+        if ((option.state & QStyle::State_Enabled) && (option.state & QStyle::State_HasFocus) && (option.state & QStyle::State_Active)
                 && (option.state & QStyle::State_Selected)) {
             painter->fillRect(option.rect, QBrush(colorBackground));
             QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxIndicator, painter);
-        } else if ((option.state & QStyle::State_Selected) && (option.state & QStyle::State_MouseOver)) {
+        } else if ((option.state & QStyle::State_Selected) && (option.state & QStyle::State_MouseOver && !(option.state & QStyle::State_Active))) {
             painter->fillRect(option.rect, QBrush(QColor(0, 0, 255, 130)));
         }
     } else {
@@ -45,7 +49,6 @@ void SettingsDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 QWidget *SettingsDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.column() == columnEdit) {
-        QStyle::State s = option.state;
         BooleanWidget *w = new BooleanWidget(parent);
         return w;
     }
