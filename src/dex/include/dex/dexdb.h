@@ -73,6 +73,10 @@ private:
 
     sqlite3pp::database db;
 
+    std::list<CountryInfo> countries;
+    std::list<CurrencyInfo> currencies;
+    std::list<PaymentMethodInfo> payments;
+
     void createTestOffers(); // NOTE: for test
 };
 
