@@ -31,7 +31,8 @@ QT_FORMS_UI = \
   qt/forms/transactiondescdialog.ui \
   qt/forms/offerdetailsview.ui \
   qt/forms/offerdetailseditor.ui \
-  qt/forms/settingsdialog.ui
+  qt/forms/settingsdialog.ui \
+  qt/forms/filterlist.ui
 
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -456,7 +457,8 @@ QT_MOC_CPP += \
   qt/moc_settingsdelegate.cpp \
   qt/moc_tablecurrencies.cpp \
   qt/moc_settingsmodel.cpp \
-  qt/moc_currenciesmodel.cpp
+  qt/moc_currenciesmodel.cpp \
+  qt/moc_filterlist.cpp
 
 BITCOIN_QT_H += \
   qt/exchangedialog.h \
@@ -478,7 +480,8 @@ BITCOIN_QT_H += \
   qt/settingsdelegate.h \
   qt/tablecurrencies.h \
   qt/settingsmodel.h \
-  qt/currenciesmodel.h
+  qt/currenciesmodel.h \
+  qt/filterlist.h
 
 BITCOIN_QT_CPP += \
   qt/exchangedialog.cpp \
@@ -499,7 +502,8 @@ BITCOIN_QT_CPP += \
   qt/settingsdelegate.cpp \
   qt/tablecurrencies.cpp \
   qt/settingsmodel.cpp \
-  qt/currenciesmodel.cpp
+  qt/currenciesmodel.cpp \
+  qt/filterlist.cpp
 endif
 
 RES_IMAGES = \

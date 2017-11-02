@@ -8,7 +8,7 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
     common = new QWidget();
     countries = new TableCountries(db);
     currencies = new TableCurrencies(db);
-    filters = new QWidget();
+    filters = new FilterList(db);
 
     ui->stackedWidget->addWidget(common);
     ui->stackedWidget->addWidget(countries);

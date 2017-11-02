@@ -45,8 +45,6 @@ QT_TS = \
   locale/sibcoin_en.ts \
   locale/sibcoin_ru.ts
 
-
-
 QT_FORMS_UI = \
   forms/aboutdialog.ui \
   forms/addressbookpage.ui \
@@ -72,7 +70,8 @@ QT_FORMS_UI = \
   forms/transactiondescdialog.ui \
   forms/offerdetailsview.ui \
   forms/offerdetailseditor.ui \
-  forms/settingsdialog.ui
+  forms/settingsdialog.ui \
+  forms/filterlist.ui
 
 QT_MOC_CPP = \
   moc_addressbookpage.cpp \
@@ -319,7 +318,8 @@ QT_MOC_CPP += \
   moc_settingsdelegate.cpp \
   moc_tablecurrencies.cpp \
   moc_settingsmodel.cpp \
-  moc_currenciesmodel.cpp
+  moc_currenciesmodel.cpp \
+  moc_filterlist.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -341,7 +341,8 @@ BITCOIN_QT_H += \
   settingsdelegate.h \
   tablecurrencies.h \
   settingsmodel.h \
-  currenciesmodel.h
+  currenciesmodel.h \
+  filterlist.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
@@ -362,7 +363,8 @@ BITCOIN_QT_CPP += \
   settingsdelegate.cpp \
   tablecurrencies.cpp \
   settingsmodel.cpp \
-  currenciesmodel.cpp
+  currenciesmodel.cpp \
+  filterlist.cpp
 endif
 
 RES_IMAGES = \
