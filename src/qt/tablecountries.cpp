@@ -1,3 +1,5 @@
+#include <QHeaderView>
+#include <QScrollBar>
 #include "tablecountries.h"
 #include "convertdata.h"
 #include "settingsdelegate.h"
@@ -21,6 +23,8 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
 
     setModel(model);
     setItemDelegate(new SettingsDelegate(model->columnEdit()));
+
+    resizeColumn();
 
     connect(model, &CountriesModel::dataChanged, this, &TableCountries::changedData);
 }
@@ -47,6 +51,21 @@ void TableCountries::cancel()
         model->setCountries(countries);
         isChangedData = false;
     }
+}
+
+void TableCountries::resizeEvent(QResizeEvent *)
+{
+    resizeColumn();
+}
+
+void TableCountries::resizeColumn()
+{
+    int width = geometry().width();
+    auto header = verticalHeader();
+    int wH = header->sizeHint().width();
+    int wS = verticalScrollBar()->sizeHint().width();
+    int w1 = width - columnWidth(1) - columnWidth(2) - wH - wS - 5;
+    setColumnWidth(0, w1);
 }
 
 void TableCountries::changedData()

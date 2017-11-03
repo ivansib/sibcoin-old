@@ -17,11 +17,16 @@ public:
     void saveData();
     void cancel();
 
+protected:
+    virtual void resizeEvent(QResizeEvent *);
+
 private:
     DexDB *db;
     CountriesModel *model;
 
     bool isChangedData;
+
+    void resizeColumn();
 
 private Q_SLOTS:
     void changedData();

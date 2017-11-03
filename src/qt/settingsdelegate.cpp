@@ -14,7 +14,6 @@ void SettingsDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
         QStyleOptionButton checkboxIndicator;
 
-        checkboxIndicator.state |= QStyle::State_Enabled;
         checkboxIndicator.state |= (value) ? QStyle::State_On : QStyle::State_Off;
 
         checkboxIndicator.rect = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &checkboxIndicator, NULL);

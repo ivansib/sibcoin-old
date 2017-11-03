@@ -1,3 +1,5 @@
+#include <QHeaderView>
+#include <QScrollBar>
 #include "tablecurrencies.h"
 #include "convertdata.h"
 #include "settingsdelegate.h"
@@ -21,6 +23,8 @@ TableCurrencies::TableCurrencies(DexDB *db, QWidget *parent) : QTableView(parent
 
     setModel(model);
     setItemDelegate(new SettingsDelegate(model->columnEdit()));
+
+    resizeColumn();
 
     connect(model, &CurrenciesModel::dataChanged, this, &TableCurrencies::changedData);
 }
@@ -48,6 +52,21 @@ void TableCurrencies::cancel()
 
         isChangedData = false;
     }
+}
+
+void TableCurrencies::resizeEvent(QResizeEvent *)
+{
+    resizeColumn();
+}
+
+void TableCurrencies::resizeColumn()
+{
+    int width = geometry().width();
+    auto header = verticalHeader();
+    int wH = header->sizeHint().width();
+    int wS = verticalScrollBar()->sizeHint().width();
+    int w1 = width - columnWidth(1) - columnWidth(2) - columnWidth(2) - wH - wS - 5;
+    setColumnWidth(0, w1);
 }
 
 void TableCurrencies::changedData()
