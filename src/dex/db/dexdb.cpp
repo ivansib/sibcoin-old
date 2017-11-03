@@ -46,27 +46,36 @@ void DexDB::dropTables()
     db.execute("DROP TABLE IF EXISTS offersBuy");
 }
 
-void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency,  const bool &enabled)
+void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled) SELECT ?, ?, currencies.id, ? FROM currencies WHERE iso = ?");
-    cmd.bind(1, iso, sqlite3pp::nocopy);
-    cmd.bind(2, name, sqlite3pp::nocopy);
-    cmd.bind(3, enabled);
-    cmd.bind(4, currency, sqlite3pp::nocopy);
+    countries.clear();
+
+    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled, sortOrder) SELECT :iso, :name, "
+                               "currencies.id, :enabled, :sortOrder FROM currencies WHERE iso = :currencyIso");
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
+    cmd.bind(":name", name, sqlite3pp::nocopy);
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":currencyIso", currency, sqlite3pp::nocopy);
     cmd.execute();
 }
 
-void DexDB::editCountry(const std::string &iso, const bool &enabled)
+void DexDB::editCountry(const std::string &iso, const bool &enabled, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = ? WHERE iso = ?");
-    cmd.bind(1, enabled);
-    cmd.bind(2, iso, sqlite3pp::nocopy);
+    countries.clear();
+
+    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
 
     cmd.execute();
 }
 
 void DexDB::deleteCountry(const std::string &iso)
 {
+    countries.clear();
+
     sqlite3pp::command cmd(db, "DELETE FROM countries WHERE iso = ?");
     cmd.bind(1, iso, sqlite3pp::nocopy);
 
@@ -75,30 +84,32 @@ void DexDB::deleteCountry(const std::string &iso)
 
 std::list<CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
 {
-    std::list<CountryInfo> countries;
+    if (countries.empty()) {
+        std::string query = "SELECT iso, name, enabled FROM countries";
 
-    std::string query = "SELECT iso, name, enabled FROM countries";
+        if (type == Enabled) {
+            query += " WHERE enabled = 1";
+        } else if (type == Disabled) {
+            query += " WHERE enabled = 0";
+        }
 
-    if (type == Enabled) {
-        query += " WHERE enabled = 1";
-    } else if (type == Disabled) {
-        query += " WHERE enabled = 0";
-    }
+        query += " ORDER BY sortOrder";
 
-    sqlite3pp::query qry(db, query.c_str());
+        sqlite3pp::query qry(db, query.c_str());
 
-    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
-        std::string iso;
-        std::string name;
-        bool enabled;
-        std::tie(iso, name, enabled) = (*i).get_columns<std::string, std::string, bool>(0, 1, 2);
+        for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+            std::string iso;
+            std::string name;
+            bool enabled;
+            std::tie(iso, name, enabled) = (*i).get_columns<std::string, std::string, bool>(0, 1, 2);
 
-        CountryInfo info;
-        info.iso = iso;
-        info.name = name;
-        info.enabled = enabled;
+            CountryInfo info;
+            info.iso = iso;
+            info.name = name;
+            info.enabled = enabled;
 
-        countries.push_back(info);
+            countries.push_back(info);
+        }
     }
 
     return countries;
@@ -125,6 +136,8 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
 
 void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
+    currencies.clear();
+
     sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled, sortOrder) VALUES (?, ?, ?, ?, ?)");
     cmd.bind(1, iso, sqlite3pp::nocopy);
     cmd.bind(2, name, sqlite3pp::nocopy);
@@ -134,17 +147,22 @@ void DexDB::addCurrency(const std::string &iso, const std::string &name, const s
     cmd.execute();
 }
 
-void DexDB::editCurrency(const std::string &iso, const bool &enabled)
+void DexDB::editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder)
 {
-    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = ? WHERE iso = ?");
-    cmd.bind(1, enabled);
-    cmd.bind(2, iso, sqlite3pp::nocopy);
+    currencies.clear();
+
+    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
 
     cmd.execute();
 }
 
 void DexDB::deleteCurrency(const std::string &iso)
 {
+    currencies.clear();
+
     sqlite3pp::command cmd(db, "DELETE FROM currencies WHERE iso = ?");
     cmd.bind(1, iso, sqlite3pp::nocopy);
 
@@ -153,34 +171,34 @@ void DexDB::deleteCurrency(const std::string &iso)
 
 std::list<CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
 {
-    std::list<CurrencyInfo> currencies;
+    if (currencies.empty()) {
+        std::string query = "SELECT iso, name, symbol, enabled FROM currencies";
 
-    std::string query = "SELECT iso, name, symbol, enabled FROM currencies";
+        if (type == Enabled) {
+            query += " WHERE enabled = 1";
+        } else if (type == Disabled) {
+            query += " WHERE enabled = 0";
+        }
 
-    if (type == Enabled) {
-        query += " WHERE enabled = 1";
-    } else if (type == Disabled) {
-        query += " WHERE enabled = 0";
-    }
+        query += " ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder";
 
-    query += " ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder";
+        sqlite3pp::query qry(db, query.c_str());
 
-    sqlite3pp::query qry(db, query.c_str());
+        for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+            std::string iso;
+            std::string name;
+            std::string symbol;
+            bool enabled;
+            std::tie(iso, name, symbol, enabled) = (*i).get_columns<std::string, std::string, std::string, bool>(0, 1, 2, 3);
 
-    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
-        std::string iso;
-        std::string name;
-        std::string symbol;
-        bool enabled;
-        std::tie(iso, name, symbol, enabled) = (*i).get_columns<std::string, std::string, std::string, bool>(0, 1, 2, 3);
+            CurrencyInfo info;
+            info.iso = iso;
+            info.name = name;
+            info.symbol = symbol;
+            info.enabled = enabled;
 
-        CurrencyInfo info;
-        info.iso = iso;
-        info.name = name;
-        info.symbol = symbol;
-        info.enabled = enabled;
-
-        currencies.push_back(info);
+            currencies.push_back(info);
+        }
     }
 
     return currencies;
@@ -208,8 +226,11 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
     return info;
 }
 
+
 void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
+    payments.clear();
+
     sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description, sortOrder) VALUES (?, ?, ?, ?)");
     cmd.bind(1, type);
     cmd.bind(2, name, sqlite3pp::nocopy);
@@ -220,6 +241,8 @@ void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name,
 
 void DexDB::editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description)
 {
+    payments.clear();
+
     sqlite3pp::command cmd(db, "UPDATE paymentMethods SET name = ?, description = ? WHERE type = ?");
     cmd.bind(1, name, sqlite3pp::nocopy);
     cmd.bind(2, description, sqlite3pp::nocopy);
@@ -230,6 +253,8 @@ void DexDB::editPaymentMethod(const unsigned char &type, const std::string &name
 
 void DexDB::deletePaymentMethod(const unsigned char &type)
 {
+    payments.clear();
+
     sqlite3pp::command cmd(db, "DELETE FROM paymentMethods WHERE type = ?");
     cmd.bind(1, type);
 
@@ -238,22 +263,22 @@ void DexDB::deletePaymentMethod(const unsigned char &type)
 
 std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
 {
-    std::list<PaymentMethodInfo> payments;
+    if (payments.empty()) {
+        sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods "
+                                 "ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder");
 
-    sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods "
-                             "ORDER BY CASE WHEN sortOrder IS '0' THEN '99999' END, sortOrder");
+        for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+            unsigned char type;
+            std::string name;
+            std::string description;
+            std::tie(type, name, description) = (*i).get_columns<unsigned char, std::string, std::string>(0, 1, 2);
 
-    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
-        unsigned char type;
-        std::string name;
-        std::string description;
-        std::tie(type, name, description) = (*i).get_columns<unsigned char, std::string, std::string>(0, 1, 2);
-
-        PaymentMethodInfo info;
-        info.type = type;
-        info.name = name;
-        info.description = description;
-        payments.push_back(info);
+            PaymentMethodInfo info;
+            info.type = type;
+            info.name = name;
+            info.description = description;
+            payments.push_back(info);
+        }
     }
 
     return payments;
@@ -403,6 +428,37 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     return offers;
 }
 
+void DexDB::addFilter(const std::string &filter)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO filterList (filter) VALUES (:filter)");
+    cmd.bind(":filter", filter, sqlite3pp::nocopy);
+    cmd.execute();
+}
+
+void DexDB::deleteFilter(const std::string &filter)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM filterList WHERE filter = :filter");
+    cmd.bind(":filter", filter, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+std::list<std::string> DexDB::getFilters()
+{
+    std::list<std::string> filters;
+
+    sqlite3pp::query qry(db, "SELECT filter FROM filterList");
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        std::string item;
+        std::tie(item) = (*i).get_columns<std::string>(0);
+
+        filters.push_back(item);
+    }
+
+    return filters;
+}
+
 void DexDB::addOffer(const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "INSERT INTO " + tableName + " (idTransaction, hash, countryIso, currencyIso, "
@@ -538,7 +594,7 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
 void DexDB::createTables()
 {
     db.execute("CREATE TABLE IF NOT EXISTS dbversion (version BIG INT)");
-    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT)");
+    db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT, sortOrder INT)");
     db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), "
                "symbol VARCHAR(10), enabled BOOLEAN, sortOrder INT)");
     db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB, sortOrder INT)");
@@ -549,6 +605,8 @@ void DexDB::createTables()
                "currencyIso VARCHAR(3), paymentMethod TINYINT, price UNSIGNED BIG INT, "
                "minAmount UNSIGNED BIG INT, timeCreate UNSIGNED BIG INT, timeToExpiration INT, "
                "shortInfo VARCHAR(140), details TEXT, type INT, status INT)");
+
+    db.execute("CREATE TABLE IF NOT EXISTS filterList (filter VARCHAR(100) NOT NULL PRIMARY KEY)");
 }
 
 void DexDB::addDefaultData()
@@ -574,7 +632,7 @@ void DexDB::addDefaultData()
         std::list<DefaultCountry> countries = def.dataCountries();
 
         for (auto item : countries) {
-            addCountry(item.iso, item.name, item.currency);
+            addCountry(item.iso, item.name, item.currency, true, -1);
         }
     }
 
@@ -699,11 +757,6 @@ void DexDB::createTestOffers()
 
     addMyOffer(myInfo);
     getMyOffers();
-//    deleteMyOffer(myInfo.idTransaction);
-
-//    myInfo.type = Sell;
-//    myInfo.status = Cancelled;
-//    editMyOffer(myInfo);
 }
 
 }

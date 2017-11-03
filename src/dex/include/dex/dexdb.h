@@ -21,14 +21,14 @@ public:
         All
     };
 
-    void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled = true);
-    void editCountry(const std::string &iso, const bool &enabled);
+    void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
+    void editCountry(const std::string &iso, const bool &enabled, const int &sortOrder);
     void deleteCountry(const std::string &iso);
     std::list<CountryInfo> getCountriesInfo(const TypeView &type = All);
     CountryInfo getCountryInfo(const std::string &iso);
 
     void addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
-    void editCurrency(const std::string &iso, const bool &enabled);
+    void editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder);
     void deleteCurrency(const std::string &iso);
     std::list<CurrencyInfo> getCurrenciesInfo(const TypeView &type = All);
     CurrencyInfo getCurrencyInfo(const std::string &iso);
@@ -56,6 +56,10 @@ public:
     void deleteMyOffer(const uint256 &idTransaction);
     std::list<MyOfferInfo> getMyOffers();
 
+    void addFilter(const std::string &filter);
+    void deleteFilter(const std::string &filter);
+    std::list<std::string> getFilters();
+
 private:
     void createTables();
     void addDefaultData();
@@ -70,11 +74,15 @@ private:
     void addOrEditMyOffer(const std::string &query, const MyOfferInfo &offer);
     void bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer);
     bool isExistOffer(const std::string &tableName, const uint256 &idTransaction);
+
+    sqlite3pp::database db;
+
+    std::list<CountryInfo> countries;
+    std::list<CurrencyInfo> currencies;
+    std::list<PaymentMethodInfo> payments;
     void addDbVersion( const int& uiDexDbVersion );
     bool isDexDbOutdated();
     void dropTables();
-
-    sqlite3pp::database db;
 
     void createTestOffers(); // NOTE: for test
 };
