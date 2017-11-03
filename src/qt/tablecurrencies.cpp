@@ -7,6 +7,8 @@ TableCurrencies::TableCurrencies(DexDB *db, QWidget *parent) : QTableView(parent
     QList<QtCurrencyInfo> currencies = ConvertData::toListQtCurrencyInfo(db->getCurrenciesInfo());
     model = new CurrenciesModel(currencies);
 
+    isChangedData = false;
+
     setAlternatingRowColors(true);
     setDragDropOverwriteMode(true);
     setDefaultDropAction(Qt::MoveAction);
@@ -20,22 +22,36 @@ TableCurrencies::TableCurrencies(DexDB *db, QWidget *parent) : QTableView(parent
     setModel(model);
     setItemDelegate(new SettingsDelegate(model->columnEdit()));
 
-    connect(model, &CurrenciesModel::dataChanged, this, &TableCurrencies::dataChanged);
+    connect(model, &CurrenciesModel::dataChanged, this, &TableCurrencies::changedData);
 }
 
 void TableCurrencies::saveData()
 {
-    QList<QtCurrencyInfo> currencies = model->getCurrencies();
+    if (isChangedData) {
+        QList<QtCurrencyInfo> currencies = model->getCurrencies();
 
-    for (int i = 0; i < currencies.size(); i++) {
-        CurrencyInfo info = ConvertData::fromQtCurrencyInfo(currencies[i]);
+        for (int i = 0; i < currencies.size(); i++) {
+            CurrencyInfo info = ConvertData::fromQtCurrencyInfo(currencies[i]);
 
-        db->editCurrency(info.iso, info.enabled, i);
+            db->editCurrency(info.iso, info.enabled, i);
+        }
+
+        isChangedData = false;
     }
 }
 
 void TableCurrencies::cancel()
 {
-    QList<QtCurrencyInfo> curencies = ConvertData::toListQtCurrencyInfo(db->getCurrenciesInfo());
-    model->setCurrencies(curencies);
+    if (isChangedData) {
+        QList<QtCurrencyInfo> curencies = ConvertData::toListQtCurrencyInfo(db->getCurrenciesInfo());
+        model->setCurrencies(curencies);
+
+        isChangedData = false;
+    }
+}
+
+void TableCurrencies::changedData()
+{
+    isChangedData = true;
+    Q_EMIT dataChanged();
 }

@@ -7,6 +7,8 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
     QList<QtCountryInfo> countries = ConvertData::toListQtCountryInfo(db->getCountriesInfo());
     model = new CountriesModel(countries);
 
+    isChangedData = false;
+
     setAlternatingRowColors(true);
     setDragDropOverwriteMode(true);
     setDefaultDropAction(Qt::MoveAction);
@@ -20,22 +22,36 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
     setModel(model);
     setItemDelegate(new SettingsDelegate(model->columnEdit()));
 
-    connect(model, &CountriesModel::dataChanged, this, &TableCountries::dataChanged);
+    connect(model, &CountriesModel::dataChanged, this, &TableCountries::changedData);
 }
 
 void TableCountries::saveData()
 {
-    QList<QtCountryInfo> countries = model->getCountries();
+    if (isChangedData) {
+        QList<QtCountryInfo> countries = model->getCountries();
 
-    for (int i = 0; i < countries.size(); i++) {
-        CountryInfo info = ConvertData::fromQtCountryInfo(countries[i]);
+        for (int i = 0; i < countries.size(); i++) {
+            CountryInfo info = ConvertData::fromQtCountryInfo(countries[i]);
 
-        db->editCountry(info.iso, info.enabled, i);
+            db->editCountry(info.iso, info.enabled, i);
+        }
+
+        isChangedData = false;
     }
 }
 
 void TableCountries::cancel()
 {
-    QList<QtCountryInfo> countries = ConvertData::toListQtCountryInfo(db->getCountriesInfo());
-    model->setCountries(countries);
+    if (isChangedData) {
+        QList<QtCountryInfo> countries = ConvertData::toListQtCountryInfo(db->getCountriesInfo());
+        model->setCountries(countries);
+        isChangedData = false;
+    }
+}
+
+void TableCountries::changedData()
+{
+    isChangedData = true;
+
+    Q_EMIT dataChanged();
 }

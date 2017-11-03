@@ -21,6 +21,11 @@ private:
     DexDB *db;
     CurrenciesModel *model;
 
+    bool isChangedData;
+
+private Q_SLOTS:
+    void changedData();
+
 Q_SIGNALS:
     void dataChanged();
 };

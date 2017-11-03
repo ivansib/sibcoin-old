@@ -21,6 +21,11 @@ private:
     DexDB *db;
     CountriesModel *model;
 
+    bool isChangedData;
+
+private Q_SLOTS:
+    void changedData();
+
 Q_SIGNALS:
     void dataChanged();
 };
