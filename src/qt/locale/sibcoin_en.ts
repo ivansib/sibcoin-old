@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en">
+<TS version="2.1" language="en">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -1263,11 +1263,52 @@
 <context>
     <name>ComboBox</name>
     <message>
-        <location filename="../combobox.cpp" line="+19"/>
-        <location line="+22"/>
-        <location line="+26"/>
+        <location filename="../combobox.cpp" line="+21"/>
+        <location line="+15"/>
+        <location line="+34"/>
         <source>All</source>
         <translation>All</translation>
+    </message>
+</context>
+<context>
+    <name>CountriesModel</name>
+    <message>
+        <location filename="../countriesmodel.cpp" line="+5"/>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>ISO</source>
+        <translation>ISO</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Enabled</source>
+        <translation>Enabled</translation>
+    </message>
+</context>
+<context>
+    <name>CurrenciesModel</name>
+    <message>
+        <location filename="../currenciesmodel.cpp" line="+5"/>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>ISO</source>
+        <translation>ISO</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Symbol</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Enabled</source>
+        <translation>Enabled</translation>
     </message>
 </context>
 <context>
@@ -1454,6 +1495,32 @@
         <location line="+13"/>
         <source>Settings</source>
         <translation>Settings</translation>
+    </message>
+</context>
+<context>
+    <name>FilterItemEditor</name>
+    <message>
+        <location filename="../forms/filteritemeditor.ui" line="+14"/>
+        <source>Add Filter</source>
+        <translation>Add Filter</translation>
+    </message>
+</context>
+<context>
+    <name>FilterList</name>
+    <message>
+        <location filename="../forms/filterlist.ui" line="+14"/>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Add</source>
+        <translation>Add</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Delete</source>
+        <translation>Delete</translation>
     </message>
 </context>
 <context>
@@ -1973,7 +2040,7 @@ p, li { white-space: pre-wrap; }
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="../offerdetails.cpp" line="+47"/>
+        <location filename="../offerdetails.cpp" line="+52"/>
         <source>Approximate Time Expiration:</source>
         <translation>Approximate Time Expiration:</translation>
     </message>
@@ -2859,6 +2926,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <source>%n Rounds</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -2890,6 +2958,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+1"/>
         <source>Denominated inputs have %5 of %n rounds on average</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -5861,6 +5930,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <source>Estimated to begin confirmation within %n block(s).</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -6047,6 +6117,34 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location filename="../sendcoinsentry.cpp" line="+32"/>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Enter a label for this address to add it to your address book</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="../forms/settingsdialog.ui" line="+14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Common</source>
+        <translation>Common</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Countries</source>
+        <translation>Countries</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Currencies</source>
+        <translation>Currencies</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Filters</source>
+        <translation>Filters</translation>
     </message>
 </context>
 <context>
@@ -6310,7 +6408,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Create</translation>
     </message>
     <message>
-        <location filename="../tableoffersdialog.cpp" line="+25"/>
+        <location filename="../tableoffersdialog.cpp" line="+48"/>
         <source>All</source>
         <translation>All</translation>
     </message>
@@ -6325,7 +6423,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Sell</translation>
     </message>
     <message>
-        <location line="+63"/>
+        <location line="+49"/>
         <source>Show</source>
         <translation>Show</translation>
     </message>

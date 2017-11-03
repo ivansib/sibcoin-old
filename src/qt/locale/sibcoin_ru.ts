@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru">
+<TS version="2.1" language="ru">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -1076,6 +1076,40 @@ Address: %4
     </message>
 </context>
 <context>
+    <name>CountriesModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Название</translation>
+    </message>
+    <message>
+        <source>ISO</source>
+        <translation>ISO</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Включен</translation>
+    </message>
+</context>
+<context>
+    <name>CurrenciesModel</name>
+    <message>
+        <source>Name</source>
+        <translation>Название</translation>
+    </message>
+    <message>
+        <source>ISO</source>
+        <translation>ISO</translation>
+    </message>
+    <message>
+        <source>Symbol</source>
+        <translation>Символ</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Включен</translation>
+    </message>
+</context>
+<context>
     <name>DarksendConfig</name>
     <message>
         <source>Configure PrivateSend</source>
@@ -1222,6 +1256,28 @@ Address: %4
     <message>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FilterItemEditor</name>
+    <message>
+        <source>Add Filter</source>
+        <translation>Добавить Фильтр</translation>
+    </message>
+</context>
+<context>
+    <name>FilterList</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished">Форма</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Добавить</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -5223,6 +5279,29 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Введите метку для данного адреса для добавления его в адресную книгу</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Common</source>
+        <translation>Общие</translation>
+    </message>
+    <message>
+        <source>Countries</source>
+        <translation>Страны</translation>
+    </message>
+    <message>
+        <source>Currencies</source>
+        <translation>Валюты</translation>
+    </message>
+    <message>
+        <source>Filters</source>
+        <translation>Фильтры</translation>
     </message>
 </context>
 <context>
