@@ -38,10 +38,10 @@ void TableOffersDialog::updateNavigationData()
     auto payments = db->getPaymentMethodsInfo();
     ui->cBoxPayment->addData(payments, ComboBox::View);
 
-    auto countries = db->getCountriesInfo(DexDB::Enabled);
+    auto countries = db->getCountriesInfo();
     ui->cBoxCountry->addData(countries, ComboBox::View);
 
-    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
+    auto currencies = db->getCurrenciesInfo();
     ui->cBoxCurrency->addData(currencies, ComboBox::View);
 
     ui->cBoxOffer->clear();

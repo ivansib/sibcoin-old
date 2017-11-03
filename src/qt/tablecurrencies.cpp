@@ -32,13 +32,10 @@ TableCurrencies::TableCurrencies(DexDB *db, QWidget *parent) : QTableView(parent
 void TableCurrencies::saveData()
 {
     if (isChangedData) {
-        QList<QtCurrencyInfo> currencies = model->getCurrencies();
+        auto qtl = model->getCurrencies();
+        auto currencies = ConvertData::fromListQtCurrencyInfo(qtl);
 
-        for (int i = 0; i < currencies.size(); i++) {
-            CurrencyInfo info = ConvertData::fromQtCurrencyInfo(currencies[i]);
-
-            db->editCurrency(info.iso, info.enabled, i);
-        }
+        db->editCurrencies(currencies);
 
         isChangedData = false;
     }

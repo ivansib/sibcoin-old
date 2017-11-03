@@ -11,26 +11,19 @@ class DexDB {
 public:
     DexDB(const boost::filesystem::path &path);
 
-    enum TypeView {
-        Enabled,
-        Disabled,
-        All
-    };
-
     void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
-    void editCountry(const std::string &iso, const bool &enabled, const int &sortOrder);
+    void editCountries(const std::list<CountryInfo> &list);
     void deleteCountry(const std::string &iso);
-    std::list<CountryInfo> getCountriesInfo(const TypeView &type = All);
+    std::list<CountryInfo> getCountriesInfo();
     CountryInfo getCountryInfo(const std::string &iso);
 
     void addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
-    void editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder);
+    void editCurrencies(const std::list<CurrencyInfo> &list);
     void deleteCurrency(const std::string &iso);
-    std::list<CurrencyInfo> getCurrenciesInfo(const TypeView &type = All);
+    std::list<CurrencyInfo> getCurrenciesInfo();
     CurrencyInfo getCurrencyInfo(const std::string &iso);
 
     void addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder);
-    void editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description);
     void deletePaymentMethod(const unsigned char &type);
     std::list<PaymentMethodInfo> getPaymentMethodsInfo();
     PaymentMethodInfo getPaymentMethodInfo(const unsigned char &type);
@@ -57,18 +50,35 @@ public:
     std::list<std::string> getFilters();
 
 private:
+    static void addCountryInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
+    static void editCountriesInThread(sqlite3pp::database &db, const std::list<CountryInfo> &list);
+    static void editCountryInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder);
+    static void deleteCountryInThread(sqlite3pp::database &db, const std::string &iso);
+
+    static void addCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
+    static void editCurrenciesInThread(sqlite3pp::database &db, const std::list<CurrencyInfo> &list);
+    static void editCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder);
+    static void deleteCurrencyInThread(sqlite3pp::database &db, const std::string &iso);
+
+    static void addPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder);
+    static void editPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description);
+    static void deletePaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type);
+
+    static void addFilterInThread(sqlite3pp::database &db, const std::string &filter);
+    static void deleteFilterInThread(sqlite3pp::database &db, const std::string &filter);
+
     void createTables();
     void addDefaultData();
     int tableCount(const std::string &tableName);
     std::string templateOffersTable(const std::string &tableName) const;
 
-    void addOffer(const std::string &tableName, const OfferInfo &offer);
-    void editOffer(const std::string &tableName, const OfferInfo &offer);
-    void deleteOffer(const std::string &tableName, const uint256 &idTransaction);
+    static void addOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer);
+    static void editOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer);
+    static void deleteOffer(sqlite3pp::database &db, const std::string &tableName, const uint256 &idTransaction);
     std::list<OfferInfo> getOffers(const std::string &tableName);
-    void addOrEditOffer(const std::string &query, const OfferInfo &offer);
-    void addOrEditMyOffer(const std::string &query, const MyOfferInfo &offer);
-    void bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer);
+    static void addOrEditOffer(sqlite3pp::database &db, const std::string &query, const OfferInfo &offer);
+    static void addOrEditMyOffer(sqlite3pp::database &db, const std::string &query, const MyOfferInfo &offer);
+    static void bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer);
     bool isExistOffer(const std::string &tableName, const uint256 &idTransaction);
 
     sqlite3pp::database db;

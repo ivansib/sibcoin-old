@@ -39,10 +39,12 @@ void ComboBox::addData(const std::list<CountryInfo> &data, const ComboType &type
     auto it = data.begin();
 
     while (it != data.end()) {
-        QString name = ConvertData::toTr(it->name.c_str());
-        QString iso = toString(it->iso);
+        if (it->enabled) {
+            QString name = ConvertData::toTr(it->name.c_str());
+            QString iso = toString(it->iso);
 
-        addItem(name, iso);
+            addItem(name, iso);
+        }
         ++it;
     }
 }
@@ -71,11 +73,13 @@ void ComboBox::addData(const std::list<CurrencyInfo> &data, const ComboType &typ
     }
 
     while (it != data.end()) {
-        QString viewStr = toString(it->symbol) + " " + toString(it->iso);
-        QString key = toString(it->iso);
-        QString toolTip = ConvertData::toTr(it->name.c_str());
-        addItem(viewStr, key);
-        setItemData(count() - 1, toolTip, Qt::ToolTipRole);
+        if (it->enabled) {
+            QString viewStr = toString(it->symbol) + " " + toString(it->iso);
+            QString key = toString(it->iso);
+            QString toolTip = ConvertData::toTr(it->name.c_str());
+            addItem(viewStr, key);
+            setItemData(count() - 1, toolTip, Qt::ToolTipRole);
+        }
         ++it;
     }
 }

@@ -24,10 +24,10 @@ void OfferDetails::updateNavigationData()
     auto payments = db->getPaymentMethodsInfo();
     cBoxPayment->addData(payments, ComboBox::Editor);
 
-    auto countries = db->getCountriesInfo(DexDB::Enabled);
+    auto countries = db->getCountriesInfo();
     cBoxCountry->addData(countries, ComboBox::Editor);
 
-    auto currencies = db->getCurrenciesInfo(DexDB::Enabled);
+    auto currencies = db->getCurrenciesInfo();
     cBoxCurrency->addData(currencies, ComboBox::Editor);
 }
 

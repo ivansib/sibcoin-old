@@ -1,4 +1,5 @@
 #include <ctime>
+#include <thread>
 #include "dex/dexdb.h"
 #include "defaultdatafordb.h"
 
@@ -18,51 +19,31 @@ DexDB::DexDB(const boost::filesystem::path &path)
 void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
     countries.clear();
-
-    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled, sortOrder) SELECT :iso, :name, "
-                               "currencies.id, :enabled, :sortOrder FROM currencies WHERE iso = :currencyIso");
-    cmd.bind(":iso", iso, sqlite3pp::nocopy);
-    cmd.bind(":name", name, sqlite3pp::nocopy);
-    cmd.bind(":enabled", enabled);
-    cmd.bind(":sortOrder", sortOrder);
-    cmd.bind(":currencyIso", currency, sqlite3pp::nocopy);
-    cmd.execute();
+    std::thread thr(addCountryInThread, std::ref(db), iso, name, currency, enabled, sortOrder);
+    thr.detach();
 }
 
-void DexDB::editCountry(const std::string &iso, const bool &enabled, const int &sortOrder)
+void DexDB::editCountries(const std::list<CountryInfo> &list)
 {
-    countries.clear();
+    if (countries.size() == list.size()) {
+        countries = list;
+    }
 
-    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
-    cmd.bind(":enabled", enabled);
-    cmd.bind(":sortOrder", sortOrder);
-    cmd.bind(":iso", iso, sqlite3pp::nocopy);
-
-    cmd.execute();
+    std::thread thr(editCountriesInThread, std::ref(db), list);
+    thr.detach();
 }
 
 void DexDB::deleteCountry(const std::string &iso)
 {
     countries.clear();
-
-    sqlite3pp::command cmd(db, "DELETE FROM countries WHERE iso = ?");
-    cmd.bind(1, iso, sqlite3pp::nocopy);
-
-    cmd.execute();
+    std::thread thr(deleteCountryInThread, std::ref(db), iso);
+    thr.detach();
 }
 
-std::list<CountryInfo> DexDB::getCountriesInfo(const TypeView &type)
+std::list<CountryInfo> DexDB::getCountriesInfo()
 {
     if (countries.empty()) {
-        std::string query = "SELECT iso, name, enabled FROM countries";
-
-        if (type == Enabled) {
-            query += " WHERE enabled = 1";
-        } else if (type == Disabled) {
-            query += " WHERE enabled = 0";
-        }
-
-        query += " ORDER BY sortOrder";
+        std::string query = "SELECT iso, name, enabled FROM countries ORDER BY sortOrder";
 
         sqlite3pp::query qry(db, query.c_str());
 
@@ -106,50 +87,31 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
 void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
     currencies.clear();
-
-    sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled, sortOrder) VALUES (?, ?, ?, ?, ?)");
-    cmd.bind(1, iso, sqlite3pp::nocopy);
-    cmd.bind(2, name, sqlite3pp::nocopy);
-    cmd.bind(3, symbol, sqlite3pp::nocopy);
-    cmd.bind(4, enabled);
-    cmd.bind(5, sortOrder);
-    cmd.execute();
+    std::thread thr(addCurrencyInThread, std::ref(db), iso, name, symbol, enabled, sortOrder);
+    thr.detach();
 }
 
-void DexDB::editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder)
+void DexDB::editCurrencies(const std::list<CurrencyInfo> &list)
 {
-    currencies.clear();
-
-    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
-    cmd.bind(":enabled", enabled);
-    cmd.bind(":sortOrder", sortOrder);
-    cmd.bind(":iso", iso, sqlite3pp::nocopy);
-
-    cmd.execute();
+    if (currencies.size() == list.size()) {
+        currencies = list;
+    }
+    std::thread thr(editCurrenciesInThread, std::ref(db), list);
+    thr.detach();
 }
 
 void DexDB::deleteCurrency(const std::string &iso)
 {
     currencies.clear();
-
-    sqlite3pp::command cmd(db, "DELETE FROM currencies WHERE iso = ?");
-    cmd.bind(1, iso, sqlite3pp::nocopy);
-
-    cmd.execute();
+    std::thread thr(deleteCurrencyInThread, std::ref(db), iso);
+    thr.detach();
 }
 
-std::list<CurrencyInfo> DexDB::getCurrenciesInfo(const TypeView &type)
+std::list<CurrencyInfo> DexDB::getCurrenciesInfo()
 {
     if (currencies.empty()) {
-        std::string query = "SELECT iso, name, symbol, enabled FROM currencies";
-
-        if (type == Enabled) {
-            query += " WHERE enabled = 1";
-        } else if (type == Disabled) {
-            query += " WHERE enabled = 0";
-        }
-
-        query += " ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder";
+        std::string query = "SELECT iso, name, symbol, enabled FROM currencies "
+                            "ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder";
 
         sqlite3pp::query qry(db, query.c_str());
 
@@ -195,39 +157,18 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
     return info;
 }
 
-
 void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
     payments.clear();
-
-    sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description, sortOrder) VALUES (?, ?, ?, ?)");
-    cmd.bind(1, type);
-    cmd.bind(2, name, sqlite3pp::nocopy);
-    cmd.bind(3, description, sqlite3pp::nocopy);
-    cmd.bind(4, sortOrder);
-    cmd.execute();
-}
-
-void DexDB::editPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description)
-{
-    payments.clear();
-
-    sqlite3pp::command cmd(db, "UPDATE paymentMethods SET name = ?, description = ? WHERE type = ?");
-    cmd.bind(1, name, sqlite3pp::nocopy);
-    cmd.bind(2, description, sqlite3pp::nocopy);
-    cmd.bind(3, type);
-
-    cmd.execute();
+    std::thread thr(addPaymentMethodInThread, std::ref(db), type, name, description, sortOrder);
+    thr.detach();
 }
 
 void DexDB::deletePaymentMethod(const unsigned char &type)
 {
     payments.clear();
-
-    sqlite3pp::command cmd(db, "DELETE FROM paymentMethods WHERE type = ?");
-    cmd.bind(1, type);
-
-    cmd.execute();
+    std::thread thr(deletePaymentMethodInThread, std::ref(db), type);
+    thr.detach();
 }
 
 std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
@@ -274,17 +215,20 @@ PaymentMethodInfo DexDB::getPaymentMethodInfo(const unsigned char &type)
 
 void DexDB::addOfferSell(const OfferInfo &offer)
 {
-    addOffer("offersSell", offer);
+    std::thread thr(addOffer, std::ref(db), "offersSell", offer);
+    thr.detach();
 }
 
 void DexDB::editOfferSell(const OfferInfo &offer)
 {
-    editOffer("offersSell", offer);
+    std::thread thr(editOffer, std::ref(db), "offersSell", offer);
+    thr.detach();
 }
 
 void DexDB::deleteOfferSell(const uint256 &idTransaction)
 {
-    deleteOffer("offersSell", idTransaction);
+    std::thread thr(deleteOffer, std::ref(db), "offersSell", idTransaction);
+    thr.detach();
 }
 
 std::list<OfferInfo> DexDB::getOffersSell()
@@ -299,17 +243,20 @@ bool DexDB::isExistOfferSell(const uint256 &idTransaction)
 
 void DexDB::addOfferBuy(const OfferInfo &offer)
 {
-    addOffer("offersBuy", offer);
+    std::thread thr(addOffer, std::ref(db), "offersBuy", offer);
+    thr.detach();
 }
 
 void DexDB::editOfferBuy(const OfferInfo &offer)
 {
-    editOffer("offersBuy", offer);
+    std::thread thr(editOffer, std::ref(db), "offersBuy", offer);
+    thr.detach();
 }
 
 void DexDB::deleteOfferBuy(const uint256 &idTransaction)
 {
-    deleteOffer("offersBuy", idTransaction);
+    std::thread thr(deleteOffer, std::ref(db), "offersBuy", idTransaction);
+    thr.detach();
 }
 
 std::list<OfferInfo> DexDB::getOffersBuy()
@@ -329,7 +276,8 @@ void DexDB::addMyOffer(const MyOfferInfo &offer)
                         "VALUES (:idTransaction, :hash, :countryIso, :currencyIso, "
                         ":paymentMethod, :price, :minAmount, :timeCreate, :timeToExpiration, :shortInfo, :details, :type, :status)";
 
-    addOrEditMyOffer(query, offer);
+    std::thread thr(addOrEditMyOffer, std::ref(db), query, offer);
+    thr.detach();
 }
 
 void DexDB::editMyOffer(const MyOfferInfo &offer)
@@ -340,12 +288,14 @@ void DexDB::editMyOffer(const MyOfferInfo &offer)
                         "shortInfo = :shortInfo, details = :details, "
                         "type = :type, status = :status WHERE  idTransaction = :idTransaction";
 
-    addOrEditMyOffer(query, offer);
+    std::thread thr(addOrEditMyOffer, std::ref(db), query, offer);
+    thr.detach();
 }
 
 void DexDB::deleteMyOffer(const uint256 &idTransaction)
 {
-    deleteOffer("myOffers", idTransaction);
+    std::thread thr(deleteOffer, std::ref(db), "myOffers", idTransaction);
+    thr.detach();
 }
 
 std::list<MyOfferInfo> DexDB::getMyOffers()
@@ -398,18 +348,15 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
 }
 
 void DexDB::addFilter(const std::string &filter)
-{
-    sqlite3pp::command cmd(db, "INSERT INTO filterList (filter) VALUES (:filter)");
-    cmd.bind(":filter", filter, sqlite3pp::nocopy);
-    cmd.execute();
+{    
+    std::thread thr(addFilterInThread, std::ref(db), filter);
+    thr.detach();
 }
 
 void DexDB::deleteFilter(const std::string &filter)
 {
-    sqlite3pp::command cmd(db, "DELETE FROM filterList WHERE filter = :filter");
-    cmd.bind(":filter", filter, sqlite3pp::nocopy);
-
-    cmd.execute();
+    std::thread thr(deleteFilterInThread, std::ref(db), filter);
+    thr.detach();
 }
 
 std::list<std::string> DexDB::getFilters()
@@ -428,27 +375,27 @@ std::list<std::string> DexDB::getFilters()
     return filters;
 }
 
-void DexDB::addOffer(const std::string &tableName, const OfferInfo &offer)
+void DexDB::addOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "INSERT INTO " + tableName + " (idTransaction, hash, countryIso, currencyIso, "
                         "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details) "
                         "VALUES (:idTransaction, :hash, :countryIso, :currencyIso, "
                         ":paymentMethod, :price, :minAmount, :timeCreate, :timeToExpiration, :shortInfo, :details)";
 
-    addOrEditOffer(query, offer);
+    addOrEditOffer(db, query, offer);
 }
 
-void DexDB::editOffer(const std::string &tableName, const OfferInfo &offer)
+void DexDB::editOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "UPDATE " + tableName + " SET hash = :hash, countryIso = :countryIso, currencyIso = :currencyIso, "
                                                 "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
                                                 "timeCreate = :timeCreate, timeToExpiration = :timeToExpiration, "
                                                 "shortInfo = :shortInfo, details = :details WHERE  idTransaction = :idTransaction";
 
-    addOrEditOffer(query, offer);
+    addOrEditOffer(db, query, offer);
 }
 
-void DexDB::addOrEditOffer(const std::string &query, const OfferInfo &offer)
+void DexDB::addOrEditOffer(sqlite3pp::database &db, const std::string &query, const OfferInfo &offer)
 {
     sqlite3pp::command cmd(db, query.c_str());
 
@@ -457,7 +404,7 @@ void DexDB::addOrEditOffer(const std::string &query, const OfferInfo &offer)
     cmd.execute();
 }
 
-void DexDB::addOrEditMyOffer(const std::string &query, const MyOfferInfo &offer)
+void DexDB::addOrEditMyOffer(sqlite3pp::database &db, const std::string &query, const MyOfferInfo &offer)
 {
     sqlite3pp::command cmd(db, query.c_str());
 
@@ -486,7 +433,7 @@ void DexDB::bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer)
     cmd.bind(":details", offer.details, sqlite3pp::nocopy);
 }
 
-void DexDB::deleteOffer(const std::string &tableName, const uint256 &idTransaction)
+void DexDB::deleteOffer(sqlite3pp::database &db, const std::string &tableName, const uint256 &idTransaction)
 {
     std::string query = "DELETE FROM " + tableName + " WHERE idTransaction = ?";
 
@@ -558,6 +505,126 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
     }
 
     return false;
+}
+
+void DexDB::addCountryInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled, sortOrder) SELECT :iso, :name, "
+                               "currencies.id, :enabled, :sortOrder FROM currencies WHERE iso = :currencyIso");
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
+    cmd.bind(":name", name, sqlite3pp::nocopy);
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":currencyIso", currency, sqlite3pp::nocopy);
+    cmd.execute();
+}
+
+void DexDB::editCountriesInThread(sqlite3pp::database &db, const std::list<CountryInfo> &list)
+{
+    int sort = 0;
+    for (auto item : list) {
+        editCountryInThread(db, item.iso, item.enabled, sort);
+        sort++;
+    }
+}
+
+void DexDB::editCountryInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder)
+{
+    sqlite3pp::command cmd(db, "UPDATE countries SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+void DexDB::deleteCountryInThread(sqlite3pp::database &db, const std::string &iso)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM countries WHERE iso = ?");
+    cmd.bind(1, iso, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+void DexDB::addCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled, sortOrder) VALUES (?, ?, ?, ?, ?)");
+    cmd.bind(1, iso, sqlite3pp::nocopy);
+    cmd.bind(2, name, sqlite3pp::nocopy);
+    cmd.bind(3, symbol, sqlite3pp::nocopy);
+    cmd.bind(4, enabled);
+    cmd.bind(5, sortOrder);
+    cmd.execute();
+}
+
+void DexDB::editCurrenciesInThread(sqlite3pp::database &db, const std::list<CurrencyInfo> &list)
+{
+    int sort = 0;
+    for (auto item : list) {
+        editCurrencyInThread(db, item.iso, item.enabled, sort);
+        sort++;
+    }
+}
+
+void DexDB::editCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder)
+{
+    sqlite3pp::command cmd(db, "UPDATE currencies SET enabled = :enabled, sortOrder = :sortOrder WHERE iso = :iso");
+    cmd.bind(":enabled", enabled);
+    cmd.bind(":sortOrder", sortOrder);
+    cmd.bind(":iso", iso, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+void DexDB::deleteCurrencyInThread(sqlite3pp::database &db, const std::string &iso)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM currencies WHERE iso = ?");
+    cmd.bind(1, iso, sqlite3pp::nocopy);
+
+    cmd.execute();
+}
+
+void DexDB::addPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description, sortOrder) VALUES (?, ?, ?, ?)");
+    cmd.bind(1, type);
+    cmd.bind(2, name, sqlite3pp::nocopy);
+    cmd.bind(3, description, sqlite3pp::nocopy);
+    cmd.bind(4, sortOrder);
+    cmd.execute();
+}
+
+void DexDB::editPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description)
+{
+    sqlite3pp::command cmd(db, "UPDATE paymentMethods SET name = ?, description = ? WHERE type = ?");
+    cmd.bind(1, name, sqlite3pp::nocopy);
+    cmd.bind(2, description, sqlite3pp::nocopy);
+    cmd.bind(3, type);
+
+    cmd.execute();
+}
+
+void DexDB::deletePaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM paymentMethods WHERE type = ?");
+    cmd.bind(1, type);
+
+    cmd.execute();
+}
+
+void DexDB::addFilterInThread(sqlite3pp::database &db, const std::string &filter)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO filterList (filter) VALUES (:filter)");
+    cmd.bind(":filter", filter, sqlite3pp::nocopy);
+    cmd.execute();
+}
+
+void DexDB::deleteFilterInThread(sqlite3pp::database &db, const std::string &filter)
+{
+    sqlite3pp::command cmd(db, "DELETE FROM filterList WHERE filter = :filter");
+    cmd.bind(":filter", filter, sqlite3pp::nocopy);
+
+    cmd.execute();
 }
 
 void DexDB::createTables()

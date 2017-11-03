@@ -32,13 +32,9 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
 void TableCountries::saveData()
 {
     if (isChangedData) {
-        QList<QtCountryInfo> countries = model->getCountries();
-
-        for (int i = 0; i < countries.size(); i++) {
-            CountryInfo info = ConvertData::fromQtCountryInfo(countries[i]);
-
-            db->editCountry(info.iso, info.enabled, i);
-        }
+        auto qtl = model->getCountries();
+        auto countries = ConvertData::fromListQtCountryInfo(qtl);
+        db->editCountries(countries);
 
         isChangedData = false;
     }

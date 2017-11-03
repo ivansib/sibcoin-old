@@ -199,6 +199,16 @@ CountryInfo ConvertData::fromQtCountryInfo(const QtCountryInfo &qtInfo)
     return info;
 }
 
+std::list<CountryInfo> ConvertData::fromListQtCountryInfo(const QList<QtCountryInfo> &qtl)
+{
+    std::list<CountryInfo> l;
+    for (auto item : qtl) {
+        l.push_back(ConvertData::fromQtCountryInfo(item));
+    }
+
+    return l;
+}
+
 QtCurrencyInfo ConvertData::toQtCurrencyInfo(const CurrencyInfo &info)
 {
     QtCurrencyInfo qtInfo;
@@ -232,4 +242,14 @@ CurrencyInfo ConvertData::fromQtCurrencyInfo(const QtCurrencyInfo &qtInfo)
     info.enabled = qtInfo.enabled;
 
     return info;
+}
+
+std::list<CurrencyInfo> ConvertData::fromListQtCurrencyInfo(const QList<QtCurrencyInfo> &qtl)
+{
+    std::list<CurrencyInfo> l;
+    for (auto item : qtl) {
+        l.push_back(ConvertData::fromQtCurrencyInfo(item));
+    }
+
+    return l;
 }
