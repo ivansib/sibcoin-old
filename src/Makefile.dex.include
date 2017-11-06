@@ -25,7 +25,7 @@ dex_libdexdb_a_SOURCES += dex/db/defaultdatafordb.cpp
 
 
 
-dex_libdex_a_CPPFLAGS = -I$(srcdir)/univalue/include -I$(srcdir)/dex/include
+dex_libdex_a_CPPFLAGS = -I$(srcdir)/univalue/include -I$(srcdir)/dex/include -I$(srcdir)/wallet  $(BDB_CPPFLAGS)
 dex_libdex_a_SOURCES = \
   dex/dex.cpp \
   dex/dexmanager.cpp \

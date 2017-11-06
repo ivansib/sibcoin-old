@@ -406,7 +406,8 @@ static const CRPCCommand vRPCCommands[] =
 #endif // ENABLE_WALLET
 
 #ifdef ENABLE_DEX
-    { "dex",                "dexoffer",               &dexoffer,               true },
+    { "dex",                "dexoffer",               &dexoffer,               true  },
+    { "dex",                "payoffertx",             &payoffertx,             true  },
 #endif // ENABLE_DEX
 };
 

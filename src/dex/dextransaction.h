@@ -12,9 +12,9 @@
 
 
 
-bool CreatePayOfferTransaction(std::vector<CTxIn> txin, CDexOffer &offer, const std::string &changeaddress);
-
-
+CMutableTransaction CreatePayOfferTransaction(std::vector<CTxIn> txin, CDexOffer &offer, std::string &sError, const std::string &changeaddress);
+bool SignPayOfferTransaction(CMutableTransaction &Tx, std::vector<std::string> privkeys, std::string &sError);
+bool RelayPayOfferTransaction(CMutableTransaction &Tx, std::string &sError);
 
 
 

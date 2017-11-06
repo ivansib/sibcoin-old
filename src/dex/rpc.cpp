@@ -18,7 +18,11 @@
 #include "random.h"
 #include "dex/dexdb.h"
 #include "dex.h"
+#include "core_io.h"
 #include <boost/foreach.hpp>
+
+
+#include "dextransaction.h"
 
 using namespace std;
 
@@ -46,6 +50,48 @@ UniValue dexoffer(const UniValue& params, bool fHelp)
         pNode->PushMessage(NetMsgType::DEXOFFBCST, dex.offer);
     }
 
+
+    return NullUniValue;
+}
+
+
+
+UniValue payoffertx(const UniValue& params, bool fHelp)
+{
+
+    if (fHelp)
+        throw runtime_error(
+            "payoffertx  \n"
+            "WARNING!!! Create TEST payoffer transaction \n"
+        );
+ 
+    std::string hexin("91b6c3ca793f686b6385a68ce6dc622692def8f6cac6c70c256b65392898afff");
+
+    uint256 tx;
+    tx.SetHex(hexin);
+
+    CTxIn txin(tx, 0);
+    std::vector<CTxIn> txs;
+
+
+    txs.push_back(txin);
+    std::string error;
+
+    CDexOffer offer;
+    uint256 tr_id = GetRandHash();
+    offer.Create(tr_id, CDexOffer::SELL, "RU", "RUB", 1, 100, 1000, 100, "test dex transaction", "dex offer for test transaction");
+
+    CMutableTransaction mtx = CreatePayOfferTransaction(txs, offer, error, "sU2uumrmn1X5Gns7Z8LSmRZehAJBTwmeSo");
+    if (!error.empty()) throw runtime_error(error.c_str());
+
+    std::vector<std::string> privkeys;
+    SignPayOfferTransaction(mtx, privkeys, error);
+    if (!error.empty()) throw runtime_error(error.c_str());
+
+    RelayPayOfferTransaction(mtx, error);
+    if (!error.empty()) throw runtime_error(error.c_str());
+
+    throw runtime_error(EncodeHexTx(mtx).c_str());
 
     return NullUniValue;
 }
