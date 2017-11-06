@@ -86,9 +86,15 @@ bool CountriesModel::dropMimeData(const QMimeData *data, Qt::DropAction action, 
     while (!stream.atEnd()) {
         int pos;
         stream >> pos;
-        beginMoveRows(parent, pos, pos, parent, endRow);
-        countries.move(pos, endRow);
-        endMoveRows();
+        if (pos - endRow == -1) {
+            beginMoveRows(parent, endRow, endRow, parent, pos);
+            countries.move(endRow, pos);
+            endMoveRows();
+        } else {
+            beginMoveRows(parent, pos, pos, parent, endRow);
+            countries.move(pos, endRow);
+            endMoveRows();
+        }
         endRow++;
     }
 
