@@ -47,13 +47,18 @@ public:
       return (hash.IsNull());
     }
 
+
+    bool Create(Type type, const std::string &countryIso, const std::string &currencyIso,
+           uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
+           const std::string &shortInfo, const std::string &details);
+
     bool Create(const uint256 &idTransaction, Type type, const std::string &countryIso, const std::string &currencyIso,
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
            const std::string &shortInfo, const std::string &details);
 
 
     operator dex::OfferInfo() const;
-
+    CDexOffer& operator=(const CDexOffer&);
 
     std::string getType() const;
     bool isBuy() const;

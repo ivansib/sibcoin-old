@@ -43,6 +43,14 @@ void CDexOffer::SetNull()
 
 
 
+bool CDexOffer::Create(Type type_, const std::string &countryIso_, const std::string &currencyIso_,
+           uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, int timeExpiration_,
+           const std::string &shortInfo_, const std::string &details_)
+{
+    uint256 txid;
+    return Create(txid, type_, countryIso_, currencyIso_, paymentMethod_, price_, minAmount_, timeExpiration_, shortInfo_, details_);
+}
+
 
 
 bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::string &countryIso_, const std::string &currencyIso_,
@@ -66,7 +74,7 @@ bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::str
         }
         if (!Check(false)) break;
         hash = MakeHash();
-        LogPrintf("Create DexOffer\n%s\n", dump().c_str()); ///< for debug only
+        //LogPrintf("Create DexOffer\n%s\n", dump().c_str()); ///< for debug only
         return true;
     } while (false);
     SetNull();
@@ -99,7 +107,21 @@ CDexOffer::operator dex::OfferInfo() const
     return info;
 }
 
-
+CDexOffer& CDexOffer::operator=(const CDexOffer& off)
+{
+    idTransaction    = off.idTransaction;
+    hash             = off.hash;
+    countryIso       = off.countryIso;
+    currencyIso      = off.currencyIso;
+    paymentMethod    = off.paymentMethod;
+    price            = off.price;
+    minAmount        = off.minAmount;
+    timeCreate       = off.timeCreate;
+    timeExpiration   = off.timeExpiration;
+    shortInfo        = off.shortInfo;
+    details          = off.details;
+    return *this;
+}
 
 std::string CDexOffer::getType() const
 {
@@ -144,7 +166,7 @@ std::string CDexOffer::dump() const
 bool CDexOffer::Check(bool fullcheck)
 {
     do {
-        if (idTransaction.IsNull()) {
+        if (fullcheck && idTransaction.IsNull()) {
             LogPrintf("DexOffer::Check error: idTransaction is empty\n");
             break;
         }
