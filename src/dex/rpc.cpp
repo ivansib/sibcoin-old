@@ -69,11 +69,11 @@ UniValue payoffertx(const UniValue& params, bool fHelp)
     CDex offer;
     offer.CreateOffer(CDexOffer::SELL, "RU", "RUB", 1, 100, 1000, 100, "test dex transaction", "dex offer for test transaction");
 
-    CTransaction tx;
+    uint256 tx;
     if (!offer.PayForOffer(tx, error))
         throw runtime_error(error.c_str());
 
-    throw runtime_error(EncodeHexTx(tx).c_str());
+    throw runtime_error(tx.GetHex().c_str());
 
     return NullUniValue;
 }

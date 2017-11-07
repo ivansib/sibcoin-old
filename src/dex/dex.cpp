@@ -51,14 +51,15 @@ bool CDex::addOfferToDB()
 }
 
 
-bool CDex::PayForOffer(CTransaction &newTx, std::string &sError)
+bool CDex::PayForOffer(uint256 &txid, std::string &sError)
 {
     do {
         CHECK(!offer.isNull(), "Offer is empty");
         CHECK(offer.idTransaction.IsNull(), "The offer has already been paid");
 
-        CHECK(CreatePayOfferTransaction(offer, newTx, sError), "");
-        offer.idTransaction = newTx.GetHash();
+        CHECK(CreatePayOfferTransaction(offer, payTx, sError), "");
+        offer.idTransaction = payTx.GetHash();
+        txid = offer.idTransaction;
         return true;
     } while(false);
     return false;

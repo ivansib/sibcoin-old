@@ -39,6 +39,7 @@ public:
 public:
 
     CDexOffer();
+    CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype);
 
     void SetNull();
 
@@ -56,11 +57,13 @@ public:
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
            const std::string &shortInfo, const std::string &details);
 
+    bool Create(const dex::OfferInfo &info, dex::TypeOffer offertype);
 
     operator dex::OfferInfo() const;
     CDexOffer& operator=(const CDexOffer&);
 
     std::string getType() const;
+    dex::TypeOffer getTypeOffer() const;
     bool isBuy() const;
     bool isSell() const;
 
