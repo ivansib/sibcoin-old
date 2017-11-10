@@ -321,7 +321,7 @@ void GenAndPrintDialog::on_printButton_clicked()
     uri = "";
     ui->passEdit2->setText("");
     ui->passEdit3->setText("");
-    
+
     CKey secret = model->generateNewKey();
     // Test key to encrypt
     //std::string test_str = "CBF4B9F70470856BB4F40F80B87EDB90865997FFEE6DF315AB166D713AF433A5";

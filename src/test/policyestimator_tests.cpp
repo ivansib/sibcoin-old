@@ -109,6 +109,7 @@ BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
     // so estimateFee(2) should return 9*baseRate etc...
     for (int i = 1; i < 10;i++) {
         origFeeEst.push_back(mpool.estimateFee(i).GetFeePerK());
+        double d = mpool.estimatePriority(i);
         origPriEst.push_back(mpool.estimatePriority(i));
         if (i > 1) { // Fee estimates should be monotonically decreasing
             BOOST_CHECK(origFeeEst[i-1] <= origFeeEst[i-2]);
@@ -117,6 +118,8 @@ BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
         int mult = 11-i;
         BOOST_CHECK(origFeeEst[i-1] < mult*baseRate.GetFeePerK() + deltaFee);
         BOOST_CHECK(origFeeEst[i-1] > mult*baseRate.GetFeePerK() - deltaFee);
+        double t = pow(10,mult) * basepri + deltaPri;
+        double t1 = pow(10,mult) * basepri - deltaPri;
         BOOST_CHECK(origPriEst[i-1] < pow(10,mult) * basepri + deltaPri);
         BOOST_CHECK(origPriEst[i-1] > pow(10,mult) * basepri - deltaPri);
     }
