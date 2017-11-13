@@ -8,6 +8,19 @@
 #include "dex/dexdb.h"
 #include "txmempool.h"
 #include "base58.h"
+#include "script/sign.h"
+#include "policy/policy.h"
+#include "consensus/validation.h"
+#include "core_io.h"
+
+
+#ifdef ENABLE_WALLET
+#include "wallet/wallet.h"
+#endif
+
+
+CAmount dexPayTxFee = 0;
+
 
 
 
@@ -18,63 +31,37 @@
 
 
 
-
-#define CHECK(A,B) { if (!(A)) { LogPrintf("%s %s %d: %s", __FILE__, __FUNCTION__, __LINE__, std::string(B).c_str()); return false; } }
-
+#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s") + (B), "",  ##__VA_ARGS__); LogPrintf("%s:%d: %s\n", __FILE__, __LINE__, str.c_str()); sError += str; break; } }
 
 
 
-bool CreatePayOfferTransaction(std::vector<CTxIn> txin, CDexOffer &offer, const std::string &changeaddress)
+
+bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std::string &sError)
 {
-    CMutableTransaction Tx;
-    LOCK(cs_main);
-    
-    CAmount totalin = 0;
+#ifdef ENABLE_WALLET
+    do {
+        CAmount curBalance = pwalletMain->GetBalance();
+        CHECK(curBalance >= (PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE), "Insufficient funds");
 
-    for (auto i : txin) {
-        CCoins coins;
+        CScript scriptPubKey = CScript() << OP_RETURN << ParseHex(offer.hash.GetHex());
 
-        CHECK(pcoinsTip->GetCoins(i.prevout.hash, coins), "not GetCoins");
-
-        if (i.prevout.n<0 || (unsigned int)(i.prevout.n)>=coins.vout.size() || coins.vout[i.prevout.n].IsNull())
-            return false;
-
-        if ((unsigned int)coins.nHeight == MEMPOOL_HEIGHT)
-            return false;
-
-        BlockMap::iterator it = mapBlockIndex.find(pcoinsTip->GetBestBlock());
-        CBlockIndex *pindex = it->second;
-        if ((pindex->nHeight - coins.nHeight + 1) < PAYOFFER_MIN_TX_HEIGHT)
-            return false;
-
-        totalin += coins.vout[i.prevout.n].nValue;
-
-        Tx.vin.push_back(i);
-    }
-
-    CHECK(totalin >= (PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE), "not enough money");
-
-
-    /// offer fee out
-    CTxOut out(PAYOFFER_RETURN_FEE, CScript() << OP_RETURN << ParseHex(offer.MakeHash().GetHex()));
-    Tx.vout.push_back(out);
-
-    /// change out
-    CAmount nAmount = totalin - (PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE);
-    if (nAmount > 0) { /// add change out to transaction
-        CBitcoinAddress address(changeaddress);
-        CHECK(address.IsValid(), std::string("Invalid Sibcoin address: ")+changeaddress);
-
-        CScript scriptPubKey = GetScriptForDestination(address.Get());
-        CTxOut out(nAmount, scriptPubKey);
-        Tx.vout.push_back(out);
-    }
-
-
-    return true;
+        CReserveKey reservekey(pwalletMain);
+        CWalletTx wtxNew;
+        CAmount nFeeRequired;
+        std::string strError;
+        std::vector<CRecipient> vecSend;
+        int nChangePosRet = -1;
+        CRecipient recipient = {scriptPubKey, PAYOFFER_RETURN_FEE, false};
+        vecSend.push_back(recipient);
+        dexPayTxFee = PAYOFFER_TX_FEE;
+        CHECK(pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError), strError);
+        CHECK(pwalletMain->CommitTransaction(wtxNew, reservekey), "Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
+        newTx = wtxNew;
+        return true;
+    } while(false);
+#endif
+    dexPayTxFee = 0;
+    return false;
 }
-
-
-
 
 

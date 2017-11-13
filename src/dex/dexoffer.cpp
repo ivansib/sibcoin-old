@@ -20,7 +20,27 @@ dex::PaymentMethodType defaultPaymentMethod;
 
 CDexOffer::CDexOffer()
 {
-  SetNull();
+   SetNull();
+}
+
+
+CDexOffer::CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype)
+{
+    idTransaction    = info.idTransaction;
+    hash             = info.hash;
+    countryIso       = info.countryIso;
+    currencyIso      = info.currencyIso;
+    paymentMethod    = info.paymentMethod;
+    price            = info.price;
+    minAmount        = info.minAmount;
+    timeCreate       = info.timeCreate;
+    timeExpiration   = info.timeToExpiration;
+    shortInfo        = info.shortInfo;
+    details          = info.details;
+    switch (offertype) {
+        case  dex::Buy: type = OFFER_TYPE_BUY;  break;
+        case dex::Sell: type = OFFER_TYPE_SELL; break;
+    }
 }
 
 
@@ -43,34 +63,66 @@ void CDexOffer::SetNull()
 
 
 
+bool CDexOffer::Create(Type type_, const std::string &countryIso_, const std::string &currencyIso_,
+           uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, int timeExpiration_,
+           const std::string &shortInfo_, const std::string &details_)
+{
+    uint256 txid;
+    return Create(txid, type_, countryIso_, currencyIso_, paymentMethod_, price_, minAmount_, timeExpiration_, shortInfo_, details_);
+}
+
 
 
 bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::string &countryIso_, const std::string &currencyIso_,
            uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, int timeExpiration_,
            const std::string &shortInfo_, const std::string &details_)
 {
-    do {
-        idTransaction   = idTransaction_;
-        paymentMethod   = paymentMethod_;
-        currencyIso     = currencyIso_;
-        countryIso      = countryIso_;
-        price           = price_;
-        minAmount       = minAmount_;
-        timeCreate      = GetTime();
-        timeExpiration  = timeExpiration_;
-        shortInfo       = shortInfo_;
-        details         = details_;
-        switch (type_) {
-            case  BUY: type = OFFER_TYPE_BUY;  break;
-            case SELL: type = OFFER_TYPE_SELL; break;
-        }
-        if (!Check(false)) break;
-        hash = MakeHash();
-        LogPrintf("Create DexOffer\n%s\n", dump().c_str()); ///< for debug only
-        return true;
-    } while (false);
-    SetNull();
-    return false;
+    idTransaction   = idTransaction_;
+    paymentMethod   = paymentMethod_;
+    currencyIso     = currencyIso_;
+    countryIso      = countryIso_;
+    price           = price_;
+    minAmount       = minAmount_;
+    timeCreate      = GetTime();
+    timeExpiration  = timeExpiration_;
+    shortInfo       = shortInfo_;
+    details         = details_;
+    switch (type_) {
+        case  BUY: type = OFFER_TYPE_BUY;  break;
+        case SELL: type = OFFER_TYPE_SELL; break;
+    }
+    if (!Check(false)) {
+        SetNull();
+        return false;
+    }
+    hash = MakeHash();
+    //LogPrintf("Create DexOffer\n%s\n", dump().c_str()); ///< for debug only
+    return true;
+}
+
+
+bool CDexOffer::Create(const dex::OfferInfo &info, dex::TypeOffer offertype)
+{
+    idTransaction   = info.idTransaction;
+    paymentMethod   = info.paymentMethod;
+    currencyIso     = info.currencyIso;
+    countryIso      = info.countryIso;
+    price           = info.price;
+    minAmount       = info.minAmount;
+    timeCreate      = info.timeCreate;
+    timeExpiration  = info.timeToExpiration;
+    shortInfo       = info.shortInfo;
+    details         = info.details;
+    switch (offertype) {
+        case  dex::Buy: type = OFFER_TYPE_BUY;  break;
+        case dex::Sell: type = OFFER_TYPE_SELL; break;
+    }
+    if (!Check(false)) {
+        SetNull();
+        return false;
+    }
+    hash = MakeHash();
+    return true;
 }
 
 
@@ -99,30 +151,53 @@ CDexOffer::operator dex::OfferInfo() const
     return info;
 }
 
-
+CDexOffer& CDexOffer::operator=(const CDexOffer& off)
+{
+    idTransaction    = off.idTransaction;
+    hash             = off.hash;
+    countryIso       = off.countryIso;
+    currencyIso      = off.currencyIso;
+    paymentMethod    = off.paymentMethod;
+    price            = off.price;
+    minAmount        = off.minAmount;
+    timeCreate       = off.timeCreate;
+    timeExpiration   = off.timeExpiration;
+    shortInfo        = off.shortInfo;
+    details          = off.details;
+    return *this;
+}
 
 std::string CDexOffer::getType() const
 {
-  return type;
+    return type;
+}
+
+dex::TypeOffer CDexOffer::getTypeOffer() const
+{
+    if (type == OFFER_TYPE_BUY)  {
+        return dex::Buy;
+    } else {
+        return dex::Sell;
+    }
 }
 
 
 bool CDexOffer::isBuy() const
 {
-  return type == OFFER_TYPE_BUY;
+    return type == OFFER_TYPE_BUY;
 }
 
 
 bool CDexOffer::isSell() const
 {
-  return type == OFFER_TYPE_SELL;
+    return type == OFFER_TYPE_SELL;
 }
 
 
 
 std::string CDexOffer::dump() const
 {
-   return strprintf("CDexOffer::dump()\n"
+    return strprintf("CDexOffer::dump()\n"
         "\ttype\t\t%s\n"
         "\tidTransaction\t%s\n"
         "\thash\t\t%s\n"
@@ -144,7 +219,7 @@ std::string CDexOffer::dump() const
 bool CDexOffer::Check(bool fullcheck)
 {
     do {
-        if (idTransaction.IsNull()) {
+        if (fullcheck && idTransaction.IsNull()) {
             LogPrintf("DexOffer::Check error: idTransaction is empty\n");
             break;
         }

@@ -18,7 +18,11 @@
 #include "random.h"
 #include "dex/dexdb.h"
 #include "dex.h"
+#include "core_io.h"
 #include <boost/foreach.hpp>
+
+
+#include "dextransaction.h"
 
 using namespace std;
 
@@ -46,6 +50,30 @@ UniValue dexoffer(const UniValue& params, bool fHelp)
         pNode->PushMessage(NetMsgType::DEXOFFBCST, dex.offer);
     }
 
+    return NullUniValue;
+}
+
+
+
+UniValue payoffertx(const UniValue& params, bool fHelp)
+{
+
+    if (fHelp)
+        throw runtime_error(
+            "payoffertx  \n"
+            "WARNING!!! Create TEST payoffer transaction \n"
+        );
+
+    std::string error;
+
+    CDex offer;
+    offer.CreateOffer(CDexOffer::SELL, "RU", "RUB", 1, 100, 1000, 100, "test dex transaction", "dex offer for test transaction");
+
+    uint256 tx;
+    if (!offer.PayForOffer(tx, error))
+        throw runtime_error(error.c_str());
+
+    throw runtime_error(tx.GetHex().c_str());
 
     return NullUniValue;
 }
