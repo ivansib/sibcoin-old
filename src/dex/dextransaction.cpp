@@ -12,7 +12,7 @@
 #include "policy/policy.h"
 #include "consensus/validation.h"
 #include "core_io.h"
-
+#include "dex.h"
 
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
@@ -20,16 +20,6 @@
 
 
 CAmount dexPayTxFee = 0;
-
-
-
-
-
-#define PAYOFFER_RETURN_FEE     10000
-#define PAYOFFER_TX_FEE         50000000
-#define PAYOFFER_MIN_TX_HEIGHT  6
-
-
 
 #define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s") + (B), "",  ##__VA_ARGS__); LogPrintf("%s:%d: %s\n", __FILE__, __LINE__, str.c_str()); sError += str; break; } }
 

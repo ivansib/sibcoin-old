@@ -10,6 +10,13 @@
 #include "dexoffer.h"
 
 
+#define PAYOFFER_RETURN_FEE     10000
+#define PAYOFFER_TX_FEE         50000000
+#define PAYOFFER_MIN_TX_HEIGHT  6
+
+
+
+
 class CDex
 {
 private:
@@ -37,6 +44,10 @@ public:
     // оплата предложения (создание, подпись и ретрансляция транзакции)
     // хеш транзакции помещается в offer
     bool PayForOffer(uint256 &txid, std::string &sError);
+
+
+    // проверка транзакции 
+    bool CheckOfferTx(std::string &sError);
 
     ADD_SERIALIZE_METHODS;
 
