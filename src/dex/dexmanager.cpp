@@ -33,31 +33,39 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         CDexOffer offer;
         vRecv >> offer;
         if (offer.Check(true)) {
-            dex::DexDB db(strDexDbFile);
-            bool bFound = false;
-            if (offer.isBuy())  {
-                if (db.isExistOfferBuy(offer.idTransaction)) {
-                  bFound = true;
-                } else {
-                    db.addOfferBuy(offer);
+            CDex dex(offer);
+            std::string error;
+            if (dex.CheckOfferTx(error)) {
+                dex::DexDB db(strDexDbFile);
+                bool bFound = false;
+                if (offer.isBuy())  {
+                    if (db.isExistOfferBuy(offer.idTransaction)) {
+                      bFound = true;
+                    } else {
+                        db.addOfferBuy(offer);
+                    }
                 }
-            }
 
-            if (offer.isSell())  {
-                if (db.isExistOfferSell(offer.idTransaction)) {
-                  bFound = true;
-                } else {
-                    db.addOfferSell(offer);
+                if (offer.isSell())  {
+                    if (db.isExistOfferSell(offer.idTransaction)) {
+                      bFound = true;
+                    } else {
+                        db.addOfferSell(offer);
+                    }
                 }
-            }
 
-            if (!bFound) { // need to save and relay
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
-                    pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                if (!bFound) { // need to save and relay
+                    LOCK2(cs_main, cs_vNodes);
+                    BOOST_FOREACH(CNode* pNode, vNodes) {
+                        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                    }
                 }
+                LogPrintf("DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
+            } else {
+                LogPrintf("DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
-            LogPrintf("DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
+        } else {
+            LogPrintf("DEXOFFBCST -- offer check fail\n");
         }
     }
 }

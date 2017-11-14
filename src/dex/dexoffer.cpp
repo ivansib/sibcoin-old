@@ -164,6 +164,7 @@ CDexOffer& CDexOffer::operator=(const CDexOffer& off)
     timeExpiration   = off.timeExpiration;
     shortInfo        = off.shortInfo;
     details          = off.details;
+    type             = off.type;
     return *this;
 }
 
