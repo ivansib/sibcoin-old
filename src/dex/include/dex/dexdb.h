@@ -86,6 +86,9 @@ private:
     std::list<CountryInfo> countries;
     std::list<CurrencyInfo> currencies;
     std::list<PaymentMethodInfo> payments;
+    bool isGetCountriesDataFromDB;
+    bool isGetCurrenciesDataFromDB;
+    bool isGetPaymentsDataFromDB;
 
     void createTestOffers(); // NOTE: for test
 };

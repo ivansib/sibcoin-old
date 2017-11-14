@@ -12,13 +12,17 @@ DexDB::DexDB(const boost::filesystem::path &path)
 {
     db = sqlite3pp::database(path.c_str());
 
+    isGetCountriesDataFromDB = true;
+    isGetCurrenciesDataFromDB = true;
+    isGetPaymentsDataFromDB = true;
+
     createTables();
     addDefaultData();
 }
 
 void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
-    countries.clear();
+    countries.push_back({iso, name, enabled});
     std::thread thr(addCountryInThread, std::ref(db), iso, name, currency, enabled, sortOrder);
     thr.detach();
 }
@@ -35,14 +39,14 @@ void DexDB::editCountries(const std::list<CountryInfo> &list)
 
 void DexDB::deleteCountry(const std::string &iso)
 {
-    countries.clear();
+    countries.remove_if([iso](CountryInfo c){return c.iso == iso;});
     std::thread thr(deleteCountryInThread, std::ref(db), iso);
     thr.detach();
 }
 
 std::list<CountryInfo> DexDB::getCountriesInfo()
 {
-    if (countries.empty()) {
+    if (isGetCountriesDataFromDB) {
         std::string query = "SELECT iso, name, enabled FROM countries ORDER BY sortOrder";
 
         sqlite3pp::query qry(db, query.c_str());
@@ -60,6 +64,8 @@ std::list<CountryInfo> DexDB::getCountriesInfo()
 
             countries.push_back(info);
         }
+
+        isGetCountriesDataFromDB = false;
     }
 
     return countries;
@@ -86,7 +92,7 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
 
 void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
-    currencies.clear();
+    currencies.push_back({iso, name, symbol, enabled});
     std::thread thr(addCurrencyInThread, std::ref(db), iso, name, symbol, enabled, sortOrder);
     thr.detach();
 }
@@ -102,16 +108,15 @@ void DexDB::editCurrencies(const std::list<CurrencyInfo> &list)
 
 void DexDB::deleteCurrency(const std::string &iso)
 {
-    currencies.clear();
+    currencies.remove_if([iso](CurrencyInfo c){return c.iso == iso;});
     std::thread thr(deleteCurrencyInThread, std::ref(db), iso);
     thr.detach();
 }
 
 std::list<CurrencyInfo> DexDB::getCurrenciesInfo()
 {
-    if (currencies.empty()) {
-        std::string query = "SELECT iso, name, symbol, enabled FROM currencies "
-                            "ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder";
+    if (isGetCurrenciesDataFromDB) {
+        std::string query = "SELECT iso, name, symbol, enabled FROM currencies ORDER BY sortOrder";
 
         sqlite3pp::query qry(db, query.c_str());
 
@@ -130,6 +135,8 @@ std::list<CurrencyInfo> DexDB::getCurrenciesInfo()
 
             currencies.push_back(info);
         }
+
+        isGetCurrenciesDataFromDB = false;
     }
 
     return currencies;
@@ -159,23 +166,22 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
 
 void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
-    payments.clear();
+    payments.push_back({type, name, description});
     std::thread thr(addPaymentMethodInThread, std::ref(db), type, name, description, sortOrder);
     thr.detach();
 }
 
 void DexDB::deletePaymentMethod(const unsigned char &type)
 {
-    payments.clear();
+    payments.remove_if([type](PaymentMethodInfo c){return c.type == type;});
     std::thread thr(deletePaymentMethodInThread, std::ref(db), type);
     thr.detach();
 }
 
 std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
 {
-    if (payments.empty()) {
-        sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods "
-                                 "ORDER BY CASE WHEN sortOrder IS '-1' THEN '99999' END, sortOrder");
+    if (isGetPaymentsDataFromDB) {
+        sqlite3pp::query qry(db, "SELECT type, name, description FROM paymentMethods ORDER BY sortOrder");
 
         for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
             unsigned char type;
@@ -189,6 +195,8 @@ std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
             info.description = description;
             payments.push_back(info);
         }
+
+        isGetPaymentsDataFromDB = false;
     }
 
     return payments;
@@ -648,22 +656,34 @@ void DexDB::addDefaultData()
 {
     DefaultDataForDb def;
 
+    countries.clear();
+    currencies.clear();
+    payments.clear();
+
+    isGetCountriesDataFromDB = true;
+    isGetCurrenciesDataFromDB = true;
+    isGetPaymentsDataFromDB = true;
+
     int count = tableCount("currencies");
     if (count <= 0) {
         std::list<DefaultCurrency> currencies = def.dataCurrencies();
+        currencies.sort([](const DefaultCurrency &first, const DefaultCurrency &second) {return first.sortOrder < second.sortOrder;});
 
         for (auto item : currencies) {
             addCurrency(item.iso, item.name, item.symbol, item.enabled, item.sortOrder);
         }
+
+        isGetCurrenciesDataFromDB = false;
     }
 
     count = tableCount("countries");
     if (count <= 0) {
         std::list<DefaultCountry> countries = def.dataCountries();
-
         for (auto item : countries) {
             addCountry(item.iso, item.name, item.currency, true, -1);
         }
+
+        isGetCountriesDataFromDB = false;
     }
 
     count = tableCount("paymentMethods");
@@ -673,6 +693,8 @@ void DexDB::addDefaultData()
         for (auto item : countries) {
             addPaymentMethod(item.type, item.name, item.description, item.sortOrder);
         }
+
+        isGetPaymentsDataFromDB = false;
     }
 
     count = tableCount("offersBuy");
