@@ -14,25 +14,25 @@ DexDB::DexDB(const boost::filesystem::path &path)
     createTables();
     addDefaultData();
 
-    if( isDexDbOutdated() ) {
-       dropTables();
-       createTables();
-       addDefaultData();
+    if (isDexDbOutdated()) {
+        dropTables();
+        createTables();
+        addDefaultData();
     }
 }
 
 bool DexDB::isDexDbOutdated()
 {
-   sqlite3pp::query qry(db, "select version from dbversion");
-   sqlite3pp::query::iterator i = qry.begin();
-   std::string sDBversion;
-   std::tie(sDBversion) = (*i).get_columns<std::string>(0);
-   unsigned int uiDBversion = std::stoi( sDBversion );
+    sqlite3pp::query qry(db, "SELECT version FROM dbversion");
+    sqlite3pp::query::iterator i = qry.begin();
 
-   if( dex::uiDexDBversionInCode != uiDBversion )
-      return true;  // dex DB file is is not up to date!
-   else
-      return false;
+    int iDBversion = 0; 
+    std::tie(iDBversion) = (*i).get_columns<int>(0);
+
+    if (dex::uiDexDBversionInCode != (unsigned int)iDBversion)
+        return true;  // dex DB version is old!
+    else
+       return false;
 }
 
 void DexDB::dropTables()
@@ -615,7 +615,7 @@ void DexDB::addDefaultData()
 
     int count = tableCount("dbversion");
     if (count <= 0) {
-            addDbVersion( dex::uiDexDBversionInCode ); 
+        addDbVersion(dex::uiDexDBversionInCode); 
     }
 
     count = tableCount("currencies");
@@ -651,11 +651,11 @@ void DexDB::addDefaultData()
     }
 }
 
-void DexDB::addDbVersion( const int& uiDexDbVersion )
+void DexDB::addDbVersion(const int& uiDexDbVersion)
 {
-   sqlite3pp::command cmd(db, "INSERT INTO dbversion (version) VALUES (?)");
-   cmd.bind(1, uiDexDbVersion);
-   cmd.execute();
+    sqlite3pp::command cmd(db, "INSERT INTO dbversion (version) VALUES (?)");
+    cmd.bind(1, uiDexDbVersion);
+    cmd.execute();
 }
 
 int DexDB::tableCount(const std::string &tableName)

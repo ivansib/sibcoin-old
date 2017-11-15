@@ -80,7 +80,7 @@ private:
     std::list<CountryInfo> countries;
     std::list<CurrencyInfo> currencies;
     std::list<PaymentMethodInfo> payments;
-    void addDbVersion( const int& uiDexDbVersion );
+    void addDbVersion(const int& uiDexDbVersion);
     bool isDexDbOutdated();
     void dropTables();
 
