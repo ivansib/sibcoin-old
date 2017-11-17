@@ -321,7 +321,8 @@ QT_MOC_CPP += \
   moc_settingsmodel.cpp \
   moc_currenciesmodel.cpp \
   moc_filterlist.cpp \
-  moc_filteritemeditor.cpp
+  moc_filteritemeditor.cpp \
+  moc_callbackdbforgui.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -345,7 +346,8 @@ BITCOIN_QT_H += \
   settingsmodel.h \
   currenciesmodel.h \
   filterlist.h \
-  filteritemeditor.h
+  filteritemeditor.h \
+  callbackdbforgui.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
@@ -368,7 +370,8 @@ BITCOIN_QT_CPP += \
   settingsmodel.cpp \
   currenciesmodel.cpp \
   filterlist.cpp \
-  filteritemeditor.cpp
+  filteritemeditor.cpp \
+  callbackdbforgui.cpp
 endif
 
 RES_IMAGES = \

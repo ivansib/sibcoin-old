@@ -51,6 +51,28 @@ enum StatusOffer {
     Suspended
 };
 
+enum TypeTable {
+    Countries,
+    Currencies,
+    PaymentMethods,
+    OffersSell,
+    OffersBuy,
+    MyOffers,
+    FiltersList
+};
+
+enum TypeTableOperation {
+    Read,
+    Add,
+    Edit,
+    Delete
+};
+
+enum StatusTableOperation {
+    Ok,
+    Error
+};
+
 struct MyOfferInfo : OfferInfo {
     TypeOffer type;
     StatusOffer status;

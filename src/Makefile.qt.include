@@ -460,7 +460,8 @@ QT_MOC_CPP += \
   qt/moc_settingsmodel.cpp \
   qt/moc_currenciesmodel.cpp \
   qt/moc_filterlist.cpp \
-  qt/moc_filteritemeditor.cpp
+  qt/moc_filteritemeditor.cpp \
+  qt/moc_callbackdbforgui.cpp
 
 BITCOIN_QT_H += \
   qt/exchangedialog.h \
@@ -484,7 +485,8 @@ BITCOIN_QT_H += \
   qt/settingsmodel.h \
   qt/currenciesmodel.h \
   qt/filterlist.h \
-  qt/filteritemeditor.h
+  qt/filteritemeditor.h \
+  qt/callbackdbforgui.h
 
 BITCOIN_QT_CPP += \
   qt/exchangedialog.cpp \
@@ -507,7 +509,8 @@ BITCOIN_QT_CPP += \
   qt/settingsmodel.cpp \
   qt/currenciesmodel.cpp \
   qt/filterlist.cpp \
-  qt/filteritemeditor.cpp
+  qt/filteritemeditor.cpp \
+  qt/callbackdbforgui.cpp
 endif
 
 RES_IMAGES = \

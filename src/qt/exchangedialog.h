@@ -6,6 +6,7 @@
 #include "tableofferseditor.h"
 #include "settingsdialog.h"
 #include "dex/dexdb.h"
+#include "callbackdbforgui.h"
 
 using namespace dex;
 
@@ -30,6 +31,7 @@ private:
     SettingsDialog *settings;
 
     DexDB *db;
+    CallBackDbForGui *callback;
 
 private Q_SLOTS:
     void currentPageBuy();
@@ -38,6 +40,7 @@ private Q_SLOTS:
     void currentPageExchanges();
     void currentPageSettings();
     void updateData();
+    void finishTableOperation(const TypeTable & table, const TypeTableOperation &operation, const StatusTableOperation &status);
 };
 
 #endif

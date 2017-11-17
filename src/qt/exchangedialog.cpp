@@ -6,7 +6,10 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
 {
     ui->setupUi(this);
 
-    db = new DexDB(strDexDbFile);
+    callback = new CallBackDbForGui();
+    connect(callback, &CallBackDbForGui::tableOperationFinished, this, &ExchangeDialog::finishTableOperation);
+
+    db = new DexDB(strDexDbFile, callback);
 
     tableBuy = new TableOffersView(db, TableOffersView::Buy);
     tableSell = new TableOffersView(db, TableOffersView::Sell);
@@ -69,4 +72,8 @@ void ExchangeDialog::updateData()
     tableBuy->updateNavigationData();
     tableSell->updateNavigationData();
     tableMyOffers->updateNavigationData();
+}
+
+void ExchangeDialog::finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
+{
 }
