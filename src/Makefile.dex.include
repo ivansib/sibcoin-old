@@ -29,5 +29,6 @@ dex_libdex_a_SOURCES = \
   dex/dexmanager.cpp \
   dex/rpc.cpp \
   dex/dexoffer.cpp \
-  dex/dextransaction.cpp
+  dex/dextransaction.cpp \
+  dex/dexofferssync.cpp
 

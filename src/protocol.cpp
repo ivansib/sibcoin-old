@@ -66,6 +66,10 @@ const char *MNGOVERNANCEOBJECT="govobj";
 const char *MNGOVERNANCEOBJECTVOTE="govobjvote";
 const char *MNVERIFY="mnv";
 const char *DEXOFFBCST="dexoffbcst";
+const char *DEXSYNCGETALLHASH = "dxsgethashs";
+const char *DEXSYNCALLHASH = "dxshashs";
+const char *DEXSYNCGETOFFER = "dxsgetoffer";
+const char *DEXSYNCOFFER = "dxsoffer";
 };
 
 static const char* ppszTypeName[] =
@@ -148,7 +152,10 @@ const static std::string allNetMessageTypes[] = {
     NetMsgType::MNVERIFY,
     //DEX
     NetMsgType::DEXOFFBCST,
-    
+    NetMsgType::DEXSYNCGETALLHASH,
+    NetMsgType::DEXSYNCALLHASH,
+    NetMsgType::DEXSYNCGETOFFER,
+    NetMsgType::DEXSYNCOFFER
 };
 const static std::vector<std::string> allNetMessageTypesVec(allNetMessageTypes, allNetMessageTypes+ARRAYLEN(allNetMessageTypes));
 

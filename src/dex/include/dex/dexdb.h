@@ -36,13 +36,21 @@ public:
     void editOfferSell(const OfferInfo &offer);
     void deleteOfferSell(const uint256 &idTransaction);
     std::list<OfferInfo> getOffersSell();
+    OfferInfo getOfferSell(const uint256 &idTransaction);
+    OfferInfo getOfferSellByHash(const uint256 &hash);
     bool isExistOfferSell(const uint256 &idTransaction);
+    bool isExistOfferSellByHash(const uint256 &hash);
+    std::list<uint256> getSellHashs();
 
     void addOfferBuy(const OfferInfo &offer);
     void editOfferBuy(const OfferInfo &offer);
     void deleteOfferBuy(const uint256 &idTransaction);
     std::list<OfferInfo> getOffersBuy();
+    OfferInfo getOfferBuy(const uint256 &idTransaction);
+    OfferInfo getOfferBuyByHash(const uint256 &hash);
     bool isExistOfferBuy(const uint256 &idTransaction);
+    bool isExistOfferBuyByHash(const uint256 &hash);
+    std::list<uint256> getBuyHashs();
 
     void addMyOffer(const MyOfferInfo &offer);
     void editMyOffer(const MyOfferInfo &offer);
@@ -84,10 +92,15 @@ private:
     static void editMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offer);
     static void deleteOffer(sqlite3pp::database &db, const std::string &tableName, const uint256 &idTransaction);
     std::list<OfferInfo> getOffers(const std::string &tableName);
+    OfferInfo getOffer(const std::string &tableName, const uint256 &idTransaction);
+    OfferInfo getOfferByHash(const std::string &tableName, const uint256 &hash);
+    OfferInfo getOffer(const std::string &guery, int &status);
     static int addOrEditOffer(sqlite3pp::database &db, const std::string &query, const OfferInfo &offer);
     static int addOrEditMyOffer(sqlite3pp::database &db, const std::string &query, const MyOfferInfo &offer);
     static void bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer);
     bool isExistOffer(const std::string &tableName, const uint256 &idTransaction);
+    bool isExistOfferByHash(const std::string &tableName, const uint256 &hash);
+    std::list<uint256> getHashs(const std::string &tableName);
 
     sqlite3pp::database db;
     static CallBackDB *callBack;

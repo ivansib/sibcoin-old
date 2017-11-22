@@ -270,9 +270,29 @@ std::list<OfferInfo> DexDB::getOffersSell()
     return getOffers("offersSell");
 }
 
+OfferInfo DexDB::getOfferSell(const uint256 &idTransaction)
+{
+    return getOffer("offersSell", idTransaction);
+}
+
+OfferInfo DexDB::getOfferSellByHash(const uint256 &hash)
+{
+    return getOfferByHash("offersSell", hash);
+}
+
 bool DexDB::isExistOfferSell(const uint256 &idTransaction)
 {
     return isExistOffer("offersSell", idTransaction);
+}
+
+bool DexDB::isExistOfferSellByHash(const uint256 &hash)
+{
+    return isExistOfferByHash("offersSell", hash);
+}
+
+std::list<uint256> DexDB::getSellHashs()
+{
+    return getHashs("offersSell");
 }
 
 void DexDB::addOfferBuy(const OfferInfo &offer)
@@ -298,9 +318,29 @@ std::list<OfferInfo> DexDB::getOffersBuy()
     return getOffers("offersBuy");
 }
 
+OfferInfo DexDB::getOfferBuy(const uint256 &idTransaction)
+{
+    return getOffer("offersBuy", idTransaction);
+}
+
+OfferInfo DexDB::getOfferBuyByHash(const uint256 &hash)
+{
+    return getOfferByHash("offersBuy", hash);
+}
+
 bool DexDB::isExistOfferBuy(const uint256 &idTransaction)
 {
     return isExistOffer("offersBuy", idTransaction);
+}
+
+bool DexDB::isExistOfferBuyByHash(const uint256 &hash)
+{
+    return isExistOfferByHash("offersBuy", hash);
+}
+
+std::list<uint256> DexDB::getBuyHashs()
+{
+    return getHashs("offersBuy");
 }
 
 void DexDB::addMyOffer(const MyOfferInfo &offer)
@@ -570,9 +610,94 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     }
 
     int status = qry.finish();
-    finishTableOperation(tTable, Add, status);
+    finishTableOperation(tTable, Read, status);
 
     return offers;
+}
+
+OfferInfo DexDB::getOffer(const std::string &tableName, const uint256 &idTransaction)
+{
+    std::string str = "SELECT hash, idTransaction, countryIso, currencyIso, "
+                      "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details FROM " + tableName
+                      + " WHERE idTransaction = \"" + idTransaction.GetHex() + "\"";
+
+    int status;
+    OfferInfo info = getOffer(str, status);
+
+    TypeTable tTable = OffersBuy;
+    if (tableName == "offersSell") {
+        tTable = OffersSell;
+    }
+
+    finishTableOperation(tTable, Read, status);
+
+    return info;
+}
+
+OfferInfo DexDB::getOfferByHash(const std::string &tableName, const uint256 &hash)
+{
+    std::string str = "SELECT hash, idTransaction, countryIso, currencyIso, "
+                      "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details FROM " + tableName
+                      + " WHERE hash = \"" + hash.GetHex() + "\"";
+
+    int status;
+    OfferInfo info = getOffer(str, status);
+
+    TypeTable tTable = OffersBuy;
+    if (tableName == "offersSell") {
+        tTable = OffersSell;
+    }
+
+    finishTableOperation(tTable, Read, status);
+
+    return info;
+}
+
+dex::OfferInfo dex::DexDB::getOffer(const std::string &guery, int &status)
+{
+    sqlite3pp::query qry(db, guery.c_str());
+
+    sqlite3pp::query::iterator i = qry.begin();
+
+    std::string hash;
+    std::string idTransaction;
+    std::string countryIso;
+    std::string currencyIso;
+    uint8_t paymentMethod;
+    long long int price;
+    long long int minAmount;
+    long long int timeCreate;
+    int timeToExpiration;
+    std::string shortInfo;
+    std::string details;
+    std::tie(hash, idTransaction, countryIso, currencyIso, paymentMethod, price, minAmount,
+             timeCreate, timeToExpiration, shortInfo, details)
+            = (*i).get_columns<std::string, std::string, std::string, std::string, uint8_t,
+            long long int, long long int, long long int, int, std::string, std::string>
+            (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+    OfferInfo info;
+    info.idTransaction.SetHex(idTransaction);
+    info.hash.SetHex(hash);
+    info.countryIso = countryIso;
+    info.currencyIso = currencyIso;
+    info.paymentMethod = paymentMethod;
+    info.price = price;
+    info.minAmount = minAmount;
+    info.shortInfo = shortInfo;
+    info.timeCreate = timeCreate;
+    info.timeToExpiration = timeToExpiration;
+    info.details = details;
+
+//    TypeTable tTable = OffersBuy;
+//    if (tableName == "offersSell") {
+//        tTable = OffersSell;
+//    }
+
+    status = qry.finish();
+//    finishTableOperation(tTable, Read, status);
+
+    return info;
 }
 
 bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransaction)
@@ -582,10 +707,8 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
     std::string query = "SELECT count() FROM " + tableName + " WHERE idTransaction = \"" + idTransaction.GetHex() + "\"";
     sqlite3pp::query qry(db, query.c_str());
 
-    std::string str;
     sqlite3pp::query::iterator it = qry.begin();
-    (*it).getter() >> str;
-    count = std::stoi(str);
+    (*it).getter() >> count;
 
     TypeTable tTable = OffersBuy;
     if (tableName == "offersSell") {
@@ -593,13 +716,65 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
     }
 
     int status = qry.finish();
-    finishTableOperation(tTable, Add, status);
+    finishTableOperation(tTable, Read, status);
 
     if (count > 0) {
         return true;
     }
 
     return false;
+}
+
+bool DexDB::isExistOfferByHash(const std::string &tableName, const uint256 &hash)
+{
+    int count = 0;
+
+    std::string query = "SELECT count() FROM " + tableName + " WHERE hash = \"" + hash.GetHex() + "\"";
+    sqlite3pp::query qry(db, query.c_str());
+
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+
+    TypeTable tTable = OffersBuy;
+    if (tableName == "offersSell") {
+        tTable = OffersSell;
+    }
+
+    int status = qry.finish();
+    finishTableOperation(tTable, Read, status);
+
+    if (count > 0) {
+        return true;
+    }
+
+    return false;
+}
+
+std::list<uint256> DexDB::getHashs(const std::string &tableName)
+{
+    std::list<uint256> ids;
+
+    std::string query = "SELECT hash FROM " + tableName;
+    sqlite3pp::query qry(db, query.c_str());
+
+    for (sqlite3pp::query::iterator it = qry.begin(); it != qry.end(); ++it) {
+        std::string strHash;
+        (*it).getter() >> strHash;
+        uint256 hash;
+        hash.SetHex(strHash);
+
+        ids.push_back(hash);
+    }
+
+    TypeTable tTable = OffersBuy;
+    if (tableName == "offersSell") {
+        tTable = OffersSell;
+    }
+
+    int status = qry.finish();
+    finishTableOperation(tTable, Read, status);
+
+    return ids;
 }
 
 void DexDB::addCountryInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
@@ -841,10 +1016,8 @@ int DexDB::tableCount(const std::string &tableName)
     query.append(tableName);
     sqlite3pp::query qry(db, query.c_str());
 
-    std::string str;
     sqlite3pp::query::iterator it = qry.begin();
-    (*it).getter() >> str;
-    count = std::stoi(str);
+    (*it).getter() >> count;
 
     return count;
 }

@@ -44,6 +44,9 @@
 #include "wallet/walletdb.h"
 #include "sibdb.h"
 #endif
+#ifdef ENABLE_DEX
+#include "dex/dexofferssync.h"
+#endif
 
 #include "activemasternode.h"
 #include "darksend.h"
@@ -1987,6 +1990,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         // Run a thread to flush wallet periodically
         threadGroup.create_thread(boost::bind(&ThreadFlushWalletDB, boost::ref(pwalletMain->strWalletFile)));
     }
+#endif
+
+#ifdef ENABLE_DEX
+   threadGroup.create_thread(boost::bind(&ThreadOffersSync));
 #endif
 
     threadGroup.create_thread(boost::bind(&ThreadSendAlert));
