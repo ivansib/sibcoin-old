@@ -27,9 +27,12 @@ void DexOffersSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataS
         auto hashs = availableOfferHash();
 
         if (hashs.size() > 0) {
+            LogPrintf("DEXSYNCGETALLHASH -- send list hashes\n");
             pfrom->PushMessage(NetMsgType::DEXSYNCALLHASH, hashs);
         }
     } else if (strCommand == NetMsgType::DEXSYNCALLHASH) {
+        LogPrintf("DEXSYNCALLHASH -- get list hashes\n");
+
         std::list<uint256> nodeHashs;
         vRecv >> nodeHashs;
         auto hashs = availableOfferHash();
@@ -38,6 +41,7 @@ void DexOffersSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataS
             bool found = (std::find(hashs.begin(), hashs.end(), h) != hashs.end());
 
             if (!found) {
+                LogPrintf("DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.GetHex().c_str());
                 pfrom->PushMessage(NetMsgType::DEXSYNCGETOFFER, h);
             }
         }
@@ -47,10 +51,13 @@ void DexOffersSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataS
 
         auto offerInfo = getOfferInfo(hash);
         CDexOffer offer(offerInfo.first, offerInfo.second);
+        LogPrintf("DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
         pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
     } else if (strCommand == NetMsgType::DEXSYNCOFFER) {
         CDexOffer offer;
         vRecv >> offer;
+
+        LogPrintf("DEXSYNCOFFER -- get offer info with hash = %s\n", offer.hash.GetHex().c_str());
 
         if (offer.isBuy())  {
             if (!db->isExistOfferBuy(offer.idTransaction)) {
