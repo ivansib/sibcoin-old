@@ -55,7 +55,9 @@ public:
     void addMyOffer(const MyOfferInfo &offer);
     void editMyOffer(const MyOfferInfo &offer);
     void deleteMyOffer(const uint256 &idTransaction);
+    bool isExistMyOffer(const uint256 &idTransaction);
     std::list<MyOfferInfo> getMyOffers();
+    MyOfferInfo getMyOffer(const uint256 &idTransaction);
 
     void addFilter(const std::string &filter);
     void deleteFilter(const std::string &filter);

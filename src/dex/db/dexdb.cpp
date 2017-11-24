@@ -361,6 +361,26 @@ void DexDB::deleteMyOffer(const uint256 &idTransaction)
     thr.detach();
 }
 
+bool DexDB::isExistMyOffer(const uint256 &idTransaction)
+{
+    int count = 0;
+
+    std::string query = "SELECT count() FROM myOffers WHERE idTransaction = \"" + idTransaction.GetHex() + "\"";
+    sqlite3pp::query qry(db, query.c_str());
+
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+
+    int status = qry.finish();
+    finishTableOperation(MyOffers, Read, status);
+
+    if (count > 0) {
+        return true;
+    }
+
+    return false;
+}
+
 std::list<MyOfferInfo> DexDB::getMyOffers()
 {
     std::list<MyOfferInfo> offers;
@@ -411,6 +431,53 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     finishTableOperation(MyOffers, Read, status);
 
     return offers;
+}
+
+MyOfferInfo DexDB::getMyOffer(const uint256 &idTransaction)
+{
+    std::string str = "SELECT hash, countryIso, currencyIso, paymentMethod, price, minAmount, timeCreate, "
+                      "timeToExpiration, shortInfo, details, type, status FROM myOffers WHERE idTransaction = \"" + idTransaction.GetHex() + "\"";
+
+    sqlite3pp::query qry(db, str.c_str());
+
+    sqlite3pp::query::iterator i = qry.begin();
+    std::string hash;
+    std::string countryIso;
+    std::string currencyIso;
+    uint8_t paymentMethod;
+    long long int price;
+    long long int minAmount;
+    long long int timeCreate;
+    int timeToExpiration;
+    std::string shortInfo;
+    std::string details;
+    int type;
+    int status;
+    std::tie(hash, countryIso, currencyIso, paymentMethod, price, minAmount,
+             timeCreate, timeToExpiration, shortInfo, details, type, status)
+            = (*i).get_columns<std::string, std::string, std::string, uint8_t,
+            long long int, long long int, long long int, int, std::string, std::string, int, int>
+            (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+
+    MyOfferInfo info;
+    info.idTransaction = idTransaction;
+    info.hash.SetHex(hash);
+    info.countryIso = countryIso;
+    info.currencyIso = currencyIso;
+    info.paymentMethod = paymentMethod;
+    info.price = price;
+    info.minAmount = minAmount;
+    info.shortInfo = shortInfo;
+    info.timeCreate = timeCreate;
+    info.timeToExpiration = timeToExpiration;
+    info.details = details;
+    info.type = static_cast<TypeOffer>(type);
+    info.status = static_cast<StatusOffer>(status);
+
+    int stat = qry.finish();
+    finishTableOperation(MyOffers, Read, stat);
+
+    return info;
 }
 
 void DexDB::addFilter(const std::string &filter)
@@ -497,7 +564,7 @@ void DexDB::editMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offe
                         "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
                         "timeCreate = :timeCreate, timeToExpiration = :timeToExpiration, "
                         "shortInfo = :shortInfo, details = :details, "
-                        "type = :type, status = :status WHERE  idTransaction = :idTransaction";
+                        "type = :type, status = :status WHERE idTransaction = :idTransaction";
 
 
     int status = addOrEditMyOffer(db, query, offer);
@@ -555,7 +622,7 @@ void DexDB::deleteOffer(sqlite3pp::database &db, const std::string &tableName, c
     if (tableName == "offersBuy") {
         tTable = OffersBuy;
     } else if (tableName == "myOffers") {
-
+        tTable = MyOffers;
     }
 
     finishTableOperation(tTable, Delete, status);
