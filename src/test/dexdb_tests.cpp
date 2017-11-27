@@ -412,6 +412,40 @@ void checkOffers(DexDB &db)
     BOOST_CHECK(buy.paymentMethod == info2.paymentMethod);
     BOOST_CHECK(buy.timeCreate == info2.timeCreate);
     BOOST_CHECK(buy.timeToExpiration == info2.timeToExpiration);
+
+    auto list = db.getOffersSell();
+
+    for (auto item : list) {
+        OfferInfo sell = db.getOfferSell(item.idTransaction);
+
+        BOOST_CHECK(sell.idTransaction == item.idTransaction);
+        BOOST_CHECK(sell.hash == item.hash);
+        BOOST_CHECK(sell.price == item.price);
+        BOOST_CHECK(sell.minAmount == item.minAmount);
+        BOOST_CHECK(sell.shortInfo == item.shortInfo);
+        BOOST_CHECK(sell.countryIso == item.countryIso);
+        BOOST_CHECK(sell.currencyIso == item.currencyIso);
+        BOOST_CHECK(sell.paymentMethod == item.paymentMethod);
+        BOOST_CHECK(sell.timeCreate == item.timeCreate);
+        BOOST_CHECK(sell.timeToExpiration == item.timeToExpiration);
+    }
+
+    list = db.getOffersBuy();
+
+    for (auto item : list) {
+        OfferInfo buy = db.getOfferBuy(item.idTransaction);
+
+        BOOST_CHECK(buy.idTransaction == item.idTransaction);
+        BOOST_CHECK(buy.hash == item.hash);
+        BOOST_CHECK(buy.price == item.price);
+        BOOST_CHECK(buy.minAmount == item.minAmount);
+        BOOST_CHECK(buy.shortInfo == item.shortInfo);
+        BOOST_CHECK(buy.countryIso == item.countryIso);
+        BOOST_CHECK(buy.currencyIso == item.currencyIso);
+        BOOST_CHECK(buy.paymentMethod == item.paymentMethod);
+        BOOST_CHECK(buy.timeCreate == item.timeCreate);
+        BOOST_CHECK(buy.timeToExpiration == item.timeToExpiration);
+    }
 }
 
 void checkMyOffers(DexDB &db)
@@ -553,6 +587,23 @@ void checkMyOffers(DexDB &db)
     BOOST_CHECK(offer.paymentMethod == info1.paymentMethod);
     BOOST_CHECK(offer.timeCreate == info1.timeCreate);
     BOOST_CHECK(offer.timeToExpiration == info1.timeToExpiration);
+
+    auto list = db.getMyOffers();
+
+    for (auto item : list) {
+        MyOfferInfo offer = db.getMyOffer(item.idTransaction);
+
+        BOOST_CHECK(offer.idTransaction == item.idTransaction);
+        BOOST_CHECK(offer.hash == item.hash);
+        BOOST_CHECK(offer.price == item.price);
+        BOOST_CHECK(offer.minAmount == item.minAmount);
+        BOOST_CHECK(offer.shortInfo == item.shortInfo);
+        BOOST_CHECK(offer.countryIso == item.countryIso);
+        BOOST_CHECK(offer.currencyIso == item.currencyIso);
+        BOOST_CHECK(offer.paymentMethod == item.paymentMethod);
+        BOOST_CHECK(offer.timeCreate == item.timeCreate);
+        BOOST_CHECK(offer.timeToExpiration == item.timeToExpiration);
+    }
 }
 
 BOOST_FIXTURE_TEST_SUITE(dexdb_tests, BasicTestingSetup)
