@@ -18,6 +18,7 @@ public:
     void setFilterCurrencyIso(const QString &iso);
     void setFilterPaymentMethod(const uint8_t &payment);
     void setFilterTypeOffer(const int &typeOffer);
+    int rows() const;
 
     QtOfferInfo offerInfo(const int &row);
     QtMyOfferInfo myOfferInfo(const int &row);

@@ -27,6 +27,8 @@ protected:
     OfferModel *pModel;
     DexDB *db;
 
+    virtual void resizeEvent(QResizeEvent *);
+
     void init();
     QString currentCountry() const;
     QString currentCurrency() const;
@@ -39,7 +41,6 @@ private:
     Ui::TableOffersDialog *ui;
     QSignalMapper *pMapper;
     void addButtons();
-    void resizeColumns();
 
 protected Q_SLOTS:
     virtual void openCreatorOffer();
@@ -50,6 +51,7 @@ private Q_SLOTS:
     void changedFilterCurrencyIso(const int &);
     void changedFilterPaymentMethod(const int &);
     void changedFilterOfferType(const int &);
+    void resizeColumns();
 
 Q_SIGNALS:
     void navigationDataUpdate();

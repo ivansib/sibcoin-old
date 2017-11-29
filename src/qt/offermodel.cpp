@@ -66,6 +66,11 @@ void OfferModel::setFilterTypeOffer(const int &typeOffer)
     filterOffers();
 }
 
+int OfferModel::rows() const
+{
+    return offersView.size();
+}
+
 QtOfferInfo OfferModel::offerInfo(const int &row)
 {
     if (row < offersView.size()) {
