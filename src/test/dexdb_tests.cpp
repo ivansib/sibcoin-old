@@ -11,7 +11,9 @@ using namespace dex;
 class CallBackOffers : public CallBackDB
 {
 public:
-    CallBackOffers() {}
+    CallBackOffers() {
+        init();
+    }
 
     virtual void finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
     {
@@ -98,7 +100,9 @@ private:
 class CallBackMyOffers : public CallBackDB
 {
 public:
-    CallBackMyOffers() {}
+    CallBackMyOffers() {
+        init();
+    }
 
     virtual void finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
     {
@@ -328,7 +332,7 @@ void checkOffers(DexDB &db)
     info1.shortInfo = "info test";
     info1.countryIso = "AF";
     info1.currencyIso = "AFN";
-    info1.paymentMethod = 333;
+    info1.paymentMethod = 200;
     info1.timeCreate = 333333;
     info1.timeToExpiration = 3333;
 
@@ -340,7 +344,7 @@ void checkOffers(DexDB &db)
     info2.shortInfo = "info test 4";
     info2.countryIso = "AX";
     info2.currencyIso = "EUR";
-    info2.paymentMethod = 444;
+    info2.paymentMethod = 150;
     info2.timeCreate = 4444;
     info2.timeToExpiration = 44444;
 
@@ -552,7 +556,7 @@ void checkMyOffers(DexDB &db)
     info1.shortInfo = "info test";
     info1.countryIso = "AF";
     info1.currencyIso = "AFN";
-    info1.paymentMethod = 333;
+    info1.paymentMethod = 77;
     info1.timeCreate = 333333;
     info1.timeToExpiration = 3333;
 
