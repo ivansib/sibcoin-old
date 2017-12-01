@@ -609,8 +609,8 @@ void DexDB::bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer)
     cmd.bind(":minAmount", static_cast<long long int>(offer.minAmount));
     cmd.bind(":timeCreate", static_cast<long long int>(offer.timeCreate));
     cmd.bind(":timeToExpiration", offer.timeToExpiration);
-    cmd.bind(":shortInfo", offer.shortInfo, sqlite3pp::nocopy);
-    cmd.bind(":details", offer.details, sqlite3pp::nocopy);
+    cmd.bind(":shortInfo", offer.shortInfo, sqlite3pp::copy);
+    cmd.bind(":details", offer.details, sqlite3pp::copy);
 }
 
 void DexDB::deleteOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const uint256 &idTransaction)
