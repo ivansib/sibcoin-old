@@ -20,12 +20,15 @@ void ComboBox::addData(const std::list<PaymentMethodInfo> &data, const ComboType
     if (type == View) {
         addItem(tr("All"));
     }
+
     while (it != data.end()) {
         addItem(ConvertData::toTr(it->name.c_str()), toString(it->type));
         ++it;
     }
 
-    setCurrentIndex(1);
+    if (type == View) {
+        setCurrentIndex(1);
+    }
 }
 
 void ComboBox::addData(const std::list<CountryInfo> &data, const ComboType &type)
