@@ -19,7 +19,6 @@ public:
 
 private:
     OfferDetailsView *details;
-    DexDB *db;
     const TypeOffer type;
 
 public Q_SLOTS:
