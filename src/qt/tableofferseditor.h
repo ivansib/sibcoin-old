@@ -4,6 +4,7 @@
 #include "tableoffersdialog.h"
 #include "offerdetailseditor.h"
 #include "offerdetailscreator.h"
+#include "callbackdbforgui.h"
 
 class TableOffersEditor : public TableOffersDialog
 {
@@ -16,6 +17,7 @@ public:
 private:
     OfferDetailsEditor *editor;
     OfferDetailsCreator *creator;
+    CallBackDbForGui *callBack;
 
     void updateData();
 
@@ -26,6 +28,7 @@ protected Q_SLOTS:
 private Q_SLOTS:
     void changedRowData(const QtMyOfferInfo &info);
     void createNewOffer(const QtMyOfferInfo &info);
+    void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 
 Q_SIGNALS:
     void dataChanged();

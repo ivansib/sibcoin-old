@@ -39,6 +39,8 @@ ExchangeDialog::~ExchangeDialog()
     delete tableMyOffers;
     delete widgetExchanges;
     delete settings;
+    delete db;
+    delete callback;
     delete ui;
 }
 

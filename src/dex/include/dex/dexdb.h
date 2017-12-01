@@ -14,6 +14,7 @@ public:
     DexDB(const boost::filesystem::path &path, CallBackDB *callback = nullptr);
 
     void setCallBack(CallBackDB *callback);
+    CallBackDB *getCallBack() const;
 
     void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
     void editCountries(const std::list<CountryInfo> &list);
@@ -64,35 +65,35 @@ public:
     std::list<std::string> getFilters();
 
 private:
-    static void addCountryInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
-    static void editCountriesInThread(sqlite3pp::database &db, const std::list<CountryInfo> &list);
+    static void addCountryInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
+    static void editCountriesInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::list<CountryInfo> &list);
     static int editCountryInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder);
-    static void deleteCountryInThread(sqlite3pp::database &db, const std::string &iso);
+    static void deleteCountryInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso);
 
-    static void addCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
-    static void editCurrenciesInThread(sqlite3pp::database &db, const std::list<CurrencyInfo> &list);
+    static void addCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder);
+    static void editCurrenciesInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::list<CurrencyInfo> &list);
     static int editCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder);
-    static void deleteCurrencyInThread(sqlite3pp::database &db, const std::string &iso);
+    static void deleteCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso);
 
-    static void addPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder);
-    static void editPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description);
-    static void deletePaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type);
+    static void addPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder);
+    static void editPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type, const std::string &name, const std::string &description);
+    static void deletePaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type);
 
-    static void addFilterInThread(sqlite3pp::database &db, const std::string &filter);
-    static void deleteFilterInThread(sqlite3pp::database &db, const std::string &filter);
+    static void addFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &filter);
+    static void deleteFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &filter);
 
-    static void finishTableOperation(const TypeTable & tables, const TypeTableOperation &operation, const int &status);
+    static void finishTableOperation(CallBackDB *callBack, const TypeTable & tables, const TypeTableOperation &operation, const int &status);
 
     void createTables();
     void addDefaultData();
     int tableCount(const std::string &tableName);
     std::string templateOffersTable(const std::string &tableName) const;
 
-    static void addOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer);
-    static void editOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer);
-    static void addMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offer);
-    static void editMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offer);
-    static void deleteOffer(sqlite3pp::database &db, const std::string &tableName, const uint256 &idTransaction);
+    static void addOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const OfferInfo &offer);
+    static void editOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const OfferInfo &offer);
+    static void addMyOfferInThread(sqlite3pp::database &db, CallBackDB *callBack, const MyOfferInfo &offer);
+    static void editMyOfferInThread(sqlite3pp::database &db, CallBackDB *callBack, const MyOfferInfo &offer);
+    static void deleteOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const uint256 &idTransaction);
     std::list<OfferInfo> getOffers(const std::string &tableName);
     OfferInfo getOffer(const std::string &tableName, const uint256 &idTransaction);
     OfferInfo getOfferByHash(const std::string &tableName, const uint256 &hash);
@@ -105,7 +106,7 @@ private:
     std::list<uint256> getHashs(const std::string &tableName);
 
     sqlite3pp::database db;
-    static CallBackDB *callBack;
+    /*static */CallBackDB *callBack;
 
     std::list<CountryInfo> countries;
     std::list<CurrencyInfo> currencies;

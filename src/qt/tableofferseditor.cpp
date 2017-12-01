@@ -6,6 +6,12 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
     editor = new OfferDetailsEditor(db, this);
     creator = new OfferDetailsCreator(db, this);
 
+    callBack = static_cast<CallBackDbForGui *>(db->getCallBack());
+
+    if (callBack != nullptr) {
+        connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersEditor::updateTables);
+    }
+
     updateData();
 
     connect(editor, &OfferDetails::dataChanged, this, &TableOffersEditor::changedRowData);
@@ -47,9 +53,6 @@ void TableOffersEditor::changedRowData(const QtMyOfferInfo &info)
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
 
     db->editMyOffer(offer);
-
-    updateData();
-    Q_EMIT dataChanged();
 }
 
 void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
@@ -57,7 +60,12 @@ void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
 
     db->addMyOffer(offer);
+}
 
-    updateData();
-    Q_EMIT dataChanged();
+void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
+{
+    if (table == MyOffers && (operation == Add || operation == Edit) && status == Ok) {
+        updateData();
+        Q_EMIT dataChanged();
+    }
 }

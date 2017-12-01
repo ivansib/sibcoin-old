@@ -8,8 +8,6 @@
 
 namespace dex {
 
-CallBackDB *DexDB::callBack = nullptr;
-
 DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
 {
     db = sqlite3pp::database(path.c_str());
@@ -28,10 +26,15 @@ void DexDB::setCallBack(CallBackDB *callBack)
     this->callBack = callBack;
 }
 
+CallBackDB *DexDB::getCallBack() const
+{
+    return callBack;
+}
+
 void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
     countries.push_back({iso, name, enabled});
-    std::thread thr(addCountryInThread, std::ref(db), iso, name, currency, enabled, sortOrder);
+    std::thread thr(addCountryInThread, std::ref(db), std::ref(callBack), iso, name, currency, enabled, sortOrder);
     thr.detach();
 }
 
@@ -41,14 +44,14 @@ void DexDB::editCountries(const std::list<CountryInfo> &list)
         countries = list;
     }
 
-    std::thread thr(editCountriesInThread, std::ref(db), list);
+    std::thread thr(editCountriesInThread, std::ref(db), std::ref(callBack), list);
     thr.detach();
 }
 
 void DexDB::deleteCountry(const std::string &iso)
 {
     countries.remove_if([iso](CountryInfo c){return c.iso == iso;});
-    std::thread thr(deleteCountryInThread, std::ref(db), iso);
+    std::thread thr(deleteCountryInThread, std::ref(db), std::ref(callBack), iso);
     thr.detach();
 }
 
@@ -76,7 +79,7 @@ std::list<CountryInfo> DexDB::getCountriesInfo()
         isGetCountriesDataFromDB = false;
 
         int status = qry.finish();
-        finishTableOperation(Countries, Read, status);
+        finishTableOperation(callBack, Countries, Read, status);
     }
 
     return countries;
@@ -99,7 +102,7 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
     info.enabled = enabled;
 
     int status = qry.finish();
-    finishTableOperation(Countries, Read, status);
+    finishTableOperation(callBack, Countries, Read, status);
 
     return info;
 }
@@ -107,7 +110,7 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
 void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
     currencies.push_back({iso, name, symbol, enabled});
-    std::thread thr(addCurrencyInThread, std::ref(db), iso, name, symbol, enabled, sortOrder);
+    std::thread thr(addCurrencyInThread, std::ref(db), std::ref(callBack), iso, name, symbol, enabled, sortOrder);
     thr.detach();
 }
 
@@ -116,14 +119,14 @@ void DexDB::editCurrencies(const std::list<CurrencyInfo> &list)
     if (currencies.size() == list.size()) {
         currencies = list;
     }
-    std::thread thr(editCurrenciesInThread, std::ref(db), list);
+    std::thread thr(editCurrenciesInThread, std::ref(db), std::ref(callBack), list);
     thr.detach();
 }
 
 void DexDB::deleteCurrency(const std::string &iso)
 {
     currencies.remove_if([iso](CurrencyInfo c){return c.iso == iso;});
-    std::thread thr(deleteCurrencyInThread, std::ref(db), iso);
+    std::thread thr(deleteCurrencyInThread, std::ref(db), std::ref(callBack), iso);
     thr.detach();
 }
 
@@ -151,7 +154,7 @@ std::list<CurrencyInfo> DexDB::getCurrenciesInfo()
         }
 
         int status = qry.finish();
-        finishTableOperation(Currencies, Read, status);
+        finishTableOperation(callBack, Currencies, Read, status);
 
         isGetCurrenciesDataFromDB = false;
     }
@@ -179,7 +182,7 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
     info.enabled = enabled;
 
     int status = qry.finish();
-    finishTableOperation(Currencies, Read, status);
+    finishTableOperation(callBack, Currencies, Read, status);
 
     return info;
 }
@@ -187,14 +190,14 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
 void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
     payments.push_back({type, name, description});
-    std::thread thr(addPaymentMethodInThread, std::ref(db), type, name, description, sortOrder);
+    std::thread thr(addPaymentMethodInThread, std::ref(db), std::ref(callBack), type, name, description, sortOrder);
     thr.detach();
 }
 
 void DexDB::deletePaymentMethod(const unsigned char &type)
 {
     payments.remove_if([type](PaymentMethodInfo c){return c.type == type;});
-    std::thread thr(deletePaymentMethodInThread, std::ref(db), type);
+    std::thread thr(deletePaymentMethodInThread, std::ref(db), std::ref(callBack), type);
     thr.detach();
 }
 
@@ -217,7 +220,7 @@ std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
         }
 
         int status = qry.finish();
-        finishTableOperation(PaymentMethods, Read, status);
+        finishTableOperation(callBack, PaymentMethods, Read, status);
 
         isGetPaymentsDataFromDB = false;
     }
@@ -242,26 +245,26 @@ PaymentMethodInfo DexDB::getPaymentMethodInfo(const unsigned char &type)
     info.description = description;
 
     int status = qry.finish();
-    finishTableOperation(PaymentMethods, Read, status);
+    finishTableOperation(callBack, PaymentMethods, Read, status);
 
     return info;
 }
 
 void DexDB::addOfferSell(const OfferInfo &offer)
 {
-    std::thread thr(addOffer, std::ref(db), "offersSell", offer);
+    std::thread thr(addOffer, std::ref(db), std::ref(callBack), "offersSell", offer);
     thr.detach();
 }
 
 void DexDB::editOfferSell(const OfferInfo &offer)
 {
-    std::thread thr(editOffer, std::ref(db), "offersSell", offer);
+    std::thread thr(editOffer, std::ref(db), std::ref(callBack), "offersSell", offer);
     thr.detach();
 }
 
 void DexDB::deleteOfferSell(const uint256 &idTransaction)
 {
-    std::thread thr(deleteOffer, std::ref(db), "offersSell", idTransaction);
+    std::thread thr(deleteOffer, std::ref(db), std::ref(callBack), "offersSell", idTransaction);
     thr.detach();
 }
 
@@ -297,19 +300,19 @@ std::list<uint256> DexDB::getSellHashs()
 
 void DexDB::addOfferBuy(const OfferInfo &offer)
 {
-    std::thread thr(addOffer, std::ref(db), "offersBuy", offer);
+    std::thread thr(addOffer, std::ref(db), std::ref(callBack), "offersBuy", offer);
     thr.detach();
 }
 
 void DexDB::editOfferBuy(const OfferInfo &offer)
 {
-    std::thread thr(editOffer, std::ref(db), "offersBuy", offer);
+    std::thread thr(editOffer, std::ref(db), std::ref(callBack), "offersBuy", offer);
     thr.detach();
 }
 
 void DexDB::deleteOfferBuy(const uint256 &idTransaction)
 {
-    std::thread thr(deleteOffer, std::ref(db), "offersBuy", idTransaction);
+    std::thread thr(deleteOffer, std::ref(db), std::ref(callBack), "offersBuy", idTransaction);
     thr.detach();
 }
 
@@ -345,19 +348,19 @@ std::list<uint256> DexDB::getBuyHashs()
 
 void DexDB::addMyOffer(const MyOfferInfo &offer)
 {
-    std::thread thr(addMyOfferInThread, std::ref(db), offer);
+    std::thread thr(addMyOfferInThread, std::ref(db), std::ref(callBack), offer);
     thr.detach();
 }
 
 void DexDB::editMyOffer(const MyOfferInfo &offer)
 {
-    std::thread thr(editMyOfferInThread, std::ref(db), offer);
+    std::thread thr(editMyOfferInThread, std::ref(db), std::ref(callBack), offer);
     thr.detach();
 }
 
 void DexDB::deleteMyOffer(const uint256 &idTransaction)
 {
-    std::thread thr(deleteOffer, std::ref(db), "myOffers", idTransaction);
+    std::thread thr(deleteOffer, std::ref(db), std::ref(callBack), "myOffers", idTransaction);
     thr.detach();
 }
 
@@ -372,7 +375,7 @@ bool DexDB::isExistMyOffer(const uint256 &idTransaction)
     (*it).getter() >> count;
 
     int status = qry.finish();
-    finishTableOperation(MyOffers, Read, status);
+    finishTableOperation(callBack, MyOffers, Read, status);
 
     if (count > 0) {
         return true;
@@ -428,7 +431,7 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     }
 
     int status = qry.finish();
-    finishTableOperation(MyOffers, Read, status);
+    finishTableOperation(callBack, MyOffers, Read, status);
 
     return offers;
 }
@@ -475,20 +478,20 @@ MyOfferInfo DexDB::getMyOffer(const uint256 &idTransaction)
     info.status = static_cast<StatusOffer>(status);
 
     int stat = qry.finish();
-    finishTableOperation(MyOffers, Read, stat);
+    finishTableOperation(callBack, MyOffers, Read, stat);
 
     return info;
 }
 
 void DexDB::addFilter(const std::string &filter)
 {    
-    std::thread thr(addFilterInThread, std::ref(db), filter);
+    std::thread thr(addFilterInThread, std::ref(db), std::ref(callBack), filter);
     thr.detach();
 }
 
 void DexDB::deleteFilter(const std::string &filter)
 {
-    std::thread thr(deleteFilterInThread, std::ref(db), filter);
+    std::thread thr(deleteFilterInThread, std::ref(db), std::ref(callBack), filter);
     thr.detach();
 }
 
@@ -506,12 +509,12 @@ std::list<std::string> DexDB::getFilters()
     }
 
     int status = qry.finish();
-    finishTableOperation(FiltersList, Read, status);
+    finishTableOperation(callBack, FiltersList, Read, status);
 
     return filters;
 }
 
-void DexDB::addOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer)
+void DexDB::addOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "INSERT INTO " + tableName + " (idTransaction, hash, countryIso, currencyIso, "
                         "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details) "
@@ -525,10 +528,10 @@ void DexDB::addOffer(sqlite3pp::database &db, const std::string &tableName, cons
         tTable = OffersBuy;
     }
 
-    finishTableOperation(tTable, Add, status);
+    finishTableOperation(callBack, tTable, Add, status);
 }
 
-void DexDB::editOffer(sqlite3pp::database &db, const std::string &tableName, const OfferInfo &offer)
+void DexDB::editOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "UPDATE " + tableName + " SET hash = :hash, countryIso = :countryIso, currencyIso = :currencyIso, "
                                                 "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
@@ -542,10 +545,10 @@ void DexDB::editOffer(sqlite3pp::database &db, const std::string &tableName, con
         tTable = OffersBuy;
     }
 
-    finishTableOperation(tTable, Edit, status);
+    finishTableOperation(callBack, tTable, Edit, status);
 }
 
-void DexDB::addMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offer)
+void DexDB::addMyOfferInThread(sqlite3pp::database &db, CallBackDB *callBack, const MyOfferInfo &offer)
 {
     std::string query = "INSERT INTO myOffers (idTransaction, hash, countryIso, currencyIso, "
                         "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details, type, status) "
@@ -555,10 +558,10 @@ void DexDB::addMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offer
 
 
     int status = addOrEditMyOffer(db, query, offer);
-    finishTableOperation(MyOffers, Add, status);
+    finishTableOperation(callBack, MyOffers, Add, status);
 }
 
-void DexDB::editMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offer)
+void DexDB::editMyOfferInThread(sqlite3pp::database &db, CallBackDB *callBack, const MyOfferInfo &offer)
 {
     std::string query = "UPDATE myOffers SET hash = :hash, countryIso = :countryIso, currencyIso = :currencyIso, "
                         "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
@@ -568,7 +571,7 @@ void DexDB::editMyOfferInThread(sqlite3pp::database &db, const MyOfferInfo &offe
 
 
     int status = addOrEditMyOffer(db, query, offer);
-    finishTableOperation(MyOffers, Edit, status);
+    finishTableOperation(callBack, MyOffers, Edit, status);
 }
 
 
@@ -610,7 +613,7 @@ void DexDB::bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer)
     cmd.bind(":details", offer.details, sqlite3pp::nocopy);
 }
 
-void DexDB::deleteOffer(sqlite3pp::database &db, const std::string &tableName, const uint256 &idTransaction)
+void DexDB::deleteOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const uint256 &idTransaction)
 {
     std::string query = "DELETE FROM " + tableName + " WHERE idTransaction = ?";
 
@@ -625,8 +628,7 @@ void DexDB::deleteOffer(sqlite3pp::database &db, const std::string &tableName, c
         tTable = MyOffers;
     }
 
-    finishTableOperation(tTable, Delete, status);
-
+    finishTableOperation(callBack, tTable, Delete, status);
 }
 
 std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
@@ -677,7 +679,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     }
 
     int status = qry.finish();
-    finishTableOperation(tTable, Read, status);
+    finishTableOperation(callBack, tTable, Read, status);
 
     return offers;
 }
@@ -696,7 +698,7 @@ OfferInfo DexDB::getOffer(const std::string &tableName, const uint256 &idTransac
         tTable = OffersSell;
     }
 
-    finishTableOperation(tTable, Read, status);
+    finishTableOperation(callBack, tTable, Read, status);
 
     return info;
 }
@@ -715,12 +717,12 @@ OfferInfo DexDB::getOfferByHash(const std::string &tableName, const uint256 &has
         tTable = OffersSell;
     }
 
-    finishTableOperation(tTable, Read, status);
+    finishTableOperation(callBack, tTable, Read, status);
 
     return info;
 }
 
-dex::OfferInfo dex::DexDB::getOffer(const std::string &guery, int &status)
+OfferInfo DexDB::getOffer(const std::string &guery, int &status)
 {
     sqlite3pp::query qry(db, guery.c_str());
 
@@ -756,13 +758,7 @@ dex::OfferInfo dex::DexDB::getOffer(const std::string &guery, int &status)
     info.timeToExpiration = timeToExpiration;
     info.details = details;
 
-//    TypeTable tTable = OffersBuy;
-//    if (tableName == "offersSell") {
-//        tTable = OffersSell;
-//    }
-
     status = qry.finish();
-//    finishTableOperation(tTable, Read, status);
 
     return info;
 }
@@ -783,7 +779,7 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
     }
 
     int status = qry.finish();
-    finishTableOperation(tTable, Read, status);
+    finishTableOperation(callBack, tTable, Read, status);
 
     if (count > 0) {
         return true;
@@ -808,7 +804,7 @@ bool DexDB::isExistOfferByHash(const std::string &tableName, const uint256 &hash
     }
 
     int status = qry.finish();
-    finishTableOperation(tTable, Read, status);
+    finishTableOperation(callBack, tTable, Read, status);
 
     if (count > 0) {
         return true;
@@ -839,12 +835,12 @@ std::list<uint256> DexDB::getHashs(const std::string &tableName)
     }
 
     int status = qry.finish();
-    finishTableOperation(tTable, Read, status);
+    finishTableOperation(callBack, tTable, Read, status);
 
     return ids;
 }
 
-void DexDB::addCountryInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
+void DexDB::addCountryInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled, sortOrder) SELECT :iso, :name, "
                                "currencies.id, :enabled, :sortOrder FROM currencies WHERE iso = :currencyIso");
@@ -855,21 +851,21 @@ void DexDB::addCountryInThread(sqlite3pp::database &db, const std::string &iso, 
     cmd.bind(":currencyIso", currency, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(Countries, Add, status);
+    finishTableOperation(callBack, Countries, Add, status);
 }
 
-void DexDB::editCountriesInThread(sqlite3pp::database &db, const std::list<CountryInfo> &list)
+void DexDB::editCountriesInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::list<CountryInfo> &list)
 {
     int sort = 0;
     for (auto item : list) {
         if (editCountryInThread(db, item.iso, item.enabled, sort) == 1) {
-            finishTableOperation(Countries, Edit, 1);
+            finishTableOperation(callBack, Countries, Edit, 1);
             return;
         }
         sort++;
     }
 
-    finishTableOperation(Countries, Edit, 0);
+    finishTableOperation(callBack, Countries, Edit, 0);
 }
 
 int DexDB::editCountryInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder)
@@ -886,16 +882,16 @@ int DexDB::editCountryInThread(sqlite3pp::database &db, const std::string &iso, 
     return 0;
 }
 
-void DexDB::deleteCountryInThread(sqlite3pp::database &db, const std::string &iso)
+void DexDB::deleteCountryInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso)
 {
     sqlite3pp::command cmd(db, "DELETE FROM countries WHERE iso = ?");
     cmd.bind(1, iso, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(Countries, Delete, status);
+    finishTableOperation(callBack, Countries, Delete, status);
 }
 
-void DexDB::addCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
+void DexDB::addCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled, sortOrder) VALUES (?, ?, ?, ?, ?)");
     cmd.bind(1, iso, sqlite3pp::nocopy);
@@ -905,21 +901,21 @@ void DexDB::addCurrencyInThread(sqlite3pp::database &db, const std::string &iso,
     cmd.bind(5, sortOrder);
 
     int status = cmd.execute();
-    finishTableOperation(Countries, Add, status);
+    finishTableOperation(callBack, Countries, Add, status);
 }
 
-void DexDB::editCurrenciesInThread(sqlite3pp::database &db, const std::list<CurrencyInfo> &list)
+void DexDB::editCurrenciesInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::list<CurrencyInfo> &list)
 {
     int sort = 0;
     for (auto item : list) {
         if (editCurrencyInThread(db, item.iso, item.enabled, sort) == 1) {
-            finishTableOperation(Currencies, Edit, 1);
+            finishTableOperation(callBack, Currencies, Edit, 1);
             return;
         }
         sort++;
     }
 
-    finishTableOperation(Currencies, Edit, 0);
+    finishTableOperation(callBack, Currencies, Edit, 0);
 }
 
 int DexDB::editCurrencyInThread(sqlite3pp::database &db, const std::string &iso, const bool &enabled, const int &sortOrder)
@@ -936,16 +932,16 @@ int DexDB::editCurrencyInThread(sqlite3pp::database &db, const std::string &iso,
     return 0;
 }
 
-void DexDB::deleteCurrencyInThread(sqlite3pp::database &db, const std::string &iso)
+void DexDB::deleteCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso)
 {
     sqlite3pp::command cmd(db, "DELETE FROM currencies WHERE iso = ?");
     cmd.bind(1, iso, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(Currencies, Delete, status);
+    finishTableOperation(callBack, Currencies, Delete, status);
 }
 
-void DexDB::addPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
+void DexDB::addPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description, sortOrder) VALUES (?, ?, ?, ?)");
     cmd.bind(1, type);
@@ -954,10 +950,10 @@ void DexDB::addPaymentMethodInThread(sqlite3pp::database &db, const unsigned cha
     cmd.bind(4, sortOrder);
 
     int status = cmd.execute();
-    finishTableOperation(PaymentMethods, Add, status);
+    finishTableOperation(callBack, PaymentMethods, Add, status);
 }
 
-void DexDB::editPaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type, const std::string &name, const std::string &description)
+void DexDB::editPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type, const std::string &name, const std::string &description)
 {
     sqlite3pp::command cmd(db, "UPDATE paymentMethods SET name = ?, description = ? WHERE type = ?");
     cmd.bind(1, name, sqlite3pp::nocopy);
@@ -965,39 +961,39 @@ void DexDB::editPaymentMethodInThread(sqlite3pp::database &db, const unsigned ch
     cmd.bind(3, type);
 
     int status = cmd.execute();
-    finishTableOperation(PaymentMethods, Edit, status);
+    finishTableOperation(callBack, PaymentMethods, Edit, status);
 }
 
-void DexDB::deletePaymentMethodInThread(sqlite3pp::database &db, const unsigned char &type)
+void DexDB::deletePaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type)
 {
     sqlite3pp::command cmd(db, "DELETE FROM paymentMethods WHERE type = ?");
     cmd.bind(1, type);
 
     int status = cmd.execute();
-    finishTableOperation(PaymentMethods, Delete, status);
+    finishTableOperation(callBack, PaymentMethods, Delete, status);
 }
 
-void DexDB::addFilterInThread(sqlite3pp::database &db, const std::string &filter)
+void DexDB::addFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &filter)
 {
     sqlite3pp::command cmd(db, "INSERT INTO filterList (filter) VALUES (:filter)");
     cmd.bind(":filter", filter, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(FiltersList, Add, status);
+    finishTableOperation(callBack, FiltersList, Add, status);
 }
 
-void DexDB::deleteFilterInThread(sqlite3pp::database &db, const std::string &filter)
+void DexDB::deleteFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &filter)
 {
     sqlite3pp::command cmd(db, "DELETE FROM filterList WHERE filter = :filter");
     cmd.bind(":filter", filter, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(FiltersList, Delete, status);
+    finishTableOperation(callBack, FiltersList, Delete, status);
 }
 
-void DexDB::finishTableOperation(const dex::TypeTable &tables, const dex::TypeTableOperation &operation, const int &status)
+void DexDB::finishTableOperation(CallBackDB *callBack, const dex::TypeTable &tables, const dex::TypeTableOperation &operation, const int &status)
 {
-    if (DexDB::callBack != nullptr) {
+    if (callBack != nullptr) {
         StatusTableOperation s = Ok;
         if (status == 1) {
             s = Error;
