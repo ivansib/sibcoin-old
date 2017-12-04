@@ -29,6 +29,11 @@ using namespace std;
 
 UniValue dexoffer(const UniValue& params, bool fHelp)
 {
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
 
     if (fHelp || params.size() > 1 || (params[0].get_str() != "buy" && params[0].get_str() != "sell"))
         throw runtime_error(
@@ -57,6 +62,11 @@ UniValue dexoffer(const UniValue& params, bool fHelp)
 
 UniValue payoffertx(const UniValue& params, bool fHelp)
 {
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
 
     if (fHelp)
         throw runtime_error(

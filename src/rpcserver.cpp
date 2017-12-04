@@ -14,7 +14,7 @@
 #include "ui_interface.h"
 #include "util.h"
 #include "utilstrencodings.h"
-
+#include "main.h"
 #include <univalue.h>
 
 #include <boost/bind.hpp>
@@ -170,8 +170,18 @@ std::string CRPCTable::help(const std::string& strCommand) const
     set<rpcfn_type> setDone;
     vector<pair<string, const CRPCCommand*> > vCommands;
 
+#ifdef ENABLE_DEX
+    bool txindex = GetBoolArg("-txindex", DEFAULT_TXINDEX);
+    for (map<string, const CRPCCommand*>::const_iterator mi = mapCommands.begin(); mi != mapCommands.end(); ++mi) {
+        if (!txindex && mi->second->category == "dex")
+            continue;
+        vCommands.push_back(make_pair(mi->second->category + mi->first, mi->second));
+    }
+#else
     for (map<string, const CRPCCommand*>::const_iterator mi = mapCommands.begin(); mi != mapCommands.end(); ++mi)
         vCommands.push_back(make_pair(mi->second->category + mi->first, mi->second));
+#endif // ENABLE_DEX
+
     sort(vCommands.begin(), vCommands.end());
 
     BOOST_FOREACH(const PAIRTYPE(string, const CRPCCommand*)& command, vCommands)
@@ -417,8 +427,8 @@ CRPCTable::CRPCTable()
     for (vcidx = 0; vcidx < (sizeof(vRPCCommands) / sizeof(vRPCCommands[0])); vcidx++)
     {
         const CRPCCommand *pcmd;
-
         pcmd = &vRPCCommands[vcidx];
+
         mapCommands[pcmd->name] = pcmd;
     }
 }
@@ -428,6 +438,13 @@ const CRPCCommand *CRPCTable::operator[](const std::string &name) const
     map<string, const CRPCCommand*>::const_iterator it = mapCommands.find(name);
     if (it == mapCommands.end())
         return NULL;
+
+#ifdef ENABLE_DEX
+    bool txindex = GetBoolArg("-txindex", DEFAULT_TXINDEX);
+    if (!txindex && it->second->category == "dex")
+        return NULL;
+#endif // ENABLE_DEX
+
     return (*it).second;
 }
 
@@ -576,9 +593,19 @@ std::vector<std::string> CRPCTable::listCommands() const
     std::vector<std::string> commandList;
     typedef std::map<std::string, const CRPCCommand*> commandMap;
 
+#ifdef ENABLE_DEX
+    bool txindex = GetBoolArg("-txindex", DEFAULT_TXINDEX);
+    for (auto it = mapCommands.begin(); it != mapCommands.end(); it++) {
+      if (txindex || it->second->category != "dex")
+        commandList.push_back(it->first);
+    }
+#else
     std::transform( mapCommands.begin(), mapCommands.end(),
                    std::back_inserter(commandList),
                    boost::bind(&commandMap::value_type::first,_1) );
+#endif // ENABLE_DEX
+
+
     return commandList;
 }
 

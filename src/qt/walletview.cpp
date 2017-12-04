@@ -92,8 +92,10 @@ WalletView::WalletView(const PlatformStyle *platformStyle, QWidget *parent):
     addWidget(goodsPage);
 
 #ifdef ENABLE_DEX
-    exchangePage = new ExchangeDialog();
-    addWidget(exchangePage);
+    if (fTxIndex) {
+        exchangePage = new ExchangeDialog();
+        addWidget(exchangePage);
+    }
 #endif
 
     QSettings settings;
@@ -261,7 +263,9 @@ void WalletView::gotoGoodsPage()
 void WalletView::gotoExchangePage()
 {
 #ifdef ENABLE_DEX
-    setCurrentWidget(exchangePage);
+    if (fTxIndex) {
+        setCurrentWidget(exchangePage);
+    }
 #endif
 }
 

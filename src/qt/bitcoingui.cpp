@@ -352,7 +352,9 @@ void BitcoinGUI::createActions()
 #endif
 
 #ifdef ENABLE_DEX
-    tabGroup->addAction(exchangeAction);
+    if (fTxIndex) {
+        tabGroup->addAction(exchangeAction);
+    }
 #endif
 
 #ifdef ENABLE_WALLET
