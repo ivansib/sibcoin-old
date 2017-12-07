@@ -1810,20 +1810,20 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     fMasterNode = GetBoolArg("-masternode", false);
 
     if((fMasterNode || masternodeConfig.getCount() > -1) && fTxIndex == false) {
-        return InitError("Enabling Masternode support requires turning on transaction indexing. "
-                  "Please add txindex=1 to your configuration and start with -reindex");
+        return InitError(_("Enabling Masternode support requires turning on transaction indexing. "
+                  "Please add txindex=1 to your configuration and start with -reindex"));
     }
 
 
 #ifdef ENABLE_DEX
     if (fMasterNode && !GetBoolArg("-txindex", false)) {
-        return InitError("Enabling Masternode support requires turning on transaction indexing. "
-                  "Please add txindex=1 to your configuration and start with -reindex");
+        return InitError(_("Enabling Masternode support requires turning on transaction indexing. "
+                  "Please add txindex=1 to your configuration and start with -reindex"));
     }
 #else 
     if (fMasterNode) {
-        return InitError("Enabling Masternode support requires DEX feature. "
-                  "Please rebuild client with DEX support (--with-dex).");
+        return InitError(_("Enabling Masternode support requires DEX feature. "
+                  "Please rebuild client with DEX support (--with-dex)."));
     }
 #endif
 

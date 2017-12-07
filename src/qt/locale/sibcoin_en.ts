@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en">
+<TS version="2.0" language="en">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -2926,7 +2926,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <source>%n Rounds</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -2958,7 +2957,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+1"/>
         <source>Denominated inputs have %5 of %n rounds on average</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -5929,7 +5927,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+25"/>
         <source>Estimated to begin confirmation within %n block(s).</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -9159,6 +9156,14 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
         <location line="+1"/>
         <source>wallet.dat corrupt, salvage failed</source>
         <translation type="unfinished">wallet.dat corrupt, salvage failed</translation>
+    </message>
+    <message>
+        <source>Enabling Masternode support requires turning on transaction indexing. Please add txindex=1 to your configuration and start with -reindex</source>
+        <translation>Enabling Masternode support requires turning on transaction indexing. Please add txindex=1 to your configuration and start with -reindex</translation>
+    </message>
+    <message>
+        <source>Enabling Masternode support requires DEX feature. Please rebuild client with DEX support (--with-dex).</source>
+        <translation>Enabling Masternode support requires DEX feature. Please rebuild client with DEX support (--with-dex).</translation>
     </message>
 </context>
 </TS>
