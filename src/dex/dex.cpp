@@ -41,6 +41,11 @@ bool CDex::CreateOffer(CDexOffer::Type type, const std::string &countryIso, cons
     return offer.Create(type, countryIso, currencyIso, paymentMethod, price, minAmount, timeExpiration, shortInfo, details);
 }
 
+bool CDex::CreateOffer(const dex::MyOfferInfo &info)
+{
+    return offer.Create(info);
+}
+
 
 
 bool CDex::addOfferToDB()

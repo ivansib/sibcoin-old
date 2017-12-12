@@ -103,9 +103,9 @@ std::pair<OfferInfo, TypeOffer> DexOffersSync::getOfferInfo(const uint256 &hash)
 
 void ThreadOffersSync()
 {
-    while (true)
-    {
-        MilliSleep(5000);
+//    while (true)
+//    {
+//        MilliSleep(5000);
 
         std::vector<CNode*> vNodesCopy = CopyNodeVector();
 
@@ -116,5 +116,5 @@ void ThreadOffersSync()
 
             node->PushMessage(NetMsgType::DEXSYNCGETALLHASH);
         }
-    }
+//    }
 }

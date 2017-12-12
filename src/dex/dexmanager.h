@@ -7,6 +7,7 @@
 #include "net.h"
 #include "dex/dexdto.h"
 #include "dex.h"
+#include "dexoffer.h"
 
 class CDexManager;
 extern CDexManager dexman;
@@ -21,7 +22,7 @@ public:
 
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
 
-
+    void sendOffer(const CDexOffer &offer);
 };
 
 

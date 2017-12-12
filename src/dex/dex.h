@@ -39,6 +39,8 @@ public:
                      const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
                      uint64_t minAmount, int timeExpiration, const std::string &shortInfo, const std::string &details);
 
+    bool CreateOffer(const dex::MyOfferInfo &info);
+
     bool addOfferToDB();
 
     // оплата предложения (создание, подпись и ретрансляция транзакции)

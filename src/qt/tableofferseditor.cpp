@@ -1,5 +1,8 @@
 #include "tableofferseditor.h"
 #include "convertdata.h"
+#include "net.h"
+#include "../dex/dex.h"
+#include "../dex/dexmanager.h"
 
 TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDialog(db, parent)
 {
@@ -58,8 +61,23 @@ void TableOffersEditor::changedRowData(const QtMyOfferInfo &info)
 void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
 {
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
+    CDex dex;
 
-    db->addMyOffer(offer);
+    dex.CreateOffer(offer);
+
+    std::string error;
+    uint256 tx;
+    if (dex.PayForOffer(tx, error)) {
+        dexman.sendOffer(dex.offer);
+
+        offer.setOfferInfo(dex.offer);
+        db->addMyOffer(offer);
+        dex.addOfferToDB();
+    } else {
+        offer.setOfferInfo(dex.offer);
+        offer.status = Draft;
+        db->addMyOffer(offer);
+    }
 }
 
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)

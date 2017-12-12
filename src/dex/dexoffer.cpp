@@ -125,6 +125,10 @@ bool CDexOffer::Create(const dex::OfferInfo &info, dex::TypeOffer offertype)
     return true;
 }
 
+bool CDexOffer::Create(const dex::MyOfferInfo &info) {
+    return Create(info.getOfferInfo(), info.type);
+}
+
 
 
 uint256 CDexOffer::MakeHash()

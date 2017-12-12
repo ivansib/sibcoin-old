@@ -5,7 +5,6 @@
 #include "util.h"
 #include "utilstrencodings.h"
 
-#include "dexoffer.h"
 #include "dex/dexdb.h"
 #include "txmempool.h"
 #include "base58.h"
@@ -67,6 +66,15 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         } else {
             LogPrintf("DEXOFFBCST -- offer check fail\n");
         }
+    }
+}
+
+void CDexManager::sendOffer(const CDexOffer &offer)
+{
+    LOCK2(cs_main, cs_vNodes);
+
+    for (CNode *pNode : vNodes) {
+        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
     }
 }
 

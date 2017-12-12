@@ -12,8 +12,6 @@ void OfferDetailsCreator::initData()
 void OfferDetailsCreator::saveData()
 {
     QtMyOfferInfo info;
-//    info.idTransaction = lIdView->text();
-//    info.hash = lHashView->text();
     info.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
     info.countryIso = cBoxCountry->currentData().toString();
     info.currencyIso = cBoxCurrency->currentData().toString();
