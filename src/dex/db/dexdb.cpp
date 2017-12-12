@@ -1011,8 +1011,8 @@ void DexDB::createTables()
     db.execute("CREATE TABLE IF NOT EXISTS paymentMethods (type TINYINT NOT NULL PRIMARY KEY, name VARCHAR(100), description BLOB, sortOrder INT)");
     db.execute(templateOffersTable("offersSell").c_str());
     db.execute(templateOffersTable("offersBuy").c_str());
-    db.execute("CREATE TABLE IF NOT EXISTS myOffers (idTransaction TEXT NOT NULL PRIMARY KEY, "
-               "hash TEXT, countryIso VARCHAR(2), "
+    db.execute("CREATE TABLE IF NOT EXISTS myOffers (idTransaction TEXT, "
+               "hash TEXT NOT NULL PRIMARY KEY, countryIso VARCHAR(2), "
                "currencyIso VARCHAR(3), paymentMethod TINYINT, price UNSIGNED BIG INT, "
                "minAmount UNSIGNED BIG INT, timeCreate UNSIGNED BIG INT, timeToExpiration INT, "
                "shortInfo VARCHAR(140), details TEXT, type INT, status INT)");
