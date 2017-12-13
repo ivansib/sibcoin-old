@@ -115,7 +115,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             "NOTE: Any of the parameters may be skipped.You must specify at least one parameter.\n"
             "\tcountry         (string, optional) two-letter country code (ISO 3166-1 alpha-2 code).\n"
             "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
-            "\tpayment_method  (string, optional) payment method name.\n"
+            "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
 
             "\nResult (for example):\n"
             "[\n"
