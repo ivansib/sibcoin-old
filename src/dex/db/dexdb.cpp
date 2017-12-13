@@ -8,10 +8,18 @@
 
 namespace dex {
 
+std::map<int, CallBackDB*> DexDB::callBack;
+int DexDB::keyCallBack = 0;
+
 DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
 {
     db = sqlite3pp::database(path.c_str());
-    setCallBack(callback);
+
+    currentKeyCallBack = -1;
+
+    if (callback != nullptr) {
+        setCallBack(callback);
+    }
 
     isGetCountriesDataFromDB = true;
     isGetCurrenciesDataFromDB = true;
@@ -23,12 +31,22 @@ DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
 
 void DexDB::setCallBack(CallBackDB *callBack)
 {
-    this->callBack = callBack;
+    if (currentKeyCallBack == -1) {
+        this->callBack[keyCallBack] = callBack;
+        currentKeyCallBack = keyCallBack;
+        keyCallBack++;
+    } else {
+        this->callBack[currentKeyCallBack] = callBack;
+    }
 }
 
 CallBackDB *DexDB::getCallBack() const
 {
-    return callBack;
+    if (currentKeyCallBack > -1) {
+        return callBack[currentKeyCallBack];
+    }
+
+    return nullptr;
 }
 
 void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
@@ -514,7 +532,7 @@ std::list<std::string> DexDB::getFilters()
     return filters;
 }
 
-void DexDB::addOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const OfferInfo &offer)
+void DexDB::addOffer(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "INSERT INTO " + tableName + " (idTransaction, hash, countryIso, currencyIso, "
                         "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details) "
@@ -531,7 +549,7 @@ void DexDB::addOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::s
     finishTableOperation(callBack, tTable, Add, status);
 }
 
-void DexDB::editOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const OfferInfo &offer)
+void DexDB::editOffer(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &tableName, const OfferInfo &offer)
 {
     std::string query = "UPDATE " + tableName + " SET hash = :hash, countryIso = :countryIso, currencyIso = :currencyIso, "
                                                 "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
@@ -548,7 +566,7 @@ void DexDB::editOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::
     finishTableOperation(callBack, tTable, Edit, status);
 }
 
-void DexDB::addMyOfferInThread(sqlite3pp::database &db, CallBackDB *callBack, const MyOfferInfo &offer)
+void DexDB::addMyOfferInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const MyOfferInfo &offer)
 {
     std::string query = "INSERT INTO myOffers (idTransaction, hash, countryIso, currencyIso, "
                         "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details, type, status) "
@@ -561,7 +579,7 @@ void DexDB::addMyOfferInThread(sqlite3pp::database &db, CallBackDB *callBack, co
     finishTableOperation(callBack, MyOffers, Add, status);
 }
 
-void DexDB::editMyOfferInThread(sqlite3pp::database &db, CallBackDB *callBack, const MyOfferInfo &offer)
+void DexDB::editMyOfferInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const MyOfferInfo &offer)
 {
     std::string query = "UPDATE myOffers SET hash = :hash, countryIso = :countryIso, currencyIso = :currencyIso, "
                         "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
@@ -613,7 +631,7 @@ void DexDB::bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer)
     cmd.bind(":details", offer.details, sqlite3pp::copy);
 }
 
-void DexDB::deleteOffer(sqlite3pp::database &db, CallBackDB *callBack, const std::string &tableName, const uint256 &idTransaction)
+void DexDB::deleteOffer(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &tableName, const uint256 &idTransaction)
 {
     std::string query = "DELETE FROM " + tableName + " WHERE idTransaction = ?";
 
@@ -840,7 +858,7 @@ std::list<uint256> DexDB::getHashs(const std::string &tableName)
     return ids;
 }
 
-void DexDB::addCountryInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
+void DexDB::addCountryInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO countries (iso, name, currencyId, enabled, sortOrder) SELECT :iso, :name, "
                                "currencies.id, :enabled, :sortOrder FROM currencies WHERE iso = :currencyIso");
@@ -854,7 +872,7 @@ void DexDB::addCountryInThread(sqlite3pp::database &db, CallBackDB *callBack, co
     finishTableOperation(callBack, Countries, Add, status);
 }
 
-void DexDB::editCountriesInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::list<CountryInfo> &list)
+void DexDB::editCountriesInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::list<CountryInfo> &list)
 {
     int sort = 0;
     for (auto item : list) {
@@ -882,7 +900,7 @@ int DexDB::editCountryInThread(sqlite3pp::database &db, const std::string &iso, 
     return 0;
 }
 
-void DexDB::deleteCountryInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso)
+void DexDB::deleteCountryInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &iso)
 {
     sqlite3pp::command cmd(db, "DELETE FROM countries WHERE iso = ?");
     cmd.bind(1, iso, sqlite3pp::nocopy);
@@ -891,7 +909,7 @@ void DexDB::deleteCountryInThread(sqlite3pp::database &db, CallBackDB *callBack,
     finishTableOperation(callBack, Countries, Delete, status);
 }
 
-void DexDB::addCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
+void DexDB::addCurrencyInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO currencies (iso, name, symbol, enabled, sortOrder) VALUES (?, ?, ?, ?, ?)");
     cmd.bind(1, iso, sqlite3pp::nocopy);
@@ -904,7 +922,7 @@ void DexDB::addCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack, c
     finishTableOperation(callBack, Countries, Add, status);
 }
 
-void DexDB::editCurrenciesInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::list<CurrencyInfo> &list)
+void DexDB::editCurrenciesInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::list<CurrencyInfo> &list)
 {
     int sort = 0;
     for (auto item : list) {
@@ -932,7 +950,7 @@ int DexDB::editCurrencyInThread(sqlite3pp::database &db, const std::string &iso,
     return 0;
 }
 
-void DexDB::deleteCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &iso)
+void DexDB::deleteCurrencyInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &iso)
 {
     sqlite3pp::command cmd(db, "DELETE FROM currencies WHERE iso = ?");
     cmd.bind(1, iso, sqlite3pp::nocopy);
@@ -941,7 +959,7 @@ void DexDB::deleteCurrencyInThread(sqlite3pp::database &db, CallBackDB *callBack
     finishTableOperation(callBack, Currencies, Delete, status);
 }
 
-void DexDB::addPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
+void DexDB::addPaymentMethodInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
     sqlite3pp::command cmd(db, "INSERT INTO paymentMethods (type, name, description, sortOrder) VALUES (?, ?, ?, ?)");
     cmd.bind(1, type);
@@ -953,7 +971,7 @@ void DexDB::addPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBa
     finishTableOperation(callBack, PaymentMethods, Add, status);
 }
 
-void DexDB::editPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type, const std::string &name, const std::string &description)
+void DexDB::editPaymentMethodInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const unsigned char &type, const std::string &name, const std::string &description)
 {
     sqlite3pp::command cmd(db, "UPDATE paymentMethods SET name = ?, description = ? WHERE type = ?");
     cmd.bind(1, name, sqlite3pp::nocopy);
@@ -964,7 +982,7 @@ void DexDB::editPaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callB
     finishTableOperation(callBack, PaymentMethods, Edit, status);
 }
 
-void DexDB::deletePaymentMethodInThread(sqlite3pp::database &db, CallBackDB *callBack, const unsigned char &type)
+void DexDB::deletePaymentMethodInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const unsigned char &type)
 {
     sqlite3pp::command cmd(db, "DELETE FROM paymentMethods WHERE type = ?");
     cmd.bind(1, type);
@@ -973,7 +991,7 @@ void DexDB::deletePaymentMethodInThread(sqlite3pp::database &db, CallBackDB *cal
     finishTableOperation(callBack, PaymentMethods, Delete, status);
 }
 
-void DexDB::addFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &filter)
+void DexDB::addFilterInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &filter)
 {
     sqlite3pp::command cmd(db, "INSERT INTO filterList (filter) VALUES (:filter)");
     cmd.bind(":filter", filter, sqlite3pp::nocopy);
@@ -982,7 +1000,7 @@ void DexDB::addFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, con
     finishTableOperation(callBack, FiltersList, Add, status);
 }
 
-void DexDB::deleteFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, const std::string &filter)
+void DexDB::deleteFilterInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &filter)
 {
     sqlite3pp::command cmd(db, "DELETE FROM filterList WHERE filter = :filter");
     cmd.bind(":filter", filter, sqlite3pp::nocopy);
@@ -991,15 +1009,19 @@ void DexDB::deleteFilterInThread(sqlite3pp::database &db, CallBackDB *callBack, 
     finishTableOperation(callBack, FiltersList, Delete, status);
 }
 
-void DexDB::finishTableOperation(CallBackDB *callBack, const dex::TypeTable &tables, const dex::TypeTableOperation &operation, const int &status)
+void DexDB::finishTableOperation(const std::map<int, CallBackDB *> &callBack, const dex::TypeTable &tables, const dex::TypeTableOperation &operation, const int &status)
 {
-    if (callBack != nullptr) {
+    if (callBack.size() > 0) {
         StatusTableOperation s = Ok;
         if (status == 1) {
             s = Error;
         }
 
-        callBack->finishTableOperation(tables, operation, s);
+        for (auto &item : callBack) {
+            if (item.second != nullptr) {
+                item.second->finishTableOperation(tables, operation, s);
+            }
+        }
     }
 }
 
@@ -1065,10 +1087,10 @@ void DexDB::addDefaultData()
         isGetPaymentsDataFromDB = false;
     }
 
-    count = tableCount("offersBuy");
-    if (count <= 0) {
-        createTestOffers();
-    }
+//    count = tableCount("offersBuy");
+//    if (count <= 0) {
+//        createTestOffers();
+//    }
 }
 
 int DexDB::tableCount(const std::string &tableName)
