@@ -26,6 +26,7 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     virtual void clickedButton(const int &index);
+   virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 };
 
 #endif

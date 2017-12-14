@@ -8,6 +8,12 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
 {
     ui->setupUi(this);
 
+    callBack = static_cast<CallBackDbForGui *>(db->getCallBack());
+
+    if (callBack != nullptr) {
+        connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersDialog::updateTables);
+    }
+
     pModel = new OfferModel();
     pMapper = new QSignalMapper(this);
 
@@ -161,6 +167,10 @@ void TableOffersDialog::changedFilterOfferType(const int &)
 }
 
 void TableOffersDialog::openCreatorOffer()
+{
+}
+
+void TableOffersDialog::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
 {
 }
 

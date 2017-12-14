@@ -6,6 +6,7 @@
 #include <QSignalMapper>
 #include "dex/dexdb.h"
 #include "offermodel.h"
+#include "callbackdbforgui.h"
 
 using namespace dex;
 
@@ -26,6 +27,7 @@ public:
 protected:
     OfferModel *pModel;
     DexDB *db;
+    CallBackDbForGui *callBack;
 
     virtual void resizeEvent(QResizeEvent *);
 
@@ -45,6 +47,7 @@ private:
 protected Q_SLOTS:
     virtual void openCreatorOffer();
     virtual void clickedButton(const int &index) = 0;
+    virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 
 private Q_SLOTS:
     void changedFilterCountryIso(const int &);
@@ -55,6 +58,7 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void navigationDataUpdate();
+    void dataChanged();
 };
 
 #endif

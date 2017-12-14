@@ -9,11 +9,11 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
     editor = new OfferDetailsEditor(db, this);
     creator = new OfferDetailsCreator(db, this);
 
-    callBack = static_cast<CallBackDbForGui *>(db->getCallBack());
+//    callBack = static_cast<CallBackDbForGui *>(db->getCallBack());
 
-    if (callBack != nullptr) {
-        connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersEditor::updateTables);
-    }
+//    if (callBack != nullptr) {
+//        connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersEditor::updateTables);
+//    }
 
     updateData();
 
@@ -71,8 +71,14 @@ void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
         dexman.sendOffer(dex.offer);
 
         offer.setOfferInfo(dex.offer);
+        offer.status = Active;
         db->addMyOffer(offer);
-        dex.addOfferToDB();
+        if (dex.offer.isBuy()) {
+            db->addOfferBuy(dex.offer);
+        }
+        if (dex.offer.isSell()) {
+            db->addOfferSell(dex.offer);
+        }
     } else {
         offer.setOfferInfo(dex.offer);
         offer.status = Draft;

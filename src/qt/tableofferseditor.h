@@ -24,14 +24,11 @@ private:
 protected Q_SLOTS:
     virtual void clickedButton(const int &index);
     virtual void openCreatorOffer();
+    virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 
 private Q_SLOTS:
     void changedRowData(const QtMyOfferInfo &info);
     void createNewOffer(const QtMyOfferInfo &info);
-    void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
-
-Q_SIGNALS:
-    void dataChanged();
 };
 
 #endif
