@@ -18,11 +18,21 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     pMapper = new QSignalMapper(this);
 
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tableView->setModel(pModel);
     ui->tableView->setAlternatingRowColors(true);
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    ui->tableView->setColumnWidth(0, 100);
+    ui->tableView->setColumnWidth(2, 100);
+    ui->tableView->setColumnWidth(3, 100);
+    ui->tableView->setColumnWidth(4, 100);
+
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(ui->tableView, 120, 23);
 
     updateNavigationData();
-    resizeColumns();
 
     connect(ui->cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterCountryIso);
@@ -32,7 +42,6 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
             this, &TableOffersDialog::changedFilterPaymentMethod);
 
     connect(pModel, &OfferModel::layoutChanged, this, &TableOffersDialog::addButtons);
-    connect(pModel, &OfferModel::layoutChanged, this, &TableOffersDialog::resizeColumns);
 
     useMyOfferMode(false);
 }
@@ -61,9 +70,10 @@ void TableOffersDialog::updateNavigationData()
     Q_EMIT navigationDataUpdate();
 }
 
-void TableOffersDialog::resizeEvent(QResizeEvent *)
+void TableOffersDialog::resizeEvent(QResizeEvent *event)
 {
-    resizeColumns();
+    QDialog::resizeEvent(event);
+    columnResizingFixer->stretchColumnWidth(1);
 }
 
 void TableOffersDialog::init()
@@ -117,47 +127,6 @@ void TableOffersDialog::addButtons()
     }
 
     connect(pMapper, static_cast<void(QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &TableOffersDialog::clickedButton);
-}
-
-void TableOffersDialog::resizeColumns()
-{
-    int width = geometry().width();
-    int height = geometry().height();
-    auto headerV = ui->tableView->verticalHeader();
-    auto headerH = ui->tableView->horizontalHeader();
-    int widthHeaderV = headerV->sizeHint().width();
-    int heughtHeaderH = headerH->sizeHint().height();
-
-    int widthScroll = ui->tableView->verticalScrollBar()->sizeHint().width();
-    int heightScroll = ui->tableView->horizontalScrollBar()->sizeHint().height();
-    int heightItem = 0;
-    int rows = pModel->rows();
-
-    if (rows > 0) {
-        heightItem = ui->tableView->rowHeight(0);
-    }
-
-    int useHeight = height - heughtHeaderH - heightScroll;
-
-    int useWidth = width - widthHeaderV - widthScroll;
-
-    if (useHeight <= rows * heightItem) {
-        useWidth -= 20;
-    }
-
-    if (useWidth < 750) {
-        int itemWidth = (useWidth - 150) / 4;
-
-        ui->tableView->setColumnWidth(0, itemWidth);
-        ui->tableView->setColumnWidth(1, itemWidth);
-        ui->tableView->setColumnWidth(2, itemWidth);
-        ui->tableView->setColumnWidth(3, 150);
-    } else {
-        ui->tableView->setColumnWidth(0, 200);
-        ui->tableView->setColumnWidth(1, useWidth - 550);
-        ui->tableView->setColumnWidth(2, 200);
-        ui->tableView->setColumnWidth(3, 150);
-    }
 }
 
 void TableOffersDialog::changedFilterOfferType(const int &)

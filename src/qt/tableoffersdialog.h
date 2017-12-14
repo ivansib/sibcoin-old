@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QComboBox>
 #include <QSignalMapper>
+#include "guiutil.h"
 #include "dex/dexdb.h"
 #include "offermodel.h"
 #include "callbackdbforgui.h"
@@ -29,7 +30,7 @@ protected:
     DexDB *db;
     CallBackDbForGui *callBack;
 
-    virtual void resizeEvent(QResizeEvent *);
+    virtual void resizeEvent(QResizeEvent *event);
 
     void init();
     QString currentCountry() const;
@@ -43,6 +44,7 @@ private:
     Ui::TableOffersDialog *ui;
     QSignalMapper *pMapper;
     void addButtons();
+    GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
 
 protected Q_SLOTS:
     virtual void openCreatorOffer();
@@ -54,7 +56,6 @@ private Q_SLOTS:
     void changedFilterCurrencyIso(const int &);
     void changedFilterPaymentMethod(const int &);
     void changedFilterOfferType(const int &);
-    void resizeColumns();
 
 Q_SIGNALS:
     void navigationDataUpdate();
