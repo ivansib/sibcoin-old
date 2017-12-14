@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "tableofferseditor.h"
 #include "convertdata.h"
 #include "net.h"
@@ -8,12 +9,6 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 {
     editor = new OfferDetailsEditor(db, this);
     creator = new OfferDetailsCreator(db, this);
-
-//    callBack = static_cast<CallBackDbForGui *>(db->getCallBack());
-
-//    if (callBack != nullptr) {
-//        connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersEditor::updateTables);
-//    }
 
     updateData();
 
@@ -83,6 +78,8 @@ void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
         offer.setOfferInfo(dex.offer);
         offer.status = Draft;
         db->addMyOffer(offer);
+
+        QMessageBox::warning(this, tr("Warning"), tr(error.c_str()));
     }
 }
 
