@@ -777,8 +777,12 @@ bool CMasternodePayments::ProcessBlock(int nBlockHeight)
 
 void CMasternodePaymentVote::Relay()
 {
-    // do not relay until synced
-    if (!masternodeSync.IsWinnersListSynced()) return;
+    // Do not relay until fully synced
+    if(!masternodeSync.IsSynced()) {
+        LogPrint("mnpayments", "CMasternodePayments::Relay -- won't relay until fully synced\n");
+        return;
+    }
+
     CInv inv(MSG_MASTERNODE_PAYMENT_VOTE, GetHash());
     RelayInv(inv);
 }
