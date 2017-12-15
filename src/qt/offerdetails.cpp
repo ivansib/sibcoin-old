@@ -32,7 +32,7 @@ void OfferDetails::updateNavigationData()
     cBoxCurrency->addData(currencies, ComboBox::Editor);
 }
 
-const void OfferDetails::initMode()
+void OfferDetails::initMode()
 {
     if (type == Edit) {
         delete lOffer;
@@ -50,10 +50,19 @@ const void OfferDetails::initMode()
         delete lEditTimeCreate;
 
         setWindowTitle("Create Offer");
-        lInfoExpiration->setText(tr("Approximate Time Expiration:"));
+        isApproximateExpiration(true);
 
         cBoxOffer->addItem(tr("Buy"));
         cBoxOffer->addItem(tr("Sell"));
+    }
+}
+
+void OfferDetails::isApproximateExpiration(const bool &b)
+{
+    if (b) {
+        lInfoExpiration->setText(tr("Approximate Time Expiration:"));
+    } else {
+        lInfoExpiration->setText(tr("Time Expiration:"));
     }
 }
 

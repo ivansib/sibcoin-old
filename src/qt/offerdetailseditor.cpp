@@ -9,8 +9,6 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
     offerInfo = info;
 
-    QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
-
     lIdView->setText(info.idTransaction);
     lHashView->setText(info.hash);
     lStatusView->setText(status(info.status));
@@ -20,9 +18,24 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     cBoxPayment->setCurrentData(QString::number(info.paymentMethod));
     sBoxPrice->setValue(info.price);
     sBoxMinAmount->setValue(info.minAmount);
-    lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
+
+    if (info.status == Active) {
+        isApproximateExpiration(false);
+
+        QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
+
+        lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
+        lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+    } else {
+        isApproximateExpiration(true);
+
+        QDateTime currentDate = QDateTime::currentDateTime();
+        QDateTime timeExpiration = currentDate.addDays(info.timeToExpiration);
+        lEditTimeCreate->setText(currentDate.toString("dd.MM.yyyy hh:mm"));
+        lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+    }
+
     sBoxExpiration->setValue(info.timeToExpiration);
-    lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
     tEditShortInfo->setText(info.shortInfo);
     tEditDetails->setText(info.details);
 }

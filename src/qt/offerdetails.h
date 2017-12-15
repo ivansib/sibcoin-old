@@ -22,11 +22,14 @@ public:
     OfferDetails(DexDB *db, const Type &type, QDialog *parent = nullptr);
     virtual ~OfferDetails();
 
+protected:
+    void isApproximateExpiration(const bool &b);
+
 private:
     DexDB *db;
     const Type type;
 
-    const void initMode();
+    void initMode();
 
 public Q_SLOTS:
     void updateNavigationData();
