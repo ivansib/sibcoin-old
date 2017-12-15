@@ -1811,6 +1811,18 @@ p, li { white-space: pre-wrap; }
         <source>Time Expiration:</source>
         <translation>Дата Истечения:</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <source>Save draft</source>
+        <translation>Сохранить в черновик</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Отправить</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsView</name>

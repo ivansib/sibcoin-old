@@ -2177,6 +2177,18 @@ p, li { white-space: pre-wrap; }
         <source>Sell</source>
         <translation>Sell</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <source>Save draft</source>
+        <translation>Save draft</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Send</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsView</name>
