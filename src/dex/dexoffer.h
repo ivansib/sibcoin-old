@@ -40,6 +40,7 @@ public:
 
     CDexOffer();
     CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype);
+    CDexOffer(const dex::MyOfferInfo &info);
 
     void SetNull();
 

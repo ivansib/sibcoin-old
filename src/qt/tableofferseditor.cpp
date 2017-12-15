@@ -12,8 +12,11 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     updateData();
 
-    connect(editor, &OfferDetails::dataChanged, this, &TableOffersEditor::changedRowData);
-    connect(creator, &OfferDetails::dataChanged, this, &TableOffersEditor::createNewOffer);
+    connect(editor, &OfferDetails::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
+    connect(editor, &OfferDetails::dataSend, this, &TableOffersEditor::sendMyOffer);
+
+    connect(creator, &OfferDetails::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
+    connect(creator, &OfferDetails::dataSend, this, &TableOffersEditor::sendMyOffer);
 
     connect(this, &TableOffersEditor::navigationDataUpdate, editor, &OfferDetailsEditor::updateNavigationData);
     connect(this, &TableOffersEditor::navigationDataUpdate, creator, &OfferDetailsEditor::updateNavigationData);
@@ -33,6 +36,15 @@ void TableOffersEditor::updateData()
     pModel->setOffers(offers);
 }
 
+void TableOffersEditor::saveMyOffer(const MyOfferInfo &info)
+{
+    if (db->isExistMyOfferByHash(info.hash)) {
+        db->editMyOffer(info);
+    } else {
+        db->addMyOffer(info);
+    }
+}
+
 void TableOffersEditor::clickedButton(const int &index)
 {
     QtMyOfferInfo info = pModel->myOfferInfo(index);
@@ -46,28 +58,41 @@ void TableOffersEditor::openCreatorOffer()
     creator->show();
 }
 
-void TableOffersEditor::changedRowData(const QtMyOfferInfo &info)
+void TableOffersEditor::addOrEditMyOffer(const QtMyOfferInfo &info)
 {
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
+    offer.status = Draft;
 
-    db->editMyOffer(offer);
+    if (info.hash == "") {
+        CDex dex;
+        dex.CreateOffer(offer);
+        offer.setOfferInfo(dex.offer);
+    }
+
+    saveMyOffer(offer);
 }
 
-void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
+void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
 {
-    MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
-    CDex dex;
+    MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
 
-    dex.CreateOffer(offer);
+    CDexOffer dexOffer;
+
+    if (myOffer.hash.IsNull()) {
+        dexOffer.Create(myOffer);
+    } else {
+        dexOffer = CDexOffer(myOffer);
+    }
+
+    CDex dex(dexOffer);
 
     std::string error;
     uint256 tx;
     if (dex.PayForOffer(tx, error)) {
         dexman.sendOffer(dex.offer);
 
-        offer.setOfferInfo(dex.offer);
-        offer.status = Active;
-        db->addMyOffer(offer);
+        myOffer.setOfferInfo(dex.offer);
+        myOffer.status = Active;
         if (dex.offer.isBuy()) {
             db->addOfferBuy(dex.offer);
         }
@@ -75,12 +100,13 @@ void TableOffersEditor::createNewOffer(const QtMyOfferInfo &info)
             db->addOfferSell(dex.offer);
         }
     } else {
-        offer.setOfferInfo(dex.offer);
-        offer.status = Draft;
-        db->addMyOffer(offer);
+        myOffer.setOfferInfo(dex.offer);
+        myOffer.status = Draft;
 
         QMessageBox::warning(this, tr("Warning"), tr(error.c_str()));
     }
+
+    saveMyOffer(myOffer);
 }
 
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)

@@ -72,7 +72,7 @@ QString OfferDetailsEditor::offerType(const TypeOffer &s) const
     return str;
 }
 
-void OfferDetailsEditor::saveData()
+void OfferDetailsEditor::updateMyOffer()
 {
     offerInfo.countryIso = cBoxCountry->currentData().toString();
     offerInfo.currencyIso = cBoxCurrency->currentData().toString();
@@ -83,7 +83,20 @@ void OfferDetailsEditor::saveData()
     offerInfo.timeToExpiration = sBoxExpiration->value();
     offerInfo.shortInfo = tEditShortInfo->toPlainText();
     offerInfo.details = tEditDetails->toPlainText();
+}
 
-    Q_EMIT dataChanged(offerInfo);
+void OfferDetailsEditor::saveData()
+{
+    updateMyOffer();
+
+    Q_EMIT dataSave(offerInfo);
+    close();
+}
+
+void OfferDetailsEditor::sendData()
+{
+    updateMyOffer();
+
+    Q_EMIT dataSend(offerInfo);
     close();
 }

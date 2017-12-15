@@ -9,7 +9,7 @@ void OfferDetailsCreator::initData()
     sBoxExpiration->setValue(10);
 }
 
-void OfferDetailsCreator::saveData()
+QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
 {
     QtMyOfferInfo info;
     info.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
@@ -23,6 +23,21 @@ void OfferDetailsCreator::saveData()
     info.shortInfo = tEditShortInfo->toPlainText();
     info.details = tEditDetails->toPlainText();
 
-    Q_EMIT dataChanged(info);
+    return info;
+}
+
+void OfferDetailsCreator::saveData()
+{
+    QtMyOfferInfo info = getMyOffer();
+
+    Q_EMIT dataSave(info);
+    close();
+}
+
+void OfferDetailsCreator::sendData()
+{
+    QtMyOfferInfo info = getMyOffer();
+
+    Q_EMIT dataSend(info);
     close();
 }

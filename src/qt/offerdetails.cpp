@@ -7,8 +7,9 @@ OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDial
 
     updateNavigationData();
 
-    connect(btnBox, &QDialogButtonBox::accepted, this, &OfferDetails::saveData);
-    connect(btnBox, &QDialogButtonBox::rejected, this, &OfferDetails::close);
+    connect(btnSend, &QPushButton::clicked, this, &OfferDetails::sendData);
+    connect(btnSaveDraft, &QPushButton::clicked, this, &OfferDetails::saveData);
+    connect(btnCancel, &QPushButton::clicked, this, &OfferDetails::close);
     connect(sBoxExpiration, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &OfferDetails::changedTimeToExpiration);
     connect(tEditShortInfo, &QTextEdit::textChanged, this, &OfferDetails::changedShortInfo);
 

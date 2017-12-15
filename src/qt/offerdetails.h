@@ -33,13 +33,15 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     virtual void saveData() = 0;
+    virtual void sendData() = 0;
 
 private Q_SLOTS:
     void changedTimeToExpiration(const int &i);
     void changedShortInfo();
 
 Q_SIGNALS:
-    void dataChanged(const QtMyOfferInfo &info);
+    void dataSave(const QtMyOfferInfo &info);
+    void dataSend(const QtMyOfferInfo &info);
 };
 
 

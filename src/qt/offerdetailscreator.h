@@ -12,8 +12,12 @@ public:
 
     void initData();
 
+private:
+    QtMyOfferInfo getMyOffer() const;
+
 protected Q_SLOTS:
     virtual void saveData();
+    virtual void sendData();
 };
 
 #endif

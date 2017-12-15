@@ -20,6 +20,7 @@ private:
     CallBackDbForGui *callBack;
 
     void updateData();
+    void saveMyOffer(const MyOfferInfo &info);
 
 protected Q_SLOTS:
     virtual void clickedButton(const int &index);
@@ -27,8 +28,8 @@ protected Q_SLOTS:
     virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 
 private Q_SLOTS:
-    void changedRowData(const QtMyOfferInfo &info);
-    void createNewOffer(const QtMyOfferInfo &info);
+    void addOrEditMyOffer(const QtMyOfferInfo &info);
+    void sendMyOffer(const QtMyOfferInfo &info);
 };
 
 #endif

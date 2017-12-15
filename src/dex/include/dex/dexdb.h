@@ -57,6 +57,7 @@ public:
     void editMyOffer(const MyOfferInfo &offer);
     void deleteMyOffer(const uint256 &idTransaction);
     bool isExistMyOffer(const uint256 &idTransaction);
+    bool isExistMyOfferByHash(const uint256 &hash);
     std::list<MyOfferInfo> getMyOffers();
     MyOfferInfo getMyOffer(const uint256 &idTransaction);
 

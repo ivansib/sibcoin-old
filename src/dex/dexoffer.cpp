@@ -43,6 +43,25 @@ CDexOffer::CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype)
     }
 }
 
+CDexOffer::CDexOffer(const dex::MyOfferInfo &info)
+{
+    idTransaction    = info.idTransaction;
+    hash             = info.hash;
+    countryIso       = info.countryIso;
+    currencyIso      = info.currencyIso;
+    paymentMethod    = info.paymentMethod;
+    price            = info.price;
+    minAmount        = info.minAmount;
+    timeCreate       = info.timeCreate;
+    timeExpiration   = info.timeToExpiration;
+    shortInfo        = info.shortInfo;
+    details          = info.details;
+    switch (info.type) {
+        case  dex::Buy: type = OFFER_TYPE_BUY;  break;
+        case dex::Sell: type = OFFER_TYPE_SELL; break;
+    }
+}
+
 
 
 void CDexOffer::SetNull()

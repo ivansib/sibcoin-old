@@ -402,6 +402,26 @@ bool DexDB::isExistMyOffer(const uint256 &idTransaction)
     return false;
 }
 
+bool DexDB::isExistMyOfferByHash(const uint256 &hash)
+{
+    int count = 0;
+
+    std::string query = "SELECT count() FROM myOffers WHERE hash = \"" + hash.GetHex() + "\"";
+    sqlite3pp::query qry(db, query.c_str());
+
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+
+    int status = qry.finish();
+    finishTableOperation(callBack, MyOffers, Read, status);
+
+    if (count > 0) {
+        return true;
+    }
+
+    return false;
+}
+
 std::list<MyOfferInfo> DexDB::getMyOffers()
 {
     std::list<MyOfferInfo> offers;
@@ -581,11 +601,11 @@ void DexDB::addMyOfferInThread(sqlite3pp::database &db, const std::map<int, Call
 
 void DexDB::editMyOfferInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const MyOfferInfo &offer)
 {
-    std::string query = "UPDATE myOffers SET hash = :hash, countryIso = :countryIso, currencyIso = :currencyIso, "
+    std::string query = "UPDATE myOffers SET idTransaction = :idTransaction, countryIso = :countryIso, currencyIso = :currencyIso, "
                         "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
                         "timeCreate = :timeCreate, timeToExpiration = :timeToExpiration, "
                         "shortInfo = :shortInfo, details = :details, "
-                        "type = :type, status = :status WHERE idTransaction = :idTransaction";
+                        "type = :type, status = :status WHERE hash = :hash";
 
 
     int status = addOrEditMyOffer(db, query, offer);

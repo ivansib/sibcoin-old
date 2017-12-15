@@ -16,10 +16,13 @@ private:
     QString status(const StatusOffer &s) const;
     QString offerType(const TypeOffer &s) const;
 
+    void updateMyOffer();
+
     QtMyOfferInfo offerInfo;
 
 protected Q_SLOTS:
     virtual void saveData();
+    virtual void sendData();
 };
 
 #endif
