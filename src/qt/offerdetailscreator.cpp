@@ -6,7 +6,15 @@ OfferDetailsCreator::OfferDetailsCreator(DexDB *db, QDialog *parent) : OfferDeta
 
 void OfferDetailsCreator::initData()
 {
+    cBoxOffer->setCurrentIndex(0);
+    cBoxCountry->setCurrentIndex(0);
+    cBoxCurrency->setCurrentIndex(0);
+    cBoxPayment->setCurrentIndex(0);
+    sBoxPrice->setValue(0);
+    sBoxMinAmount->setValue(0);
     sBoxExpiration->setValue(10);
+    tEditShortInfo->setText("");
+    tEditDetails->setText("");
 }
 
 QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
