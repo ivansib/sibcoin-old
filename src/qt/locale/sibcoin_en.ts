@@ -2278,7 +2278,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+0"/>
         <source>More Details</source>
-        <translation>Edit Details</translation>
+        <translation>More Details</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Edit</source>
+        <translation>Edit</translation>
     </message>
     <message>
         <location line="+100"/>

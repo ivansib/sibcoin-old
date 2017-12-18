@@ -3,7 +3,7 @@
 #include "tableoffersdialog.h"
 #include "ui_tableoffersdialog.h"
 
-TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
+TableOffersDialog::TableOffersDialog(DexDB *db, const OfferModel::TypeTable &typeTable, QDialog *parent) :
     QDialog(parent), ui(new Ui::TableOffersDialog), db(db)
 {
     ui->setupUi(this);
@@ -14,7 +14,7 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
         connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersDialog::updateTables);
     }
 
-    pModel = new OfferModel();
+    pModel = new OfferModel(typeTable);
     pDelegate = new TableOfferDelegate();
 
     ui->tableView->setSortingEnabled(true);
@@ -27,10 +27,10 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
-    ui->tableView->setColumnWidth(0, 100);
-    ui->tableView->setColumnWidth(2, 100);
-    ui->tableView->setColumnWidth(3, 100);
-    ui->tableView->setColumnWidth(4, 100);
+    ui->tableView->setColumnWidth(0, 150);
+    ui->tableView->setColumnWidth(2, 150);
+    ui->tableView->setColumnWidth(3, 150);
+    ui->tableView->setColumnWidth(4, 150);
 
     columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(ui->tableView, 120, 23);
 

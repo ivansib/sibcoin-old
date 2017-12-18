@@ -9,7 +9,12 @@ class OfferModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    OfferModel(QObject *parent = nullptr);
+    enum TypeTable {
+        Offer,
+        MyOffer
+    };
+
+    OfferModel(const TypeTable &type, QObject *parent = nullptr);
     ~OfferModel();
 
     void setOffers(const QList<QtOfferInfo> &offers);
@@ -34,16 +39,11 @@ public:
     virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 private:
-    enum Type {
-        Offer,
-        MyOffer
-    };
-
     QStringList listHead;
     QList<QtMyOfferInfo> offers;
     QList<QtMyOfferInfo> offersView;
 
-    Type type;
+    TypeTable type;
 
     QString countryIso;
     QString currencyIso;

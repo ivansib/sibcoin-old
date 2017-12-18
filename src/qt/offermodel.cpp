@@ -1,9 +1,17 @@
 #include "offermodel.h"
 #include "convertdata.h"
 
-OfferModel::OfferModel(QObject *parent) : QAbstractTableModel(parent)
+OfferModel::OfferModel(const TypeTable &type, QObject *parent) : QAbstractTableModel(parent)
 {
-    listHead << tr("Price") << tr("Short Info") << tr("Min Amount") << tr("More Details");
+    this->type = type;
+
+    listHead << tr("Price") << tr("Short Info") << tr("Min Amount");
+
+    if (type == Offer) {
+        listHead << tr("More Details");
+    } else {
+        listHead << tr("Edit");
+    }
 }
 
 OfferModel::~OfferModel()
@@ -25,7 +33,6 @@ void OfferModel::setOffers(const QList<QtOfferInfo> &offers)
     this->offers = myOffers;
     offersView = this->offers;
 
-    type = Offer;
     filterOffers();
 
     Q_EMIT layoutChanged();
@@ -36,7 +43,6 @@ void OfferModel::setOffers(const QList<QtMyOfferInfo> &offers)
     this->offers = offers;
     offersView = this->offers;
 
-    type = MyOffer;
     filterOffers();
 
     Q_EMIT layoutChanged();
@@ -108,7 +114,11 @@ QVariant OfferModel::data(const QModelIndex &index, int role) const
         case 2:
             return ConvertData::toUiPrice(offersView[index.row()].minAmount);
         case 3:
-            return tr("Show");
+            if (type == Offer) {
+                return tr("More Details");
+            } else {
+                return tr("Edit");
+            }
         default:
             break;
         }

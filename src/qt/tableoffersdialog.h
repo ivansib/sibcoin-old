@@ -20,7 +20,7 @@ class TableOffersDialog : public QDialog
     Q_OBJECT
 
 public:
-    TableOffersDialog(DexDB *db, QDialog *parent = nullptr);
+    TableOffersDialog(DexDB *db, const OfferModel::TypeTable &typeTable, QDialog *parent = nullptr);
     virtual ~TableOffersDialog();
 
     void updateNavigationData();
