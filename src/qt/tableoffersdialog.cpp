@@ -15,15 +15,17 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     }
 
     pModel = new OfferModel();
-    pMapper = new QSignalMapper(this);
+    pDelegate = new TableOfferDelegate();
 
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->tableView->setModel(pModel);
+    ui->tableView->setItemDelegate(pDelegate);
     ui->tableView->setAlternatingRowColors(true);
     ui->tableView->verticalHeader()->hide();
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
     ui->tableView->setColumnWidth(0, 100);
     ui->tableView->setColumnWidth(2, 100);
@@ -41,13 +43,15 @@ TableOffersDialog::TableOffersDialog(DexDB *db, QDialog *parent) :
     connect(ui->cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &TableOffersDialog::changedFilterPaymentMethod);
 
-    connect(pModel, &OfferModel::layoutChanged, this, &TableOffersDialog::addButtons);
+    connect(pDelegate, &TableOfferDelegate::clicked, this, &TableOffersDialog::clickedButton);
 
     useMyOfferMode(false);
 }
 
 TableOffersDialog::~TableOffersDialog()
 {
+    delete pDelegate;
+    delete pModel;
     delete ui;
 }
 
@@ -115,18 +119,6 @@ void TableOffersDialog::useMyOfferMode(const bool &b)
 
         connect(ui->btnCreate, &QPushButton::clicked, this, &TableOffersDialog::openCreatorOffer);
     }
-}
-
-void TableOffersDialog::addButtons()
-{
-    for (int i = 0; i < pModel->rowCount(); i++) {
-        QPushButton *pBtn = new QPushButton(tr("Show"));
-        ui->tableView->setIndexWidget(pModel->index(i, 3), pBtn);
-        connect(pBtn, SIGNAL(clicked()), pMapper, SLOT(map()));
-        pMapper->setMapping(pBtn, i);
-    }
-
-    connect(pMapper, static_cast<void(QSignalMapper::*)(int)>(&QSignalMapper::mapped), this, &TableOffersDialog::clickedButton);
 }
 
 void TableOffersDialog::changedFilterOfferType(const int &)

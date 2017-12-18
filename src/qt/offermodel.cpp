@@ -146,7 +146,11 @@ Qt::ItemFlags OfferModel::flags(const QModelIndex &index) const
         return Qt::ItemIsEnabled;
     }
 
-    return QAbstractItemModel::flags(index);
+    if (index.column() == 3) {
+        QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+    } else {
+        return QAbstractItemModel::flags(index);
+    }
 }
 
 void OfferModel::sort(int column, Qt::SortOrder order)

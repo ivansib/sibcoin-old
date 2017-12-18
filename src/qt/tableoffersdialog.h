@@ -3,10 +3,10 @@
 
 #include <QDialog>
 #include <QComboBox>
-#include <QSignalMapper>
 #include "guiutil.h"
 #include "dex/dexdb.h"
 #include "offermodel.h"
+#include "tableofferdelegate.h"
 #include "callbackdbforgui.h"
 
 using namespace dex;
@@ -27,6 +27,7 @@ public:
 
 protected:
     OfferModel *pModel;
+    TableOfferDelegate *pDelegate;
     DexDB *db;
     CallBackDbForGui *callBack;
 
@@ -42,8 +43,6 @@ protected:
 
 private:
     Ui::TableOffersDialog *ui;
-    QSignalMapper *pMapper;
-    void addButtons();
     GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
 
 protected Q_SLOTS:
