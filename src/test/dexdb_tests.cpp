@@ -234,6 +234,7 @@ void checkOffers(DexDB &db)
     db.setCallBack(&cb);
 
     OfferInfo info;
+    info.pubKey = GetRandHash();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.price = 1234567;
@@ -250,6 +251,7 @@ void checkOffers(DexDB &db)
     db.addOfferBuy(info);
     db.addOfferSell(info);
 
+    info.pubKey = GetRandHash();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.price = 1555;
@@ -265,6 +267,7 @@ void checkOffers(DexDB &db)
     db.addOfferBuy(info);
     db.addOfferSell(info);
 
+    info.pubKey = GetRandHash();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.price = 133;
@@ -289,7 +292,7 @@ void checkOffers(DexDB &db)
 
         step++;
 
-        if (step >= 100) {
+        if (step >= 1000) {
             BOOST_CHECK(false);
             break;
         }
@@ -317,7 +320,7 @@ void checkOffers(DexDB &db)
 
         step++;
 
-        if (step >= 100) {
+        if (step >= 1000) {
             BOOST_CHECK(false);
             break;
         }
@@ -359,7 +362,7 @@ void checkOffers(DexDB &db)
 
         step++;
 
-        if (step >= 100) {
+        if (step >= 1000) {
             BOOST_CHECK(false);
             break;
         }
@@ -367,6 +370,7 @@ void checkOffers(DexDB &db)
 
     OfferInfo sell = db.getOfferSell(info1.idTransaction);
 
+    BOOST_CHECK(sell.pubKey == info1.pubKey);
     BOOST_CHECK(sell.idTransaction == info1.idTransaction);
     BOOST_CHECK(sell.hash == info1.hash);
     BOOST_CHECK(sell.price == info1.price);
@@ -380,6 +384,7 @@ void checkOffers(DexDB &db)
 
     sell = db.getOfferSellByHash(info1.hash);
 
+    BOOST_CHECK(sell.pubKey == info1.pubKey);
     BOOST_CHECK(sell.idTransaction == info1.idTransaction);
     BOOST_CHECK(sell.hash == info1.hash);
     BOOST_CHECK(sell.price == info1.price);
@@ -393,6 +398,7 @@ void checkOffers(DexDB &db)
 
     OfferInfo buy = db.getOfferBuy(info2.idTransaction);
 
+    BOOST_CHECK(buy.pubKey == info2.pubKey);
     BOOST_CHECK(buy.idTransaction == info2.idTransaction);
     BOOST_CHECK(buy.hash == info2.hash);
     BOOST_CHECK(buy.price == info2.price);
@@ -406,6 +412,7 @@ void checkOffers(DexDB &db)
 
     buy = db.getOfferBuyByHash(info2.hash);
 
+    BOOST_CHECK(buy.pubKey == info2.pubKey);
     BOOST_CHECK(buy.idTransaction == info2.idTransaction);
     BOOST_CHECK(buy.hash == info2.hash);
     BOOST_CHECK(buy.price == info2.price);
@@ -422,6 +429,7 @@ void checkOffers(DexDB &db)
     for (auto item : list) {
         OfferInfo sell = db.getOfferSell(item.idTransaction);
 
+        BOOST_CHECK(sell.pubKey == item.pubKey);
         BOOST_CHECK(sell.idTransaction == item.idTransaction);
         BOOST_CHECK(sell.hash == item.hash);
         BOOST_CHECK(sell.price == item.price);
@@ -439,6 +447,7 @@ void checkOffers(DexDB &db)
     for (auto item : list) {
         OfferInfo buy = db.getOfferBuy(item.idTransaction);
 
+        BOOST_CHECK(buy.pubKey == item.pubKey);
         BOOST_CHECK(buy.idTransaction == item.idTransaction);
         BOOST_CHECK(buy.hash == item.hash);
         BOOST_CHECK(buy.price == item.price);
@@ -459,6 +468,7 @@ void checkMyOffers(DexDB &db)
     db.setCallBack(&cb);
 
     MyOfferInfo info;
+    info.pubKey = GetRandHash();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.type = Buy;
@@ -476,6 +486,7 @@ void checkMyOffers(DexDB &db)
     iList.push_back(info);
     db.addMyOffer(info);
 
+    info.pubKey = GetRandHash();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.type = Buy;
@@ -492,6 +503,7 @@ void checkMyOffers(DexDB &db)
     iList.push_back(info);
     db.addMyOffer(info);
 
+    info.pubKey = GetRandHash();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.type = Sell;
@@ -517,7 +529,7 @@ void checkMyOffers(DexDB &db)
 
         step++;
 
-        if (step >= 100) {
+        if (step >= 1000) {
             BOOST_CHECK(false);
             break;
         }
@@ -525,9 +537,13 @@ void checkMyOffers(DexDB &db)
 
     BOOST_CHECK(db.isExistMyOffer(iList.front().idTransaction));
     BOOST_CHECK(db.isExistMyOffer(iList.back().idTransaction));
+    BOOST_CHECK(db.isExistMyOfferByHash(iList.front().hash));
+    BOOST_CHECK(db.isExistMyOfferByHash(iList.back().hash));
 
     BOOST_CHECK(!db.isExistMyOffer(GetRandHash()));
     BOOST_CHECK(!db.isExistMyOffer(GetRandHash()));
+    BOOST_CHECK(!db.isExistMyOfferByHash(GetRandHash()));
+    BOOST_CHECK(!db.isExistMyOfferByHash(GetRandHash()));
 
     db.deleteMyOffer(iList.front().idTransaction);
 
@@ -540,7 +556,7 @@ void checkMyOffers(DexDB &db)
 
         step++;
 
-        if (step >= 100) {
+        if (step >= 1000) {
             BOOST_CHECK(false);
             break;
         }
@@ -571,7 +587,7 @@ void checkMyOffers(DexDB &db)
 
         step++;
 
-        if (step >= 100) {
+        if (step >= 1000) {
             BOOST_CHECK(false);
             break;
         }
@@ -579,6 +595,7 @@ void checkMyOffers(DexDB &db)
 
     MyOfferInfo offer = db.getMyOffer(info1.idTransaction);
 
+    BOOST_CHECK(offer.pubKey == info1.pubKey);
     BOOST_CHECK(offer.idTransaction == info1.idTransaction);
     BOOST_CHECK(offer.hash == info1.hash);
     BOOST_CHECK(offer.type == info1.type);
@@ -597,6 +614,7 @@ void checkMyOffers(DexDB &db)
     for (auto item : list) {
         MyOfferInfo offer = db.getMyOffer(item.idTransaction);
 
+        BOOST_CHECK(offer.pubKey == item.pubKey);
         BOOST_CHECK(offer.idTransaction == item.idTransaction);
         BOOST_CHECK(offer.hash == item.hash);
         BOOST_CHECK(offer.price == item.price);
