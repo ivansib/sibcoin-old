@@ -22,6 +22,7 @@ struct QtCurrencyInfo {
 struct QtOfferInfo {
     QString idTransaction;
     QString hash;
+    QString pubKey;
     QString countryIso;
     QString currencyIso;
     quint8 paymentMethod;
@@ -42,6 +43,7 @@ struct QtMyOfferInfo : QtOfferInfo {
 
         info.idTransaction = idTransaction;
         info.hash = hash;
+        info.pubKey = pubKey;
         info.countryIso = countryIso;
         info.currencyIso = currencyIso;
         info.paymentMethod = paymentMethod;
@@ -58,6 +60,7 @@ struct QtMyOfferInfo : QtOfferInfo {
     void setOfferInfo(const QtOfferInfo &info) {
         idTransaction = info.idTransaction;
         hash = info.hash;
+        pubKey = info.pubKey;
         countryIso = info.countryIso;
         currencyIso = info.currencyIso;
         paymentMethod = info.paymentMethod;
