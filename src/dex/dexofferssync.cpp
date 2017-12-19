@@ -4,6 +4,7 @@
 #include "utiltime.h"
 #include "net.h"
 #include "util.h"
+#include "masternode-sync.h"
 
 DexOffersSync dexOffersSync;
 
@@ -103,18 +104,22 @@ std::pair<OfferInfo, TypeOffer> DexOffersSync::getOfferInfo(const uint256 &hash)
 
 void ThreadOffersSync()
 {
-//    while (true)
-//    {
-//        MilliSleep(5000);
+    while (true)
+    {
+        MilliSleep(1000);
 
-        std::vector<CNode*> vNodesCopy = CopyNodeVector();
+        if (masternodeSync.IsSynced()) {
+            std::vector<CNode*> vNodesCopy = CopyNodeVector();
 
-        for (auto node : vNodesCopy) {
-            if(node->fMasternode || (fMasterNode && node->fInbound)) {
-                continue;
+            for (auto node : vNodesCopy) {
+                if(node->fMasternode || (fMasterNode && node->fInbound)) {
+                    continue;
+                }
+
+                node->PushMessage(NetMsgType::DEXSYNCGETALLHASH);
             }
 
-            node->PushMessage(NetMsgType::DEXSYNCGETALLHASH);
+            break;
         }
-//    }
+    }
 }

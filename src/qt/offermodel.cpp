@@ -157,7 +157,7 @@ Qt::ItemFlags OfferModel::flags(const QModelIndex &index) const
     }
 
     if (index.column() == 3) {
-        QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
     } else {
         return QAbstractItemModel::flags(index);
     }
