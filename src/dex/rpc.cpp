@@ -77,7 +77,7 @@ UniValue payoffertx(const UniValue& params, bool fHelp)
     std::string error;
 
     CDex offer;
-    offer.CreateOffer(CDexOffer::SELL, "RU", "RUB", 1, 100, 1000, 100, "test dex transaction", "dex offer for test transaction");
+    offer.CreateOffer(CDexOffer::SELL, GetRandHash(), "RU", "RUB", 1, 100, 1000, 100, "test dex transaction", "dex offer for test transaction");
 
 
     uint256 tx;

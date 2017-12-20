@@ -31,11 +31,11 @@ public:
     CDex();
     CDex(const CDexOffer &dexoffer);
 
-    bool CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const std::string &countryIso,
+    bool CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const uint256 &pubKey, const std::string &countryIso,
                      const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
                      uint64_t minAmount, int timeExpiration, const std::string &shortInfo, const std::string &details);
 
-    bool CreateOffer(CDexOffer::Type type, const std::string &countryIso,
+    bool CreateOffer(CDexOffer::Type type, const uint256 &pubKey, const std::string &countryIso,
                      const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
                      uint64_t minAmount, int timeExpiration, const std::string &shortInfo, const std::string &details);
 

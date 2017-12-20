@@ -26,19 +26,19 @@ CDex::CDex(const CDexOffer &dexoffer)
 }
 
 
-bool CDex::CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const std::string &countryIso, const std::string &currencyIso,
+bool CDex::CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const uint256 &pubKey, const std::string &countryIso, const std::string &currencyIso,
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
            const std::string &shortInfo, const std::string &details)
 {
-    return offer.Create(idTransaction, type, countryIso, currencyIso, paymentMethod, price, minAmount, timeExpiration, shortInfo, details);
+    return offer.Create(idTransaction, type, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount, timeExpiration, shortInfo, details);
 }
 
 
-bool CDex::CreateOffer(CDexOffer::Type type, const std::string &countryIso, const std::string &currencyIso,
+bool CDex::CreateOffer(CDexOffer::Type type, const uint256 &pubKey, const std::string &countryIso, const std::string &currencyIso,
                         uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
                         const std::string &shortInfo, const std::string &details)
 {
-    return offer.Create(type, countryIso, currencyIso, paymentMethod, price, minAmount, timeExpiration, shortInfo, details);
+    return offer.Create(type, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount, timeExpiration, shortInfo, details);
 }
 
 bool CDex::CreateOffer(const dex::MyOfferInfo &info)
