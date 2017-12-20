@@ -30,6 +30,5 @@ dex_libdex_a_SOURCES = \
   dex/rpc.cpp \
   dex/dexoffer.cpp \
   dex/dextransaction.cpp \
-  dex/dexofferssync.cpp \
   dex/unconfirmedoffers.cpp
 

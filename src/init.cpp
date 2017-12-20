@@ -45,7 +45,7 @@
 #include "sibdb.h"
 #endif
 #ifdef ENABLE_DEX
-#include "dex/dexofferssync.h"
+#include "dex/dexmanager.h"
 #endif
 
 #include "activemasternode.h"
@@ -2006,7 +2006,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 #endif
 
 #ifdef ENABLE_DEX
-   threadGroup.create_thread(boost::bind(&ThreadOffersSync));
+   threadGroup.create_thread(boost::bind(&ThreadDexManager));
 #endif
 
     threadGroup.create_thread(boost::bind(&ThreadSendAlert));

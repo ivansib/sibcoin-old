@@ -8,7 +8,10 @@ class UnconfirmedOffers {
 public:
     UnconfirmedOffers();
 
-    void getOffer(const CDexOffer &offer);
+    void setOffer(const CDexOffer &offer);
+    std::list<uint256> hashs() const;
+    bool isExistOffer(const uint256 &hash);
+    CDexOffer getOffer(const uint256 &hash) const;
 
 private:
     struct OfferTime {
