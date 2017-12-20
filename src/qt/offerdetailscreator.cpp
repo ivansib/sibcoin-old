@@ -1,4 +1,5 @@
 #include "offerdetailscreator.h"
+#include "random.h"
 
 OfferDetailsCreator::OfferDetailsCreator(DexDB *db, QDialog *parent) : OfferDetails(db, OfferDetails::Create, parent)
 {
@@ -20,6 +21,7 @@ void OfferDetailsCreator::initData()
 QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
 {
     QtMyOfferInfo info;
+    info.pubKey = QString::fromUtf8(GetRandHash().GetHex().c_str());
     info.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
     info.countryIso = cBoxCountry->currentData().toString();
     info.currencyIso = cBoxCurrency->currentData().toString();

@@ -145,6 +145,36 @@ void CDexManager::sendOffer(const CDexOffer &offer)
     }
 }
 
+void CDexManager::checkUncOffers()
+{
+    auto list = uncOffers->getOffers();
+
+    for (auto offer : list) {
+        CDex dex(offer);
+        std::string error;
+        if (dex.CheckOfferTx(error)) {
+            bool bFound = false;
+            if (offer.isBuy())  {
+                if (db->isExistOfferBuy(offer.idTransaction)) {
+                  bFound = true;
+                } else {
+                    db->addOfferBuy(offer);
+                }
+            }
+
+            if (offer.isSell())  {
+                if (db->isExistOfferSell(offer.idTransaction)) {
+                  bFound = true;
+                } else {
+                    db->addOfferSell(offer);
+                }
+            }
+
+            uncOffers->deleteOffer(offer.hash);
+        }
+    }
+}
+
 void CDexManager::deleteOldUncOffers()
 {
     uncOffers->deleteOldOffers();
@@ -212,6 +242,10 @@ void ThreadDexManager()
         MilliSleep(1000);
 
         if (step % 60 == 0) {
+            dexman.checkUncOffers();
+        }
+
+        if (step % 1800 == 0) {
             dexman.deleteOldUncOffers();
         }
 
