@@ -145,6 +145,11 @@ void CDexManager::sendOffer(const CDexOffer &offer)
     }
 }
 
+void CDexManager::deleteOldUncOffers()
+{
+    uncOffers->deleteOldOffers();
+}
+
 std::list<uint256> CDexManager::availableOfferHash()
 {
     auto list = db->getSellHashs();
@@ -199,6 +204,21 @@ void ThreadDexManager()
             }
 
             break;
+        }
+    }
+
+    int step = 0;
+    while (true) {
+        MilliSleep(1000);
+
+        if (step % 60 == 0) {
+            dexman.deleteOldUncOffers();
+        }
+
+        if (step == 3600) { // one hour
+            step = 0;
+        } else {
+            step++;
         }
     }
 }

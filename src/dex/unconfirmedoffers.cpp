@@ -42,3 +42,10 @@ CDexOffer UnconfirmedOffers::getOffer(const uint256 &hash) const
 
     return CDexOffer();
 }
+
+void UnconfirmedOffers::deleteOldOffers()
+{
+    std::time_t currentTime = time(NULL);
+
+    offers.remove_if([currentTime](OfferTime o){ return difftime(o.timeArr, currentTime) >= 21600; }); // 6 hours
+}

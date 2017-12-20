@@ -12,6 +12,7 @@ public:
     std::list<uint256> hashs() const;
     bool isExistOffer(const uint256 &hash);
     CDexOffer getOffer(const uint256 &hash) const;
+    void deleteOldOffers();
 
 private:
     struct OfferTime {
