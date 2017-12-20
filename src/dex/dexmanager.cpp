@@ -22,6 +22,7 @@ CDexManager dexman;
 
 CDexManager::CDexManager()
 {
+    uncOffers = new UnconfirmedOffers();
 }
 
 
@@ -61,6 +62,7 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
                 }
                 LogPrintf("DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
             } else {
+                uncOffers->getOffer(offer);
                 LogPrintf("DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
         } else {
