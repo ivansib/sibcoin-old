@@ -1720,6 +1720,10 @@ p, li { white-space: pre-wrap; }
         <translation>Редактирование Деталей</translation>
     </message>
     <message>
+        <source>Public Key:</source>
+        <translation>Публичный ключ:</translation>
+    </message>
+    <message>
         <source>Id Transaction:</source>
         <translation>ID транзакции:</translation>
     </message>
@@ -1829,6 +1833,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Details</source>
         <translation>Детали</translation>
+    </message>
+    <message>
+        <source>Public Key:</source>
+        <translation>Публичный ключ:</translation>
     </message>
     <message>
         <source>Id Transaction:</source>

@@ -19,6 +19,7 @@ void OfferDetailsView::setOfferInfo(const QtOfferInfo &info)
 {
     QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
+    ui->lEditPubKey->setText(info.pubKey);
     ui->lEditId->setText(info.idTransaction);
     ui->lEditHash->setText(info.hash);
 

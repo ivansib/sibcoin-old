@@ -38,6 +38,8 @@ void OfferDetails::initMode()
         delete lOffer;
         delete cBoxOffer;
     } else {
+        delete lPubKey;
+        delete lPubKeyView;
         delete lIdTransaction;
         delete lIdView;
         delete lHash;

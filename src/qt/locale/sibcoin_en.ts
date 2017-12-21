@@ -2063,68 +2063,58 @@ p, li { white-space: pre-wrap; }
         <translation>Edit Details</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <source>Public Key:</source>
+        <translation>Public Key:</translation>
+    </message>
+    <message>
         <source>Id Transaction:</source>
         <translation>Transaction ID:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Hash:</source>
         <translation>Hash:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Status:</source>
         <translation>Status:</translation>
     </message>
     <message>
-        <location line="+23"/>
-        <location line="+23"/>
         <source>Offer:</source>
         <translation>Offer:</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Country:</source>
         <translation>Country:</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Currency:</source>
         <translation>Currency:</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Payment:</source>
         <translation>Payment:</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Price:</source>
         <translation>Price:</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Min Amount:</source>
         <translation>Min Amount:</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Time Create:</source>
         <translation>Time Create:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Time To Expiration:</source>
         <translation>Time Expiration:</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>days   </source>
         <translation>days   </translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Time Expiration:</source>
         <translation>Time Expiration:</translation>
     </message>
@@ -2133,12 +2123,10 @@ p, li { white-space: pre-wrap; }
         <translation>days     Time Expiration:</translation>
     </message>
     <message>
-        <location line="+25"/>
         <source>Short Info:</source>
         <translation>Short Info:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Details:</source>
         <translation>Details:</translation>
     </message>
@@ -2198,62 +2186,54 @@ p, li { white-space: pre-wrap; }
         <translation>Details</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <source>Public Key:</source>
+        <translation>Public Key:</translation>
+    </message>
+    <message>
         <source>Id Transaction:</source>
         <translation>Transaction ID:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Hash:</source>
         <translation>Hash:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Country:</source>
         <translation>Country:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Currency:</source>
         <translation>Currency:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Payment:</source>
         <translation>Payment:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Price:</source>
         <translation>Price:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Min Amount:</source>
         <translation>Min Amount:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Time Create:</source>
         <translation>Time Create:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Time Expiration:</source>
         <translation>Time Expiration:</translation>
     </message>
     <message>
-        <location line="+23"/>
         <source>Short Info:</source>
         <translation>Short Info:</translation>
     </message>
     <message>
-        <location line="+20"/>
         <source>Details:</source>
         <translation>Details:</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>Close</source>
         <translation>Close</translation>
     </message>

@@ -9,6 +9,7 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
     offerInfo = info;
 
+    lPubKeyView->setText(info.pubKey);
     lIdView->setText(info.idTransaction);
     lHashView->setText(info.hash);
     lStatusView->setText(status(info.status));
