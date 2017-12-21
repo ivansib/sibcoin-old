@@ -8,14 +8,11 @@
 #include "offermodel.h"
 #include "tableofferdelegate.h"
 #include "callbackdbforgui.h"
+#include "ui_tableoffersdialog.h"
 
 using namespace dex;
 
-namespace Ui {
-    class TableOffersDialog;
-}
-
-class TableOffersDialog : public QDialog
+class TableOffersDialog : public QDialog, public Ui::TableOffersDialog
 {
     Q_OBJECT
 
@@ -42,7 +39,6 @@ protected:
     void useMyOfferMode(const bool &b);
 
 private:
-    Ui::TableOffersDialog *ui;
     GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
 
 protected Q_SLOTS:
