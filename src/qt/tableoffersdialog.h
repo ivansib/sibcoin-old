@@ -1,60 +1,27 @@
 #ifndef TABLEOFFERSDIALOG_H
 #define TABLEOFFERSDIALOG_H
 
-#include <QDialog>
-#include <QComboBox>
-#include "guiutil.h"
-#include "dex/dexdb.h"
-#include "offermodel.h"
-#include "tableofferdelegate.h"
-#include "callbackdbforgui.h"
-#include "ui_tableoffersdialog.h"
+#include "tableofferssubdialog.h"
+#include "offermodelview.h"
+#include "offermodeleditor.h"
 
-using namespace dex;
-
-class TableOffersDialog : public QDialog, public Ui::TableOffersDialog
+template <class Offer>
+class TableOffersDialog : public TableOffersSubDialog
 {
-    Q_OBJECT
-
 public:
-    TableOffersDialog(DexDB *db, const OfferModel::TypeTable &typeTable, QDialog *parent = nullptr);
+    TableOffersDialog(DexDB *db, OfferModel<Offer> *model, const int &columnBtn, QDialog *parent = nullptr);
     virtual ~TableOffersDialog();
 
-    void updateNavigationData();
+protected:
+    OfferModel<Offer> *pModel;
 
 protected:
-    OfferModel *pModel;
-    TableOfferDelegate *pDelegate;
-    DexDB *db;
-    CallBackDbForGui *callBack;
-
-    virtual void resizeEvent(QResizeEvent *event);
-
-    void init();
-    QString currentCountry() const;
-    QString currentCurrency() const;
-    QString currentPayment() const;
-    int currentOfferIndex() const;
-
-    void useMyOfferMode(const bool &b);
-
-private:
-    GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
-
-protected Q_SLOTS:
-    virtual void openCreatorOffer();
-    virtual void clickedButton(const int &index) = 0;
-    virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
-
-private Q_SLOTS:
-    void changedFilterCountryIso(const int &);
-    void changedFilterCurrencyIso(const int &);
-    void changedFilterPaymentMethod(const int &);
-    void changedFilterOfferType(const int &);
-
-Q_SIGNALS:
-    void navigationDataUpdate();
-    void dataChanged();
+    virtual void changedFilterCountryIso(const int &);
+    virtual void changedFilterCurrencyIso(const int &);
+    virtual void changedFilterPaymentMethod(const int &);
+    virtual void changedFilterOfferType(const int &);
 };
+
+#include "tableoffersdialog.cpp"
 
 #endif

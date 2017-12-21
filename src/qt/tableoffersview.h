@@ -4,7 +4,7 @@
 #include "tableoffersdialog.h"
 #include "offerdetailsview.h"
 
-class TableOffersView : public TableOffersDialog
+class TableOffersView : public TableOffersDialog<QtOfferInfo>
 {
     Q_OBJECT
 

@@ -6,7 +6,7 @@
 #include "offerdetailscreator.h"
 #include "callbackdbforgui.h"
 
-class TableOffersEditor : public TableOffersDialog
+class TableOffersEditor : public TableOffersDialog<QtMyOfferInfo>
 {
     Q_OBJECT
 

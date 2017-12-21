@@ -1,9 +1,16 @@
 #include "tableoffersview.h"
 #include "convertdata.h"
 
-TableOffersView::TableOffersView(DexDB *db, const TableOffersView::TypeOffer &type, QDialog *parent) : TableOffersDialog(db, OfferModel::Offer, parent), type(type)
+TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, QDialog *parent) : TableOffersDialog(db, new OfferModelView, 3, parent), type(type)
 {
     details = new OfferDetailsView(db, this);
+
+    tableView->setColumnWidth(0, 150);
+    tableView->setColumnWidth(1, 150);
+    tableView->setColumnWidth(2, 150);
+    tableView->setColumnWidth(3, 150);
+
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 120, 23);
 
     updateData();
 }

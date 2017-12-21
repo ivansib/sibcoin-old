@@ -5,10 +5,18 @@
 #include "../dex/dex.h"
 #include "../dex/dexmanager.h"
 
-TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDialog(db, OfferModel::MyOffer, parent)
+TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDialog(db, new OfferModelEditor(), 4, parent)
 {
     editor = new OfferDetailsEditor(db, this);
     creator = new OfferDetailsCreator(db, this);
+
+    tableView->setColumnWidth(0, 150);
+    tableView->setColumnWidth(1, 150);
+    tableView->setColumnWidth(2, 150);
+    tableView->setColumnWidth(3, 150);
+    tableView->setColumnWidth(4, 150);
+
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 120, 23);
 
     updateData();
 

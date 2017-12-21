@@ -302,8 +302,9 @@ endif
 if ENABLE_DEX
 QT_MOC_CPP += \
   moc_exchangedialog.cpp \
-  moc_offermodel.cpp \
-  moc_tableoffersdialog.cpp \
+  moc_offermodeleditor.cpp \
+  moc_offermodelview.cpp \
+  moc_tableofferssubdialog.cpp \
   moc_offerdetails.cpp \
   moc_convertdata.cpp \
   moc_offerdetailseditor.cpp \
@@ -328,6 +329,9 @@ QT_MOC_CPP += \
 BITCOIN_QT_H += \
   exchangedialog.h \
   offermodel.h \
+  offermodeleditor.h \
+  offermodelview.h \
+  tableofferssubdialog.h \
   tableoffersdialog.h \
   offerdetails.h \
   convertdata.h \
@@ -353,8 +357,9 @@ BITCOIN_QT_H += \
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
-  offermodel.cpp \
-  tableoffersdialog.cpp \
+  offermodeleditor.cpp \
+  offermodelview.cpp \
+  tableofferssubdialog.cpp \
   offerdetails.cpp \
   convertdata.cpp \
   offerdetailseditor.cpp \

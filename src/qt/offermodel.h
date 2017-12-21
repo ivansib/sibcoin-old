@@ -4,21 +4,15 @@
 #include <QAbstractTableModel>
 #include "dto.h"
 
+template <class Offer>
 class OfferModel : public QAbstractTableModel
 {
-    Q_OBJECT
 
 public:
-    enum TypeTable {
-        Offer,
-        MyOffer
-    };
+    OfferModel(QObject *parent = nullptr);
+    virtual ~OfferModel();
 
-    OfferModel(const TypeTable &type, QObject *parent = nullptr);
-    ~OfferModel();
-
-    void setOffers(const QList<QtOfferInfo> &offers);
-    void setOffers(const QList<QtMyOfferInfo> &offers);
+    void setOffers(const QList<Offer> &offers);
     void setFilterCountryIso(const QString &iso);
     void setFilterCurrencyIso(const QString &iso);
     void setFilterPaymentMethod(const uint8_t &payment);
@@ -28,29 +22,25 @@ public:
     QtOfferInfo offerInfo(const int &row);
     QtMyOfferInfo myOfferInfo(const int &row);
 
-    virtual QVariant data(const QModelIndex &index, int role) const;
-
     virtual int rowCount(const QModelIndex &parent=QModelIndex()) const;
     virtual int columnCount(const QModelIndex &parent) const;
 
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;    
 
-    virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
-
-private:
+protected:
     QStringList listHead;
-    QList<QtMyOfferInfo> offers;
-    QList<QtMyOfferInfo> offersView;
 
-    TypeTable type;
+    QList<Offer> offers;
+    QList<Offer> offersView;
 
     QString countryIso;
     QString currencyIso;
     uint8_t paymentMethod;
     int typeOffer;
 
-    void filterOffers();
+    virtual void filterOffers() = 0;
 };
+
+#include "offermodel.cpp"
 
 #endif
