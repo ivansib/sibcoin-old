@@ -97,7 +97,7 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
     std::string error;
     uint256 tx;
     if (dex.PayForOffer(tx, error)) {
-        dexman.sendOffer(dex.offer);
+        dexman.sendNewOffer(dex.offer);
 
         myOffer.setOfferInfo(dex.offer);
         myOffer.status = Active;
