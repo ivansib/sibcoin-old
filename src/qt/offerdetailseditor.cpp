@@ -61,6 +61,9 @@ QString OfferDetailsEditor::status(const StatusOffer &s) const
     case Suspended:
         str = tr("Suspended");
         break;
+    case Unconfirmed:
+        str = tr("Unconfirmed");
+        break;
     default:
         break;
     }

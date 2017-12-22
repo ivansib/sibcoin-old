@@ -49,7 +49,8 @@ enum StatusOffer {
     Draft,
     Expired,
     Cancelled,
-    Suspended
+    Suspended,
+    Unconfirmed
 };
 
 enum TypeTable {
