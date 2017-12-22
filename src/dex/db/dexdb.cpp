@@ -2,6 +2,7 @@
 #include <thread>
 #include "dex/dexdb.h"
 #include "defaultdatafordb.h"
+#include <boost/thread/thread.hpp>
 
 #include "base58.h"
 #include "random.h"
@@ -51,8 +52,8 @@ CallBackDB *DexDB::getCallBack() const
 
 void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
-    countries.push_back({iso, name, enabled});
-    std::thread thr(addCountryInThread, std::ref(db), std::ref(callBack), iso, name, currency, enabled, sortOrder);
+    countries.push_back({iso, name, enabled});    
+    boost::thread thr(addCountryInThread, boost::ref(db), boost::ref(callBack), iso, name, currency, enabled, sortOrder);
     thr.detach();
 }
 
@@ -62,14 +63,14 @@ void DexDB::editCountries(const std::list<CountryInfo> &list)
         countries = list;
     }
 
-    std::thread thr(editCountriesInThread, std::ref(db), std::ref(callBack), list);
+    boost::thread thr(editCountriesInThread, boost::ref(db), boost::ref(callBack), list);
     thr.detach();
 }
 
 void DexDB::deleteCountry(const std::string &iso)
 {
     countries.remove_if([iso](CountryInfo c){return c.iso == iso;});
-    std::thread thr(deleteCountryInThread, std::ref(db), std::ref(callBack), iso);
+    boost::thread thr(deleteCountryInThread, boost::ref(db), boost::ref(callBack), iso);
     thr.detach();
 }
 
@@ -128,7 +129,7 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
 void DexDB::addCurrency(const std::string &iso, const std::string &name, const std::string &symbol, const bool &enabled, const int &sortOrder)
 {
     currencies.push_back({iso, name, symbol, enabled});
-    std::thread thr(addCurrencyInThread, std::ref(db), std::ref(callBack), iso, name, symbol, enabled, sortOrder);
+    boost::thread thr(addCurrencyInThread, boost::ref(db), boost::ref(callBack), iso, name, symbol, enabled, sortOrder);
     thr.detach();
 }
 
@@ -137,14 +138,14 @@ void DexDB::editCurrencies(const std::list<CurrencyInfo> &list)
     if (currencies.size() == list.size()) {
         currencies = list;
     }
-    std::thread thr(editCurrenciesInThread, std::ref(db), std::ref(callBack), list);
+    boost::thread thr(editCurrenciesInThread, boost::ref(db), boost::ref(callBack), list);
     thr.detach();
 }
 
 void DexDB::deleteCurrency(const std::string &iso)
 {
     currencies.remove_if([iso](CurrencyInfo c){return c.iso == iso;});
-    std::thread thr(deleteCurrencyInThread, std::ref(db), std::ref(callBack), iso);
+    boost::thread thr(deleteCurrencyInThread, boost::ref(db), boost::ref(callBack), iso);
     thr.detach();
 }
 
@@ -208,14 +209,14 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
 void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name, const std::string &description, const int &sortOrder)
 {
     payments.push_back({type, name, description});
-    std::thread thr(addPaymentMethodInThread, std::ref(db), std::ref(callBack), type, name, description, sortOrder);
+    boost::thread thr(addPaymentMethodInThread, boost::ref(db), boost::ref(callBack), type, name, description, sortOrder);
     thr.detach();
 }
 
 void DexDB::deletePaymentMethod(const unsigned char &type)
 {
     payments.remove_if([type](PaymentMethodInfo c){return c.type == type;});
-    std::thread thr(deletePaymentMethodInThread, std::ref(db), std::ref(callBack), type);
+    boost::thread thr(deletePaymentMethodInThread, boost::ref(db), boost::ref(callBack), type);
     thr.detach();
 }
 
@@ -270,19 +271,19 @@ PaymentMethodInfo DexDB::getPaymentMethodInfo(const unsigned char &type)
 
 void DexDB::addOfferSell(const OfferInfo &offer)
 {
-    std::thread thr(addOffer, std::ref(db), std::ref(callBack), "offersSell", offer);
+    boost::thread thr(addOffer, boost::ref(db), boost::ref(callBack), "offersSell", offer);
     thr.detach();
 }
 
 void DexDB::editOfferSell(const OfferInfo &offer)
 {
-    std::thread thr(editOffer, std::ref(db), std::ref(callBack), "offersSell", offer);
+    boost::thread thr(editOffer, boost::ref(db), boost::ref(callBack), "offersSell", offer);
     thr.detach();
 }
 
 void DexDB::deleteOfferSell(const uint256 &idTransaction)
 {
-    std::thread thr(deleteOffer, std::ref(db), std::ref(callBack), "offersSell", idTransaction);
+    boost::thread thr(deleteOffer, boost::ref(db), boost::ref(callBack), "offersSell", idTransaction);
     thr.detach();
 }
 
@@ -318,19 +319,19 @@ std::list<uint256> DexDB::getSellHashs()
 
 void DexDB::addOfferBuy(const OfferInfo &offer)
 {
-    std::thread thr(addOffer, std::ref(db), std::ref(callBack), "offersBuy", offer);
+    boost::thread thr(addOffer, boost::ref(db), boost::ref(callBack), "offersBuy", offer);
     thr.detach();
 }
 
 void DexDB::editOfferBuy(const OfferInfo &offer)
 {
-    std::thread thr(editOffer, std::ref(db), std::ref(callBack), "offersBuy", offer);
+    boost::thread thr(editOffer, boost::ref(db), boost::ref(callBack), "offersBuy", offer);
     thr.detach();
 }
 
 void DexDB::deleteOfferBuy(const uint256 &idTransaction)
 {
-    std::thread thr(deleteOffer, std::ref(db), std::ref(callBack), "offersBuy", idTransaction);
+    boost::thread thr(deleteOffer, boost::ref(db), boost::ref(callBack), "offersBuy", idTransaction);
     thr.detach();
 }
 
@@ -366,19 +367,19 @@ std::list<uint256> DexDB::getBuyHashs()
 
 void DexDB::addMyOffer(const MyOfferInfo &offer)
 {
-    std::thread thr(addMyOfferInThread, std::ref(db), std::ref(callBack), offer);
+    boost::thread thr(addMyOfferInThread, boost::ref(db), boost::ref(callBack), offer);
     thr.detach();
 }
 
 void DexDB::editMyOffer(const MyOfferInfo &offer)
 {
-    std::thread thr(editMyOfferInThread, std::ref(db), std::ref(callBack), offer);
+    boost::thread thr(editMyOfferInThread, boost::ref(db), boost::ref(callBack), offer);
     thr.detach();
 }
 
 void DexDB::deleteMyOffer(const uint256 &idTransaction)
 {
-    std::thread thr(deleteOffer, std::ref(db), std::ref(callBack), "myOffers", idTransaction);
+    boost::thread thr(deleteOffer, boost::ref(db), boost::ref(callBack), "myOffers", idTransaction);
     thr.detach();
 }
 
@@ -527,13 +528,13 @@ MyOfferInfo DexDB::getMyOffer(const uint256 &idTransaction)
 
 void DexDB::addFilter(const std::string &filter)
 {    
-    std::thread thr(addFilterInThread, std::ref(db), std::ref(callBack), filter);
+    boost::thread thr(addFilterInThread, boost::ref(db), boost::ref(callBack), filter);
     thr.detach();
 }
 
 void DexDB::deleteFilter(const std::string &filter)
 {
-    std::thread thr(deleteFilterInThread, std::ref(db), std::ref(callBack), filter);
+    boost::thread thr(deleteFilterInThread, boost::ref(db), boost::ref(callBack), filter);
     thr.detach();
 }
 
