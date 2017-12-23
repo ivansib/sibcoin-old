@@ -24,7 +24,7 @@ protected:
         quint64 num = value();
         if (num <= 0) {
             s = StepUpEnabled;
-        } else if (num >= 9999999000000000000) {
+        } else if (num >= 9999999000000000000ULL) {
             s = StepDownEnabled;
         } else {
             s = StepUpEnabled | StepDownEnabled;
