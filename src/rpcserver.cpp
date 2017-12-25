@@ -417,6 +417,7 @@ static const CRPCCommand vRPCCommands[] =
 
 #ifdef ENABLE_DEX
     { "dex",                "dexoffers",              &dexoffers,              true  },
+    { "dex",                "dexmyoffers",            &dexmyoffers,            true  },
 #endif // ENABLE_DEX
 };
 
