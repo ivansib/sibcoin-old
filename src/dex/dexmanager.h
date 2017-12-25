@@ -26,6 +26,7 @@ public:
 
     void sendNewOffer(const CDexOffer &offer);
     void checkUncOffers();
+    void setStatusExpiredForMyOffers();
     void deleteOldUncOffers();
     void deleteOldOffers();
 
