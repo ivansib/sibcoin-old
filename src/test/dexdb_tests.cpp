@@ -233,6 +233,9 @@ void checkOffers(DexDB &db)
     cb.init();
     db.setCallBack(&cb);
 
+    long int currentTime = static_cast<long int>(time(NULL));
+    int secInDay = 86400;
+
     OfferInfo info;
     info.pubKey = GetRandHash();
     info.hash = GetRandHash();
@@ -243,8 +246,8 @@ void checkOffers(DexDB &db)
     info.countryIso = "RU";
     info.currencyIso = "RUB";
     info.paymentMethod = 1;
-    info.timeCreate = 946688461;
-    info.timeToExpiration = 10;
+    info.timeCreate = currentTime - secInDay * 10;
+    info.timeToExpiration = 11;
 
     std::list<OfferInfo> iList;
     iList.push_back(info);
@@ -260,7 +263,7 @@ void checkOffers(DexDB &db)
     info.countryIso = "US";
     info.currencyIso = "USD";
     info.paymentMethod = 128;
-    info.timeCreate = 996688461;
+    info.timeCreate = currentTime - secInDay * 20;
     info.timeToExpiration = 15;
 
     iList.push_back(info);
@@ -276,7 +279,7 @@ void checkOffers(DexDB &db)
     info.countryIso = "UA";
     info.currencyIso = "UAN";
     info.paymentMethod = 128;
-    info.timeCreate = 996998461;
+    info.timeCreate = currentTime - secInDay * 13;
     info.timeToExpiration = 9;
 
     iList.push_back(info);
@@ -336,8 +339,8 @@ void checkOffers(DexDB &db)
     info1.countryIso = "AF";
     info1.currencyIso = "AFN";
     info1.paymentMethod = 200;
-    info1.timeCreate = 333333;
-    info1.timeToExpiration = 3333;
+    info1.timeCreate = currentTime - secInDay * 33;
+    info1.timeToExpiration = 30;
 
     db.editOfferSell(info1);
 
@@ -348,8 +351,8 @@ void checkOffers(DexDB &db)
     info2.countryIso = "AX";
     info2.currencyIso = "EUR";
     info2.paymentMethod = 150;
-    info2.timeCreate = 4444;
-    info2.timeToExpiration = 44444;
+    info2.timeCreate = currentTime - secInDay * 3;
+    info2.timeToExpiration = 1;
 
     db.editOfferBuy(info2);
 
@@ -459,6 +462,34 @@ void checkOffers(DexDB &db)
         BOOST_CHECK(buy.timeCreate == item.timeCreate);
         BOOST_CHECK(buy.timeToExpiration == item.timeToExpiration);
     }
+
+    cb.init();
+
+    db.deleteOldOffersSell();
+    db.deleteOldOffersBuy();
+
+    step = 0;
+    while (true) {
+        MilliSleep(100);
+        if (cb.getDeleteOffersBuy() == 1 && cb.getDeleteOffersSell() == 1) {
+            break;
+        }
+
+        step++;
+
+        if (step >= 1000) {
+            BOOST_CHECK(false);
+            break;
+        }
+    }
+
+    list = db.getOffersSell();
+
+    BOOST_CHECK(list.empty());
+
+    list = db.getOffersBuy();
+
+    BOOST_CHECK(list.empty());
 }
 
 void checkMyOffers(DexDB &db)
@@ -466,6 +497,9 @@ void checkMyOffers(DexDB &db)
     CallBackMyOffers cb;
     cb.init();
     db.setCallBack(&cb);
+
+    long int currentTime = static_cast<long int>(time(NULL));
+    int secInDay = 86400;
 
     MyOfferInfo info;
     info.pubKey = GetRandHash();
@@ -479,7 +513,7 @@ void checkMyOffers(DexDB &db)
     info.countryIso = "RU";
     info.currencyIso = "RUB";
     info.paymentMethod = 1;
-    info.timeCreate = 946688461;
+    info.timeCreate = currentTime - secInDay * 15;
     info.timeToExpiration = 10;
 
     std::list<MyOfferInfo> iList;
@@ -497,7 +531,7 @@ void checkMyOffers(DexDB &db)
     info.countryIso = "US";
     info.currencyIso = "USD";
     info.paymentMethod = 128;
-    info.timeCreate = 996688461;
+    info.timeCreate = currentTime - secInDay * 33;
     info.timeToExpiration = 15;
 
     iList.push_back(info);
@@ -514,7 +548,7 @@ void checkMyOffers(DexDB &db)
     info.countryIso = "UA";
     info.currencyIso = "UAN";
     info.paymentMethod = 128;
-    info.timeCreate = 996998461;
+    info.timeCreate = currentTime - secInDay * 17;
     info.timeToExpiration = 9;
 
     iList.push_back(info);
@@ -573,8 +607,8 @@ void checkMyOffers(DexDB &db)
     info1.countryIso = "AF";
     info1.currencyIso = "AFN";
     info1.paymentMethod = 77;
-    info1.timeCreate = 333333;
-    info1.timeToExpiration = 3333;
+    info1.timeCreate = currentTime - secInDay * 3;
+    info1.timeToExpiration = 1;
 
     db.editMyOffer(info1);
 
@@ -626,6 +660,29 @@ void checkMyOffers(DexDB &db)
         BOOST_CHECK(offer.timeCreate == item.timeCreate);
         BOOST_CHECK(offer.timeToExpiration == item.timeToExpiration);
     }
+
+    cb.init();
+
+    db.deleteOldMyOffers();
+
+    step = 0;
+    while (true) {
+        MilliSleep(100);
+        if (cb.getDeleteOffers() == 1) {
+            break;
+        }
+
+        step++;
+
+        if (step >= 1000) {
+            BOOST_CHECK(false);
+            break;
+        }
+    }
+
+    list = db.getMyOffers();
+
+    BOOST_CHECK(list.empty());
 }
 
 BOOST_FIXTURE_TEST_SUITE(dexdb_tests, BasicTestingSetup)

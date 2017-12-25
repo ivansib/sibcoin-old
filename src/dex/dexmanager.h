@@ -27,6 +27,7 @@ public:
     void sendNewOffer(const CDexOffer &offer);
     void checkUncOffers();
     void deleteOldUncOffers();
+    void deleteOldOffers();
 
 private:
     DexDB *db;

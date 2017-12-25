@@ -93,6 +93,12 @@ void CDexManager::deleteOldUncOffers()
     uncOffers->deleteOldOffers();
 }
 
+void CDexManager::deleteOldOffers()
+{
+    db->deleteOldOffersBuy();
+    db->deleteOldOffersSell();
+}
+
 void CDexManager::sendHashOffers(CNode *pfrom) const
 {
     auto hashs = availableOfferHash();
@@ -276,7 +282,11 @@ void ThreadDexManager()
             dexman.deleteOldUncOffers();
         }
 
-        if (step == 3600) { // one hour
+        if (step % 3600 == 0) {
+            dexman.deleteOldOffers();
+        }
+
+        if (step == 3600) {
             step = 0;
         } else {
             step++;

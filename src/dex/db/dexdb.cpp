@@ -287,6 +287,12 @@ void DexDB::deleteOfferSell(const uint256 &idTransaction)
     thr.detach();
 }
 
+void DexDB::deleteOldOffersSell()
+{
+    boost::thread thr(deleteOldOffers, boost::ref(db), boost::ref(callBack), "offersSell");
+    thr.detach();
+}
+
 std::list<OfferInfo> DexDB::getOffersSell()
 {
     return getOffers("offersSell");
@@ -335,6 +341,12 @@ void DexDB::deleteOfferBuy(const uint256 &idTransaction)
     thr.detach();
 }
 
+void DexDB::deleteOldOffersBuy()
+{
+    boost::thread thr(deleteOldOffers, boost::ref(db), boost::ref(callBack), "offersBuy");
+    thr.detach();
+}
+
 std::list<OfferInfo> DexDB::getOffersBuy()
 {
     return getOffers("offersBuy");
@@ -380,6 +392,12 @@ void DexDB::editMyOffer(const MyOfferInfo &offer)
 void DexDB::deleteMyOffer(const uint256 &idTransaction)
 {
     boost::thread thr(deleteOffer, boost::ref(db), boost::ref(callBack), "myOffers", idTransaction);
+    thr.detach();
+}
+
+void DexDB::deleteOldMyOffers()
+{
+    boost::thread thr(deleteOldOffers, boost::ref(db), boost::ref(callBack), "myOffers");
     thr.detach();
 }
 
@@ -664,6 +682,27 @@ void DexDB::deleteOffer(sqlite3pp::database &db, const std::map<int, CallBackDB*
 
     sqlite3pp::command cmd(db, query.c_str());
     cmd.bind(1, idTransaction.GetHex(), sqlite3pp::copy);
+
+    int status = cmd.execute();
+    TypeTable tTable = OffersSell;
+    if (tableName == "offersBuy") {
+        tTable = OffersBuy;
+    } else if (tableName == "myOffers") {
+        tTable = MyOffers;
+    }
+
+    finishTableOperation(callBack, tTable, Delete, status);
+}
+
+void dex::DexDB::deleteOldOffers(sqlite3pp::database &db, const std::map<int, dex::CallBackDB *> &callBack, const std::string &tableName)
+{
+    std::string query = "DELETE FROM " + tableName + " WHERE timeCreate + timeToExpiration * 86400 <= :currentTime";
+
+    auto t = time(NULL);
+    long long int currentTime = static_cast<long long int>(time(NULL));
+    sqlite3pp::command cmd(db, query.c_str());
+
+    cmd.bind(":currentTime", currentTime);
 
     int status = cmd.execute();
     TypeTable tTable = OffersSell;
