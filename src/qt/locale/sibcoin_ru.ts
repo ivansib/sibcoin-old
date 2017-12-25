@@ -1783,9 +1783,9 @@ p, li { white-space: pre-wrap; }
         <source>days   </source>
         <translation>дней   </translation>
     </message>
-    <message>
+        <message>
         <source>Active</source>
-        <translation>Активно</translation>
+        <translation>Активен</translation>
     </message>
     <message>
         <source>Draft</source>
@@ -1793,15 +1793,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Expired</source>
-        <translation>Истекшее</translation>
+        <translation>Истекший</translation>
     </message>
     <message>
         <source>Cancelled</source>
-        <translation>Отменено</translation>
+        <translation>Отмененен</translation>
     </message>
     <message>
         <source>Suspended</source>
-        <translation>Приостановлено</translation>
+        <translation>Приостановлен</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Неподтвержден</translation>
     </message>
     <message>
         <source>Buy</source>
@@ -1888,7 +1892,54 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>OfferModel</name>
+    <name>OfferModelEditor</name>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Цена</translation>
+    </message>
+    <message>
+        <source>Short Info</source>
+        <translation>Краткая Информация</translation>
+    </message>
+    <message>
+        <source>Min Amount</source>
+        <translation>Мин. сумма</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Редактировать</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активен</translation>
+    </message>
+    <message>
+        <source>Draft</source>
+        <translation>Черновик</translation>
+    </message>
+    <message>
+        <source>Expired</source>
+        <translation>Истекший</translation>
+    </message>
+    <message>
+        <source>Cancelled</source>
+        <translation>Отмененен</translation>
+    </message>
+    <message>
+        <source>Suspended</source>
+        <translation>Приостановлен</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Неподтвержден</translation>
+    </message>
+</context>
+<context>
+    <name>OfferModelView</name>
     <message>
         <source>Price</source>
         <translation>Цена</translation>
@@ -1904,14 +1955,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>More Details</source>
         <translation>Больше Деталей</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation>Редактировать</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5524,18 +5567,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Валюта:</translation>
     </message>
     <message>
-        <source>All</source>
-        <translation>Все</translation>
-    </message>
-    <message>
-        <source>Buy</source>
-        <translation>Покупка</translation>
-    </message>
-    <message>
-        <source>Sell</source>
-        <translation>Продажа</translation>
-    </message>
-    <message>
         <source>Show</source>
         <translation>Подробнее</translation>
     </message>
@@ -5546,6 +5577,21 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Create</source>
         <translation>Создать</translation>
+    </message>
+</context>
+<context>
+    <name>TableOffersSubDialog</name>
+    <message>
+        <source>All</source>
+        <translation>Все</translation>
+    </message>
+    <message>
+        <source>Buy</source>
+        <translation>Покупка</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Продажа</translation>
     </message>
 </context>
 <context>

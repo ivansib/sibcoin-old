@@ -2131,37 +2131,34 @@ p, li { white-space: pre-wrap; }
         <translation>Details:</translation>
     </message>
     <message>
-        <location filename="../offerdetailseditor.cpp" line="+36"/>
         <source>Active</source>
         <translation>Active</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Draft</source>
         <translation>Draft</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Expired</source>
         <translation>Expired</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Cancelled</source>
         <translation>Cancelled</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Suspended</source>
         <translation>Suspended</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <source>Unconfirmed</source>
+        <translation>Unconfirmed</translation>
+    </message>
+    <message>
         <source>Buy</source>
         <translation>Buy</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Sell</source>
         <translation>Sell</translation>
     </message>
@@ -2239,36 +2236,69 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>OfferModel</name>
+    <name>OfferModelEditor</name>
     <message>
-        <location filename="../offermodel.cpp" line="+6"/>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
         <source>Price</source>
         <translation>Price</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Short Info</source>
         <translation>Short Info</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Min Amount</source>
-        <translation>Min amount</translation>
+        <translation>Min Amount</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>More Details</source>
-        <translation>More Details</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Edit</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location line="+100"/>
-        <source>Show</source>
-        <translation>Show</translation>
+        <source>Active</source>
+        <translation>Active</translation>
+    </message>
+    <message>
+        <source>Draft</source>
+        <translation>Draft</translation>
+    </message>
+    <message>
+        <source>Expired</source>
+        <translation>Expired</translation>
+    </message>
+    <message>
+        <source>Cancelled</source>
+        <translation>Cancelled</translation>
+    </message>
+    <message>
+        <source>Suspended</source>
+        <translation>Suspended</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Unconfirmed</translation>
+    </message>
+</context>
+<context>
+    <name>OfferModelView</name>
+    <message>
+        <source>Price</source>
+        <translation>Price</translation>
+    </message>
+    <message>
+        <source>Short Info</source>
+        <translation>Short Info</translation>
+    </message>
+    <message>
+        <source>Min Amount</source>
+        <translation>Min Amount</translation>
+    </message>
+    <message>
+        <source>More Details</source>
+        <translation>More Details</translation>
     </message>
 </context>
 <context>

@@ -698,7 +698,6 @@ void dex::DexDB::deleteOldOffers(sqlite3pp::database &db, const std::map<int, de
 {
     std::string query = "DELETE FROM " + tableName + " WHERE timeCreate + timeToExpiration * 86400 <= :currentTime";
 
-    auto t = time(NULL);
     long long int currentTime = static_cast<long long int>(time(NULL));
     sqlite3pp::command cmd(db, query.c_str());
 

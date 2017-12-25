@@ -74,6 +74,7 @@ void TableOffersSubDialog::init()
     changedFilterCountryIso(0);
     changedFilterCurrencyIso(0);
     changedFilterPaymentMethod(0);
+    changedFilterOfferType(0);
 }
 
 QString TableOffersSubDialog::currentCountry() const

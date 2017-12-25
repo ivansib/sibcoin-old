@@ -4,6 +4,7 @@
 #include "offermodel.h"
 
 class OfferModelView : public OfferModel<QtOfferInfo> {
+    Q_OBJECT
 public:
     OfferModelView(QObject *parent = nullptr);
 

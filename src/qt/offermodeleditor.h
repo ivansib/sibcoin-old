@@ -4,6 +4,7 @@
 #include "offermodel.h"
 
 class OfferModelEditor : public OfferModel<QtMyOfferInfo> {
+    Q_OBJECT
 public:
     OfferModelEditor(QObject *parent = nullptr);
 
