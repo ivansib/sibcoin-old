@@ -6,6 +6,7 @@
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
 #include "db/paymentmethodtype.h"
+#include <univalue.h>
 
 
 const char * OFFER_TYPE_BUY  =  "buy";
@@ -325,3 +326,25 @@ bool CDexOffer::Check(bool fullcheck)
     SetNull();
     return false;
 }
+
+
+UniValue CDexOffer::getUniValue()
+{
+    UniValue result(UniValue::VOBJ);
+    result.push_back(Pair("type", type));
+    result.push_back(Pair("idTransaction", idTransaction.GetHex()));
+    result.push_back(Pair("hash", hash.GetHex()));
+    result.push_back(Pair("countryIso", countryIso));
+    result.push_back(Pair("currencyIso", currencyIso));
+    result.push_back(Pair("paymentMethod", paymentMethod));
+    result.push_back(Pair("price", price));
+    result.push_back(Pair("minAmount", minAmount));
+    result.push_back(Pair("timeCreate", timeCreate));
+    result.push_back(Pair("timeExpiration", timeExpiration));
+    result.push_back(Pair("shortInfo", shortInfo));
+    result.push_back(Pair("details", details));
+    return result;
+}
+
+
+

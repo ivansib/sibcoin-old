@@ -297,8 +297,7 @@ extern UniValue invalidateblock(const UniValue& params, bool fHelp);
 extern UniValue reconsiderblock(const UniValue& params, bool fHelp);
 extern UniValue getspentinfo(const UniValue& params, bool fHelp);
 
-extern UniValue dexoffer(const UniValue& params, bool fHelp);
-extern UniValue payoffertx(const UniValue& params, bool fHelp);
+extern UniValue dexoffers(const UniValue& params, bool fHelp);
 
 bool StartRPC();
 void InterruptRPC();
