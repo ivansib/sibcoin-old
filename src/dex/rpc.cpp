@@ -386,7 +386,6 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
     }
 
     std::list<dex::MyOfferInfo> myoffers = db.getMyOffers();
-    fprintf(stderr, "++++ size %d\n", myoffers.size());
     for (auto i : myoffers) {
         if (typefilter == "buy"   && i.type != dex::Buy) continue;
         if (typefilter == "sell"  && i.type != dex::Sell) continue;
