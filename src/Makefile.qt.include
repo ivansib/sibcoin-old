@@ -481,7 +481,7 @@ BITCOIN_QT_H += \
   qt/combobox.h \
   qt/pricespinbox.h \
   qt/offerdetailsview.h \
-  qt/offerdetailscretor.h \
+  qt/offerdetailscreator.h \
   qt/settingsdialog.h \
   qt/tablecountries.h \
   qt/countriesmodel.h \
