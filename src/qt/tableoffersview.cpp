@@ -43,12 +43,12 @@ void TableOffersView::clickedButton(const int &index)
 void TableOffersView::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
 {
     if (type == Buy) {
-        if (table == OffersBuy && (operation == Add || operation == Edit) && status == Ok) {
+        if (table == OffersBuy && (operation == Add || operation == Edit || operation == Delete) && status == Ok) {
             updateData();
             Q_EMIT dataChanged();
         }
     } else if (type == Sell) {
-        if (table == OffersSell && (operation == Add || operation == Edit) && status == Ok) {
+        if (table == OffersSell && (operation == Add || operation == Edit || operation == Delete) && status == Ok) {
             updateData();
             Q_EMIT dataChanged();
         }
