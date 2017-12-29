@@ -2,6 +2,7 @@
 #define OFFERDETAILSCREATOR_H
 
 #include "offerdetails.h"
+#include "walletmodel.h"
 
 class OfferDetailsCreator : public OfferDetails
 {
@@ -11,8 +12,11 @@ public:
     OfferDetailsCreator(DexDB *db, QDialog *parent = nullptr);
 
     void initData();
+    void setModel(WalletModel *model);
 
 private:
+    WalletModel *model;
+
     QtMyOfferInfo getMyOffer() const;
 
 protected Q_SLOTS:

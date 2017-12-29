@@ -18,10 +18,19 @@ void OfferDetailsCreator::initData()
     tEditDetails->setText("");
 }
 
+void OfferDetailsCreator::setModel(WalletModel *model)
+{
+    this->model = model;
+}
+
 QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
 {
     QtMyOfferInfo info;
-    info.pubKey = QString::fromUtf8(GetRandHash().GetHex().c_str());
+
+    CKey secret = model->generateNewKey();
+    CPubKey pubkey = secret.GetPubKey();
+    info.pubKey = QString::fromUtf8(pubkey.GetHash().GetHex().c_str());
+
     info.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
     info.countryIso = cBoxCountry->currentData().toString();
     info.currencyIso = cBoxCurrency->currentData().toString();

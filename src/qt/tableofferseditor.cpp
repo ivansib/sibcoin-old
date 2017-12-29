@@ -38,6 +38,12 @@ TableOffersEditor::~TableOffersEditor()
 
 }
 
+void TableOffersEditor::setModel(WalletModel *model)
+{
+    this->model = model;
+    creator->setModel(model);
+}
+
 void TableOffersEditor::updateData()
 {
     QList<QtMyOfferInfo> offers = ConvertData::toListQtMyOfferInfo(db->getMyOffers());

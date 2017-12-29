@@ -44,6 +44,12 @@ ExchangeDialog::~ExchangeDialog()
     delete ui;
 }
 
+void ExchangeDialog::setModel(WalletModel *model)
+{
+    this->model = model;
+    tableMyOffers->setModel(model);
+}
+
 void ExchangeDialog::currentPageBuy()
 {
     ui->stackedWidget->setCurrentWidget(tableBuy);

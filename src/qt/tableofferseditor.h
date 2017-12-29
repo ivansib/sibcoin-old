@@ -14,10 +14,13 @@ public:
     TableOffersEditor(DexDB *db, QDialog *parent = nullptr);
     ~TableOffersEditor();
 
+    void setModel(WalletModel *model);
+
 private:
     OfferDetailsEditor *editor;
     OfferDetailsCreator *creator;
     CallBackDbForGui *callBack;
+    WalletModel *model;
 
     void updateData();
     void saveMyOffer(const MyOfferInfo &info);

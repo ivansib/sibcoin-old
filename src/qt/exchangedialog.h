@@ -7,6 +7,7 @@
 #include "settingsdialog.h"
 #include "dex/dexdb.h"
 #include "callbackdbforgui.h"
+#include "walletmodel.h"
 
 using namespace dex;
 
@@ -22,6 +23,8 @@ public:
     ExchangeDialog(QDialog *parent = nullptr);
     ~ExchangeDialog();
 
+    void setModel(WalletModel *model);
+
 private:
     Ui::ExchangeDialog *ui;
     TableOffersView *tableBuy;
@@ -32,6 +35,7 @@ private:
 
     DexDB *db;
     CallBackDbForGui *callback;
+    WalletModel *model;
 
 private Q_SLOTS:
     void currentPageBuy();

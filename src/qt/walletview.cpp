@@ -183,6 +183,10 @@ void WalletView::setWalletModel(WalletModel *walletModel)
     usedSendingAddressesPage->setModel(walletModel->getAddressTableModel());
     goodsPage->setModel(walletModel);
 
+#ifdef ENABLE_DEX
+    exchangePage->setModel(walletModel);
+#endif
+
     if (walletModel)
     {
         // Receive and pass through messages from wallet model
