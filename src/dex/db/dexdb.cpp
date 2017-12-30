@@ -28,6 +28,12 @@ DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
 
     createTables();
     addDefaultData();
+
+    if (isDexDbOutdated()) {
+        dropTables();
+        createTables();
+        addDefaultData();
+    }
 }
 
 void DexDB::setCallBack(CallBackDB *callBack)
@@ -48,6 +54,31 @@ CallBackDB *DexDB::getCallBack() const
     }
 
     return nullptr;
+}
+
+bool DexDB::isDexDbOutdated()
+{
+    sqlite3pp::query qry(db, "SELECT version FROM dbversion");
+    sqlite3pp::query::iterator i = qry.begin();
+
+    int iDBversion = 0; 
+    std::tie(iDBversion) = (*i).get_columns<int>(0);
+
+    if (dex::uiDexDBversionInCode != (unsigned int)iDBversion)
+        return true;  // dex DB version is old!
+    else
+       return false;
+}
+
+void DexDB::dropTables()
+{
+    db.execute("DROP TABLE IF EXISTS dbversion");
+    db.execute("DROP TABLE IF EXISTS countries");
+    db.execute("DROP TABLE IF EXISTS currencies");
+    db.execute("DROP TABLE IF EXISTS paymentMethods");
+    db.execute("DROP TABLE IF EXISTS myOffers");
+    db.execute("DROP TABLE IF EXISTS offersSell");
+    db.execute("DROP TABLE IF EXISTS offersBuy");
 }
 
 void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
@@ -1096,6 +1127,7 @@ void DexDB::finishTableOperation(const std::map<int, CallBackDB *> &callBack, co
 
 void DexDB::createTables()
 {
+    db.execute("CREATE TABLE IF NOT EXISTS dbversion (version BIG INT)");
     db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT, sortOrder INT)");
     db.execute("CREATE TABLE IF NOT EXISTS currencies (id INTEGER PRIMARY KEY, iso VARCHAR(3) UNIQUE, name VARCHAR(100), "
                "symbol VARCHAR(10), enabled BOOLEAN, sortOrder INT)");
@@ -1123,7 +1155,12 @@ void DexDB::addDefaultData()
     isGetCurrenciesDataFromDB = true;
     isGetPaymentsDataFromDB = true;
 
-    int count = tableCount("currencies");
+    int count = tableCount("dbversion");
+    if (count <= 0) {
+        addDbVersion(dex::uiDexDBversionInCode); 
+    }
+
+    count = tableCount("currencies");
     if (count <= 0) {
         std::list<DefaultCurrency> currencies = def.dataCurrencies();
         currencies.sort([](const DefaultCurrency &first, const DefaultCurrency &second) {return first.sortOrder < second.sortOrder;});
@@ -1160,6 +1197,13 @@ void DexDB::addDefaultData()
 //    if (count <= 0) {
 //        createTestOffers();
 //    }
+}
+
+void DexDB::addDbVersion(const int& uiDexDbVersion)
+{
+    sqlite3pp::command cmd(db, "INSERT INTO dbversion (version) VALUES (?)");
+    cmd.bind(1, uiDexDbVersion);
+    cmd.execute();
 }
 
 int DexDB::tableCount(const std::string &tableName)
