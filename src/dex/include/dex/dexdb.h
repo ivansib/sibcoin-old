@@ -9,6 +9,9 @@
 
 namespace dex {
 
+// Please update this DB version number if you change DB schema
+const unsigned int uiDexDBversionInCode = 1000;
+
 class DexDB {
 public:
     DexDB(const boost::filesystem::path &path, CallBackDB *callback = nullptr);
@@ -121,6 +124,9 @@ private:
     bool isGetCountriesDataFromDB;
     bool isGetCurrenciesDataFromDB;
     bool isGetPaymentsDataFromDB;
+    void addDbVersion(const int& uiDexDbVersion);
+    bool isDexDbOutdated();
+    void dropTables();
 
     void createTestOffers(); // NOTE: for test
 };
