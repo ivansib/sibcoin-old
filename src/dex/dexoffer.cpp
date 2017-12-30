@@ -334,6 +334,7 @@ UniValue CDexOffer::getUniValue()
     result.push_back(Pair("type", type));
     result.push_back(Pair("idTransaction", idTransaction.GetHex()));
     result.push_back(Pair("hash", hash.GetHex()));
+    result.push_back(Pair("pubKey", pubKey.GetHex()));
     result.push_back(Pair("countryIso", countryIso));
     result.push_back(Pair("currencyIso", currencyIso));
     result.push_back(Pair("paymentMethod", paymentMethod));

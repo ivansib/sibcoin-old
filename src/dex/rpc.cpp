@@ -245,3 +245,162 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
 
 
 
+
+UniValue dexmyoffers(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (fHelp || params.size() < 1 || params.size() > 5)
+        throw runtime_error(
+            "dexmyoffers [buy|sell|all] [country] [currency] [payment_method] [status]\n"
+            "Return a list of  DEX own offers.\n"
+
+            "\nArguments:\n"
+            "NOTE: Any of the parameters may be skipped.You must specify at least one parameter.\n"
+            "\tcountry         (string, optional) two-letter country code (ISO 3166-1 alpha-2 code).\n"
+            "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
+            "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
+            "\tstatus          (string, optional, case insensitive) offer status (Active,Draft,Expired,Cancelled,Suspended,Unconfirmed).\n"
+
+            "\nResult (for example):\n"
+            "[\n"
+            "   {\n"
+            "     \"type\"          : \"sell\",   offer type, buy or sell\n"
+            "     \"status\"        : \"1\",      offer status\n"
+            "     \"statusStr\"     : \"Draft\",  offer status name\n"
+            "     \"idTransaction\" : \"<id>\",   transaction with offer fee\n"
+            "     \"hash\"          : \"<hash>\", offer hash\n"
+            "     \"pubKey\"        : \"<key>\",  offer public key\n"
+            "     \"countryIso\"    : \"RU\",     country (ISO 3166-1 alpha-2)\n"
+            "     \"currencyIso\"   : \"RUB\",    currency (ISO 4217)\n"
+            "     \"paymentMethod\" : 1,        payment method code (default 1 - cash, 128 - online)\n"
+            "     \"price\"         : 10000,\n"
+            "     \"minAmount\"     : 1000,\n"
+            "     \"timeCreate\"    : 94766313939344,\n"
+            "     \"timeExpiration\": 10,       offer expiration (in days)\n"
+            "     \"shortInfo\"     : \"...\",    offer short info (max 140 bytes)\n"
+            "     \"details\"       : \"...\"     offer details (max 1024 bytes)\n"
+            "   },\n"
+            "   ...\n"
+            "]\n"
+
+            "\nExamples:\n"
+            + HelpExampleCli("dexmyoffers", "all USD")
+            + HelpExampleCli("dexmyoffers", "RU RUB cash")
+            + HelpExampleCli("dexmyoffers", "all USD online")
+        );
+
+    UniValue result(UniValue::VARR);
+
+    std::string typefilter, countryfilter, currencyfilter, methodfilter;
+    std::string statusfilter = "*";
+    int statusval = -1;
+    unsigned char methodfiltertype = 0;
+    std::list<std::string> words {"buy", "sell", "all"};
+    std::vector<std::string> statuses { "active","draft","expired","cancelled","suspended","unconfirmed"};
+    dex::CountryIso  countryiso;
+    dex::CurrencyIso currencyiso;
+    dex::DexDB db(strDexDbFile);
+
+    for (size_t i = 0; i < params.size(); i++) {
+        if (i == 0 && typefilter.empty()) {
+            if (std::find(words.begin(), words.end(), params[0].get_str()) != words.end()) {
+                typefilter = params[0].get_str();
+                continue;
+            } else {
+                typefilter = "all";
+            }
+        }
+        if (i < 2 && countryfilter.empty()) {
+            if (countryiso.isValid(params[i].get_str())) {
+                countryfilter = params[i].get_str();
+                continue;
+            } else {
+                countryfilter = "*";
+            }
+        }
+        if (i < 3 && currencyfilter.empty()) {
+            if (currencyiso.isValid(params[i].get_str())) {
+                currencyfilter = params[i].get_str();
+                continue;
+            } else {
+                currencyfilter = "*";
+            }
+        }
+
+        if (methodfilter.empty()) {
+            std::string methodname = boost::algorithm::to_lower_copy(params[i].get_str());
+            std::list<dex::PaymentMethodInfo> pms = db.getPaymentMethodsInfo();
+            for (auto j : pms) {
+                std::string name = boost::algorithm::to_lower_copy(j.name);
+                if (name == methodname) {
+                    methodfilter = j.name;
+                    methodfiltertype = j.type;
+                    continue;
+                }
+            }
+        }
+
+        {
+            statusfilter.clear();
+            std::string statusname = boost::algorithm::to_lower_copy(params[i].get_str());
+            for (size_t j = 0; j < statuses.size(); j++) {
+                if (statuses[j] == statusname)  {
+                    statusfilter = statusname;
+                    statusval = j;
+                    continue;
+                }
+            }
+
+            if (statusfilter.empty()) {
+                throw runtime_error("\nwrong parameter: " + params[i].get_str() + "\n");
+            }
+        }
+    }
+
+    if (currencyfilter.empty()) currencyfilter = "*";
+    if ( countryfilter.empty()) countryfilter  = "*";
+    if (  methodfilter.empty()) methodfilter   = "*";
+
+
+    if (countryfilter.empty() || currencyfilter.empty() || typefilter.empty() || methodfilter.empty() || statusfilter.empty()) {
+        throw runtime_error("\nwrong parameters\n");
+    }
+
+    // check country and currency in DB
+    if (countryfilter != "*") {
+        dex::CountryInfo  countryinfo = db.getCountryInfo(countryfilter);
+        if (!countryinfo.enabled) {
+            throw runtime_error("\nERROR: this country is disabled in DB\n");
+        }
+    }
+    if (currencyfilter != "*") {
+        dex::CurrencyInfo  currencyinfo = db.getCurrencyInfo(currencyfilter);
+        if (!currencyinfo.enabled) {
+            throw runtime_error("\nERROR: this currency is disabled in DB\n");
+        }
+    }
+
+    std::list<dex::MyOfferInfo> myoffers = db.getMyOffers();
+    for (auto i : myoffers) {
+        if (typefilter == "buy"   && i.type != dex::Buy) continue;
+        if (typefilter == "sell"  && i.type != dex::Sell) continue;
+        if (countryfilter != "*"  && countryfilter != i.countryIso) continue;
+        if (currencyfilter != "*" && currencyfilter != i.currencyIso) continue;
+        if (methodfilter != "*"   && methodfiltertype != i.paymentMethod) continue;
+        if (statusfilter != "*"   && statusval != i.status) continue;
+        CDexOffer o(i.getOfferInfo(), i.type);
+        UniValue v = o.getUniValue();
+        v.push_back(Pair("status", i.status));
+        v.push_back(Pair("statusStr", statuses[i.status]));
+        result.push_back(v);
+    }
+    return result;
+}
+
+
+
