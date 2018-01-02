@@ -505,7 +505,7 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
         MyOfferInfo info;
         info.idTransaction.SetHex(idTransaction);
         info.hash.SetHex(hash);
-        info.pubKey.SetHex(pubKey);
+        info.pubKey = pubKey;
         info.countryIso = countryIso;
         info.currencyIso = currencyIso;
         info.paymentMethod = paymentMethod;
@@ -556,7 +556,7 @@ MyOfferInfo DexDB::getMyOffer(const uint256 &idTransaction)
     MyOfferInfo info;
     info.idTransaction = idTransaction;
     info.hash.SetHex(hash);
-    info.pubKey.SetHex(pubKey);
+    info.pubKey = pubKey;
     info.countryIso = countryIso;
     info.currencyIso = currencyIso;
     info.paymentMethod = paymentMethod;
@@ -691,11 +691,10 @@ void DexDB::bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer)
 {
     std::string idTransaction = offer.idTransaction.GetHex();
     std::string hash = offer.hash.GetHex();
-    std::string pubKey = offer.pubKey.GetHex();
 
     cmd.bind(":idTransaction", idTransaction, sqlite3pp::copy);
     cmd.bind(":hash", hash, sqlite3pp::copy);
-    cmd.bind(":pubKey", pubKey, sqlite3pp::copy);
+    cmd.bind(":pubKey", offer.pubKey, sqlite3pp::copy);
     cmd.bind(":countryIso", offer.countryIso, sqlite3pp::nocopy);
     cmd.bind(":currencyIso", offer.currencyIso, sqlite3pp::nocopy);
     cmd.bind(":paymentMethod", offer.paymentMethod);
@@ -776,7 +775,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
         OfferInfo info;
         info.idTransaction.SetHex(idTransaction);
         info.hash.SetHex(hash);
-        info.pubKey.SetHex(pubKey);
+        info.pubKey = pubKey;
         info.countryIso = countryIso;
         info.currencyIso = currencyIso;
         info.paymentMethod = paymentMethod;
@@ -865,7 +864,7 @@ OfferInfo DexDB::getOffer(const std::string &guery, int &status)
     OfferInfo info;
     info.idTransaction.SetHex(idTransaction);
     info.hash.SetHex(hash);
-    info.pubKey.SetHex(pubKey);
+    info.pubKey = pubKey;
     info.countryIso = countryIso;
     info.currencyIso = currencyIso;
     info.paymentMethod = paymentMethod;

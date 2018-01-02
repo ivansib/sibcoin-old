@@ -237,7 +237,7 @@ void checkOffers(DexDB &db)
     int secInDay = 86400;
 
     OfferInfo info;
-    info.pubKey = GetRandHash();
+    info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.price = 1234567;
@@ -254,7 +254,7 @@ void checkOffers(DexDB &db)
     db.addOfferBuy(info);
     db.addOfferSell(info);
 
-    info.pubKey = GetRandHash();
+    info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.price = 1555;
@@ -270,7 +270,7 @@ void checkOffers(DexDB &db)
     db.addOfferBuy(info);
     db.addOfferSell(info);
 
-    info.pubKey = GetRandHash();
+    info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.price = 133;
@@ -502,7 +502,7 @@ void checkMyOffers(DexDB &db)
     int secInDay = 86400;
 
     MyOfferInfo info;
-    info.pubKey = GetRandHash();
+    info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.type = Buy;
@@ -520,7 +520,7 @@ void checkMyOffers(DexDB &db)
     iList.push_back(info);
     db.addMyOffer(info);
 
-    info.pubKey = GetRandHash();
+    info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.type = Buy;
@@ -537,7 +537,7 @@ void checkMyOffers(DexDB &db)
     iList.push_back(info);
     db.addMyOffer(info);
 
-    info.pubKey = GetRandHash();
+    info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
     info.idTransaction = GetRandHash();
     info.type = Sell;

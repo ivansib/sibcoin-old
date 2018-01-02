@@ -8,7 +8,7 @@ QtOfferInfo ConvertData::toQtOfferInfo(const OfferInfo &offer)
 
     qtOffer.idTransaction = QString::fromUtf8(offer.idTransaction.GetHex().c_str());
     qtOffer.hash = QString::fromUtf8(offer.hash.GetHex().c_str());
-    qtOffer.pubKey = QString::fromUtf8(offer.pubKey.GetHex().c_str());
+    qtOffer.pubKey = QString::fromUtf8(offer.pubKey.c_str());
     qtOffer.countryIso = QString::fromUtf8(offer.countryIso.c_str());
     qtOffer.currencyIso = QString::fromUtf8(offer.currencyIso.c_str());
     qtOffer.paymentMethod = offer.paymentMethod;
@@ -39,7 +39,7 @@ OfferInfo ConvertData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
 
     offer.idTransaction.SetHex(qtOffer.idTransaction.toUtf8().constData());
     offer.hash.SetHex(qtOffer.hash.toUtf8().constData());
-    offer.pubKey.SetHex(qtOffer.pubKey.toUtf8().constData());
+    offer.pubKey = qtOffer.pubKey.toUtf8().constData();
     offer.countryIso = qtOffer.countryIso.toUtf8().constData();
     offer.currencyIso = qtOffer.currencyIso.toUtf8().constData();
     offer.paymentMethod = qtOffer.paymentMethod;
