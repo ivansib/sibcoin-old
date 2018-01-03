@@ -1,16 +1,21 @@
 #include "offerdetails.h"
 #include "convertdata.h"
 
-OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDialog(parent), db(db), type(type)
+OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDialog(parent), db(db), type(type), expirations(QList<int>() << 10 << 20 << 30)
 {
     setupUi(this);
 
     updateNavigationData();
 
+
+    for (auto item : expirations) {
+        cBoxExpiration->addItem(QString::number(item));
+    }
+
     connect(btnSend, &QPushButton::clicked, this, &OfferDetails::sendData);
     connect(btnSaveDraft, &QPushButton::clicked, this, &OfferDetails::saveData);
     connect(btnCancel, &QPushButton::clicked, this, &OfferDetails::close);
-    connect(sBoxExpiration, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &OfferDetails::changedTimeToExpiration);
+    connect(cBoxExpiration, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OfferDetails::changedTimeToExpiration);
     connect(tEditShortInfo, &QTextEdit::textChanged, this, &OfferDetails::changedShortInfo);
 
     initMode();
@@ -78,7 +83,7 @@ void OfferDetails::changedTimeToExpiration(const int &i)
         timeCreate = QDateTime::currentDateTime();
     }
 
-    QDateTime timeExpiration = timeCreate.addDays(i);
+    QDateTime timeExpiration = timeCreate.addDays(expirations[i]);
     lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
 }
 

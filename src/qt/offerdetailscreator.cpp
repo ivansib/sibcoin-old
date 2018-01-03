@@ -13,9 +13,11 @@ void OfferDetailsCreator::initData()
     cBoxPayment->setCurrentIndex(0);
     sBoxPrice->setValue(0);
     sBoxMinAmount->setValue(0);
-    sBoxExpiration->setValue(10);
+    cBoxExpiration->setCurrentIndex(0);
     tEditShortInfo->setText("");
     tEditDetails->setText("");
+
+    changedTimeToExpiration(0);
 }
 
 void OfferDetailsCreator::setModel(WalletModel *model)
@@ -38,7 +40,7 @@ QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
     info.price = sBoxPrice->value();
     info.minAmount = sBoxMinAmount->value();
     info.timeCreate = QDateTime::currentDateTime().toTime_t();
-    info.timeToExpiration = sBoxExpiration->value();
+    info.timeToExpiration = cBoxExpiration->currentText().toInt();
     info.shortInfo = tEditShortInfo->toPlainText();
     info.details = tEditDetails->toPlainText();
 

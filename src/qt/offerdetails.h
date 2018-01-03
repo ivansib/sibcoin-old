@@ -23,6 +23,8 @@ public:
     virtual ~OfferDetails();
 
 protected:
+    const QList<int> expirations;
+
     void isApproximateExpiration(const bool &b);
 
 private:
@@ -38,8 +40,9 @@ protected Q_SLOTS:
     virtual void saveData() = 0;
     virtual void sendData() = 0;
 
-private Q_SLOTS:
     void changedTimeToExpiration(const int &i);
+
+private Q_SLOTS:
     void changedShortInfo();
 
 Q_SIGNALS:

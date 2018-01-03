@@ -36,7 +36,8 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
     }
 
-    sBoxExpiration->setValue(info.timeToExpiration);
+    int index = expirations.indexOf(info.timeToExpiration);
+    cBoxExpiration->setCurrentIndex(index);
     tEditShortInfo->setText(info.shortInfo);
     tEditDetails->setText(info.details);
 }
@@ -97,7 +98,7 @@ void OfferDetailsEditor::updateMyOffer()
     offerInfo.price = sBoxPrice->value();
     offerInfo.minAmount = sBoxMinAmount->value();
     offerInfo.timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm").toTime_t();
-    offerInfo.timeToExpiration = sBoxExpiration->value();
+    offerInfo.timeToExpiration = cBoxExpiration->currentText().toInt();
     offerInfo.shortInfo = tEditShortInfo->toPlainText();
     offerInfo.details = tEditDetails->toPlainText();
 }
