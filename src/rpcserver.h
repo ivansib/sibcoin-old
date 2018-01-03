@@ -297,7 +297,10 @@ extern UniValue invalidateblock(const UniValue& params, bool fHelp);
 extern UniValue reconsiderblock(const UniValue& params, bool fHelp);
 extern UniValue getspentinfo(const UniValue& params, bool fHelp);
 
+#ifdef ENABLE_DEX
 extern UniValue dexoffers(const UniValue& params, bool fHelp);
+extern UniValue dexmyoffers(const UniValue& params, bool fHelp);
+#endif // ENABLE_DEX
 
 bool StartRPC();
 void InterruptRPC();

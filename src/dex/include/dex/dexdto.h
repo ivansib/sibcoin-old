@@ -27,7 +27,7 @@ struct PaymentMethodInfo {
 struct OfferInfo {
     uint256 idTransaction;
     uint256 hash;
-    uint256 pubKey;
+    std::string pubKey;
     std::string countryIso;
     std::string currencyIso;
     uint8_t paymentMethod;
