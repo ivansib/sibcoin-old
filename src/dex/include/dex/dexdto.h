@@ -37,6 +37,7 @@ struct OfferInfo {
     int timeToExpiration;
     std::string shortInfo;
     std::string details;
+    int editingVersion;
 };
 
 enum TypeOffer {
@@ -94,6 +95,7 @@ struct MyOfferInfo : OfferInfo {
         info.timeToExpiration = timeToExpiration;
         info.shortInfo = shortInfo;
         info.details = details;
+        info.editingVersion = editingVersion;
 
         return info;
     }
@@ -111,6 +113,7 @@ struct MyOfferInfo : OfferInfo {
         timeToExpiration = info.timeToExpiration;
         shortInfo = info.shortInfo;
         details = info.details;
+        editingVersion = info.editingVersion;
     }
 };
 

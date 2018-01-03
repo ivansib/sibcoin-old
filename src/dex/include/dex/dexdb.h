@@ -10,7 +10,7 @@
 namespace dex {
 
 // Please update this DB version number if you change DB schema
-const unsigned int uiDexDBversionInCode = 1000;
+const unsigned int uiDexDBversionInCode = 1001;
 
 class DexDB {
 public:
