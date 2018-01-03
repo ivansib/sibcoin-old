@@ -31,7 +31,10 @@ bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std:
 #ifdef ENABLE_WALLET
     do {
         CAmount curBalance = pwalletMain->GetBalance();
-        CHECK(curBalance >= (PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE), "Insufficient funds");
+
+        int coef = offer.timeExpiration / 10;
+
+        CHECK(curBalance >= (PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE * coef), "Insufficient funds");
 
         CScript scriptPubKey = CScript() << OP_RETURN << ParseHex(offer.hash.GetHex());
 
@@ -43,7 +46,7 @@ bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std:
         int nChangePosRet = -1;
         CRecipient recipient = {scriptPubKey, PAYOFFER_RETURN_FEE, false};
         vecSend.push_back(recipient);
-        dexPayTxFee = PAYOFFER_TX_FEE;
+        dexPayTxFee = PAYOFFER_TX_FEE * coef;
         CHECK(pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError), strError);
         CHECK(pwalletMain->CommitTransaction(wtxNew, reservekey), "Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
         newTx = wtxNew;
