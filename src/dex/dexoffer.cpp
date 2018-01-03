@@ -40,6 +40,7 @@ CDexOffer::CDexOffer(const CDexOffer &off)
     shortInfo        = off.shortInfo;
     details          = off.details;
     type             = off.type;
+    myoffer_         = off.myoffer_;
 }
 
 
@@ -61,6 +62,7 @@ CDexOffer::CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype)
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
     }
+    myoffer_ = false;
 }
 
 CDexOffer::CDexOffer(const dex::MyOfferInfo &info)
@@ -81,6 +83,7 @@ CDexOffer::CDexOffer(const dex::MyOfferInfo &info)
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
     }
+    myoffer_ = true;
 }
 
 
@@ -100,6 +103,7 @@ void CDexOffer::SetNull()
     timeExpiration = 0;
     shortInfo.clear();
     details.clear();
+    myoffer_ = false;
 }
 
 
@@ -138,6 +142,7 @@ bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::str
         return false;
     }
     hash = MakeHash();
+    myoffer_ = false;
     //LogPrintf("Create DexOffer\n%s\n", dump().c_str()); ///< for debug only
     return true;
 }
@@ -168,7 +173,9 @@ bool CDexOffer::Create(const dex::OfferInfo &info, dex::TypeOffer offertype)
     return true;
 }
 
-bool CDexOffer::Create(const dex::MyOfferInfo &info) {
+bool CDexOffer::Create(const dex::MyOfferInfo &info)
+{
+    myoffer_ = true;
     return Create(info.getOfferInfo(), info.type);
 }
 
@@ -214,6 +221,7 @@ CDexOffer& CDexOffer::operator=(const CDexOffer& off)
     shortInfo        = off.shortInfo;
     details          = off.details;
     type             = off.type;
+    myoffer_         = off.myoffer_;
     return *this;
 }
 
@@ -241,6 +249,11 @@ bool CDexOffer::isBuy() const
 bool CDexOffer::isSell() const
 {
     return type == OFFER_TYPE_SELL;
+}
+
+bool CDexOffer::isMyOffer() const
+{
+    return myoffer_;
 }
 
 
@@ -283,31 +296,30 @@ bool CDexOffer::Check(bool fullcheck)
             break;
         }
         if (fullcheck && hash.IsNull()) {
-            LogPrintf("DexOffer::Check(%s) error: hash is empty\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(transactionId %s) error: hash is empty\n", idTransaction.GetHex().c_str());
             break;
         }
         if (fullcheck && !getPubKeyObject().IsFullyValid()) {
-            LogPrintf("DexOffer::Check(%s) error: pubKey is invalid\n", idTransaction.GetHex().c_str());
-            break;
+            LogPrintf("DexOffer::Check(%s) error: pubKey is invalid\n", hash.GetHex().c_str());
         }
         if (fullcheck && hash != MakeHash()) {
-            LogPrintf("DexOffer::Check(%s) error: hash not equal\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: hash not equal\n", hash.GetHex().c_str());
             break;
         }
         if (countryIso.size() != 2) {
-            LogPrintf("DexOffer::Check(%s) error: wrong countryIso size\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: wrong countryIso size\n", hash.GetHex().c_str());
             break;
         }
         if (currencyIso.size() != 3) {
-            LogPrintf("DexOffer::Check(%s) error:  wrong currencyIso size\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error:  wrong currencyIso size\n", hash.GetHex().c_str());
             break;
         }
         if (shortInfo.size() > DEX_SHORT_INFO_LENGTH) {
-            LogPrintf("DexOffer::Check(%s) error: shortinfo string too long\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: shortinfo string too long\n", hash.GetHex().c_str());
             break;
         }
         if (details.size() > DEX_DETAILS_LENGTH) {
-            LogPrintf("DexOffer::Check(%s) error: details string too long\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: details string too long\n", hash.GetHex().c_str());
             break;
         }
         if (type.empty() || (type != OFFER_TYPE_BUY && type != OFFER_TYPE_SELL)) {
@@ -315,19 +327,19 @@ bool CDexOffer::Check(bool fullcheck)
             break;
         }
         if (!defaultCountryIso.isValid(countryIso)) {
-            LogPrintf("DexOffer::Check(%s) error: wrong countryIso code\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: wrong countryIso code\n", hash.GetHex().c_str());
             break;
         }
         if (!defaultCurrencyIso.isValid(currencyIso)) {
-            LogPrintf("DexOffer::Check(%s) error: wrong currencyIso code\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: wrong currencyIso code\n", hash.GetHex().c_str());
             break;
         }
         if (!defaultPaymentMethod.isValid(paymentMethod)) {
-            LogPrintf("DexOffer::Check(%s) error: wrong payment method\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: wrong payment method\n", hash.GetHex().c_str());
             break;
         }
         if (timeCreate + (timeExpiration * 86400) < (uint64_t)GetTime()) {
-            LogPrintf("DexOffer::Check(%s) error: offer expiration time out\n", idTransaction.GetHex().c_str());
+            LogPrintf("DexOffer::Check(%s) error: offer expiration time out\n", hash.GetHex().c_str());
             break;
         }
         return true;

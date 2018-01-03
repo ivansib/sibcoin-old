@@ -29,6 +29,7 @@
 
 using namespace std;
 
+
 /*
 
 UniValue testdexoffer(const UniValue& params, bool fHelp)
@@ -253,7 +254,6 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "To use this feture please enable -txindex and make -reindex.\n"
         );
     }
-
     if (fHelp || params.size() < 1 || params.size() > 5)
         throw runtime_error(
             "dexmyoffers [buy|sell|all] [country] [currency] [payment_method] [status]\n"
@@ -400,6 +400,78 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
         result.push_back(v);
     }
     return result;
+}
+
+
+
+
+UniValue deldexoffer(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "\ndeldexoffer <hash>\n\n"
+            "Delete offer from local DB and broadcast message.\n"
+            "To do this, you need a private key in a wallet that matches the public key in the offer.\n"
+
+            "\nArgument:\n"
+            "\thash         (string) offer hash, hex digest.\n"
+
+            "\nExample:\n"
+            + HelpExampleCli("deldexoffer", "AABB...CCDD")
+        );
+
+
+    std::string strOfferHash = params[0].get_str();
+    if (strOfferHash.empty()) {
+        throw runtime_error("\nERROR: offer hash is empty");
+    }
+
+    uint256 hash = uint256S(strOfferHash);
+    if (hash.IsNull()) {
+        throw runtime_error("\nERROR: offer hash error\n");
+    }
+
+    dex::DexDB db(strDexDbFile);
+
+    CDexOffer offer;
+    if (db.isExistMyOfferByHash(hash)) {
+        std::list<dex::MyOfferInfo> myoffers = db.getMyOffers();
+        for (auto i : myoffers) {
+            if (i.hash == hash) offer = CDexOffer(i);
+        }
+    } else if (db.isExistOfferBuyByHash(hash)) {
+        offer = CDexOffer(db.getOfferBuyByHash(hash), dex::Buy);
+    } else if (db.isExistOfferSellByHash(hash)) {
+        offer = CDexOffer(db.getOfferSellByHash(hash), dex::Sell);
+    } else {
+        throw runtime_error("\nERROR: offer not found\n");
+    }
+
+    CDex dex(offer);
+    std::string error;
+    std::vector<unsigned char> vchSign;
+    if (!dex.SignOffer(vchSign, error)) {
+        throw runtime_error(error.c_str());
+    }
+
+    if (offer.isMyOffer()) db.deleteMyOffer(offer.idTransaction);
+    if (offer.isBuy()) db.deleteOfferBuy(offer.idTransaction);
+    if (offer.isSell()) db.deleteOfferSell(offer.idTransaction);
+
+    LOCK2(cs_main, cs_vNodes);
+    BOOST_FOREACH(CNode* pNode, vNodes) {
+        pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+    }
+
+
+
+    return NullUniValue;
 }
 
 

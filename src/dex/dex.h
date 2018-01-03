@@ -50,6 +50,14 @@ public:
 
     // проверка транзакции 
     bool CheckOfferTx(std::string &sError);
+    
+    // проверка подписи оффера публичным ключем
+    bool CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError);
+
+    // подписать оффер приватным ключем
+    bool SignOffer(std::vector<unsigned char> &vchSign, std::string &sError);
+
+
 
     ADD_SERIALIZE_METHODS;
 

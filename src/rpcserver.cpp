@@ -418,7 +418,9 @@ static const CRPCCommand vRPCCommands[] =
 #ifdef ENABLE_DEX
     { "dex",                "dexoffers",              &dexoffers,              true  },
     { "dex",                "dexmyoffers",            &dexmyoffers,            true  },
+    { "dex",                "deldexoffer",            &deldexoffer,            true  },
 #endif // ENABLE_DEX
+
 };
 
 CRPCTable::CRPCTable()

@@ -39,6 +39,7 @@ private:
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
     void getOfferAndSaveInDb(CDataStream& vRecv);
     void getAndSendNewOffer(CNode* pfrom, CDataStream& vRecv);
+    void getAndDelOffer(CNode* pfrom, CDataStream& vRecv);
 
     std::list<uint256> availableOfferHash() const;
     CDexOffer getOfferInfo(const uint256 &hash) const;

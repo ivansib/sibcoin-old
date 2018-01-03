@@ -11,6 +11,10 @@
 #include "consensus/validation.h"
 #include "chainparams.h"
 
+#ifdef ENABLE_WALLET
+#include "wallet/wallet.h"
+#endif
+
 
 #define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrintf("%s", str.c_str()); sError += str; break; } }
 
@@ -117,4 +121,44 @@ bool CDex::CheckOfferTx(std::string &sError)
     } while(false);
     return false;
 }
+
+
+bool CDex::CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError)
+{
+    do {
+        CHECK(!offer.IsNull(), "Offer is empty");
+        CHECK(!vchSign.empty(), "Offer sign is empty");
+        std::vector<unsigned char>vchPubKey = ParseHex(offer.pubKey);
+        CPubKey pkey(vchPubKey);
+        CHECK(pkey.IsFullyValid(), "Invalid public key");
+        CHECK(pkey.Verify(offer.hash, vchSign), "Invalid offer sign");
+        return true;
+    } while (false);
+    return false;
+}
+
+
+bool CDex::SignOffer(std::vector<unsigned char> &vchSign, std::string &sError)
+{
+    vchSign.clear();
+#ifndef ENABLE_WALLET
+    sError = "wallet not enabled";
+    return false;
+#else
+    do {
+        CHECK(!offer.IsNull(), "Offer is empty");
+        std::vector<unsigned char>vchPubKey = ParseHex(offer.pubKey);
+        CPubKey pkey(vchPubKey);
+        CHECK(pkey.IsFullyValid(), "Invalid public key");
+        CHECK(pwalletMain->HaveKey(pkey.GetID()), "Private key not found in wallet");
+        CKey key;
+        CHECK(pwalletMain->GetKey(pkey.GetID(), key), "Private key not found in wallet");
+        CHECK(key.Sign(offer.hash, vchSign), "Sign operation error");
+        return true;
+    } while (false);
+    return false;
+#endif
+}
+
+
 
