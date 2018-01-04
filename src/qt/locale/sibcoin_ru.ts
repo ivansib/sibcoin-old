@@ -1649,6 +1649,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OfferDetails</name>
     <message>
+        <source>Buy</source>
+        <translation>Покупка</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Продажа</translation>
+    </message>
+</context>
+<context>
+    <name>OfferDetailsCreator</name>
+    <message>
         <source>Details</source>
         <translation>Детали</translation>
     </message>
@@ -1701,16 +1712,16 @@ p, li { white-space: pre-wrap; }
         <translation>Закрыть</translation>
     </message>
     <message>
-        <source>Approximate Time Expiration:</source>
-        <translation>Приблизительная Дата Истечения:</translation>
+        <source>days   Approximate Time Expiration:</source>
+        <translation>дней   Приблизительная Дата Истечения:</translation>
     </message>
     <message>
-        <source>Buy</source>
-        <translation>Покупка</translation>
+        <source>Time To Expiration:</source>
+        <translation>Период До Истечения:</translation>
     </message>
     <message>
-        <source>Sell</source>
-        <translation>Продажа</translation>
+        <source>Transaction Price:</source>
+        <translation>Цена Транзакции:</translation>
     </message>
 </context>
 <context>
@@ -1830,6 +1841,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Send</source>
         <translation>Отправить</translation>
+    </message>
+    <message>
+        <source>Transaction Price:</source>
+        <translation>Цена Транзакции:</translation>
     </message>
 </context>
 <context>

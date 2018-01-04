@@ -158,16 +158,9 @@
       <widget class="QComboBox" name="cBoxExpiration"/>
      </item>
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>days   </string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="lInfoExpiration">
        <property name="text">
-        <string>Approximate Time Expiration:</string>
+        <string>days   Approximate Time Expiration:</string>
        </property>
       </widget>
      </item>

@@ -1988,6 +1988,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OfferDetails</name>
     <message>
+        <source>Buy</source>
+        <translation>Buy</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Sell</translation>
+    </message>
+</context>
+<context>
+    <name>OfferDetailsCreator</name>
+    <message>
         <source>Details</source>
         <translation>Details</translation>
     </message>
@@ -2040,19 +2051,16 @@ p, li { white-space: pre-wrap; }
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="../offerdetails.cpp" line="+52"/>
-        <source>Approximate Time Expiration:</source>
-        <translation>Approximate Time Expiration:</translation>
+        <source>days   Approximate Time Expiration:</source>
+        <translation>days   Approximate Time Expiration:</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Buy</source>
-        <translation>Buy</translation>
+        <source>Time To Expiration:</source>
+        <translation>Time To Expiration:</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Sell</source>
-        <translation>Sell</translation>
+        <source>Transaction Price:</source>
+        <translation>Transaction Price:</translation>
     </message>
 </context>
 <context>
@@ -2173,6 +2181,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Send</source>
         <translation>Send</translation>
+    </message>
+    <message>
+        <source>Transaction Price:</source>
+        <translation>Transaction Price:</translation>
     </message>
 </context>
 <context>
