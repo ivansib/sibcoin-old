@@ -3,35 +3,62 @@
 
 #include <QDialog>
 #include <QDateTime>
+#include <QPushButton>
+#include <QComboBox>
+#include <QTextEdit>
+#include <QLabel>
+#include "combobox.h"
 #include "dex/dexdb.h"
+#include "dex/dex.h"
 #include "dto.h"
-#include "ui_offerdetailseditor.h"
+#include "amount.h"
+#include "walletmodel.h"
 
 using namespace dex;
 
-class OfferDetails : public QDialog, public Ui::OfferDetailsEditor
+class OfferDetails : public QDialog
 {
     Q_OBJECT
 
 public:
-    enum Type {
-        Edit,
-        Create
-    };
-
-    OfferDetails(DexDB *db, const Type &type, QDialog *parent = nullptr);
+    OfferDetails(DexDB *db, QDialog *parent = nullptr);
     virtual ~OfferDetails();
+
+    void setModel(WalletModel *model);
+
+    void addBtnSend(QPushButton *btn);
+    void addBtnSaveDraft(QPushButton *btn);
+    void addBtnCancel(QPushButton *btn);
+
+    void addCBoxOffer(QComboBox *cBox);
+    void addCBoxPayment(ComboBox *cBox);
+    void addCBoxCountry(ComboBox *cBox);
+    void addCBoxCurrency(ComboBox *cBox);
+
+    void addTEditShortInfo(QTextEdit *tEdit);
+
+    void addExpiration(QComboBox *cBox, QLabel *label);
+
+    void addLEditTransactionPrice(QLabel *label);
 
 protected:
     const QList<int> expirations;
+    DexDB *db;
+    WalletModel *model;
 
-    void isApproximateExpiration(const bool &b);
+    QStringList typeOffers() const;
 
 private:
-    DexDB *db;
-    const Type type;
+    QComboBox *boxOffer;
+    ComboBox *boxPayment;
+    ComboBox *boxCountry;
+    ComboBox *boxCurrency;
+    QTextEdit *editShortInfo;
 
-    void initMode();
+    QLabel *editTimeExpiration;
+    QLabel *editTransactionPrice;
+
+    CAmount transactionPrice(const int &coef) const;
 
 public Q_SLOTS:
     void updateNavigationData();

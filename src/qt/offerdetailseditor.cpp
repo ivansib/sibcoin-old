@@ -1,8 +1,29 @@
 #include "offerdetailseditor.h"
 
-OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetails(db, OfferDetails::Edit, parent)
+OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetails(db, parent)
 {
+    setupUi(this);
 
+    for (auto item : expirations) {
+        cBoxExpiration->addItem(QString::number(item));
+    }
+
+    addBtnSend(btnSend);
+    addBtnSaveDraft(btnSaveDraft);
+    addBtnCancel(btnCancel);
+
+    addCBoxOffer(cBoxOffer);
+    addCBoxPayment(cBoxPayment);
+    addCBoxCountry(cBoxCountry);
+    addCBoxCurrency(cBoxCurrency);
+
+    addTEditShortInfo(tEditShortInfo);
+
+    addExpiration(cBoxExpiration, lEditTimeExpiration);
+
+    addLEditTransactionPrice(lEditTransactionPrice);
+
+    updateNavigationData();
 }
 
 void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
@@ -34,10 +55,10 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         QDateTime timeExpiration = currentDate.addDays(info.timeToExpiration);
         lEditTimeCreate->setText(currentDate.toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+
+        changedTimeToExpiration(expirations.indexOf(info.timeToExpiration) + 1);
     }
 
-    int index = expirations.indexOf(info.timeToExpiration);
-    cBoxExpiration->setCurrentIndex(index);
     tEditShortInfo->setText(info.shortInfo);
     tEditDetails->setText(info.details);
 }
@@ -101,6 +122,15 @@ void OfferDetailsEditor::updateMyOffer()
     offerInfo.timeToExpiration = cBoxExpiration->currentText().toInt();
     offerInfo.shortInfo = tEditShortInfo->toPlainText();
     offerInfo.details = tEditDetails->toPlainText();
+}
+
+void OfferDetailsEditor::isApproximateExpiration(const bool &b)
+{
+    if (b) {
+        lInfoExpiration->setText(tr("Approximate Time Expiration:"));
+    } else {
+        lInfoExpiration->setText(tr("Time Expiration:"));
+    }
 }
 
 void OfferDetailsEditor::saveData()

@@ -1,99 +1,126 @@
 #include "offerdetails.h"
 #include "convertdata.h"
+#include "bitcoinunits.h"
+#include "optionsmodel.h"
 
-OfferDetails::OfferDetails(DexDB *db, const Type &type, QDialog *parent) : QDialog(parent), db(db), type(type), expirations(QList<int>() << 10 << 20 << 30)
+// NOTE: start here (use BitcoinUnits::formatWithUnit for view price)
+
+OfferDetails::OfferDetails(DexDB *db, QDialog *parent) : QDialog(parent), db(db), expirations(QList<int>() << 10 << 20 << 30)
 {
-    setupUi(this);
-
-    updateNavigationData();
-
-
-    for (auto item : expirations) {
-        cBoxExpiration->addItem(QString::number(item));
-    }
-
-    connect(btnSend, &QPushButton::clicked, this, &OfferDetails::sendData);
-    connect(btnSaveDraft, &QPushButton::clicked, this, &OfferDetails::saveData);
-    connect(btnCancel, &QPushButton::clicked, this, &OfferDetails::close);
-    connect(cBoxExpiration, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OfferDetails::changedTimeToExpiration);
-    connect(tEditShortInfo, &QTextEdit::textChanged, this, &OfferDetails::changedShortInfo);
-
-    initMode();
 }
 
 OfferDetails::~OfferDetails()
 {
 }
 
+void OfferDetails::setModel(WalletModel *model)
+{
+    this->model = model;
+}
+
+void OfferDetails::addBtnSend(QPushButton *btn)
+{
+    connect(btn, &QPushButton::clicked, this, &OfferDetails::sendData);
+}
+
+void OfferDetails::addBtnSaveDraft(QPushButton *btn)
+{
+    connect(btn, &QPushButton::clicked, this, &OfferDetails::saveData);
+}
+
+void OfferDetails::addBtnCancel(QPushButton *btn)
+{
+    connect(btn, &QPushButton::clicked, this, &OfferDetails::close);
+}
+
+void OfferDetails::addCBoxOffer(QComboBox *cBox)
+{
+    boxOffer = cBox;
+}
+
+void OfferDetails::addCBoxPayment(ComboBox *cBox)
+{
+    boxPayment = cBox;
+}
+
+void OfferDetails::addCBoxCountry(ComboBox *cBox)
+{
+    boxCountry = cBox;
+}
+
+void OfferDetails::addCBoxCurrency(ComboBox *cBox)
+{
+    boxCurrency = cBox;
+}
+
+void OfferDetails::addExpiration(QComboBox *cBox, QLabel *label)
+{
+    editTimeExpiration = label;
+
+    connect(cBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OfferDetails::changedTimeToExpiration);
+}
+
+void OfferDetails::addLEditTransactionPrice(QLabel *label)
+{
+    editTransactionPrice = label;
+}
+
+void OfferDetails::addTEditShortInfo(QTextEdit *tEdit)
+{
+    editShortInfo = tEdit;
+
+    connect(editShortInfo, &QTextEdit::textChanged, this, &OfferDetails::changedShortInfo);
+}
+
 void OfferDetails::updateNavigationData()
 {
+    boxOffer->addItems(typeOffers());
+
     auto payments = db->getPaymentMethodsInfo();
-    cBoxPayment->addData(payments, ComboBox::Editor);
+    boxPayment->addData(payments, ComboBox::Editor);
 
     auto countries = db->getCountriesInfo();
-    cBoxCountry->addData(countries, ComboBox::Editor);
+    boxCountry->addData(countries, ComboBox::Editor);
 
     auto currencies = db->getCurrenciesInfo();
-    cBoxCurrency->addData(currencies, ComboBox::Editor);
+    boxCurrency->addData(currencies, ComboBox::Editor);
 }
 
-void OfferDetails::initMode()
+QStringList OfferDetails::typeOffers() const
 {
-    if (type == Edit) {
-        delete lOffer;
-        delete cBoxOffer;
-    } else {
-        delete lPubKey;
-        delete lPubKeyView;
-        delete lIdTransaction;
-        delete lIdView;
-        delete lHash;
-        delete lHashView;
-        delete lStatus;
-        delete lStatusView;
-        delete lOfferInfo;
-        delete lOfferInfoView;
-        delete lTimeCreate;
-        delete lEditTimeCreate;
-
-        setWindowTitle("Create Offer");
-        isApproximateExpiration(true);
-
-        cBoxOffer->addItem(tr("Buy"));
-        cBoxOffer->addItem(tr("Sell"));
-    }
+    QStringList l;
+    l << tr("Buy") << tr("Sell");
+    return l;
 }
 
-void OfferDetails::isApproximateExpiration(const bool &b)
+CAmount OfferDetails::transactionPrice(const int &coef) const
 {
-    if (b) {
-        lInfoExpiration->setText(tr("Approximate Time Expiration:"));
-    } else {
-        lInfoExpiration->setText(tr("Time Expiration:"));
-    }
+    CAmount amount = PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE * coef;
+
+    return amount;
 }
 
 void OfferDetails::changedTimeToExpiration(const int &i)
 {
-    QDateTime timeCreate;
-
-    if (type == Edit) {
-        timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm");
-    } else {
-        timeCreate = QDateTime::currentDateTime();
-    }
-
+    QDateTime timeCreate = QDateTime::currentDateTime();
     QDateTime timeExpiration = timeCreate.addDays(expirations[i]);
-    lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+
+    editTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+
+    CAmount amount = transactionPrice(i + 1);
+
+    int nDisplayUnit = model->getOptionsModel()->getDisplayUnit();
+    QString strAmount(BitcoinUnits::formatWithUnit(nDisplayUnit, amount, true, BitcoinUnits::separatorAlways));
+    editTransactionPrice->setText(strAmount);
 }
 
 void OfferDetails::changedShortInfo()
 {
-    QString text = tEditShortInfo->toPlainText();
+    QString text = editShortInfo->toPlainText();
     int size = text.size();
 
     if (size > 140) {
-        tEditShortInfo->setText(text.mid(0, 140));
-        tEditShortInfo->moveCursor(QTextCursor::End);
+        editShortInfo->setText(text.mid(0, 140));
+        editShortInfo->moveCursor(QTextCursor::End);
     }
 }

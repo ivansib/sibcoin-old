@@ -30,6 +30,7 @@ QT_FORMS_UI = \
   qt/forms/signverifymessagedialog.ui \
   qt/forms/transactiondescdialog.ui \
   qt/forms/offerdetailsview.ui \
+  qt/forms/offerdetailscreator.ui \
   qt/forms/offerdetailseditor.ui \
   qt/forms/settingsdialog.ui \
   qt/forms/filterlist.ui \

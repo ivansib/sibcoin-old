@@ -1,9 +1,11 @@
 #ifndef OFFERDETAILSEDITOR_H
 #define OFFERDETAILSEDITOR_H
 
+#include <QDialog>
 #include "offerdetails.h"
+#include "ui_offerdetailseditor.h"
 
-class OfferDetailsEditor : public OfferDetails
+class OfferDetailsEditor : public OfferDetails, public Ui::OfferDetailsEditor
 {
     Q_OBJECT
 
@@ -17,6 +19,7 @@ private:
     QString offerType(const TypeOffer &s) const;
 
     void updateMyOffer();
+    void isApproximateExpiration(const bool &b);
 
     QtMyOfferInfo offerInfo;
 

@@ -69,6 +69,7 @@ QT_FORMS_UI = \
   forms/signverifymessagedialog.ui \
   forms/transactiondescdialog.ui \
   forms/offerdetailsview.ui \
+  forms/offerdetailscreator.ui \
   forms/offerdetailseditor.ui \
   forms/settingsdialog.ui \
   forms/filterlist.ui \

@@ -20,14 +20,14 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     updateData();
 
-    connect(editor, &OfferDetails::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
-    connect(editor, &OfferDetails::dataSend, this, &TableOffersEditor::sendMyOffer);
+    connect(editor, &OfferDetailsEditor::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
+    connect(editor, &OfferDetailsEditor::dataSend, this, &TableOffersEditor::sendMyOffer);
 
-    connect(creator, &OfferDetails::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
-    connect(creator, &OfferDetails::dataSend, this, &TableOffersEditor::sendMyOffer);
+    connect(creator, &OfferDetailsCreator::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
+    connect(creator, &OfferDetailsCreator::dataSend, this, &TableOffersEditor::sendMyOffer);
 
     connect(this, &TableOffersEditor::navigationDataUpdate, editor, &OfferDetailsEditor::updateNavigationData);
-    connect(this, &TableOffersEditor::navigationDataUpdate, creator, &OfferDetailsEditor::updateNavigationData);
+    connect(this, &TableOffersEditor::navigationDataUpdate, creator, &OfferDetailsCreator::updateNavigationData);
 
     useMyOfferMode(true);
     init();
@@ -42,6 +42,7 @@ void TableOffersEditor::setModel(WalletModel *model)
 {
     this->model = model;
     creator->setModel(model);
+    editor->setModel(model);
 }
 
 void TableOffersEditor::updateData()

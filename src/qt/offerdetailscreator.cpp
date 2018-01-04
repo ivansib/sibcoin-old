@@ -1,8 +1,30 @@
 #include "offerdetailscreator.h"
 #include "random.h"
 
-OfferDetailsCreator::OfferDetailsCreator(DexDB *db, QDialog *parent) : OfferDetails(db, OfferDetails::Create, parent)
+OfferDetailsCreator::OfferDetailsCreator(DexDB *db, QDialog *parent) : OfferDetails(db, parent)
 {
+    setupUi(this);
+
+    for (auto item : expirations) {
+        cBoxExpiration->addItem(QString::number(item));
+    }
+
+    addBtnSend(btnSend);
+    addBtnSaveDraft(btnSaveDraft);
+    addBtnCancel(btnCancel);
+
+    addCBoxOffer(cBoxOffer);
+    addCBoxPayment(cBoxPayment);
+    addCBoxCountry(cBoxCountry);
+    addCBoxCurrency(cBoxCurrency);
+
+    addTEditShortInfo(tEditShortInfo);
+
+    addExpiration(cBoxExpiration, lEditTimeExpiration);
+
+    addLEditTransactionPrice(lEditTransactionPrice);
+
+    updateNavigationData();
 }
 
 void OfferDetailsCreator::initData()
@@ -17,12 +39,8 @@ void OfferDetailsCreator::initData()
     tEditShortInfo->setText("");
     tEditDetails->setText("");
 
+    lEditTimeCreate->setText(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
     changedTimeToExpiration(0);
-}
-
-void OfferDetailsCreator::setModel(WalletModel *model)
-{
-    this->model = model;
 }
 
 QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
