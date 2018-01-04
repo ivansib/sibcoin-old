@@ -20,7 +20,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="lOffer">
      <property name="text">
-      <string>Offer:</string>
+      <string>Offer*:</string>
      </property>
     </widget>
    </item>
@@ -37,7 +37,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Country:</string>
+      <string>Country*:</string>
      </property>
     </widget>
    </item>
@@ -54,7 +54,7 @@
    <item row="2" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Currency:</string>
+      <string>Currency*:</string>
      </property>
     </widget>
    </item>
@@ -71,7 +71,7 @@
    <item row="3" column="0">
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Payment:</string>
+      <string>Payment*:</string>
      </property>
     </widget>
    </item>
@@ -105,7 +105,7 @@
    <item row="5" column="0">
     <widget class="QLabel" name="label_7">
      <property name="text">
-      <string>Min Amount:</string>
+      <string>Min Amount*:</string>
      </property>
     </widget>
    </item>
@@ -145,7 +145,7 @@
    <item row="7" column="0">
     <widget class="QLabel" name="label_9">
      <property name="text">
-      <string>Time To Expiration:</string>
+      <string>Time To Expiration*:</string>
      </property>
     </widget>
    </item>
@@ -212,19 +212,6 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
-    <widget class="QTextEdit" name="tEditDetails">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>3</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
    <item row="10" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -243,7 +230,7 @@
      </item>
     </layout>
    </item>
-   <item row="11" column="1">
+   <item row="12" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <spacer name="horizontalSpacer_2">
@@ -296,6 +283,31 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="9" column="1">
+    <widget class="QTextEdit" name="tEditDetails">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>3</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QLabel" name="lMessage">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>*These lines cannot be edited after sending</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -1660,44 +1660,36 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OfferDetailsCreator</name>
     <message>
-        <source>Details</source>
-        <translation>Детали</translation>
+        <source>Create Offer</source>
+        <translation>Создание Предложения</translation>
     </message>
     <message>
-        <source>Id Transaction:</source>
-        <translation>ID транзакции:</translation>
+        <source>Offer*:</source>
+        <translation>Предложение*:</translation>
     </message>
     <message>
-        <source>Hash:</source>
-        <translation>Хеш:</translation>
+        <source>Country*:</source>
+        <translation>Страна*:</translation>
     </message>
     <message>
-        <source>Country:</source>
-        <translation>Страна:</translation>
+        <source>Currency*:</source>
+        <translation>Валюта*:</translation>
     </message>
     <message>
-        <source>Currency:</source>
-        <translation>Валюта:</translation>
-    </message>
-    <message>
-        <source>Payment:</source>
-        <translation>Платеж:</translation>
+        <source>Payment*:</source>
+        <translation>Платеж*:</translation>
     </message>
     <message>
         <source>Price:</source>
         <translation>Цена:</translation>
     </message>
     <message>
-        <source>Min Amount:</source>
-        <translation>Мин. Сумма:</translation>
+        <source>Min Amount*:</source>
+        <translation>Мин. Сумма*:</translation>
     </message>
     <message>
         <source>Time Create:</source>
         <translation>Дата Создания:</translation>
-    </message>
-    <message>
-        <source>Time Expiration:</source>
-        <translation>Дата Истечения:</translation>
     </message>
     <message>
         <source>Short Info:</source>
@@ -1716,12 +1708,16 @@ p, li { white-space: pre-wrap; }
         <translation>дней   Приблизительная Дата Истечения:</translation>
     </message>
     <message>
-        <source>Time To Expiration:</source>
-        <translation>Период До Истечения:</translation>
+        <source>Time To Expiration*:</source>
+        <translation>Период До Истечения*:</translation>
     </message>
     <message>
         <source>Transaction Price:</source>
         <translation>Цена Транзакции:</translation>
+    </message>
+    <message>
+        <source>*These lines cannot be edited after sending</source>
+        <translation>*Эти строки не могут быть отредактированы после отправки</translation>
     </message>
 </context>
 <context>
@@ -1743,32 +1739,32 @@ p, li { white-space: pre-wrap; }
         <translation>Хеш:</translation>
     </message>
     <message>
-        <source>Country:</source>
-        <translation>Страна:</translation>
+        <source>Country*:</source>
+        <translation>Страна*:</translation>
     </message>
     <message>
-        <source>Currency:</source>
-        <translation>Валюта:</translation>
+        <source>Currency*:</source>
+        <translation>Валюта*:</translation>
     </message>
     <message>
-        <source>Payment:</source>
-        <translation>Платеж:</translation>
+        <source>Payment*:</source>
+        <translation>Платеж*:</translation>
     </message>
     <message>
         <source>Price:</source>
         <translation>Цена:</translation>
     </message>
     <message>
-        <source>Min Amount:</source>
-        <translation>Мин. Сумма:</translation>
+        <source>Min Amount*:</source>
+        <translation>Мин. Сумма*:</translation>
     </message>
     <message>
         <source>Time Create:</source>
         <translation>Дата Создания:</translation>
     </message>
     <message>
-        <source>Time To Expiration:</source>
-        <translation>Период До Истечения:</translation>
+        <source>Time To Expiration*:</source>
+        <translation>Период До Истечения*:</translation>
     </message>
     <message>
         <source>days     Time Expiration:</source>
@@ -1787,8 +1783,8 @@ p, li { white-space: pre-wrap; }
         <translation>Статус:</translation>
     </message>
     <message>
-        <source>Offer:</source>
-        <translation>Предложение:</translation>
+        <source>Offer*:</source>
+        <translation>Предложение*:</translation>
     </message>
     <message>
         <source>days   </source>
@@ -1845,6 +1841,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Transaction Price:</source>
         <translation>Цена Транзакции:</translation>
+    </message>
+    <message>
+        <source>*These lines cannot be edited after sending</source>
+        <translation>*Эти строки не могут быть отредактированы после отправки</translation>
     </message>
 </context>
 <context>

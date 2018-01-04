@@ -1999,44 +1999,36 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OfferDetailsCreator</name>
     <message>
-        <source>Details</source>
-        <translation>Details</translation>
+        <source>Create Offer</source>
+        <translation>Create Offer</translation>
     </message>
     <message>
-        <source>Id Transaction:</source>
-        <translation>Transaction ID:</translation>
+        <source>Offer*:</source>
+        <translation>Offer*:</translation>
     </message>
     <message>
-        <source>Hash:</source>
-        <translation>Hash:</translation>
+        <source>Country*:</source>
+        <translation>Country*:</translation>
     </message>
     <message>
-        <source>Country:</source>
-        <translation>Country:</translation>
+        <source>Currency*:</source>
+        <translation>Currency*:</translation>
     </message>
     <message>
-        <source>Currency:</source>
-        <translation>Currency:</translation>
-    </message>
-    <message>
-        <source>Payment:</source>
-        <translation>Payment:</translation>
+        <source>Payment*:</source>
+        <translation>Payment*:</translation>
     </message>
     <message>
         <source>Price:</source>
         <translation>Price:</translation>
     </message>
     <message>
-        <source>Min Amount:</source>
-        <translation>Min Amount:</translation>
+        <source>Min Amount*:</source>
+        <translation>Min Amount*:</translation>
     </message>
     <message>
         <source>Time Create:</source>
         <translation>Time Create:</translation>
-    </message>
-    <message>
-        <source>Time Expiration:</source>
-        <translation>Time Expiration:</translation>
     </message>
     <message>
         <source>Short Info:</source>
@@ -2055,12 +2047,16 @@ p, li { white-space: pre-wrap; }
         <translation>days   Approximate Time Expiration:</translation>
     </message>
     <message>
-        <source>Time To Expiration:</source>
-        <translation>Time To Expiration:</translation>
+        <source>Time To Expiration*:</source>
+        <translation>Time To Expiration*:</translation>
     </message>
     <message>
         <source>Transaction Price:</source>
         <translation>Transaction Price:</translation>
+    </message>
+    <message>
+        <source>*These lines cannot be edited after sending</source>
+        <translation>*These lines cannot be edited after sending</translation>
     </message>
 </context>
 <context>
@@ -2087,44 +2083,36 @@ p, li { white-space: pre-wrap; }
         <translation>Status:</translation>
     </message>
     <message>
-        <source>Offer:</source>
-        <translation>Offer:</translation>
+        <source>Offer*:</source>
+        <translation>Offer*:</translation>
     </message>
     <message>
-        <source>Country:</source>
-        <translation>Country:</translation>
+        <source>Country*:</source>
+        <translation>Country*:</translation>
     </message>
     <message>
-        <source>Currency:</source>
-        <translation>Currency:</translation>
+        <source>Currency*:</source>
+        <translation>Currency*:</translation>
     </message>
     <message>
-        <source>Payment:</source>
-        <translation>Payment:</translation>
+        <source>Payment*:</source>
+        <translation>Payment*:</translation>
     </message>
     <message>
         <source>Price:</source>
         <translation>Price:</translation>
     </message>
     <message>
-        <source>Min Amount:</source>
-        <translation>Min Amount:</translation>
+        <source>Min Amount*:</source>
+        <translation>Min Amount*:</translation>
     </message>
     <message>
         <source>Time Create:</source>
         <translation>Time Create:</translation>
     </message>
     <message>
-        <source>Time To Expiration:</source>
-        <translation>Time Expiration:</translation>
-    </message>
-    <message>
-        <source>days   </source>
-        <translation>days   </translation>
-    </message>
-    <message>
-        <source>Time Expiration:</source>
-        <translation>Time Expiration:</translation>
+        <source>Time To Expiration*:</source>
+        <translation>Time Expiration*:</translation>
     </message>
     <message>
         <source>days     Time Expiration:</source>
@@ -2185,6 +2173,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Transaction Price:</source>
         <translation>Transaction Price:</translation>
+    </message>
+    <message>
+        <source>*These lines cannot be edited after sending</source>
+        <translation>*These lines cannot be edited after sending</translation>
     </message>
 </context>
 <context>
