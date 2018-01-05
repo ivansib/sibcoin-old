@@ -43,7 +43,7 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 
     if (info.status == Active) {
         isApproximateExpiration(false);
-        enabledHashEditData(false);
+        enabledHashEditLines(false);
 
         QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
@@ -51,13 +51,15 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
     } else {
         isApproximateExpiration(true);
-        enabledHashEditData(true);
+        enabledHashEditLines(true);
 
         QDateTime currentDate = QDateTime::currentDateTime();
         QDateTime timeExpiration = currentDate.addDays(info.timeToExpiration);
         lEditTimeCreate->setText(currentDate.toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
     }
+
+    turnLines(info.status);
 
     int index = expirations.indexOf(info.timeToExpiration);
     cBoxExpiration->setCurrentIndex(index);
@@ -115,7 +117,7 @@ QString OfferDetailsEditor::offerType(const TypeOffer &s) const
     return str;
 }
 
-void OfferDetailsEditor::enabledHashEditData(const bool &b)
+void OfferDetailsEditor::enabledHashEditLines(const bool &b)
 {
     cBoxOffer->setEnabled(b);
     cBoxCountry->setEnabled(b);
@@ -123,6 +125,21 @@ void OfferDetailsEditor::enabledHashEditData(const bool &b)
     cBoxPayment->setEnabled(b);
     sBoxMinAmount->setEnabled(b);
     cBoxExpiration->setEnabled(b);
+}
+
+void OfferDetailsEditor::turnLines(const StatusOffer &status)
+{
+    if (status == Active) {
+        lTransactionPrice->setVisible(false);
+        lEditTransactionPrice->setVisible(false);
+        lLeftEdits->setVisible(true);
+        lEditLeftEdits->setVisible(true);
+    } else {
+        lTransactionPrice->setVisible(true);
+        lEditTransactionPrice->setVisible(true);
+        lLeftEdits->setVisible(false);
+        lEditLeftEdits->setVisible(false);
+    }
 }
 
 void OfferDetailsEditor::updateMyOffer()

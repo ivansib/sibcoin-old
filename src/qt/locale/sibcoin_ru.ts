@@ -1719,6 +1719,18 @@ p, li { white-space: pre-wrap; }
         <source>*These lines cannot be edited after sending</source>
         <translation>*Эти строки не могут быть отредактированы после отправки</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <source>Save draft</source>
+        <translation>Сохранить в черновик</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Отправить</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsEditor</name>
@@ -1845,6 +1857,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>*These lines cannot be edited after sending</source>
         <translation>*Эти строки не могут быть отредактированы после отправки</translation>
+    </message>
+    <message>
+        <source>Left Edits:</source>
+        <translation>Редактирований осталось:</translation>
     </message>
 </context>
 <context>

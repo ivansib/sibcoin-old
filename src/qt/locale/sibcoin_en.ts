@@ -2058,6 +2058,18 @@ p, li { white-space: pre-wrap; }
         <source>*These lines cannot be edited after sending</source>
         <translation>*These lines cannot be edited after sending</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <source>Save draft</source>
+        <translation>Save draft</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Send</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsEditor</name>
@@ -2177,6 +2189,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>*These lines cannot be edited after sending</source>
         <translation>*These lines cannot be edited after sending</translation>
+    </message>
+    <message>
+        <source>Left Edits:</source>
+        <translation>Left Edits:</translation>
     </message>
 </context>
 <context>
