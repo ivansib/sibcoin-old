@@ -415,7 +415,7 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() != 1)
         throw runtime_error(
-            "\ndeldexoffer <hash>\n\n"
+            "deldexoffer <hash>\n\n"
             "Delete offer from local DB and broadcast message.\n"
             "To do this, you need a private key in a wallet that matches the public key in the offer.\n"
 
