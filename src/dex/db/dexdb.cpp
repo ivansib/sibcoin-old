@@ -426,6 +426,12 @@ void DexDB::deleteMyOffer(const uint256 &idTransaction)
     thr.detach();
 }
 
+void DexDB::deleteMyOfferByHash(const uint256 &hash)
+{
+    boost::thread thr(deleteOfferByHash, boost::ref(db), boost::ref(callBack), "myOffers", hash);
+    thr.detach();
+}
+
 void DexDB::deleteOldMyOffers()
 {
     boost::thread thr(deleteOldOffers, boost::ref(db), boost::ref(callBack), "myOffers");
@@ -717,6 +723,24 @@ void DexDB::deleteOffer(sqlite3pp::database &db, const std::map<int, CallBackDB*
 
     sqlite3pp::command cmd(db, query.c_str());
     cmd.bind(1, idTransaction.GetHex(), sqlite3pp::copy);
+
+    int status = cmd.execute();
+    TypeTable tTable = OffersSell;
+    if (tableName == "offersBuy") {
+        tTable = OffersBuy;
+    } else if (tableName == "myOffers") {
+        tTable = MyOffers;
+    }
+
+    finishTableOperation(callBack, tTable, Delete, status);
+}
+
+void DexDB::deleteOfferByHash(sqlite3pp::database &db, const std::map<int, dex::CallBackDB *> &callBack, const std::string &tableName, const uint256 &hash)
+{
+    std::string query = "DELETE FROM " + tableName + " WHERE hash = ?";
+
+    sqlite3pp::command cmd(db, query.c_str());
+    cmd.bind(1, hash.GetHex(), sqlite3pp::copy);
 
     int status = cmd.execute();
     TypeTable tTable = OffersSell;

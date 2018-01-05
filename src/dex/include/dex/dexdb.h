@@ -61,6 +61,7 @@ public:
     void addMyOffer(const MyOfferInfo &offer);
     void editMyOffer(const MyOfferInfo &offer);
     void deleteMyOffer(const uint256 &idTransaction);
+    void deleteMyOfferByHash(const uint256 &hash);
     void deleteOldMyOffers();
     bool isExistMyOffer(const uint256 &idTransaction);
     bool isExistMyOfferByHash(const uint256 &hash);
@@ -101,6 +102,7 @@ private:
     static void addMyOfferInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const MyOfferInfo &offer);
     static void editMyOfferInThread(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const MyOfferInfo &offer);
     static void deleteOffer(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &tableName, const uint256 &idTransaction);
+    static void deleteOfferByHash(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &tableName, const uint256 &hash);
     static void deleteOldOffers(sqlite3pp::database &db, const std::map<int, CallBackDB*> &callBack, const std::string &tableName);
     std::list<OfferInfo> getOffers(const std::string &tableName);
     OfferInfo getOffer(const std::string &tableName, const uint256 &idTransaction);

@@ -46,6 +46,7 @@ enum TypeOffer {
 };
 
 enum StatusOffer {
+    Indefined,
     Active,
     Draft,
     Expired,

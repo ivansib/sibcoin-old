@@ -61,6 +61,7 @@ QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
     info.timeToExpiration = cBoxExpiration->currentText().toInt();
     info.shortInfo = tEditShortInfo->toPlainText();
     info.details = tEditDetails->toPlainText();
+    info.status = Indefined;
 
     return info;
 }

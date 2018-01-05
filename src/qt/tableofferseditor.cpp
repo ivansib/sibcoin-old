@@ -78,11 +78,15 @@ void TableOffersEditor::addOrEditMyOffer(const QtMyOfferInfo &info)
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
     offer.status = Draft;
 
-    if (info.hash == "") {
-        CDex dex;
-        dex.CreateOffer(offer);
-        offer.setOfferInfo(dex.offer);
+    CDexOffer dexOffer;
+    uint256 oldHash = offer.hash;
+    dexOffer.Create(offer);
+
+    if (!oldHash.IsNull() && oldHash != dexOffer.hash) {
+        db->deleteMyOfferByHash(oldHash);
     }
+
+    offer.setOfferInfo(dexOffer);
 
     saveMyOffer(offer);
 }
@@ -93,9 +97,14 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
 
     CDexOffer dexOffer;
 
-    if (myOffer.hash.IsNull()) {
+    if (myOffer.status == Indefined || myOffer.status == Draft) {
+        uint256 oldHash = myOffer.hash;
         dexOffer.Create(myOffer);
-    } else {
+
+        if (oldHash != dexOffer.hash) {
+            db->deleteMyOfferByHash(oldHash);
+        }
+    } else if (myOffer.status == Active) {
         dexOffer = CDexOffer(myOffer);
     }
 
@@ -103,7 +112,15 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
 
     std::string error;
     uint256 tx;
-    if (dex.PayForOffer(tx, error)) {
+
+    if (!dexOffer.idTransaction.IsNull()) {
+        if (dex.offer.isBuy()) {
+            db->editOfferBuy(dex.offer);
+        }
+        if (dex.offer.isSell()) {
+            db->editOfferSell(dex.offer);
+        }
+    } else if (dex.PayForOffer(tx, error)) {
         dexman.sendNewOffer(dex.offer);
 
         myOffer.setOfferInfo(dex.offer);
