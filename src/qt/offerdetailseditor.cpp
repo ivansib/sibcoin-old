@@ -34,7 +34,7 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     lIdView->setText(info.idTransaction);
     lHashView->setText(info.hash);
     lStatusView->setText(status(info.status));
-    lOfferInfoView->setText(offerType(info.type));
+    cBoxOffer->setCurrentText(offerType(info.type));
     cBoxCountry->setCurrentData(info.countryIso);
     cBoxCurrency->setCurrentData(info.currencyIso);
     cBoxPayment->setCurrentData(QString::number(info.paymentMethod));
@@ -43,6 +43,7 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 
     if (info.status == Active) {
         isApproximateExpiration(false);
+        enabledHashEditData(false);
 
         QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
@@ -50,14 +51,17 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
     } else {
         isApproximateExpiration(true);
+        enabledHashEditData(true);
 
         QDateTime currentDate = QDateTime::currentDateTime();
         QDateTime timeExpiration = currentDate.addDays(info.timeToExpiration);
         lEditTimeCreate->setText(currentDate.toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
-
-        changedTimeToExpiration(expirations.indexOf(info.timeToExpiration) + 1);
     }
+
+    int index = expirations.indexOf(info.timeToExpiration);
+    cBoxExpiration->setCurrentIndex(index);
+    changedTimeToExpiration(index);
 
     tEditShortInfo->setText(info.shortInfo);
     tEditDetails->setText(info.details);
@@ -109,6 +113,16 @@ QString OfferDetailsEditor::offerType(const TypeOffer &s) const
     }
 
     return str;
+}
+
+void OfferDetailsEditor::enabledHashEditData(const bool &b)
+{
+    cBoxOffer->setEnabled(b);
+    cBoxCountry->setEnabled(b);
+    cBoxCurrency->setEnabled(b);
+    cBoxPayment->setEnabled(b);
+    sBoxMinAmount->setEnabled(b);
+    cBoxExpiration->setEnabled(b);
 }
 
 void OfferDetailsEditor::updateMyOffer()

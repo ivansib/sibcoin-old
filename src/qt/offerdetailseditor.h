@@ -18,6 +18,8 @@ private:
     QString status(const StatusOffer &s) const;
     QString offerType(const TypeOffer &s) const;
 
+    void enabledHashEditData(const bool &b);
+
     void updateMyOffer();
     void isApproximateExpiration(const bool &b);
 
