@@ -144,15 +144,21 @@ void OfferDetailsEditor::turnLines(const StatusOffer &status)
 
 void OfferDetailsEditor::updateMyOffer()
 {
-    offerInfo.countryIso = cBoxCountry->currentData().toString();
-    offerInfo.currencyIso = cBoxCurrency->currentData().toString();
-    offerInfo.paymentMethod = cBoxPayment->currentData().toInt();
-    offerInfo.price = sBoxPrice->value();
-    offerInfo.minAmount = sBoxMinAmount->value();
-    offerInfo.timeCreate = QDateTime::fromString(lEditTimeCreate->text(), "dd.MM.yyyy hh:mm").toTime_t();
-    offerInfo.timeToExpiration = cBoxExpiration->currentText().toInt();
-    offerInfo.shortInfo = tEditShortInfo->toPlainText();
-    offerInfo.details = tEditDetails->toPlainText();
+    if (offerInfo.status == Active) {
+        offerInfo.price = sBoxPrice->value();
+        offerInfo.shortInfo = tEditShortInfo->toPlainText();
+        offerInfo.details = tEditDetails->toPlainText();
+    } else {
+        offerInfo.countryIso = cBoxCountry->currentData().toString();
+        offerInfo.currencyIso = cBoxCurrency->currentData().toString();
+        offerInfo.paymentMethod = cBoxPayment->currentData().toInt();
+        offerInfo.price = sBoxPrice->value();
+        offerInfo.minAmount = sBoxMinAmount->value();
+        offerInfo.timeCreate = QDateTime::currentDateTime().toTime_t();
+        offerInfo.timeToExpiration = cBoxExpiration->currentText().toInt();
+        offerInfo.shortInfo = tEditShortInfo->toPlainText();
+        offerInfo.details = tEditDetails->toPlainText();
+    }
 }
 
 void OfferDetailsEditor::isApproximateExpiration(const bool &b)
