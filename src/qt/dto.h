@@ -32,6 +32,7 @@ struct QtOfferInfo {
     int timeToExpiration;
     QString shortInfo;
     QString details;
+    int editingVersion;
 };
 
 struct QtMyOfferInfo : QtOfferInfo {
@@ -53,6 +54,7 @@ struct QtMyOfferInfo : QtOfferInfo {
         info.timeToExpiration = timeToExpiration;
         info.shortInfo = shortInfo;
         info.details = details;
+        info.editingVersion = editingVersion;
 
         return info;
     }
@@ -70,6 +72,7 @@ struct QtMyOfferInfo : QtOfferInfo {
         timeToExpiration = info.timeToExpiration;
         shortInfo = info.shortInfo;
         details = info.details;
+        editingVersion = info.editingVersion;
     }
 };
 

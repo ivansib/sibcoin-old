@@ -36,6 +36,7 @@ public:
     int timeExpiration;
     std::string shortInfo;
     std::string details;
+    int editingVersion;
 
 
 public:
@@ -53,13 +54,13 @@ public:
     }
 
 
-    bool Create(Type type, const std::string &pubKey_, const std::string &countryIso, const std::string &currencyIso,
+    bool Create(Type type, const std::string &pubKey, const std::string &countryIso, const std::string &currencyIso,
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
-           const std::string &shortInfo, const std::string &details);
+           const std::string &shortInfo, const std::string &details, const int &editingVersion);
 
-    bool Create(const uint256 &idTransaction, Type type, const std::string &pubKey_, const std::string &countryIso, const std::string &currencyIso,
+    bool Create(const uint256 &idTransaction, Type type, const std::string &pubKey, const std::string &countryIso, const std::string &currencyIso,
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, int timeExpiration,
-           const std::string &shortInfo, const std::string &details);
+           const std::string &shortInfo, const std::string &details, const int &editingVersion);
 
     bool Create(const dex::OfferInfo &info, dex::TypeOffer offertype);
 

@@ -18,6 +18,7 @@ QtOfferInfo ConvertData::toQtOfferInfo(const OfferInfo &offer)
     qtOffer.timeToExpiration = offer.timeToExpiration;
     qtOffer.shortInfo = QString::fromUtf8(offer.shortInfo.c_str());
     qtOffer.details = QString::fromUtf8(offer.details.c_str());
+    qtOffer.editingVersion = offer.editingVersion;
 
     return qtOffer;
 }
@@ -49,7 +50,7 @@ OfferInfo ConvertData::fromQtOfferInfo(const QtOfferInfo &qtOffer)
     offer.timeToExpiration = qtOffer.timeToExpiration;
     offer.shortInfo = qtOffer.shortInfo.toUtf8().constData();
     offer.details = qtOffer.details.toUtf8().constData();
-
+    offer.editingVersion = qtOffer.editingVersion;
     return offer;
 }
 

@@ -39,6 +39,7 @@ CDexOffer::CDexOffer(const CDexOffer &off)
     timeExpiration   = off.timeExpiration;
     shortInfo        = off.shortInfo;
     details          = off.details;
+    editingVersion   = off.editingVersion;
     type             = off.type;
 }
 
@@ -57,6 +58,7 @@ CDexOffer::CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype)
     timeExpiration   = info.timeToExpiration;
     shortInfo        = info.shortInfo;
     details          = info.details;
+    editingVersion   = info.editingVersion;
     switch (offertype) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
@@ -77,6 +79,7 @@ CDexOffer::CDexOffer(const dex::MyOfferInfo &info)
     timeExpiration   = info.timeToExpiration;
     shortInfo        = info.shortInfo;
     details          = info.details;
+    editingVersion   = info.editingVersion;
     switch (info.type) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
@@ -100,23 +103,24 @@ void CDexOffer::SetNull()
     timeExpiration = 0;
     shortInfo.clear();
     details.clear();
+    editingVersion = 0;
 }
 
 
 
 bool CDexOffer::Create(Type type_, const std::string &pubKey_, const std::string &countryIso_, const std::string &currencyIso_,
            uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, int timeExpiration_,
-           const std::string &shortInfo_, const std::string &details_)
+           const std::string &shortInfo_, const std::string &details_, const int &editingVersion_)
 {
     uint256 txid;
-    return Create(txid, type_, pubKey_, countryIso_, currencyIso_, paymentMethod_, price_, minAmount_, timeExpiration_, shortInfo_, details_);
+    return Create(txid, type_, pubKey_, countryIso_, currencyIso_, paymentMethod_, price_, minAmount_, timeExpiration_, shortInfo_, details_, editingVersion_);
 }
 
 
 
 bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::string &pubKey_, const std::string &countryIso_, const std::string &currencyIso_,
            uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, int timeExpiration_,
-           const std::string &shortInfo_, const std::string &details_)
+           const std::string &shortInfo_, const std::string &details_, const int &editingVersion_)
 {
     idTransaction   = idTransaction_;
     pubKey          = pubKey_;
@@ -129,6 +133,7 @@ bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::str
     timeExpiration  = timeExpiration_;
     shortInfo       = shortInfo_;
     details         = details_;
+    editingVersion  = editingVersion_;
     switch (type_) {
         case  BUY: type = OFFER_TYPE_BUY;  break;
         case SELL: type = OFFER_TYPE_SELL; break;
@@ -156,6 +161,7 @@ bool CDexOffer::Create(const dex::OfferInfo &info, dex::TypeOffer offertype)
     timeExpiration  = info.timeToExpiration;
     shortInfo       = info.shortInfo;
     details         = info.details;
+    editingVersion  = info.editingVersion;
     switch (offertype) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
@@ -196,6 +202,7 @@ CDexOffer::operator dex::OfferInfo() const
     info.timeToExpiration = timeExpiration;
     info.shortInfo        = shortInfo;
     info.details          = details;
+    info.editingVersion   = editingVersion;
     return info;
 }
 
@@ -213,6 +220,7 @@ CDexOffer& CDexOffer::operator=(const CDexOffer& off)
     timeExpiration   = off.timeExpiration;
     shortInfo        = off.shortInfo;
     details          = off.details;
+    editingVersion   = off.editingVersion;
     type             = off.type;
     return *this;
 }
@@ -260,10 +268,11 @@ std::string CDexOffer::dump() const
         "\ttimeCreate\t%lld\n"
         "\ttimeExpiration\t%d\n"
         "\tshortInfo\t%s\n"
-        "\tdetails\t\t%s\n",
+        "\tdetails\t\t%s\n"
+        "\teditingVersion\t\t%s\n",
         type.c_str(), idTransaction.GetHex().c_str(), hash.GetHex().c_str(), pubKey.c_str(),
         countryIso.c_str(), currencyIso.c_str(), paymentMethod, price, minAmount, timeCreate,
-        timeExpiration, shortInfo.c_str(), details.c_str());
+        timeExpiration, shortInfo.c_str(), details.c_str(), editingVersion);
 }
 
 
@@ -353,6 +362,7 @@ UniValue CDexOffer::getUniValue()
     result.push_back(Pair("timeExpiration", timeExpiration));
     result.push_back(Pair("shortInfo", shortInfo));
     result.push_back(Pair("details", details));
+    result.push_back(Pair("editingVersion", editingVersion));
     return result;
 }
 
