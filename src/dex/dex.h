@@ -55,8 +55,10 @@ public:
     bool CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError);
 
     // подписать оффер приватным ключем
-    bool SignOffer(std::vector<unsigned char> &vchSign, std::string &sError);
+    bool SignOffer(const CKey &key, std::vector<unsigned char> &vchSign, std::string &sError);
 
+    // ищет в кошельке приватный ключ по публичному
+    bool FindKey(CKey &key, std::string &sError);
 
 
     ADD_SERIALIZE_METHODS;

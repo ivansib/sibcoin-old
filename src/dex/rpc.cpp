@@ -450,26 +450,29 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
     } else if (db.isExistOfferSellByHash(hash)) {
         offer = CDexOffer(db.getOfferSellByHash(hash), dex::Sell);
     } else {
-        throw runtime_error("\nERROR: offer not found\n");
+        throw runtime_error("\nERROR: offer not found in DB\n");
     }
 
     CDex dex(offer);
     std::string error;
-    std::vector<unsigned char> vchSign;
-    if (!dex.SignOffer(vchSign, error)) {
+    CKey key;
+    if (!dex.FindKey(key, error)) {
         throw runtime_error(error.c_str());
     }
 
-    if (offer.isMyOffer()) db.deleteMyOffer(offer.idTransaction);
-    if (offer.isBuy()) db.deleteOfferBuy(offer.idTransaction);
-    if (offer.isSell()) db.deleteOfferSell(offer.idTransaction);
+    std::vector<unsigned char> vchSign;
+    if (!dex.SignOffer(key, vchSign, error)) {
+        throw runtime_error(error.c_str());
+    }
+
+    if (offer.isMyOffer()) db.deleteMyOffer  (offer.idTransaction);
+    if (offer.isBuy())     db.deleteOfferBuy (offer.idTransaction);
+    if (offer.isSell())    db.deleteOfferSell(offer.idTransaction);
 
     LOCK2(cs_main, cs_vNodes);
     BOOST_FOREACH(CNode* pNode, vNodes) {
         pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
     }
-
-
 
     return NullUniValue;
 }
