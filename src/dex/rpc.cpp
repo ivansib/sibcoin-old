@@ -4,6 +4,7 @@
 #include "clientversion.h"
 #include "main.h"
 #include "net.h"
+#include "init.h"
 #include "netbase.h"
 #include "protocol.h"
 #include "sync.h"
@@ -18,6 +19,7 @@
 #include "random.h"
 #include "dex/dexdb.h"
 #include "dex.h"
+#include "dex/dexdto.h"
 #include "core_io.h"
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
@@ -27,76 +29,13 @@
 #include "db/currencyiso.h"
 #include "db/defaultdatafordb.h"
 
+#ifdef ENABLE_WALLET
+#include "wallet/wallet.h"
+#endif
+
+
 using namespace std;
 
-
-/*
-
-UniValue testdexoffer(const UniValue& params, bool fHelp)
-{
-    if (!fTxIndex) {
-        throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
-        );
-    }
-
-    if (fHelp || params.size() > 1 || (params[0].get_str() != "buy" && params[0].get_str() != "sell"))
-        throw runtime_error(
-            "testdexoffer buy|sell \n"
-            "Create TEST dex offer and broadcast it.\n"
-        );
-
-    CDex dex;
-    uint256 tr_id = GetRandHash();
-    CDexOffer::Type type;
-    if (params[0].get_str() == "buy") type = CDexOffer::BUY;
-    if (params[0].get_str() == "sell") type = CDexOffer::SELL;
-
-    if (!dex.CreateOffer(type, tr_id, "RU", "RUB", 1, 10000, 20000 , 10, "test shortinfo", "test details"))
-        throw runtime_error("dexoffer not create\n someting wrong\n");
-
-    LOCK2(cs_main, cs_vNodes);
-    BOOST_FOREACH(CNode* pNode, vNodes) {
-        pNode->PushMessage(NetMsgType::DEXOFFBCST, dex.offer);
-    }
-
-    return NullUniValue;
-}
-
-
-
-UniValue payoffertx(const UniValue& params, bool fHelp)
-{
-    if (!fTxIndex) {
-        throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
-        );
-    }
-
-    if (fHelp)
-        throw runtime_error(
-            "payoffertx  \n"
-            "WARNING!!! Create TEST payoffer transaction \n"
-        );
-
-    std::string error;
-
-    CDex offer;
-    offer.CreateOffer(CDexOffer::SELL, GetRandHash(), "RU", "RUB", 1, 100, 1000, 100, "test dex transaction", "dex offer for test transaction");
-
-
-    uint256 tx;
-    if (!offer.PayForOffer(tx, error))
-            throw runtime_error(error.c_str());
-
-    offer.CheckOfferTx(error);
-    std::string result = strprintf("offer:\n%s\ntx %s\nerror %s", offer.offer.dump().c_str(), tx.GetHex().c_str(), error.c_str());
-
-    throw runtime_error(result.c_str());
-
-    return NullUniValue;
-}
-*/
 
 
 UniValue dexoffers(const UniValue& params, bool fHelp)
@@ -104,6 +43,12 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
     if (!fTxIndex) {
         throw runtime_error(
             "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (dex::DexDB::self() == 0) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
         );
     }
 
@@ -151,7 +96,6 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
     std::list<std::string> words {"buy", "sell", "all"};
     dex::CountryIso  countryiso;
     dex::CurrencyIso currencyiso;
-    dex::DexDB db(strDexDbFile);
 
     for (size_t i = 0; i < params.size(); i++) {
         if (i == 0 && typefilter.empty()) {
@@ -181,7 +125,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
         {
             methodfilter.clear();
             std::string methodname = boost::algorithm::to_lower_copy(params[i].get_str());
-            std::list<dex::PaymentMethodInfo> pms = db.getPaymentMethodsInfo();
+            std::list<dex::PaymentMethodInfo> pms = dex::DexDB::self()->getPaymentMethodsInfo();
             for (auto j : pms) {
                 std::string name = boost::algorithm::to_lower_copy(j.name);
                 if (name == methodname) {
@@ -205,13 +149,13 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
 
     // check country and currency in DB
     if (countryfilter != "*") {
-        dex::CountryInfo  countryinfo = db.getCountryInfo(countryfilter);
+        dex::CountryInfo  countryinfo = dex::DexDB::self()->getCountryInfo(countryfilter);
         if (!countryinfo.enabled) {
             throw runtime_error("\nERROR: this country is disabled in DB\n");
         }
     }
     if (currencyfilter != "*") {
-        dex::CurrencyInfo  currencyinfo = db.getCurrencyInfo(currencyfilter);
+        dex::CurrencyInfo  currencyinfo = dex::DexDB::self()->getCurrencyInfo(currencyfilter);
         if (!currencyinfo.enabled) {
             throw runtime_error("\nERROR: this currency is disabled in DB\n");
         }
@@ -220,22 +164,22 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
 
 
     if (typefilter == "buy" || typefilter == "all") {
-        std::list<dex::OfferInfo> offers = db.getOffersBuy();
+        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersBuy();
         for (auto i : offers) {
-          if (countryfilter != "*"  && countryfilter != i.countryIso) continue;
-          if (currencyfilter != "*" && currencyfilter != i.currencyIso) continue;
-          if (methodfilter != "*"   && methodfiltertype != i.paymentMethod) continue;
+          if (countryfilter  != "*" && countryfilter    != i.countryIso   ) continue;
+          if (currencyfilter != "*" && currencyfilter   != i.currencyIso  ) continue;
+          if (methodfilter   != "*" && methodfiltertype != i.paymentMethod) continue;
           CDexOffer o(i, dex::Buy);
           result.push_back(o.getUniValue());
         }
     }
 
     if (typefilter == "sell" || typefilter == "all") {
-        std::list<dex::OfferInfo> offers = db.getOffersSell();
+        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersSell();
         for (auto i : offers) {
-          if (countryfilter != "*"  && countryfilter != i.countryIso) continue;
-          if (currencyfilter != "*" && currencyfilter != i.currencyIso) continue;
-          if (methodfilter != "*"   && methodfiltertype != i.paymentMethod) continue;
+          if (countryfilter  != "*" && countryfilter    != i.countryIso   ) continue;
+          if (currencyfilter != "*" && currencyfilter   != i.currencyIso  ) continue;
+          if (methodfilter   != "*" && methodfiltertype != i.paymentMethod) continue;
           CDexOffer o(i, dex::Sell);
           result.push_back(o.getUniValue());
         }
@@ -252,6 +196,11 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
     if (!fTxIndex) {
         throw runtime_error(
             "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+    if (dex::DexDB::self() == 0) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
         );
     }
     if (fHelp || params.size() < 1 || params.size() > 5)
@@ -304,7 +253,6 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
     std::vector<std::string> statuses { "active","draft","expired","cancelled","suspended","unconfirmed"};
     dex::CountryIso  countryiso;
     dex::CurrencyIso currencyiso;
-    dex::DexDB db(strDexDbFile);
 
     for (size_t i = 0; i < params.size(); i++) {
         if (i == 0 && typefilter.empty()) {
@@ -334,7 +282,7 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
 
         if (methodfilter.empty()) {
             std::string methodname = boost::algorithm::to_lower_copy(params[i].get_str());
-            std::list<dex::PaymentMethodInfo> pms = db.getPaymentMethodsInfo();
+            std::list<dex::PaymentMethodInfo> pms = dex::DexDB::self()->getPaymentMethodsInfo();
             for (auto j : pms) {
                 std::string name = boost::algorithm::to_lower_copy(j.name);
                 if (name == methodname) {
@@ -373,26 +321,26 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
 
     // check country and currency in DB
     if (countryfilter != "*") {
-        dex::CountryInfo  countryinfo = db.getCountryInfo(countryfilter);
+        dex::CountryInfo  countryinfo = dex::DexDB::self()->getCountryInfo(countryfilter);
         if (!countryinfo.enabled) {
             throw runtime_error("\nERROR: this country is disabled in DB\n");
         }
     }
     if (currencyfilter != "*") {
-        dex::CurrencyInfo  currencyinfo = db.getCurrencyInfo(currencyfilter);
+        dex::CurrencyInfo  currencyinfo = dex::DexDB::self()->getCurrencyInfo(currencyfilter);
         if (!currencyinfo.enabled) {
             throw runtime_error("\nERROR: this currency is disabled in DB\n");
         }
     }
 
-    std::list<dex::MyOfferInfo> myoffers = db.getMyOffers();
+    std::list<dex::MyOfferInfo> myoffers = dex::DexDB::self()->getMyOffers();
     for (auto i : myoffers) {
-        if (typefilter == "buy"   && i.type != dex::Buy) continue;
+        if (typefilter == "buy"   && i.type != dex::Buy ) continue;
         if (typefilter == "sell"  && i.type != dex::Sell) continue;
-        if (countryfilter != "*"  && countryfilter != i.countryIso) continue;
+        if (countryfilter  != "*" && countryfilter  != i.countryIso ) continue;
         if (currencyfilter != "*" && currencyfilter != i.currencyIso) continue;
         if (methodfilter != "*"   && methodfiltertype != i.paymentMethod) continue;
-        if (statusfilter != "*"   && statusval != i.status) continue;
+        if (statusfilter != "*"   && statusval        != i.status) continue;
         CDexOffer o(i.getOfferInfo(), i.type);
         UniValue v = o.getUniValue();
         v.push_back(Pair("status", i.status));
@@ -412,7 +360,11 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
             "To use this feture please enable -txindex and make -reindex.\n"
         );
     }
-
+    if (dex::DexDB::self() == 0) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "deldexoffer <hash>\n\n"
@@ -426,7 +378,6 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
             + HelpExampleCli("deldexoffer", "AABB...CCDD")
         );
 
-
     std::string strOfferHash = params[0].get_str();
     if (strOfferHash.empty()) {
         throw runtime_error("\nERROR: offer hash is empty");
@@ -437,18 +388,18 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
         throw runtime_error("\nERROR: offer hash error\n");
     }
 
-    dex::DexDB db(strDexDbFile);
+    //dex::DexDB db(strDexDbFile);
 
     CDexOffer offer;
-    if (db.isExistMyOfferByHash(hash)) {
-        std::list<dex::MyOfferInfo> myoffers = db.getMyOffers();
+    if (dex::DexDB::self()->isExistMyOfferByHash(hash)) {
+        std::list<dex::MyOfferInfo> myoffers = dex::DexDB::self()->getMyOffers();
         for (auto i : myoffers) {
             if (i.hash == hash) offer = CDexOffer(i);
         }
-    } else if (db.isExistOfferBuyByHash(hash)) {
-        offer = CDexOffer(db.getOfferBuyByHash(hash), dex::Buy);
-    } else if (db.isExistOfferSellByHash(hash)) {
-        offer = CDexOffer(db.getOfferSellByHash(hash), dex::Sell);
+    } else if (dex::DexDB::self()->isExistOfferBuyByHash(hash)) {
+        offer = CDexOffer(dex::DexDB::self()->getOfferBuyByHash(hash), dex::Buy);
+    } else if (dex::DexDB::self()->isExistOfferSellByHash(hash)) {
+        offer = CDexOffer(dex::DexDB::self()->getOfferSellByHash(hash), dex::Sell);
     } else {
         throw runtime_error("\nERROR: offer not found in DB\n");
     }
@@ -465,9 +416,9 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
         throw runtime_error(error.c_str());
     }
 
-    if (offer.isMyOffer()) db.deleteMyOffer  (offer.idTransaction);
-    if (offer.isBuy())     db.deleteOfferBuy (offer.idTransaction);
-    if (offer.isSell())    db.deleteOfferSell(offer.idTransaction);
+    if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOffer  (offer.idTransaction);
+    if (offer.isBuy())     dex::DexDB::self()->deleteOfferBuy (offer.idTransaction);
+    if (offer.isSell())    dex::DexDB::self()->deleteOfferSell(offer.idTransaction);
 
     LOCK2(cs_main, cs_vNodes);
     BOOST_FOREACH(CNode* pNode, vNodes) {
@@ -475,6 +426,88 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
     }
 
     return NullUniValue;
+}
+
+
+
+UniValue adddexoffer(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+    if (dex::DexDB::self() == 0) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+    if (fHelp || params.size() != 5)
+        throw runtime_error(
+            "adddexoffer <type> <currency> <country> <price> <minamount>\n\n"
+            "ONLY FOR TEST!!!!! Add dexoffer to DB and broadcast message.\n"
+
+            "\nArgument:\n"
+            "\ttype         (string) offer type, 'buy' or 'sell'\n"
+            "\tcountry      (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
+            "\tcurrency     (string) three-letter currency code (ISO 4217)\n"
+            "\tprice        (number) offer price\n"
+            "\tminamount    (number) offer minAmount\n"
+
+            "\nExample:\n"
+            + HelpExampleCli("adddexoffer", "sell RU RUB 100 100")
+        );
+
+
+
+    std::string strtype = params[0].get_str();
+
+    if (strtype != "buy" && strtype != "sell") {
+        throw runtime_error("\nERROR: offer type is empty");
+    }
+
+    dex::CountryIso  countryiso;
+    if (!countryiso.isValid(params[1].get_str())) {
+        throw runtime_error("\nERROR: invalid country code");
+    }
+
+    dex::CurrencyIso currencyiso;
+    if (!currencyiso.isValid(params[2].get_str())) {
+        throw runtime_error("\nERROR: invalid currency code");
+    }
+
+    int price = atoi(params[3].get_str().c_str());
+    if (price <= 0) {
+        throw runtime_error("\nERROR: invalid price");
+    }
+    int minAmount = atoi(params[4].get_str().c_str());
+    if (minAmount <= 0) {
+        throw runtime_error("\nERROR: invalid minAmount");
+    }
+
+
+    CDexOffer offer;
+    CDexOffer::Type type = CDexOffer::BUY;
+    if (strtype == "sell") type = CDexOffer::SELL;
+
+    CKey key = pwalletMain->GeneratePrivKey();
+    CPubKey pkey = key.GetPubKey();
+    if (!pwalletMain->AddKeyPubKey(key, pkey)) {
+        throw runtime_error("\nERROR: add key to wallet error");
+    }
+
+
+    std::string pubKey = HexStr(pkey.begin(), pkey.end());
+
+    if (!offer.Create(type, pubKey, params[1].get_str(), params[2].get_str(), 1, price, minAmount, 30, "test offer", "test offer details")) {
+        throw runtime_error("\nERROR: error create offer");
+    }
+
+
+    UniValue result(UniValue::VARR);
+    dex::DexDB::self()->addMyOffer((dex::MyOfferInfo)(offer));
+
+    return offer.getUniValue();
 }
 
 

@@ -28,9 +28,6 @@ CDexManager::CDexManager()
 
 CDexManager::~CDexManager()
 {
-    if (db != nullptr) {
-        delete db;
-    }
 }
 
 
@@ -38,7 +35,11 @@ CDexManager::~CDexManager()
 void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
     if (db == nullptr) {
-        db = new DexDB(strDexDbFile);
+        if (DexDB::self() == 0) {
+            db = new DexDB(strDexDbFile);
+        } else {
+            db = DexDB::self();
+        }
     }
 
     if (strCommand == NetMsgType::DEXSYNCGETALLHASH) {

@@ -11,10 +11,20 @@ namespace dex {
 
 std::map<int, CallBackDB*> DexDB::callBack;
 int DexDB::keyCallBack = 0;
+DexDB *DexDB::self_ = 0;
+
 
 DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
 {
-    db = sqlite3pp::database(path.c_str());
+    if (self_ == 0) {
+        self_ = this;
+    }
+
+    db = sqlite3pp::database(path.c_str(),
+            SQLITE_OPEN_READWRITE |
+            SQLITE_OPEN_CREATE |
+            SQLITE_OPEN_FULLMUTEX |
+            SQLITE_OPEN_SHAREDCACHE);
 
     currentKeyCallBack = -1;
 
@@ -36,6 +46,20 @@ DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
     }
 }
 
+DexDB::~DexDB()
+{
+    if (self_ == this) {
+        self_ = 0;
+    }
+}
+
+
+DexDB *DexDB::self()
+{
+  return self_;
+}
+
+
 void DexDB::setCallBack(CallBackDB *callBack)
 {
     if (currentKeyCallBack == -1) {
@@ -44,6 +68,14 @@ void DexDB::setCallBack(CallBackDB *callBack)
         keyCallBack++;
     } else {
         this->callBack[currentKeyCallBack] = callBack;
+    }
+}
+
+void DexDB::removeCallBack()
+{
+    if (currentKeyCallBack > -1) {
+        this->callBack.erase(keyCallBack);
+        currentKeyCallBack = -1;
     }
 }
 

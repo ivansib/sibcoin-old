@@ -52,17 +52,6 @@ bool CDex::CreateOffer(const dex::MyOfferInfo &info)
 
 
 
-bool CDex::addOfferToDB()
-{
-    if (offer.IsNull()) return false;
-
-    dex::DexDB db(strDexDbFile);
-    if (offer.isBuy())  db.addOfferBuy(offer);
-    if (offer.isSell()) db.addOfferSell(offer);
-    return true;
-}
-
-
 bool CDex::PayForOffer(uint256 &txid, std::string &sError)
 {
     do {

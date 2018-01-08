@@ -41,8 +41,6 @@ public:
 
     bool CreateOffer(const dex::MyOfferInfo &info);
 
-    bool addOfferToDB();
-
     // оплата предложения (создание, подпись и ретрансляция транзакции)
     // хеш транзакции помещается в offer
     bool PayForOffer(uint256 &txid, std::string &sError);

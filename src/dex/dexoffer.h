@@ -39,6 +39,7 @@ public:
     std::string details;
 
     bool myoffer_;
+    int status;
 
 public:
 
@@ -68,6 +69,7 @@ public:
     bool Create(const dex::MyOfferInfo &info);
 
     operator dex::OfferInfo() const;
+    operator dex::MyOfferInfo() const;
     CDexOffer& operator=(const CDexOffer&);
 
     std::string getType() const;
