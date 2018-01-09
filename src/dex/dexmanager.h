@@ -25,6 +25,7 @@ public:
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
 
     void sendNewOffer(const CDexOffer &offer);
+    void sendEditedOffer(const CDexOffer &offer);
     void checkUncOffers();
     void setStatusExpiredForMyOffers();
     void deleteOldUncOffers();
@@ -39,6 +40,7 @@ private:
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
     void getOfferAndSaveInDb(CDataStream& vRecv);
     void getAndSendNewOffer(CNode* pfrom, CDataStream& vRecv);
+    void getAndSendEditedOffer(CDataStream& vRecv);
 
     std::list<uint256> availableOfferHash() const;
     CDexOffer getOfferInfo(const uint256 &hash) const;

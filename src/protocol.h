@@ -247,6 +247,7 @@ extern const char *MNVERIFY;
 
 // DEX
 extern const char *DEXOFFBCST;
+extern const char *DEXOFFEDIT;
 extern const char *DEXSYNCGETALLHASH;
 extern const char *DEXSYNCALLHASH;
 extern const char *DEXSYNCGETOFFER;

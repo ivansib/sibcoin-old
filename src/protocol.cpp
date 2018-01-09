@@ -66,6 +66,7 @@ const char *MNGOVERNANCEOBJECT="govobj";
 const char *MNGOVERNANCEOBJECTVOTE="govobjvote";
 const char *MNVERIFY="mnv";
 const char *DEXOFFBCST="dexoffbcst";
+const char *DEXOFFEDIT="dexoffedit";
 const char *DEXSYNCGETALLHASH = "dxsgethashs";
 const char *DEXSYNCALLHASH = "dxshashs";
 const char *DEXSYNCGETOFFER = "dxsgetoffer";
@@ -152,6 +153,7 @@ const static std::string allNetMessageTypes[] = {
     NetMsgType::MNVERIFY,
     //DEX
     NetMsgType::DEXOFFBCST,
+    NetMsgType::DEXOFFEDIT,
     NetMsgType::DEXSYNCGETALLHASH,
     NetMsgType::DEXSYNCALLHASH,
     NetMsgType::DEXSYNCGETOFFER,

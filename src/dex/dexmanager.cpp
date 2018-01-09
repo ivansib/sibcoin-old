@@ -51,6 +51,8 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         getOfferAndSaveInDb(vRecv);
     } else if (strCommand == NetMsgType::DEXOFFBCST) {
         getAndSendNewOffer(pfrom, vRecv);
+    } else if (strCommand == NetMsgType::DEXOFFEDIT) {
+        getAndSendEditedOffer(vRecv);
     }
 }
 
@@ -60,6 +62,15 @@ void CDexManager::sendNewOffer(const CDexOffer &offer)
 
     for (CNode *pNode : vNodes) {
         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+    }
+}
+
+void CDexManager::sendEditedOffer(const CDexOffer &offer)
+{
+    LOCK2(cs_main, cs_vNodes);
+
+    for (CNode *pNode : vNodes) {
+        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer);
     }
 }
 
@@ -213,7 +224,7 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
                     pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                 }
             }
-            LogPrintf("DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound); // NODE: edit message
+            LogPrintf("DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
             uncOffers->setOffer(offer);
 
@@ -222,10 +233,59 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
                 pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
             }
 
-            LogPrintf("DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str()); // NODE: edit message
+            LogPrintf("DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
         }
     } else {
         LogPrintf("DEXOFFBCST -- offer check fail\n");
+    }
+}
+
+void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
+{
+    CDexOffer offer;
+    vRecv >> offer;
+    if (offer.Check(true)) {
+        CDex dex(offer);
+        std::string error;
+        if (dex.CheckOfferTx(error)) {
+            bool isActual = false;
+            if (offer.isBuy()) {
+                if (db->isExistOfferBuy(offer.idTransaction)) {
+                    OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
+                    if (offer.editingVersion > existOffer.editingVersion) {
+                        db->editOfferBuy(offer);
+                        isActual = true;
+                    }
+                } else {
+                    db->addOfferBuy(offer);
+                    isActual = true;
+                }
+
+                if (db->isExistOfferSell(offer.idTransaction)) {
+                    OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
+                    if (offer.editingVersion > existOffer.editingVersion) {
+                        db->editOfferSell(offer);
+                        isActual = true;
+                    }
+                } else {
+                    db->addOfferSell(offer);
+                    isActual = true;
+                }
+
+                if (isActual) {
+                    LOCK2(cs_main, cs_vNodes);
+                    for (CNode* pNode : vNodes) {
+                        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer);
+                    }
+                }
+
+                LogPrintf("DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
+            }
+        } else {
+            LogPrintf("DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
+        }
+    } else {
+        LogPrintf("DEXOFFEDIT -- offer check fail\n");
     }
 }
 
