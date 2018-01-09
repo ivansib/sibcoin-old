@@ -28,6 +28,9 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
 void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
+    btnSaveDraft->setEnabled(true);
+    btnSend->setEnabled(true);
+
     offerInfo = info;
 
     lPubKeyView->setText(info.pubKey);
@@ -45,10 +48,20 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         isApproximateExpiration(false);
         enabledHashEditLines(false);
 
+        btnSaveDraft->setEnabled(false);
+
         QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
         lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+
+        int leftEdits = maxNumEditsMyOffer - info.editingVersion;
+
+        lEditLeftEdits->setText(QString::number(leftEdits));
+
+        if (leftEdits <= 0) {
+            btnSend->setEnabled(false);
+        }
     } else {
         isApproximateExpiration(true);
         enabledHashEditLines(true);

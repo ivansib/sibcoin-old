@@ -3,8 +3,6 @@
 #include "bitcoinunits.h"
 #include "optionsmodel.h"
 
-// NOTE: start here (use BitcoinUnits::formatWithUnit for view price)
-
 OfferDetails::OfferDetails(DexDB *db, QDialog *parent) : QDialog(parent), db(db), expirations(QList<int>() << 10 << 20 << 30)
 {
 }

@@ -105,6 +105,8 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
             db->deleteMyOfferByHash(oldHash);
         }
     } else if (myOffer.status == Active) {
+        myOffer.editingVersion++;
+
         dexOffer = CDexOffer(myOffer);
     }
 

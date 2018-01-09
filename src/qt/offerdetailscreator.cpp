@@ -62,6 +62,7 @@ QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
     info.shortInfo = tEditShortInfo->toPlainText();
     info.details = tEditDetails->toPlainText();
     info.status = Indefined;
+    info.editingVersion = 0;
 
     return info;
 }

@@ -5,6 +5,8 @@
 #include "offerdetails.h"
 #include "ui_offerdetailseditor.h"
 
+const int maxNumEditsMyOffer = 11;
+
 class OfferDetailsEditor : public OfferDetails, public Ui::OfferDetailsEditor
 {
     Q_OBJECT
