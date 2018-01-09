@@ -128,11 +128,11 @@ void CDexManager::deleteOldOffers()
 
 void CDexManager::sendHashOffers(CNode *pfrom) const
 {
-    auto hashs = availableOfferHash();
+    auto hvs = availableOfferHashAndVersion();
 
-    if (hashs.size() > 0) {
-        LogPrintf("DEXSYNCGETALLHASH -- send list hashes\n");
-        pfrom->PushMessage(NetMsgType::DEXSYNCALLHASH, hashs);
+    if (hvs.size() > 0) {
+        LogPrintf("DEXSYNCGETALLHASH -- send list pairs hashe and version\n");
+        pfrom->PushMessage(NetMsgType::DEXSYNCALLHASH, hvs);
     }
 }
 
@@ -140,15 +140,25 @@ void CDexManager::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &
 {
     LogPrintf("DEXSYNCALLHASH -- get list hashes\n");
 
-    std::list<uint256> nodeHashs;
-    vRecv >> nodeHashs;
-    auto hashs = availableOfferHash();
+    std::list<std::pair<uint256, int>>  nodeHvs;
+    vRecv >> nodeHvs;
+    auto hvs = availableOfferHashAndVersion();
 
-    for (auto h : nodeHashs) {
-        bool found = (std::find(hashs.begin(), hashs.end(), h) != hashs.end());
+    for (auto h : nodeHvs) {
+        auto found = std::find_if(hvs.begin(), hvs.end(), [h](std::pair<uint256, int> item){ return item.first == h.first; });
 
-        if (!found) {
-            LogPrintf("DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.GetHex().c_str());
+        auto isSend = false;
+
+        if (found != hvs.end()) {
+            if (found->second > h.second) {
+                isSend = true;
+            }
+        } else {
+            isSend = true;
+        }
+
+        if (!isSend) {
+            LogPrintf("DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.first.GetHex().c_str());
             pfrom->PushMessage(NetMsgType::DEXSYNCGETOFFER, h);
         }
     }
@@ -179,11 +189,21 @@ void CDexManager::getOfferAndSaveInDb(CDataStream &vRecv)
         std::string error;
         if (dex.CheckOfferTx(error)) {
             if (offer.isBuy())  {
-                if (!db->isExistOfferBuy(offer.idTransaction)) {
+                if (db->isExistOfferBuy(offer.idTransaction)) {
+                    OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
+                    if (offer.editingVersion > existOffer.editingVersion) {
+                        db->editOfferBuy(offer);
+                    }
+                } else {
                     db->addOfferBuy(offer);
                 }
             } else if (offer.isSell())  {
-                if (!db->isExistOfferSell(offer.idTransaction)) {
+                if (db->isExistOfferSell(offer.idTransaction)) {
+                    OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
+                    if (offer.editingVersion > existOffer.editingVersion) {
+                        db->editOfferSell(offer);
+                    }
+                } else {
                     db->addOfferSell(offer);
                 }
             }
@@ -289,18 +309,20 @@ void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
     }
 }
 
-std::list<uint256> CDexManager::availableOfferHash() const
+std::list<std::pair<uint256, int>> CDexManager::availableOfferHashAndVersion() const
 {
-    auto list = db->getSellHashs();
-    auto listBuy = db->getBuyHashs();
-    auto listUnc = uncOffers->hashs();
+    std::list<std::pair<uint256, int>> list;
 
-    for (auto item : listBuy) {
-        list.push_back(item);
+    for (auto offer : db->getOffersSell()) {
+        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
-    for (auto item : listUnc) {
-        list.push_back(item);
+    for (auto offer : db->getOffersBuy()) {
+        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
+    }
+
+    for (auto offer : uncOffers->getOffers()) {
+        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
     return list;

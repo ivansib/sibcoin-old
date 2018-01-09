@@ -42,7 +42,7 @@ private:
     void getAndSendNewOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndSendEditedOffer(CDataStream& vRecv);
 
-    std::list<uint256> availableOfferHash() const;
+    std::list<std::pair<uint256, int> > availableOfferHashAndVersion() const;
     CDexOffer getOfferInfo(const uint256 &hash) const;
 };
 
