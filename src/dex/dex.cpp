@@ -11,6 +11,10 @@
 #include "consensus/validation.h"
 #include "chainparams.h"
 
+#ifdef ENABLE_WALLET
+#include "wallet/wallet.h"
+#endif
+
 
 #define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrintf("%s", str.c_str()); sError += str; break; } }
 
@@ -46,17 +50,6 @@ bool CDex::CreateOffer(const dex::MyOfferInfo &info)
     return offer.Create(info);
 }
 
-
-
-bool CDex::addOfferToDB()
-{
-    if (offer.IsNull()) return false;
-
-    dex::DexDB db(strDexDbFile);
-    if (offer.isBuy())  db.addOfferBuy(offer);
-    if (offer.isSell()) db.addOfferSell(offer);
-    return true;
-}
 
 
 bool CDex::PayForOffer(uint256 &txid, std::string &sError)
@@ -117,4 +110,58 @@ bool CDex::CheckOfferTx(std::string &sError)
     } while(false);
     return false;
 }
+
+
+bool CDex::CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError)
+{
+    do {
+        CHECK(!offer.IsNull(), "Offer is empty");
+        CHECK(!vchSign.empty(), "Offer sign is empty");
+        std::vector<unsigned char>vchPubKey = ParseHex(offer.pubKey);
+        CPubKey pkey(vchPubKey);
+        CHECK(pkey.IsFullyValid(), "Invalid public key");
+        CHECK(pkey.Verify(offer.hash, vchSign), "Invalid offer sign");
+        return true;
+    } while (false);
+    return false;
+}
+
+
+
+bool CDex::FindKey(CKey &key, std::string &sError)
+{
+#ifndef ENABLE_WALLET
+    sError = "wallet not enabled";
+    return false;
+#else
+    do {
+        CHECK(!offer.IsNull(), "Offer is empty");
+        CPubKey pkey = offer.getPubKeyObject();
+        CHECK(pkey.IsFullyValid(), "Invalid public key");
+        CHECK(pwalletMain->GetKey(pkey.GetID(), key), "Private key not found in wallet");
+        return true;
+    } while (false);
+    return false;
+#endif
+}
+
+
+
+bool CDex::SignOffer(const CKey &key, std::vector<unsigned char> &vchSign, std::string &sError)
+{
+    vchSign.clear();
+#ifndef ENABLE_WALLET
+    sError = "wallet not enabled";
+    return false;
+#else
+    do {
+        CHECK(!offer.IsNull(), "Offer is empty");
+        CHECK(key.Sign(offer.hash, vchSign), "Sign operation error");
+        return true;
+    } while (false);
+    return false;
+#endif
+}
+
+
 

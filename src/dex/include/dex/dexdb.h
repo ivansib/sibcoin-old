@@ -15,9 +15,14 @@ const unsigned int uiDexDBversionInCode = 1001;
 class DexDB {
 public:
     DexDB(const boost::filesystem::path &path, CallBackDB *callback = nullptr);
+    ~DexDB();
+
+    static DexDB *self();
+
 
     void setCallBack(CallBackDB *callback);
     CallBackDB *getCallBack() const;
+    void removeCallBack();
 
     void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
     void editCountries(const std::list<CountryInfo> &list);
@@ -119,6 +124,7 @@ private:
     static std::map<int, CallBackDB*> callBack;
     static int keyCallBack;
     int currentKeyCallBack;
+    static DexDB *self_;
 
     std::list<CountryInfo> countries;
     std::list<CurrencyInfo> currencies;

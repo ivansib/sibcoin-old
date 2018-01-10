@@ -28,9 +28,6 @@ CDexManager::CDexManager()
 
 CDexManager::~CDexManager()
 {
-    if (db != nullptr) {
-        delete db;
-    }
 }
 
 
@@ -38,7 +35,11 @@ CDexManager::~CDexManager()
 void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
     if (db == nullptr) {
-        db = new DexDB(strDexDbFile);
+        if (DexDB::self() == 0) {
+            db = new DexDB(strDexDbFile);
+        } else {
+            db = DexDB::self();
+        }
     }
 
     if (strCommand == NetMsgType::DEXSYNCGETALLHASH) {
@@ -51,6 +52,8 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         getOfferAndSaveInDb(vRecv);
     } else if (strCommand == NetMsgType::DEXOFFBCST) {
         getAndSendNewOffer(pfrom, vRecv);
+    } else if (strCommand == NetMsgType::DEXDELOFFER) {
+        getAndDelOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXOFFEDIT) {
         getAndSendEditedOffer(vRecv);
     }
@@ -239,6 +242,57 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
         LogPrintf("DEXOFFBCST -- offer check fail\n");
     }
 }
+
+
+void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
+{
+    std::vector<unsigned char> vchSign;
+    CDexOffer offer;
+    vRecv >> offer;
+    vRecv >> vchSign;
+
+    if (offer.Check(true)) {
+        CDex dex(offer);
+        std::string error;
+        if (dex.CheckOfferSign(vchSign, error)) {
+            bool bFound = false;
+            if (offer.isBuy())  {
+                if (db->isExistOfferBuy(offer.idTransaction)) {
+                    db->deleteOfferBuy(offer.idTransaction);
+                    bFound = true;
+                }
+            }
+
+            if (offer.isSell())  {
+                if (db->isExistOfferSell(offer.idTransaction)) {
+                    db->deleteOfferSell(offer.idTransaction);
+                    bFound = true;
+                }
+            }
+            if (!bFound) {
+                if (uncOffers->isExistOffer(offer.hash)) {
+                    bFound = true;
+                    uncOffers->deleteOffer(offer.hash);
+                }
+
+            }
+
+            if (bFound) { // need to delete and relay
+                LOCK2(cs_main, cs_vNodes);
+                BOOST_FOREACH(CNode* pNode, vNodes) {
+                    pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+                }
+            }
+            LogPrintf("DEXDELOFFER --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
+        } else {
+            LogPrintf("DEXDELOFFER --check offer sign fail(%s)\n", offer.hash.GetHex().c_str());
+        }
+    } else {
+        LogPrintf("DEXDELOFFER -- offer check fail\n");
+    }
+}
+
+
 
 void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
 {

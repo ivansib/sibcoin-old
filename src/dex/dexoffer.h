@@ -5,6 +5,7 @@
 #include "key.h"
 #include "main.h"
 #include "net.h"
+#include "utilstrencodings.h"
 #include "timedata.h"
 #include "dex/dexdto.h"
 #include <univalue.h>
@@ -38,6 +39,8 @@ public:
     std::string details;
     int editingVersion;
 
+    bool myoffer_;
+    int status;
 
 public:
 
@@ -67,12 +70,14 @@ public:
     bool Create(const dex::MyOfferInfo &info);
 
     operator dex::OfferInfo() const;
+    operator dex::MyOfferInfo() const;
     CDexOffer& operator=(const CDexOffer&);
 
     std::string getType() const;
     dex::TypeOffer getTypeOffer() const;
     bool isBuy() const;
     bool isSell() const;
+    bool isMyOffer() const;
     
     CPubKey getPubKeyObject() const;
 
@@ -86,7 +91,14 @@ public:
             READWRITE(hash);
             READWRITE(idTransaction);
         }
-        READWRITE(pubKey);
+        if (ser_action.ForRead()) {
+            std::vector<unsigned char> vch;
+            READWRITE(vch);
+            pubKey = HexStr(vch);
+        } else {
+            std::vector<unsigned char> vch = ParseHex(pubKey);
+            READWRITE(vch);
+        }
         READWRITE(type);
         READWRITE(countryIso);
         READWRITE(currencyIso);
@@ -101,7 +113,7 @@ public:
     std::string dump() const;
 
     bool Check(bool fullcheck);
-    
+
     UniValue getUniValue();
 
 };

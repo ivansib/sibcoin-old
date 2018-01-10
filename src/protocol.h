@@ -252,6 +252,7 @@ extern const char *DEXSYNCGETALLHASH;
 extern const char *DEXSYNCALLHASH;
 extern const char *DEXSYNCGETOFFER;
 extern const char *DEXSYNCOFFER;
+extern const char *DEXDELOFFER;
 
 };
 

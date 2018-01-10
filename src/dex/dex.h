@@ -41,8 +41,6 @@ public:
 
     bool CreateOffer(const dex::MyOfferInfo &info);
 
-    bool addOfferToDB();
-
     // оплата предложения (создание, подпись и ретрансляция транзакции)
     // хеш транзакции помещается в offer
     bool PayForOffer(uint256 &txid, std::string &sError);
@@ -50,6 +48,16 @@ public:
 
     // проверка транзакции 
     bool CheckOfferTx(std::string &sError);
+    
+    // проверка подписи оффера публичным ключем
+    bool CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError);
+
+    // подписать оффер приватным ключем
+    bool SignOffer(const CKey &key, std::vector<unsigned char> &vchSign, std::string &sError);
+
+    // ищет в кошельке приватный ключ по публичному
+    bool FindKey(CKey &key, std::string &sError);
+
 
     ADD_SERIALIZE_METHODS;
 

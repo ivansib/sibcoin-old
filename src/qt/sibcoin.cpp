@@ -702,7 +702,7 @@ int main(int argc, char *argv[])
     }
     strDexDbFile = dexdbpath.c_str();
     try {
-        dex::DexDB db(strDexDbFile);
+        new dex::DexDB(strDexDbFile);
     } catch (sqlite3pp::database_error e) {
       QMessageBox::critical(0, QObject::tr("Sibcoin"), QObject::tr("Can`t open dex database: %1").arg(strDexDbFile.c_str()));
       return EXIT_FAILURE;
