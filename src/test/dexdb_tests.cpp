@@ -231,7 +231,7 @@ void checkOffers(DexDB &db)
 {
     CallBackOffers cb;
     cb.init();
-    db.setCallBack(&cb);
+    db.addCallBack(&cb);
 
     long int currentTime = static_cast<long int>(time(NULL));
     int secInDay = 86400;
@@ -501,13 +501,15 @@ void checkOffers(DexDB &db)
     list = db.getOffersBuy();
 
     BOOST_CHECK(list.empty());
+
+    db.removeCallBack(&cb);
 }
 
 void checkMyOffers(DexDB &db)
 {
     CallBackMyOffers cb;
     cb.init();
-    db.setCallBack(&cb);
+    db.addCallBack(&cb);
 
     long int currentTime = static_cast<long int>(time(NULL));
     int secInDay = 86400;
@@ -700,6 +702,8 @@ void checkMyOffers(DexDB &db)
     list = db.getMyOffers();
 
     BOOST_CHECK(list.empty());
+
+    db.removeCallBack(&cb);
 }
 
 BOOST_FIXTURE_TEST_SUITE(dexdb_tests, BasicTestingSetup)

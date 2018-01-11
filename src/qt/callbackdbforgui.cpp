@@ -1,6 +1,9 @@
 #include "callbackdbforgui.h"
 
-CallBackDbForGui::CallBackDbForGui(QObject *parent) : QObject(parent)
+CallBackDbForGui *CallBackDbForGui::pSingleton = nullptr;
+int CallBackDbForGui::nCounter = 0;
+
+CallBackDbForGui::CallBackDbForGui()
 {
     qRegisterMetaType<TypeTable>("TypeTable");
     qRegisterMetaType<TypeTableOperation>("TypeTableOperation");

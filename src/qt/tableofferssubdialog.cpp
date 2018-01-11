@@ -7,12 +7,10 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, QDia
 {
     setupUi(this);
 
-    callBack = static_cast<CallBackDbForGui *>(db->getCallBack());
+    callBack = CallBackDbForGui::instance();
+    db->addCallBack(callBack);
 
-    if (callBack != nullptr) {
-        connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersSubDialog::updateTables);
-    }
-
+    connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersSubDialog::updateTables);
 
     pDelegate = new TableOfferDelegate(columnBtn);
 
@@ -42,6 +40,8 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, QDia
 TableOffersSubDialog::~TableOffersSubDialog()
 {
     delete pDelegate;
+    db->removeCallBack(callBack);
+    callBack->freeInstance();
 }
 
 void TableOffersSubDialog::updateNavigationData()
