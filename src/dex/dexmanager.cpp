@@ -150,14 +150,14 @@ void CDexManager::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &
         auto isSend = false;
 
         if (found != hvs.end()) {
-            if (found->second > h.second) {
+            if (h.second > found->second) {
                 isSend = true;
             }
         } else {
             isSend = true;
         }
 
-        if (!isSend) {
+        if (isSend) {
             LogPrintf("DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.first.GetHex().c_str());
             pfrom->PushMessage(NetMsgType::DEXSYNCGETOFFER, h);
         }
@@ -280,7 +280,9 @@ void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
                     db->addOfferBuy(offer);
                     isActual = true;
                 }
+            }
 
+            if (offer.isSell()) {
                 if (db->isExistOfferSell(offer.idTransaction)) {
                     OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
                     if (offer.editingVersion > existOffer.editingVersion) {
@@ -291,16 +293,16 @@ void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
                     db->addOfferSell(offer);
                     isActual = true;
                 }
-
-                if (isActual) {
-                    LOCK2(cs_main, cs_vNodes);
-                    for (CNode* pNode : vNodes) {
-                        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer);
-                    }
-                }
-
-                LogPrintf("DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
             }
+
+            if (isActual) {
+                LOCK2(cs_main, cs_vNodes);
+                for (CNode* pNode : vNodes) {
+                    pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer);
+                }
+            }
+
+            LogPrintf("DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
         } else {
             LogPrintf("DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
         }

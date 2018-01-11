@@ -295,10 +295,10 @@ bool CDexOffer::Check(bool fullcheck)
             LogPrintf("DexOffer::Check(%s) error: hash is empty\n", idTransaction.GetHex().c_str());
             break;
         }
-        if (fullcheck && !getPubKeyObject().IsFullyValid()) {
-            LogPrintf("DexOffer::Check(%s) error: pubKey is invalid\n", idTransaction.GetHex().c_str());
-            break;
-        }
+//        if (fullcheck && !getPubKeyObject().IsFullyValid()) { // FIXME: bug for convert pubKey <-> string, edit after change type pybKey in CDexOffer
+//            LogPrintf("DexOffer::Check(%s) error: pubKey is invalid\n", idTransaction.GetHex().c_str());
+//            break;
+//        }
         if (fullcheck && hash != MakeHash()) {
             LogPrintf("DexOffer::Check(%s) error: hash not equal\n", idTransaction.GetHex().c_str());
             break;

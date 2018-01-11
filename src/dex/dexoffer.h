@@ -86,14 +86,26 @@ public:
             READWRITE(hash);
             READWRITE(idTransaction);
         }
+
         READWRITE(pubKey);
         READWRITE(type);
         READWRITE(countryIso);
         READWRITE(currencyIso);
         READWRITE(paymentMethod);
+
+        if (!(nType & SER_GETHASH)) {
+            READWRITE(price);
+        }
+
         READWRITE(minAmount);
         READWRITE(timeCreate);
         READWRITE(timeExpiration);
+
+        if (!(nType & SER_GETHASH)) {
+            READWRITE(shortInfo);
+            READWRITE(details);
+            READWRITE(editingVersion);
+        }
     }
 
     uint256 MakeHash();
