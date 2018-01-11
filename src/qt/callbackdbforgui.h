@@ -22,26 +22,8 @@ class CallBackDbForGui : public QObject, public CallBackDB
     static int nCounter;
 
 public:
-    static CallBackDbForGui *instance() {
-        if (pSingleton == nullptr) {
-            pSingleton = new CallBackDbForGui();
-        } else {
-            nCounter++;
-        }
-
-        return pSingleton;
-    }
-
-    static void freeInstance() {
-        if (nCounter > 0) {
-            nCounter--;
-
-            if (nCounter == 0) {
-                delete pSingleton;
-                pSingleton = nullptr;
-            }
-        }
-    }
+    static CallBackDbForGui *instance();
+    static void freeInstance();
 
     virtual void finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 
