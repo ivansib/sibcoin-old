@@ -116,6 +116,8 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
     uint256 tx;
 
     if (!dexOffer.idTransaction.IsNull()) {
+        dexman.sendEditedOffer(dex.offer);
+
         if (dex.offer.isBuy()) {
             db->editOfferBuy(dex.offer);
         }

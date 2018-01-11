@@ -499,7 +499,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
 
     std::string pubKey = HexStr(pkey.begin(), pkey.end());
 
-    if (!offer.Create(type, pubKey, params[1].get_str(), params[2].get_str(), 1, price, minAmount, 30, "test offer", "test offer details")) {
+    if (!offer.Create(type, pubKey, params[1].get_str(), params[2].get_str(), 1, price, minAmount, 30, "test offer", "test offer details", 0)) {
         throw runtime_error("\nERROR: error create offer");
     }
 
