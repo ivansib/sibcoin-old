@@ -6,28 +6,22 @@
 
 #include "base58.h"
 #include "random.h"
+#include "util.h"
 
 namespace dex {
 
 std::map<CallBackDB*, int> DexDB::callBack;
-DexDB *DexDB::self_ = 0;
+DexDB *DexDB::pSingleton = nullptr;
+int DexDB::nCounter = 0;
 
 
-DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
+DexDB::DexDB()
 {
-    if (self_ == 0) {
-        self_ = this;
-    }
-
-    db = sqlite3pp::database(path.c_str(),
+    db = sqlite3pp::database(strDexDbFile.c_str(),
             SQLITE_OPEN_READWRITE |
             SQLITE_OPEN_CREATE |
             SQLITE_OPEN_FULLMUTEX |
             SQLITE_OPEN_SHAREDCACHE);
-
-    if (callback != nullptr) {
-        addCallBack(callback);
-    }
 
     isGetCountriesDataFromDB = true;
     isGetCurrenciesDataFromDB = true;
@@ -45,15 +39,35 @@ DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
 
 DexDB::~DexDB()
 {
-    if (self_ == this) {
-        self_ = 0;
-    }
 }
 
 
+DexDB *DexDB::instance()
+{
+    if (pSingleton == nullptr) {
+        pSingleton = new DexDB();
+    }
+
+    nCounter++;
+
+    return pSingleton;
+}
+
+void DexDB::freeInstance()
+{
+    if (nCounter > 0) {
+        nCounter--;
+
+        if (nCounter == 0) {
+            delete pSingleton;
+            pSingleton = nullptr;
+        }
+    }
+}
+
 DexDB *DexDB::self()
 {
-  return self_;
+    return pSingleton;
 }
 
 

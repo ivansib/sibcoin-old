@@ -15,12 +15,18 @@ const unsigned int uiDexDBversionInCode = 1001;
 typedef std::map<CallBackDB*, int> CallBack;
 
 class DexDB {
-public:
-    DexDB(const boost::filesystem::path &path, CallBackDB *callback = nullptr);
+    DexDB();
     ~DexDB();
+    DexDB(const DexDB &) {}
+    DexDB &operator =(const DexDB &) {return *this;}
 
+     static DexDB *pSingleton;
+     static int nCounter;
+
+public:
+    static DexDB *instance();
+    static void freeInstance();
     static DexDB *self();
-
 
     void addCallBack(CallBackDB *callback);
     CallBackDB *getCallBack() const;
@@ -123,10 +129,7 @@ private:
     std::list<uint256> getHashs(const std::string &tableName);
 
     sqlite3pp::database db;
-    static std::map<CallBackDB*, int> callBack;
-//    static int keyCallBack;
-//    int currentKeyCallBack;
-    static DexDB *self_;
+    static std::map<CallBackDB*, int> callBack; 
 
     std::list<CountryInfo> countries;
     std::list<CurrencyInfo> currencies;

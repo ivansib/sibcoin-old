@@ -46,7 +46,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
         );
     }
 
-    if (dex::DexDB::self() == 0) {
+    if (dex::DexDB::self() == nullptr) {
         throw runtime_error(
             "DexDB is not initialized.\n"
         );
@@ -198,7 +198,7 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "To use this feture please enable -txindex and make -reindex.\n"
         );
     }
-    if (dex::DexDB::self() == 0) {
+    if (dex::DexDB::self() == nullptr) {
         throw runtime_error(
             "DexDB is not initialized.\n"
         );
@@ -360,7 +360,7 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
             "To use this feture please enable -txindex and make -reindex.\n"
         );
     }
-    if (dex::DexDB::self() == 0) {
+    if (dex::DexDB::self() == nullptr) {
         throw runtime_error(
             "DexDB is not initialized.\n"
         );
@@ -437,7 +437,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
             "To use this feture please enable -txindex and make -reindex.\n"
         );
     }
-    if (dex::DexDB::self() == 0) {
+    if (dex::DexDB::self() == nullptr) {
         throw runtime_error(
             "DexDB is not initialized.\n"
         );

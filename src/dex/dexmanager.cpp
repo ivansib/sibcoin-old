@@ -23,24 +23,25 @@ CDexManager dexman;
 CDexManager::CDexManager()
 {
     db = nullptr;
+    isInitDb = false;
     uncOffers = new UnconfirmedOffers();
 }
 
 CDexManager::~CDexManager()
 {
+    if (isInitDb) {
+        db->freeInstance();
+    }
+
+    delete uncOffers;
 }
 
 
 
 void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
-    if (db == nullptr) {
-        if (DexDB::self() == 0) {
-            db = new DexDB(strDexDbFile);
-        } else {
-            db = DexDB::self();
-        }
-    }
+    db = DexDB::instance();
+    isInitDb = true;
 
     if (strCommand == NetMsgType::DEXSYNCGETALLHASH) {
         sendHashOffers(pfrom);

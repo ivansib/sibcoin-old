@@ -9,12 +9,8 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     callback = CallBackDbForGui::instance();
     connect(callback, &CallBackDbForGui::tableOperationFinished, this, &ExchangeDialog::finishTableOperation);
 
-    if (DexDB::self() == 0) {
-        db = new DexDB(strDexDbFile, callback);
-    } else {
-        db = DexDB::self();
-        db->addCallBack(callback);
-    }
+    db = DexDB::instance();
+    db->addCallBack(callback);
 
     tableBuy = new TableOffersView(db, TableOffersView::Buy);
     tableSell = new TableOffersView(db, TableOffersView::Sell);
@@ -47,6 +43,7 @@ ExchangeDialog::~ExchangeDialog()
 
     db->removeCallBack(callback);
     callback->freeInstance();
+    db->freeInstance();
 
     delete ui;
 }

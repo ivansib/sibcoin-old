@@ -13,9 +13,9 @@ CallBackDbForGui::CallBackDbForGui()
 CallBackDbForGui *CallBackDbForGui::instance() {
     if (pSingleton == nullptr) {
         pSingleton = new CallBackDbForGui();
-    } else {
-        nCounter++;
     }
+
+    nCounter++;
 
     return pSingleton;
 }

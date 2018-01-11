@@ -5,6 +5,7 @@
 #include "dex/dexdb.h"
 #include "dex/callbackdb.h"
 #include "random.h"
+#include "util.h"
 
 using namespace dex;
 
@@ -149,16 +150,16 @@ private:
     int editOffers;
 };
 
-void checkCountry(DexDB &db)
+void checkCountry(DexDB *db)
 {
-    auto cList = db.getCountriesInfo();
+    auto cList = db->getCountriesInfo();
     int size = cList.size();
     BOOST_CHECK(size == 247);
 
-    db.deleteCountry("RU");
-    db.deleteCountry("US");
+    db->deleteCountry("RU");
+    db->deleteCountry("US");
 
-    cList = db.getCountriesInfo();
+    cList = db->getCountriesInfo();
     size = cList.size();
 
     BOOST_CHECK(size == 245);
@@ -167,27 +168,27 @@ void checkCountry(DexDB &db)
     cList.pop_back();
     cList.push_back(front);
 
-    db.editCountries(cList);
-    cList = db.getCountriesInfo();
+    db->editCountries(cList);
+    cList = db->getCountriesInfo();
     auto back = cList.back();
 
     BOOST_CHECK(front.name == back.name && front.iso == back.iso && front.enabled == back.enabled);
 
-    auto find = db.getCountryInfo(front.iso);
+    auto find = db->getCountryInfo(front.iso);
 
     BOOST_CHECK(find.name == front.name && find.iso == front.iso && find.enabled == front.enabled);
 }
 
-void checkCurrency(DexDB &db)
+void checkCurrency(DexDB *db)
 {
-    auto cList = db.getCurrenciesInfo();
+    auto cList = db->getCurrenciesInfo();
     int size = cList.size();
     BOOST_CHECK(size == 147);
 
-    db.deleteCurrency("RUB");
-    db.deleteCurrency("USD");
+    db->deleteCurrency("RUB");
+    db->deleteCurrency("USD");
 
-    cList = db.getCurrenciesInfo();
+    cList = db->getCurrenciesInfo();
     size = cList.size();
 
     BOOST_CHECK(size == 145);
@@ -196,42 +197,42 @@ void checkCurrency(DexDB &db)
     cList.pop_back();
     cList.push_back(front);
 
-    db.editCurrencies(cList);
-    cList = db.getCurrenciesInfo();
+    db->editCurrencies(cList);
+    cList = db->getCurrenciesInfo();
     auto back = cList.back();
 
     BOOST_CHECK(front.name == back.name && front.iso == back.iso && front.symbol == back.symbol && front.enabled == back.enabled);
 
-    auto find = db.getCurrencyInfo(front.iso);
+    auto find = db->getCurrencyInfo(front.iso);
 
     BOOST_CHECK(find.name == front.name && find.iso == front.iso && find.symbol == front.symbol && find.enabled == front.enabled);
 }
 
-void checkPaymentMethod(DexDB &db)
+void checkPaymentMethod(DexDB *db)
 {
-    auto cList = db.getPaymentMethodsInfo();
+    auto cList = db->getPaymentMethodsInfo();
     int size = cList.size();
     BOOST_CHECK(size == 2);
 
     auto front = cList.front();
-    auto find = db.getPaymentMethodInfo(front.type);
+    auto find = db->getPaymentMethodInfo(front.type);
 
     BOOST_CHECK(find.name == front.name && find.type == front.type && find.description == front.description);
 
-    db.deletePaymentMethod(1);
-    db.deletePaymentMethod(128);
+    db->deletePaymentMethod(1);
+    db->deletePaymentMethod(128);
 
-    cList = db.getPaymentMethodsInfo();
+    cList = db->getPaymentMethodsInfo();
     size = cList.size();
 
     BOOST_CHECK(size == 0);
 }
 
-void checkOffers(DexDB &db)
+void checkOffers(DexDB *db)
 {
     CallBackOffers cb;
     cb.init();
-    db.addCallBack(&cb);
+    db->addCallBack(&cb);
 
     long int currentTime = static_cast<long int>(time(NULL));
     int secInDay = 86400;
@@ -252,8 +253,8 @@ void checkOffers(DexDB &db)
 
     std::list<OfferInfo> iList;
     iList.push_back(info);
-    db.addOfferBuy(info);
-    db.addOfferSell(info);
+    db->addOfferBuy(info);
+    db->addOfferSell(info);
 
     info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
@@ -269,8 +270,8 @@ void checkOffers(DexDB &db)
     info.editingVersion = 2;
 
     iList.push_back(info);
-    db.addOfferBuy(info);
-    db.addOfferSell(info);
+    db->addOfferBuy(info);
+    db->addOfferSell(info);
 
     info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
@@ -286,8 +287,8 @@ void checkOffers(DexDB &db)
     info.editingVersion = 3;
 
     iList.push_back(info);
-    db.addOfferBuy(info);
-    db.addOfferSell(info);
+    db->addOfferBuy(info);
+    db->addOfferSell(info);
 
     int step = 0;
     while (true) {
@@ -304,18 +305,18 @@ void checkOffers(DexDB &db)
         }
     }
 
-    BOOST_CHECK(db.isExistOfferBuy(iList.front().idTransaction));
-    BOOST_CHECK(db.isExistOfferSell(iList.back().idTransaction));
-    BOOST_CHECK(db.isExistOfferBuyByHash(iList.front().hash));
-    BOOST_CHECK(db.isExistOfferSellByHash(iList.back().hash));
+    BOOST_CHECK(db->isExistOfferBuy(iList.front().idTransaction));
+    BOOST_CHECK(db->isExistOfferSell(iList.back().idTransaction));
+    BOOST_CHECK(db->isExistOfferBuyByHash(iList.front().hash));
+    BOOST_CHECK(db->isExistOfferSellByHash(iList.back().hash));
 
-    BOOST_CHECK(!db.isExistOfferBuy(GetRandHash()));
-    BOOST_CHECK(!db.isExistOfferSell(GetRandHash()));
-    BOOST_CHECK(!db.isExistOfferBuyByHash(GetRandHash()));
-    BOOST_CHECK(!db.isExistOfferSellByHash(GetRandHash()));
+    BOOST_CHECK(!db->isExistOfferBuy(GetRandHash()));
+    BOOST_CHECK(!db->isExistOfferSell(GetRandHash()));
+    BOOST_CHECK(!db->isExistOfferBuyByHash(GetRandHash()));
+    BOOST_CHECK(!db->isExistOfferSellByHash(GetRandHash()));
 
-    db.deleteOfferSell(iList.front().idTransaction);
-    db.deleteOfferBuy(iList.back().idTransaction);
+    db->deleteOfferSell(iList.front().idTransaction);
+    db->deleteOfferBuy(iList.back().idTransaction);
 
     step = 0;
     while (true) {
@@ -332,8 +333,8 @@ void checkOffers(DexDB &db)
         }
     }
 
-    BOOST_CHECK(!db.isExistOfferSell(iList.front().idTransaction));
-    BOOST_CHECK(!db.isExistOfferBuy(iList.back().idTransaction));
+    BOOST_CHECK(!db->isExistOfferSell(iList.front().idTransaction));
+    BOOST_CHECK(!db->isExistOfferBuy(iList.back().idTransaction));
 
     OfferInfo info1 = iList.back();
     info1.price = 133;
@@ -346,7 +347,7 @@ void checkOffers(DexDB &db)
     info1.timeToExpiration = 30;
     info1.editingVersion = 4;
 
-    db.editOfferSell(info1);
+    db->editOfferSell(info1);
 
     OfferInfo info2 = iList.front();
     info2.price = 4444;
@@ -359,7 +360,7 @@ void checkOffers(DexDB &db)
     info2.timeToExpiration = 1;
     info2.editingVersion = 6;
 
-    db.editOfferBuy(info2);
+    db->editOfferBuy(info2);
 
     step = 0;
     while (true) {
@@ -376,7 +377,7 @@ void checkOffers(DexDB &db)
         }
     }
 
-    OfferInfo sell = db.getOfferSell(info1.idTransaction);
+    OfferInfo sell = db->getOfferSell(info1.idTransaction);
 
     BOOST_CHECK(sell.pubKey == info1.pubKey);
     BOOST_CHECK(sell.idTransaction == info1.idTransaction);
@@ -391,7 +392,7 @@ void checkOffers(DexDB &db)
     BOOST_CHECK(sell.timeToExpiration == info1.timeToExpiration);
     BOOST_CHECK(sell.editingVersion == info1.editingVersion);
 
-    sell = db.getOfferSellByHash(info1.hash);
+    sell = db->getOfferSellByHash(info1.hash);
 
     BOOST_CHECK(sell.pubKey == info1.pubKey);
     BOOST_CHECK(sell.idTransaction == info1.idTransaction);
@@ -406,7 +407,7 @@ void checkOffers(DexDB &db)
     BOOST_CHECK(sell.timeToExpiration == info1.timeToExpiration);
     BOOST_CHECK(sell.editingVersion == info1.editingVersion);
 
-    OfferInfo buy = db.getOfferBuy(info2.idTransaction);
+    OfferInfo buy = db->getOfferBuy(info2.idTransaction);
 
     BOOST_CHECK(buy.pubKey == info2.pubKey);
     BOOST_CHECK(buy.idTransaction == info2.idTransaction);
@@ -421,7 +422,7 @@ void checkOffers(DexDB &db)
     BOOST_CHECK(buy.timeToExpiration == info2.timeToExpiration);
     BOOST_CHECK(buy.editingVersion == info2.editingVersion);
 
-    buy = db.getOfferBuyByHash(info2.hash);
+    buy = db->getOfferBuyByHash(info2.hash);
 
     BOOST_CHECK(buy.pubKey == info2.pubKey);
     BOOST_CHECK(buy.idTransaction == info2.idTransaction);
@@ -436,10 +437,10 @@ void checkOffers(DexDB &db)
     BOOST_CHECK(buy.timeToExpiration == info2.timeToExpiration);
     BOOST_CHECK(buy.editingVersion == info2.editingVersion);
 
-    auto list = db.getOffersSell();
+    auto list = db->getOffersSell();
 
     for (auto item : list) {
-        OfferInfo sell = db.getOfferSell(item.idTransaction);
+        OfferInfo sell = db->getOfferSell(item.idTransaction);
 
         BOOST_CHECK(sell.pubKey == item.pubKey);
         BOOST_CHECK(sell.idTransaction == item.idTransaction);
@@ -455,10 +456,10 @@ void checkOffers(DexDB &db)
         BOOST_CHECK(sell.editingVersion == item.editingVersion);
     }
 
-    list = db.getOffersBuy();
+    list = db->getOffersBuy();
 
     for (auto item : list) {
-        OfferInfo buy = db.getOfferBuy(item.idTransaction);
+        OfferInfo buy = db->getOfferBuy(item.idTransaction);
 
         BOOST_CHECK(buy.pubKey == item.pubKey);
         BOOST_CHECK(buy.idTransaction == item.idTransaction);
@@ -476,8 +477,8 @@ void checkOffers(DexDB &db)
 
     cb.init();
 
-    db.deleteOldOffersSell();
-    db.deleteOldOffersBuy();
+    db->deleteOldOffersSell();
+    db->deleteOldOffersBuy();
 
     step = 0;
     while (true) {
@@ -494,22 +495,22 @@ void checkOffers(DexDB &db)
         }
     }
 
-    list = db.getOffersSell();
+    list = db->getOffersSell();
 
     BOOST_CHECK(list.empty());
 
-    list = db.getOffersBuy();
+    list = db->getOffersBuy();
 
     BOOST_CHECK(list.empty());
 
-    db.removeCallBack(&cb);
+    db->removeCallBack(&cb);
 }
 
-void checkMyOffers(DexDB &db)
+void checkMyOffers(DexDB *db)
 {
     CallBackMyOffers cb;
     cb.init();
-    db.addCallBack(&cb);
+    db->addCallBack(&cb);
 
     long int currentTime = static_cast<long int>(time(NULL));
     int secInDay = 86400;
@@ -532,7 +533,7 @@ void checkMyOffers(DexDB &db)
 
     std::list<MyOfferInfo> iList;
     iList.push_back(info);
-    db.addMyOffer(info);
+    db->addMyOffer(info);
 
     info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
@@ -550,7 +551,7 @@ void checkMyOffers(DexDB &db)
     info.editingVersion = 4;
 
     iList.push_back(info);
-    db.addMyOffer(info);
+    db->addMyOffer(info);
 
     info.pubKey = GetRandHash().GetHex();
     info.hash = GetRandHash();
@@ -568,7 +569,7 @@ void checkMyOffers(DexDB &db)
     info.editingVersion = 6;
 
     iList.push_back(info);
-    db.addMyOffer(info);
+    db->addMyOffer(info);
 
     int step = 0;
     while (true) {
@@ -585,17 +586,17 @@ void checkMyOffers(DexDB &db)
         }
     }
 
-    BOOST_CHECK(db.isExistMyOffer(iList.front().idTransaction));
-    BOOST_CHECK(db.isExistMyOffer(iList.back().idTransaction));
-    BOOST_CHECK(db.isExistMyOfferByHash(iList.front().hash));
-    BOOST_CHECK(db.isExistMyOfferByHash(iList.back().hash));
+    BOOST_CHECK(db->isExistMyOffer(iList.front().idTransaction));
+    BOOST_CHECK(db->isExistMyOffer(iList.back().idTransaction));
+    BOOST_CHECK(db->isExistMyOfferByHash(iList.front().hash));
+    BOOST_CHECK(db->isExistMyOfferByHash(iList.back().hash));
 
-    BOOST_CHECK(!db.isExistMyOffer(GetRandHash()));
-    BOOST_CHECK(!db.isExistMyOffer(GetRandHash()));
-    BOOST_CHECK(!db.isExistMyOfferByHash(GetRandHash()));
-    BOOST_CHECK(!db.isExistMyOfferByHash(GetRandHash()));
+    BOOST_CHECK(!db->isExistMyOffer(GetRandHash()));
+    BOOST_CHECK(!db->isExistMyOffer(GetRandHash()));
+    BOOST_CHECK(!db->isExistMyOfferByHash(GetRandHash()));
+    BOOST_CHECK(!db->isExistMyOfferByHash(GetRandHash()));
 
-    db.deleteMyOffer(iList.front().idTransaction);
+    db->deleteMyOffer(iList.front().idTransaction);
 
     step = 0;
     while (true) {
@@ -612,7 +613,7 @@ void checkMyOffers(DexDB &db)
         }
     }
 
-    BOOST_CHECK(!db.isExistMyOffer(iList.front().idTransaction));
+    BOOST_CHECK(!db->isExistMyOffer(iList.front().idTransaction));
 
     MyOfferInfo info1 = iList.back();
     info.type = Buy;
@@ -627,7 +628,7 @@ void checkMyOffers(DexDB &db)
     info1.timeToExpiration = 1;
     info1.editingVersion = 7;
 
-    db.editMyOffer(info1);
+    db->editMyOffer(info1);
 
     step = 0;
     while (true) {
@@ -644,7 +645,7 @@ void checkMyOffers(DexDB &db)
         }
     }
 
-    MyOfferInfo offer = db.getMyOffer(info1.idTransaction);
+    MyOfferInfo offer = db->getMyOffer(info1.idTransaction);
 
     BOOST_CHECK(offer.pubKey == info1.pubKey);
     BOOST_CHECK(offer.idTransaction == info1.idTransaction);
@@ -661,10 +662,10 @@ void checkMyOffers(DexDB &db)
     BOOST_CHECK(offer.timeToExpiration == info1.timeToExpiration);
     BOOST_CHECK(offer.editingVersion == info1.editingVersion);
 
-    auto list = db.getMyOffers();
+    auto list = db->getMyOffers();
 
     for (auto item : list) {
-        MyOfferInfo offer = db.getMyOffer(item.idTransaction);
+        MyOfferInfo offer = db->getMyOffer(item.idTransaction);
 
         BOOST_CHECK(offer.pubKey == item.pubKey);
         BOOST_CHECK(offer.idTransaction == item.idTransaction);
@@ -682,7 +683,7 @@ void checkMyOffers(DexDB &db)
 
     cb.init();
 
-    db.deleteOldMyOffers();
+    db->deleteOldMyOffers();
 
     step = 0;
     while (true) {
@@ -699,20 +700,20 @@ void checkMyOffers(DexDB &db)
         }
     }
 
-    list = db.getMyOffers();
+    list = db->getMyOffers();
 
     BOOST_CHECK(list.empty());
 
-    db.removeCallBack(&cb);
+    db->removeCallBack(&cb);
 }
 
 BOOST_FIXTURE_TEST_SUITE(dexdb_tests, BasicTestingSetup)
 
 BOOST_AUTO_TEST_CASE(dexdb_test1)
 {
-    std::string dbName = "test.db";
-    remove(dbName.c_str());
-    DexDB db(dbName);
+    strDexDbFile = "test.db";
+    remove(strDexDbFile.c_str());
+    DexDB *db = DexDB::instance();
 
     checkCountry(db);
     checkCurrency(db);
@@ -720,6 +721,7 @@ BOOST_AUTO_TEST_CASE(dexdb_test1)
     checkOffers(db);
     checkMyOffers(db);
 
+    db->freeInstance();
 //    remove(dbName.c_str());
 }
 
