@@ -14,9 +14,16 @@ class CallBackDbForGui : public QObject, public CallBackDB
 {
     Q_OBJECT
 
+    CallBackDbForGui();
+    CallBackDbForGui(const CallBackDbForGui &) {}
+    CallBackDbForGui &operator=(const CallBackDbForGui &) {return *this;}
+
+    static CallBackDbForGui *pSingleton;
+    static int nCounter;
+
 public:
-    CallBackDbForGui(QObject *parent = nullptr);
-    ~CallBackDbForGui() {}
+    static CallBackDbForGui *instance();
+    static void freeInstance();
 
     virtual void finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 

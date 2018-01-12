@@ -34,6 +34,7 @@ public:
 private:
     DexDB *db;
     UnconfirmedOffers *uncOffers;
+    bool isInitDb;
 
     void sendHashOffers(CNode* pfrom) const;
     void getHashsAndSendRequestForGetOffers(CNode* pfrom, CDataStream& vRecv) const;
@@ -43,7 +44,7 @@ private:
     void getAndDelOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndSendEditedOffer(CDataStream& vRecv);
 
-    std::list<uint256> availableOfferHash() const;
+    std::list<std::pair<uint256, int> > availableOfferHashAndVersion() const;
     CDexOffer getOfferInfo(const uint256 &hash) const;
 };
 

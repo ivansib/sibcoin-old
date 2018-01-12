@@ -147,8 +147,9 @@ bool AppInit(int argc, char* argv[])
                 }
             }
             strDexDbFile = dexdbpath.c_str();
+
             try {
-                new dex::DexDB(strDexDbFile);
+                dex::DexDB::instance();
             } catch (sqlite3pp::database_error e) {
                 fprintf(stderr, "Sibcoin DEX: Can`t open dex database: %s\n",strDexDbFile.c_str());
                 return EXIT_FAILURE;
