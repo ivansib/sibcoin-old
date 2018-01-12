@@ -12,6 +12,7 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, QDia
 
     connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersSubDialog::updateTables);
 
+    settings = CommonSettingsForOffers::instance();
     pDelegate = new TableOfferDelegate(columnBtn);
 
     tableView->setSortingEnabled(true);
@@ -40,6 +41,7 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, QDia
 TableOffersSubDialog::~TableOffersSubDialog()
 {
     delete pDelegate;
+    settings->freeInstance();
     db->removeCallBack(callBack);
     callBack->freeInstance();
 }
@@ -54,6 +56,9 @@ void TableOffersSubDialog::updateNavigationData()
 
     auto currencies = db->getCurrenciesInfo();
     cBoxCurrency->addData(currencies, ComboBox::View);
+
+    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType()));
+    cBoxCurrency->setCurrentData(settings->getCurrencyIso());
 
     cBoxOffer->clear();
     cBoxOffer->addItem(tr("All"));
