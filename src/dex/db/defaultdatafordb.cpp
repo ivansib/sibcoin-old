@@ -188,7 +188,7 @@ std::list<DefaultCountry> dex::DefaultDataForDb::dataCountries()
     countries.push_back({"QA", "Qatar", "QAR"});
     countries.push_back({"RE", "Réunion", "EUR"});
     countries.push_back({"RO", "Romania", "RON"});
-    countries.push_back({"RU", "Russia", "RUB", 10});
+    countries.push_back({"RU", "Russia", "RUB"});
     countries.push_back({"RW", "Rwanda", "RWF"});
     countries.push_back({"BL", "Saint Barthélemy", "EUR"});
     countries.push_back({"SH", "Saint Helena, Ascension and Tristan da Cunha", "SHP"});
