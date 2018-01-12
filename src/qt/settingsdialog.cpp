@@ -5,7 +5,7 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
 {
     ui->setupUi(this);
 
-    common = new QWidget();
+    common = new CommonSettingsForOffersWidget(db);
     countries = new TableCountries(db);
     currencies = new TableCurrencies(db);
     filters = new FilterList(db);

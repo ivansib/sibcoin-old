@@ -34,7 +34,8 @@ QT_FORMS_UI = \
   qt/forms/offerdetailseditor.ui \
   qt/forms/settingsdialog.ui \
   qt/forms/filterlist.ui \
-  qt/forms/filteritemeditor.ui
+  qt/forms/filteritemeditor.ui \
+  qt/forms/commonsettingsforofferswidget.ui
 
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -464,7 +465,8 @@ QT_MOC_CPP += \
   qt/moc_filterlist.cpp \
   qt/moc_filteritemeditor.cpp \
   qt/moc_callbackdbforgui.cpp \
-  qt/moc_tableofferdelegate.cpp
+  qt/moc_tableofferdelegate.cpp \
+  qt/moc_commonsettingsforofferswidget.cpp
 
 BITCOIN_QT_H += \
   qt/exchangedialog.h \
@@ -493,7 +495,8 @@ BITCOIN_QT_H += \
   qt/filterlist.h \
   qt/filteritemeditor.h \
   qt/callbackdbforgui.h \
-  qt/tableofferdelegate.h
+  qt/tableofferdelegate.h \
+  qt/commonsettingsforofferswidget.h
 
 BITCOIN_QT_CPP += \
   qt/exchangedialog.cpp \
@@ -519,7 +522,8 @@ BITCOIN_QT_CPP += \
   qt/filterlist.cpp \
   qt/filteritemeditor.cpp \
   qt/callbackdbforgui.cpp \
-  qt/tableofferdelegate.cpp
+  qt/tableofferdelegate.cpp \
+  qt/commonsettingsforofferswidget.cpp
 endif
 
 RES_IMAGES = \
