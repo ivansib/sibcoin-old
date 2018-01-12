@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include <locale>
 
 namespace dex {
 
@@ -10,6 +11,27 @@ struct DefaultCountry {
     std::string iso;
     std::string name;
     std::string currency;
+    int sortOrder;
+
+    DefaultCountry (const std::string &iso, const std::string &name, const std::string &currency, const int sortOrder = 200)
+    {
+        this->iso = iso;
+        this->name = name;
+        this->currency = currency;
+        this->sortOrder = sortOrder;
+    }
+
+    static bool cmp_sortorder(const DefaultCountry &a, const DefaultCountry &b)
+    {
+      return a.sortOrder < b.sortOrder;
+    }
+
+    static bool cmp_name(const DefaultCountry &a, const DefaultCountry &b)
+    {
+      std::locale loc("");
+      return loc(a.name, b.name);
+    }
+
 };
 
 struct DefaultCurrency {

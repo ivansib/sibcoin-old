@@ -17,6 +17,7 @@ int DexDB::nCounter = 0;
 
 DexDB::DexDB()
 {
+
     db = sqlite3pp::database(strDexDbFile.c_str(),
             SQLITE_OPEN_READWRITE |
             SQLITE_OPEN_CREATE |
@@ -1241,8 +1242,13 @@ void DexDB::addDefaultData()
     count = tableCount("countries");
     if (count <= 0) {
         std::list<DefaultCountry> countries = def.dataCountries();
+
+        countries.sort(DefaultCountry::cmp_name);
+        countries.sort(DefaultCountry::cmp_sortorder);
+
+        int order = 0;
         for (auto item : countries) {
-            addCountry(item.iso, item.name, item.currency, true, -1);
+            addCountry(item.iso, item.name, item.currency, true, order++);
         }
 
         isGetCountriesDataFromDB = false;
