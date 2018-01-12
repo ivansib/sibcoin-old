@@ -36,6 +36,9 @@ protected:
 private:
     QString toText(const quint64 &val) const;
     quint64 fromText(const QString &str) const;
+
+Q_SIGNALS:
+    void valueChanged(quint64);
 };
 
 #endif

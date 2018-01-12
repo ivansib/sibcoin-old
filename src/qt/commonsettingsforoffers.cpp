@@ -75,7 +75,7 @@ void CommonSettingsForOffers::setCurrencyIso(const QString &iso)
 quint8 CommonSettingsForOffers::getPaymentMethodType()
 {
     settings->beginGroup("default");
-    quint8 type = settings->value("paymentMethodType", 1).toReal();
+    quint8 type = settings->value("paymentMethodType", 128).toReal();
     settings->endGroup();
 
     return type;
@@ -91,7 +91,7 @@ void CommonSettingsForOffers::setPaymentMethodType(const quint8 &type)
 quint64 CommonSettingsForOffers::getMinAmount()
 {
     settings->beginGroup("default");
-    quint64 min = settings->value("minAmount", 5).toReal();
+    quint64 min = settings->value("minAmount", 500000000).toReal();
     settings->endGroup();
 
     return min;
