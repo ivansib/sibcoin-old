@@ -327,7 +327,8 @@ QT_MOC_CPP += \
   moc_filteritemeditor.cpp \
   moc_callbackdbforgui.cpp \
   moc_tableofferdelegate.cpp \
-  moc_commonsettingsforofferswidget.cpp
+  moc_commonsettingsforofferswidget.cpp \
+  moc_commonsettingsforoffers.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -357,7 +358,8 @@ BITCOIN_QT_H += \
   filteritemeditor.h \
   callbackdbforgui.h \
   tableofferdelegate.h \
-  commonsettingsforofferswidget.h
+  commonsettingsforofferswidget.h \
+  commonsettingsforoffers.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
@@ -384,7 +386,8 @@ BITCOIN_QT_CPP += \
   filteritemeditor.cpp \
   callbackdbforgui.cpp \
   tableofferdelegate.cpp \
-  commonsettingsforofferswidget.cpp
+  commonsettingsforofferswidget.cpp \
+  commonsettingsforoffers.cpp
 endif
 
 RES_IMAGES = \

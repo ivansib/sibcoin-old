@@ -466,7 +466,8 @@ QT_MOC_CPP += \
   qt/moc_filteritemeditor.cpp \
   qt/moc_callbackdbforgui.cpp \
   qt/moc_tableofferdelegate.cpp \
-  qt/moc_commonsettingsforofferswidget.cpp
+  qt/moc_commonsettingsforofferswidget.cpp \
+  qt/moc_commonsettingsforoffers.cpp
 
 BITCOIN_QT_H += \
   qt/exchangedialog.h \
@@ -496,7 +497,8 @@ BITCOIN_QT_H += \
   qt/filteritemeditor.h \
   qt/callbackdbforgui.h \
   qt/tableofferdelegate.h \
-  qt/commonsettingsforofferswidget.h
+  qt/commonsettingsforofferswidget.h \
+  qt/commonsettingsforoffers.h
 
 BITCOIN_QT_CPP += \
   qt/exchangedialog.cpp \
@@ -523,7 +525,8 @@ BITCOIN_QT_CPP += \
   qt/filteritemeditor.cpp \
   qt/callbackdbforgui.cpp \
   qt/tableofferdelegate.cpp \
-  qt/commonsettingsforofferswidget.cpp
+  qt/commonsettingsforofferswidget.cpp \
+  qt/commonsettingsforoffers.cpp
 endif
 
 RES_IMAGES = \
