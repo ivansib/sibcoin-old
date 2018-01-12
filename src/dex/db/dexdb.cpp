@@ -16,7 +16,9 @@ DexDB *DexDB::self_ = 0;
 
 DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
 {
+    bool firstrun = false;
     if (self_ == 0) {
+        firstrun = true;
         self_ = this;
     }
 
@@ -36,18 +38,21 @@ DexDB::DexDB(const boost::filesystem::path &path, CallBackDB *callback)
     isGetCurrenciesDataFromDB = true;
     isGetPaymentsDataFromDB = true;
 
-    createTables();
-    addDefaultData();
-
-    if (isDexDbOutdated()) {
-        dropTables();
+    if (firstrun) {
         createTables();
         addDefaultData();
+
+        if (isDexDbOutdated()) {
+            dropTables();
+            createTables();
+            addDefaultData();
+        }
     }
 }
 
 DexDB::~DexDB()
 {
+    removeCallBack();
     if (self_ == this) {
         self_ = 0;
     }
@@ -1239,8 +1244,13 @@ void DexDB::addDefaultData()
     count = tableCount("countries");
     if (count <= 0) {
         std::list<DefaultCountry> countries = def.dataCountries();
+
+        countries.sort(DefaultCountry::cmp_name);
+        countries.sort(DefaultCountry::cmp_sortorder);
+
+        int order = 0;
         for (auto item : countries) {
-            addCountry(item.iso, item.name, item.currency, true, -1);
+            addCountry(item.iso, item.name, item.currency, true, order++);
         }
 
         isGetCountriesDataFromDB = false;
