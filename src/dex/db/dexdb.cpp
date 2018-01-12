@@ -17,11 +17,6 @@ int DexDB::nCounter = 0;
 
 DexDB::DexDB()
 {
-    bool firstrun = false;
-    if (self_ == 0) {
-        firstrun = true;
-        self_ = this;
-    }
 
     db = sqlite3pp::database(strDexDbFile.c_str(),
             SQLITE_OPEN_READWRITE |
@@ -33,24 +28,18 @@ DexDB::DexDB()
     isGetCurrenciesDataFromDB = true;
     isGetPaymentsDataFromDB = true;
 
-    if (firstrun) {
+    createTables();
+    addDefaultData();
+
+    if (isDexDbOutdated()) {
+        dropTables();
         createTables();
         addDefaultData();
-
-        if (isDexDbOutdated()) {
-            dropTables();
-            createTables();
-            addDefaultData();
-        }
     }
 }
 
 DexDB::~DexDB()
 {
-    removeCallBack();
-    if (self_ == this) {
-        self_ = 0;
-    }
 }
 
 
