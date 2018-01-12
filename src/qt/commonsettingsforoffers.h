@@ -5,10 +5,17 @@
 
 class CommonSettingsForOffers
 {
+    CommonSettingsForOffers();
+    CommonSettingsForOffers(const CommonSettingsForOffers &) {}
+    CommonSettingsForOffers &operator=(const CommonSettingsForOffers &) {return *this;}
+    ~CommonSettingsForOffers();
+
+    static CommonSettingsForOffers *pSingleton;
+    static int nCounter;
 
 public:
-    CommonSettingsForOffers();
-    ~CommonSettingsForOffers();
+    static CommonSettingsForOffers *instance();
+    static void freeInstance();
 
     QString getCountryIso();
     void setCountryIso(const QString &iso);

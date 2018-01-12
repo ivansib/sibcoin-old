@@ -1,6 +1,9 @@
 #include "commonsettingsforoffers.h"
 #include "util.h"
 
+CommonSettingsForOffers *CommonSettingsForOffers::pSingleton = nullptr;
+int CommonSettingsForOffers::nCounter = 0;
+
 CommonSettingsForOffers::CommonSettingsForOffers()
 {
     boost::filesystem::path pathSettings = GetDataDir() / "dex.conf";
@@ -12,6 +15,29 @@ CommonSettingsForOffers::CommonSettingsForOffers()
 CommonSettingsForOffers::~CommonSettingsForOffers()
 {
     delete settings;
+}
+
+CommonSettingsForOffers *CommonSettingsForOffers::instance()
+{
+    if (pSingleton == nullptr) {
+        pSingleton = new CommonSettingsForOffers();
+    }
+
+    nCounter++;
+
+    return pSingleton;
+}
+
+void CommonSettingsForOffers::freeInstance()
+{
+    if (nCounter > 0) {
+        nCounter--;
+
+        if (nCounter == 0) {
+            delete pSingleton;
+            pSingleton = nullptr;
+        }
+    }
 }
 
 QString CommonSettingsForOffers::getCountryIso()
