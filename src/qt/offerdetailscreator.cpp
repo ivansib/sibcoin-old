@@ -84,8 +84,10 @@ void OfferDetailsCreator::saveData()
 
 void OfferDetailsCreator::sendData()
 {
-    QtMyOfferInfo info = getMyOffer();
+    if (confirmationSend()) {
+        QtMyOfferInfo info = getMyOffer();
 
-    Q_EMIT dataSend(info);
-    close();
+        Q_EMIT dataSend(info);
+        close();
+    }
 }

@@ -197,10 +197,12 @@ void OfferDetailsEditor::saveData()
 
 void OfferDetailsEditor::sendData()
 {
-    updateMyOffer();
+    if (confirmationSend()) {
+        updateMyOffer();
 
-    Q_EMIT dataSend(offerInfo);
-    close();
+        Q_EMIT dataSend(offerInfo);
+        close();
+    }
 }
 
 void OfferDetailsEditor::deleteDraftData()

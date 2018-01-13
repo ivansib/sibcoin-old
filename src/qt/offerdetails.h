@@ -47,6 +47,7 @@ protected:
     WalletModel *model;
 
     QStringList typeOffers() const;
+    bool confirmationSend();
 
 private:
     QComboBox *boxOffer;
