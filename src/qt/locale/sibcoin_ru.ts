@@ -1235,11 +1235,11 @@ Address: %4
     <name>ExchangeDialog</name>
     <message>
         <source>Buy Sibcoin</source>
-        <translation>Покупка Sibcoin</translation>
+        <translation>Купить Ч</translation>
     </message>
     <message>
         <source>Sell Sibcoin</source>
-        <translation>Продажа Sibcoin</translation>
+        <translation>Продать Ч</translation>
     </message>
     <message>
         <source>My Offers</source>
@@ -1247,7 +1247,7 @@ Address: %4
     </message>
     <message>
         <source>Exchanges</source>
-        <translation>Обмен</translation>
+        <translation>Биржи</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -1656,6 +1656,14 @@ p, li { white-space: pre-wrap; }
         <source>Sell</source>
         <translation>Продажа</translation>
     </message>
+    <message>
+        <source>Confirm send offer</source>
+        <translation>Подтвердить отправку предложения</translation>
+    </message>
+    <message>
+        <source>Confirm send offer?</source>
+        <translation>Подтвердить отправку предложения?</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>
@@ -1779,8 +1787,8 @@ p, li { white-space: pre-wrap; }
         <translation>Период До Истечения*:</translation>
     </message>
     <message>
-        <source>days     Time Expiration:</source>
-        <translation>дней     Дата Истечения:</translation>
+        <source>Approximate Time Expiration:</source>
+        <translation>Приблизительная Дата Истечения:</translation>
     </message>
     <message>
         <source>Short Info:</source>
@@ -1802,7 +1810,7 @@ p, li { white-space: pre-wrap; }
         <source>days   </source>
         <translation>дней   </translation>
     </message>
-        <message>
+    <message>
         <source>Active</source>
         <translation>Активен</translation>
     </message>
@@ -1986,6 +1994,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>More Details</source>
         <translation>Больше Деталей</translation>
+    </message>
+</context>
+<context>
+    <name>CommonSettingsForOffersWidget</name>
+    <message>
+        <source>Default Settings</source>
+        <translation type="unfinished">Настройки по умолчанию</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Страна:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Платеж:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Мин. Сумма:</translation>
     </message>
 </context>
 <context>

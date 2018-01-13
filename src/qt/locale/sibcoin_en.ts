@@ -1995,6 +1995,14 @@ p, li { white-space: pre-wrap; }
         <source>Sell</source>
         <translation>Sell</translation>
     </message>
+    <message>
+        <source>Confirm send offer</source>
+        <translation>Confirm send offer</translation>
+    </message>
+    <message>
+        <source>Confirm send offer?</source>
+        <translation>Confirm send offer?</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>
@@ -2127,8 +2135,16 @@ p, li { white-space: pre-wrap; }
         <translation>Time Expiration*:</translation>
     </message>
     <message>
-        <source>days     Time Expiration:</source>
-        <translation>days     Time Expiration:</translation>
+        <source>Time Expiration:</source>
+        <translation>Time Expiration:</translation>
+    </message>
+    <message>
+        <source>days   </source>
+        <translation>days   </translation>
+    </message>
+    <message>
+        <source>Approximate Time Expiration:</source>
+        <translation>Approximate Time Expiration:</translation>
     </message>
     <message>
         <source>Short Info:</source>
@@ -2319,6 +2335,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>More Details</source>
         <translation>More Details</translation>
+    </message>
+</context>
+<context>
+    <name>CommonSettingsForOffersWidget</name>
+    <message>
+        <source>Default Settings</source>
+        <translation>Default Settings</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Country:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Currency:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Payment:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Min Amount:</translation>
     </message>
 </context>
 <context>
