@@ -5,6 +5,8 @@ OfferDetailsCreator::OfferDetailsCreator(DexDB *db, QDialog *parent) : OfferDeta
 {
     setupUi(this);
 
+    settings = CommonSettingsForOffers::instance();
+
     for (auto item : expirations) {
         cBoxExpiration->addItem(QString::number(item));
     }
@@ -27,14 +29,19 @@ OfferDetailsCreator::OfferDetailsCreator(DexDB *db, QDialog *parent) : OfferDeta
     updateNavigationData();
 }
 
+OfferDetailsCreator::~OfferDetailsCreator()
+{
+    settings->freeInstance();
+}
+
 void OfferDetailsCreator::initData()
 {
     cBoxOffer->setCurrentIndex(0);
-    cBoxCountry->setCurrentIndex(0);
-    cBoxCurrency->setCurrentIndex(0);
-    cBoxPayment->setCurrentIndex(0);
+    cBoxCountry->setCurrentData(settings->getCountryIso());
+    cBoxCurrency->setCurrentData(settings->getCurrencyIso());
+    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType()));
     sBoxPrice->setValue(0);
-    sBoxMinAmount->setValue(0);
+    sBoxMinAmount->setValue(settings->getMinAmount());
     cBoxExpiration->setCurrentIndex(0);
     tEditShortInfo->setText("");
     tEditDetails->setText("");

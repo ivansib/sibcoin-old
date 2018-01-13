@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include "offerdetails.h"
 #include "walletmodel.h"
+#include "commonsettingsforoffers.h"
 #include "ui_offerdetailscreator.h"
 
 class OfferDetailsCreator : public OfferDetails, public Ui::OfferDetailsCreator
@@ -13,12 +14,14 @@ class OfferDetailsCreator : public OfferDetails, public Ui::OfferDetailsCreator
 
 public:
     OfferDetailsCreator(DexDB *db, QDialog *parent = nullptr);
+    ~OfferDetailsCreator();
 
     void initData();
 
 private:
-
     QtMyOfferInfo getMyOffer() const;
+
+    CommonSettingsForOffers *settings;
 
 protected Q_SLOTS:
     virtual void saveData();
