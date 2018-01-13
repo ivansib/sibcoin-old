@@ -5,7 +5,7 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
 {
     ui->setupUi(this);
 
-    common = new QWidget();
+    common = new CommonSettingsForOffersWidget(db);
     countries = new TableCountries(db);
     currencies = new TableCurrencies(db);
     filters = new FilterList(db);
@@ -22,6 +22,7 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
     connect(ui->btnCurrencies, &QPushButton::clicked, this, &SettingsDialog::currentCurrencies);
     connect(ui->btnFilters, &QPushButton::clicked, this, &SettingsDialog::currentFilters);
 
+    connect(common, &CommonSettingsForOffersWidget::dataChanged, this, &SettingsDialog::changedData);
     connect(countries, &TableCountries::dataChanged, this, &SettingsDialog::changedData);
     connect(currencies, &TableCurrencies::dataChanged, this, &SettingsDialog::changedData);
     connect(filters, &FilterList::dataChanged, this, &SettingsDialog::changedData);
@@ -29,6 +30,8 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
     QPushButton* btnApply = ui->btnBox->button(QDialogButtonBox::Apply);
     connect(btnApply, &QPushButton::clicked, this, &SettingsDialog::saveData);
     connect(ui->btnBox, &QDialogButtonBox::rejected, this, &SettingsDialog::cancel);
+
+    currentCommon();
 }
 
 SettingsDialog::~SettingsDialog()
@@ -63,6 +66,7 @@ void SettingsDialog::changedData()
 
 void SettingsDialog::saveData()
 {
+    common->saveData();
     countries->saveData();
     currencies->saveData();
     filters->saveData();
@@ -73,6 +77,7 @@ void SettingsDialog::saveData()
 
 void SettingsDialog::cancel()
 {
+    common->cancel();
     countries->cancel();
     currencies->cancel();
     filters->cancel();

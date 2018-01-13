@@ -10,7 +10,8 @@ CallBackDbForGui::CallBackDbForGui()
     qRegisterMetaType<StatusTableOperation>("StatusTableOperation");
 }
 
-CallBackDbForGui *CallBackDbForGui::instance() {
+CallBackDbForGui *CallBackDbForGui::instance()
+{
     if (pSingleton == nullptr) {
         pSingleton = new CallBackDbForGui();
     }
@@ -20,7 +21,8 @@ CallBackDbForGui *CallBackDbForGui::instance() {
     return pSingleton;
 }
 
-void CallBackDbForGui::freeInstance() {
+void CallBackDbForGui::freeInstance()
+{
     if (nCounter > 0) {
         nCounter--;
 

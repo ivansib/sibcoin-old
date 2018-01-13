@@ -14,6 +14,7 @@ void PriceSpinBox::setValue(const quint64 &val)
 {
     QString text = toText(val);
     lineEdit()->setText(text);
+    Q_EMIT valueChanged(val);
 }
 
 quint64 PriceSpinBox::value() const

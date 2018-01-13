@@ -5,6 +5,7 @@
 #include "tablecountries.h"
 #include "tablecurrencies.h"
 #include "filterlist.h"
+#include "commonsettingsforofferswidget.h"
 #include "dex/dexdb.h"
 
 using namespace dex;
@@ -25,7 +26,7 @@ private:
     Ui::SettingsDialog *ui;
     DexDB *db;
 
-    QWidget *common;
+    CommonSettingsForOffersWidget *common;
     TableCountries *countries;
     TableCurrencies *currencies;
     FilterList *filters;
