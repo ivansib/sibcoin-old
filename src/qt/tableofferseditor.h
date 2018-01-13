@@ -16,6 +16,9 @@ public:
 
     void setModel(WalletModel *model);
 
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+
 private:
     OfferDetailsEditor *editor;
     OfferDetailsCreator *creator;

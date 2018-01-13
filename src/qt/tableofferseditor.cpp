@@ -12,11 +12,10 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     tableView->setColumnWidth(0, 150);
     tableView->setColumnWidth(1, 150);
-    tableView->setColumnWidth(2, 150);
     tableView->setColumnWidth(3, 150);
     tableView->setColumnWidth(4, 150);
 
-    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 120, 23);
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 2);
 
     updateData();
 
@@ -44,6 +43,12 @@ void TableOffersEditor::setModel(WalletModel *model)
     this->model = model;
     creator->setModel(model);
     editor->setModel(model);
+}
+
+void TableOffersEditor::resizeEvent(QResizeEvent *event)
+{
+    QDialog::resizeEvent(event);
+    columnResizingFixer->stretchColumnWidth(2);
 }
 
 void TableOffersEditor::updateData()

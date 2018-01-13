@@ -28,8 +28,6 @@ protected:
     CallBackDbForGui *callBack;
     GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
 
-    virtual void resizeEvent(QResizeEvent *event);
-
     void init();
     QString currentCountry() const;
     QString currentCurrency() const;

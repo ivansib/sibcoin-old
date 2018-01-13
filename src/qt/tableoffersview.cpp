@@ -7,17 +7,22 @@ TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, QDialog *pare
     details = new OfferDetailsView(db, this);
 
     tableView->setColumnWidth(0, 150);
-    tableView->setColumnWidth(1, 150);
     tableView->setColumnWidth(2, 150);
     tableView->setColumnWidth(3, 150);
 
-    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 120, 23);
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 1);
 
     updateData();
 }
 
 TableOffersView::~TableOffersView()
 {
+}
+
+void TableOffersView::resizeEvent(QResizeEvent *event)
+{
+    QDialog::resizeEvent(event);
+    columnResizingFixer->stretchColumnWidth(1);
 }
 
 void TableOffersView::updateData()

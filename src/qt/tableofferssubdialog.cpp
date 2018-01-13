@@ -68,12 +68,6 @@ void TableOffersSubDialog::updateNavigationData()
     Q_EMIT navigationDataUpdate();
 }
 
-void TableOffersSubDialog::resizeEvent(QResizeEvent *event)
-{
-    QDialog::resizeEvent(event);
-    columnResizingFixer->stretchColumnWidth(1);
-}
-
 void TableOffersSubDialog::init()
 {
     changedFilterCountryIso(0);

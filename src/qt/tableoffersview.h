@@ -17,6 +17,9 @@ public:
     TableOffersView(DexDB *db, const TypeOffer &type, QDialog *parent = nullptr);
     ~TableOffersView();
 
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+
 private:
     OfferDetailsView *details;
     const TypeOffer type;
