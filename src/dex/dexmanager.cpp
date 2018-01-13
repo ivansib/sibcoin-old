@@ -12,10 +12,6 @@
 
 
 
-#define PAYOFFER_RETURN_FEE     10000
-#define PAYOFFER_TX_FEE         50000000
-#define PAYOFFER_MIN_TX_HEIGHT  6
-
 
 CDexManager dexman;
 
