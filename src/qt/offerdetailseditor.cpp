@@ -23,13 +23,16 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
     addLEditTransactionPrice(lEditTransactionPrice);
 
+    connect(btnDeleteDraft, &QPushButton::clicked, this, &OfferDetailsEditor::deleteDraftData);
+
     updateNavigationData();
 }
 
 void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
-    btnSaveDraft->setEnabled(true);
-    btnSend->setEnabled(true);
+    btnDeleteDraft->setVisible(true);
+    btnSaveDraft->setVisible(true);
+    btnSend->setVisible(true);
 
     offerInfo = info;
 
@@ -48,7 +51,8 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         isApproximateExpiration(false);
         enabledHashEditLines(false);
 
-        btnSaveDraft->setEnabled(false);
+        btnDeleteDraft->setVisible(false);
+        btnSaveDraft->setVisible(false);
 
         QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
 
@@ -60,7 +64,7 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         lEditLeftEdits->setText(QString::number(leftEdits));
 
         if (leftEdits <= 0) {
-            btnSend->setEnabled(false);
+            btnSend->setVisible(false);
         }
     } else {
         isApproximateExpiration(true);
@@ -196,5 +200,11 @@ void OfferDetailsEditor::sendData()
     updateMyOffer();
 
     Q_EMIT dataSend(offerInfo);
+    close();
+}
+
+void OfferDetailsEditor::deleteDraftData()
+{
+    Q_EMIT draftDataDelete(offerInfo);
     close();
 }

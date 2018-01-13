@@ -415,6 +415,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="btnDeleteDraft">
+       <property name="text">
+        <string>Delete draft</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btnCancel">
        <property name="text">
         <string>Cancel</string>

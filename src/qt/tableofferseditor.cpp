@@ -22,6 +22,7 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     connect(editor, &OfferDetailsEditor::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
     connect(editor, &OfferDetailsEditor::dataSend, this, &TableOffersEditor::sendMyOffer);
+    connect(editor, &OfferDetailsEditor::draftDataDelete, this, &TableOffersEditor::deleteDraftData);
 
     connect(creator, &OfferDetailsCreator::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
     connect(creator, &OfferDetailsCreator::dataSend, this, &TableOffersEditor::sendMyOffer);
@@ -145,9 +146,18 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
     saveMyOffer(myOffer);
 }
 
+void TableOffersEditor::deleteDraftData(const QtMyOfferInfo &info)
+{
+    MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
+
+    if (myOffer.status == Draft) {
+        db->deleteMyOfferByHash(myOffer.hash);
+    }
+}
+
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
 {
-    if (table == MyOffers && (operation == Add || operation == Edit) && status == Ok) {
+    if (table == MyOffers && (operation == Add || operation == Edit || operation == Delete) && status == Ok) {
         updateData();
         Q_EMIT dataChanged();
     }

@@ -33,6 +33,7 @@ protected Q_SLOTS:
 private Q_SLOTS:
     void addOrEditMyOffer(const QtMyOfferInfo &info);
     void sendMyOffer(const QtMyOfferInfo &info);
+    void deleteDraftData(const QtMyOfferInfo &info);
 };
 
 #endif
