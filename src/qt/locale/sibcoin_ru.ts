@@ -1658,11 +1658,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Confirm send offer</source>
-        <translation>Подтвердить отправку предложения</translation>
+        <translation>Отправка предложения</translation>
     </message>
     <message>
         <source>Confirm send offer?</source>
-        <translation>Подтвердить отправку предложения?</translation>
+        <translation>Подтвердите отправку предложения?</translation>
     </message>
 </context>
 <context>
@@ -1869,6 +1869,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Left Edits:</source>
         <translation>Редактирований осталось:</translation>
+    </message>
+    <message>
+        <source>Delete draft</source>
+        <translation>Удалить черновик</translation>
+    </message>
+    <message>
+        <source>Confirm delete draft?</source>
+        <translation>Удалить черновик?</translation>
     </message>
 </context>
 <context>

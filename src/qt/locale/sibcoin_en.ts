@@ -2210,6 +2210,14 @@ p, li { white-space: pre-wrap; }
         <source>Left Edits:</source>
         <translation>Left Edits:</translation>
     </message>
+    <message>
+        <source>Delete draft</source>
+        <translation>Delete draft</translation>
+    </message>
+    <message>
+        <source>Confirm delete draft?</source>
+        <translation>Confirm delete draft?</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsView</name>

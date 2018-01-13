@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "offerdetailseditor.h"
 
 OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetails(db, parent)
@@ -207,6 +208,13 @@ void OfferDetailsEditor::sendData()
 
 void OfferDetailsEditor::deleteDraftData()
 {
-    Q_EMIT draftDataDelete(offerInfo);
-    close();
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Delete draft"),
+        tr("Confirm delete draft?"),
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel);
+
+    if(retval == QMessageBox::Yes) {
+        Q_EMIT draftDataDelete(offerInfo);
+        close();
+    }
 }
