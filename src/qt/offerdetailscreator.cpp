@@ -56,7 +56,7 @@ QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
 
     CKey secret = model->generateNewKey();
     CPubKey pubkey = secret.GetPubKey();
-    info.pubKey = QString::fromUtf8(pubkey.GetHash().GetHex().c_str());
+    info.pubKey = QString::fromUtf8(HexStr(pubkey.begin(), pubkey.end()).c_str());
 
     info.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
     info.countryIso = cBoxCountry->currentData().toString();
