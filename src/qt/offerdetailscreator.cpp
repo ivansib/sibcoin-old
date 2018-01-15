@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "offerdetailscreator.h"
 #include "random.h"
 
@@ -50,12 +51,19 @@ void OfferDetailsCreator::initData()
     changedTimeToExpiration(0);
 }
 
-QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
+QtMyOfferInfo OfferDetailsCreator::getMyOffer(bool &isError) const
 {
+    isError = false;
     QtMyOfferInfo info;
 
     CKey secret = model->generateNewKey();
     CPubKey pubkey = secret.GetPubKey();
+    if (!model->addKeyPubKey(secret, pubkey)) {
+        QMessageBox::critical(0, QObject::tr("Error"), tr("Error: Can't add public key to the wallet"));
+        isError = true;
+        return info;
+    }
+
     info.pubKey = QString::fromUtf8(HexStr(pubkey.begin(), pubkey.end()).c_str());
 
     info.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
@@ -76,18 +84,24 @@ QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
 
 void OfferDetailsCreator::saveData()
 {
-    QtMyOfferInfo info = getMyOffer();
+    bool isError;
+    QtMyOfferInfo info = getMyOffer(isError);
 
-    Q_EMIT dataSave(info);
-    close();
+    if (!isError) {
+        Q_EMIT dataSave(info);
+        close();
+    }
 }
 
 void OfferDetailsCreator::sendData()
 {
     if (confirmationSend()) {
-        QtMyOfferInfo info = getMyOffer();
+        bool isError;
+        QtMyOfferInfo info = getMyOffer(isError);
 
-        Q_EMIT dataSend(info);
-        close();
+        if (!isError) {
+            Q_EMIT dataSend(info);
+            close();
+        }
     }
 }

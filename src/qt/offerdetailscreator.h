@@ -19,7 +19,7 @@ public:
     void initData();
 
 private:
-    QtMyOfferInfo getMyOffer() const;
+    QtMyOfferInfo getMyOffer(bool &isError) const;
 
     CommonSettingsForOffers *settings;
 

@@ -2078,6 +2078,10 @@ p, li { white-space: pre-wrap; }
         <source>Send</source>
         <translation>Send</translation>
     </message>
+    <message>
+        <source>Error: Can't add public key to the wallet</source>
+        <translation>Error: Can't add public key to the wallet</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsEditor</name>
@@ -4912,13 +4916,11 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Zimbabwe Dollar</translation>
     </message>
     <message>
-        <location filename="../sibcoin.cpp" line="+86"/>
-        <location line="+7"/>
-        <location line="+15"/>
-        <location line="+17"/>
-        <location line="+14"/>
-        <location line="+9"/>
-        <location line="+9"/>
+        <source>Error</source>
+        <translation>Error
+</translation>
+    </message>
+    <message>
         <source>Sibcoin</source>
         <translation type="unfinished"></translation>
     </message>

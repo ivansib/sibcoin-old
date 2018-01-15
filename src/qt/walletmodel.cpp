@@ -502,6 +502,11 @@ void WalletModel::decryptKey(const std::vector<unsigned char> &crypted, const st
     crpt.Decrypt(crypted, mat);
     key.Set(mat.begin(), mat.end(), true);
 }
+
+bool WalletModel::addKeyPubKey(const CKey &key, const CPubKey &pubkey)
+{
+    return wallet->AddKeyPubKey(key, pubkey);
+}
  
 bool WalletModel::setWalletEncrypted(bool encrypted, const SecureString &passphrase)
 {

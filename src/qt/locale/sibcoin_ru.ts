@@ -1739,6 +1739,10 @@ p, li { white-space: pre-wrap; }
         <source>Send</source>
         <translation>Отправить</translation>
     </message>
+    <message>
+        <source>Error: Can't add public key to the wallet</source>
+        <translation>Ошибка: Не удается добавить открытый ключ в кошелек</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsEditor</name>
@@ -4383,6 +4387,10 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Zimbabwe Dollar</source>
         <translation>Доллар Зимбабве</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <source>Sibcoin</source>
