@@ -50,10 +50,8 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 
         btnSaveDraft->setEnabled(false);
 
-        QDateTime timeExpiration = QDateTime::fromTime_t(info.timeCreate).addDays(info.timeToExpiration);
-
         lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
-        lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+        lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeToExpiration).toString("dd.MM.yyyy hh:mm"));
 
         int leftEdits = maxNumEditsMyOffer - info.editingVersion;
 
@@ -66,16 +64,18 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         isApproximateExpiration(true);
         enabledHashEditLines(true);
 
-        QDateTime currentDate = QDateTime::currentDateTime();
-        QDateTime timeExpiration = currentDate.addDays(info.timeToExpiration);
-        lEditTimeCreate->setText(currentDate.toString("dd.MM.yyyy hh:mm"));
-        lEditTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));
+        lEditTimeCreate->setText(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
+        lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeToExpiration).toString("dd.MM.yyyy hh:mm"));
     }
 
     turnLines(info.status);
 
-    int index = expirations.indexOf(info.timeToExpiration);
+    int days = ((info.timeToExpiration - info.timeCreate - 1) / 86400) +1;
+    days = (((days -1)/10)+1)*10;
+    int index = expirations.indexOf(days);
+
     cBoxExpiration->setCurrentIndex(index);
+
     changedTimeToExpiration(index);
 
     tEditShortInfo->setText(info.shortInfo);
@@ -168,7 +168,7 @@ void OfferDetailsEditor::updateMyOffer()
         offerInfo.price = sBoxPrice->value();
         offerInfo.minAmount = sBoxMinAmount->value();
         offerInfo.timeCreate = QDateTime::currentDateTime().toTime_t();
-        offerInfo.timeToExpiration = cBoxExpiration->currentText().toInt();
+        offerInfo.timeToExpiration = QDateTime::currentDateTime().addDays(cBoxExpiration->currentText().toInt()).toTime_t();
         offerInfo.shortInfo = tEditShortInfo->toPlainText();
         offerInfo.details = tEditDetails->toPlainText();
     }

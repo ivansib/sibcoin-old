@@ -248,7 +248,7 @@ void checkOffers(DexDB *db)
     info.currencyIso = "RUB";
     info.paymentMethod = 1;
     info.timeCreate = currentTime - secInDay * 10;
-    info.timeToExpiration = 11;
+    info.timeToExpiration = currentTime + secInDay;
     info.editingVersion = 0;
 
     std::list<OfferInfo> iList;
@@ -266,7 +266,7 @@ void checkOffers(DexDB *db)
     info.currencyIso = "USD";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 20;
-    info.timeToExpiration = 15;
+    info.timeToExpiration = currentTime - secInDay * 5;
     info.editingVersion = 2;
 
     iList.push_back(info);
@@ -283,7 +283,7 @@ void checkOffers(DexDB *db)
     info.currencyIso = "UAN";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 13;
-    info.timeToExpiration = 9;
+    info.timeToExpiration = currentTime - secInDay * 4;
     info.editingVersion = 3;
 
     iList.push_back(info);
@@ -357,7 +357,7 @@ void checkOffers(DexDB *db)
     info2.currencyIso = "EUR";
     info2.paymentMethod = 150;
     info2.timeCreate = currentTime - secInDay * 3;
-    info2.timeToExpiration = 1;
+    info2.timeToExpiration = currentTime + secInDay ;
     info2.editingVersion = 6;
 
     db->editOfferBuy(info2);
@@ -528,7 +528,7 @@ void checkMyOffers(DexDB *db)
     info.currencyIso = "RUB";
     info.paymentMethod = 1;
     info.timeCreate = currentTime - secInDay * 15;
-    info.timeToExpiration = 10;
+    info.timeToExpiration = currentTime - secInDay * 5;
     info.editingVersion = 0;
 
     std::list<MyOfferInfo> iList;
@@ -547,7 +547,7 @@ void checkMyOffers(DexDB *db)
     info.currencyIso = "USD";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 33;
-    info.timeToExpiration = 15;
+    info.timeToExpiration = currentTime - secInDay * 18;
     info.editingVersion = 4;
 
     iList.push_back(info);
@@ -565,7 +565,7 @@ void checkMyOffers(DexDB *db)
     info.currencyIso = "UAN";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 17;
-    info.timeToExpiration = 9;
+    info.timeToExpiration = currentTime - secInDay * 8;
     info.editingVersion = 6;
 
     iList.push_back(info);
@@ -625,7 +625,7 @@ void checkMyOffers(DexDB *db)
     info1.currencyIso = "AFN";
     info1.paymentMethod = 77;
     info1.timeCreate = currentTime - secInDay * 3;
-    info1.timeToExpiration = 1;
+    info1.timeToExpiration = currentTime - secInDay * 2;
     info1.editingVersion = 7;
 
     db->editMyOffer(info1);

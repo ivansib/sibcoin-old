@@ -1302,10 +1302,17 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState &state, const C
             dFreeCount += nSize;
         }
 
+#ifdef ENABLE_DEX
+        if (fRejectAbsurdFee && nFees > std::max((int64_t)(::minRelayTxFee.GetFee(nSize) * 10000), (int64_t)MAX_DEX_TRANSACTION_FEE))
+            return state.Invalid(false,
+                REJECT_HIGHFEE, "absurdly-high-fee",
+                strprintf("%d > %d", nFees, std::max((int64_t)::minRelayTxFee.GetFee(nSize) * 10000, (int64_t)MAX_DEX_TRANSACTION_FEE)));
+#else
         if (fRejectAbsurdFee && nFees > ::minRelayTxFee.GetFee(nSize) * 10000)
             return state.Invalid(false,
                 REJECT_HIGHFEE, "absurdly-high-fee",
                 strprintf("%d > %d", nFees, ::minRelayTxFee.GetFee(nSize) * 10000));
+#endif
 
         // Calculate in-mempool ancestors, up to a limit.
         CTxMemPool::setEntries setAncestors;

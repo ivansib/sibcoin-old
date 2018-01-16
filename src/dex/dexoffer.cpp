@@ -113,7 +113,7 @@ void CDexOffer::SetNull()
 
 
 bool CDexOffer::Create(Type type_, const std::string &pubKey_, const std::string &countryIso_, const std::string &currencyIso_,
-           uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, int timeExpiration_,
+           uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, time_t timeExpiration_,
            const std::string &shortInfo_, const std::string &details_, const int &editingVersion_)
 {
     uint256 txid;
@@ -123,7 +123,7 @@ bool CDexOffer::Create(Type type_, const std::string &pubKey_, const std::string
 
 
 bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::string &pubKey_, const std::string &countryIso_, const std::string &currencyIso_,
-           uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, int timeExpiration_,
+           uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, time_t timeExpiration_,
            const std::string &shortInfo_, const std::string &details_, const int &editingVersion_)
 {
     status          = dex::Draft;
@@ -305,7 +305,7 @@ std::string CDexOffer::dump() const
         "\tprice\t\t%lld\n"
         "\tminAmount\t%lld\n"
         "\ttimeCreate\t%lld\n"
-        "\ttimeExpiration\t%d\n"
+        "\ttimeExpiration\t%lld\n"
         "\tshortInfo\t%s\n"
         "\tdetails\t\t%s\n"
         "\teditingVersion\t\t%s\n",
@@ -374,7 +374,7 @@ bool CDexOffer::Check(bool fullcheck)
             LogPrintf("DexOffer::Check(%s) error: wrong payment method\n", hash.GetHex().c_str());
             break;
         }
-        if (timeCreate + (timeExpiration * 86400) < (uint64_t)GetTime()) {
+        if ((timeExpiration) < static_cast<uint64_t>(GetTime())) {
             LogPrintf("DexOffer::Check(%s) error: offer expiration time out\n", hash.GetHex().c_str());
             break;
         }

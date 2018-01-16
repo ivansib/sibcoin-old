@@ -58,7 +58,7 @@ QtMyOfferInfo OfferDetailsCreator::getMyOffer() const
     info.price = sBoxPrice->value();
     info.minAmount = sBoxMinAmount->value();
     info.timeCreate = QDateTime::currentDateTime().toTime_t();
-    info.timeToExpiration = cBoxExpiration->currentText().toInt();
+    info.timeToExpiration = QDateTime::currentDateTime().addDays(cBoxExpiration->currentText().toInt()).toTime_t();;
     info.shortInfo = tEditShortInfo->toPlainText();
     info.details = tEditDetails->toPlainText();
     info.status = Indefined;

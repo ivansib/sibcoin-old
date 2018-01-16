@@ -10,10 +10,10 @@
 #include "dexoffer.h"
 
 
-#define PAYOFFER_RETURN_FEE     10000
-#define PAYOFFER_TX_FEE         10000000
-#define PAYOFFER_MIN_TX_HEIGHT  6
-
+#define PAYOFFER_RETURN_FEE       10000
+#define PAYOFFER_TX_FEE           10000000
+#define PAYOFFER_MIN_TX_HEIGHT    6
+#define MAX_DEX_TRANSACTION_FEE   PAYOFFER_TX_FEE*3
 
 
 
@@ -33,11 +33,11 @@ public:
 
     bool CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const std::string &pubKey, const std::string &countryIso,
                      const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
-                     uint64_t minAmount, int timeExpiration, const std::string &shortInfo, const std::string &details, const int &editingVersion);
+                     uint64_t minAmount, time_t timeExpiration, const std::string &shortInfo, const std::string &details, const int &editingVersion);
 
     bool CreateOffer(CDexOffer::Type type, const std::string &pubKey, const std::string &countryIso,
                      const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
-                     uint64_t minAmount, int timeExpiration, const std::string &shortInfo, const std::string &details, const int &editingVersion);
+                     uint64_t minAmount, time_t timeExpiration, const std::string &shortInfo, const std::string &details, const int &editingVersion);
 
     bool CreateOffer(const dex::MyOfferInfo &info);
 

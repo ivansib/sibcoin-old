@@ -74,8 +74,8 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             "     \"paymentMethod\" : 1,        payment method code (default 1 - cash, 128 - online)\n"
             "     \"price\"         : 10000,\n"
             "     \"minAmount\"     : 1000,\n"
-            "     \"timeCreate\"    : 94766313939344,\n"
-            "     \"timeExpiration\": 10,       offer expiration (in days)\n"
+            "     \"timeCreate\"    : 947...3344,\n"
+            "     \"timeExpiration\": 947...9344, offer expiration (in seconds)\n"
             "     \"shortInfo\"     : \"...\",    offer short info (max 140 bytes)\n"
             "     \"details\"       : \"...\"     offer details (max 1024 bytes)\n"
             "   },\n"
@@ -229,8 +229,8 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "     \"paymentMethod\" : 1,        payment method code (default 1 - cash, 128 - online)\n"
             "     \"price\"         : 10000,\n"
             "     \"minAmount\"     : 1000,\n"
-            "     \"timeCreate\"    : 94766313939344,\n"
-            "     \"timeExpiration\": 10,       offer expiration (in days)\n"
+            "     \"timeCreate\"    : 947...9344,\n"
+            "     \"timeExpiration\": 947...5344, offer expiration\n"
             "     \"shortInfo\"     : \"...\",    offer short info (max 140 bytes)\n"
             "     \"details\"       : \"...\"     offer details (max 1024 bytes)\n"
             "   },\n"
@@ -499,7 +499,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
 
     std::string pubKey = HexStr(pkey.begin(), pkey.end());
 
-    if (!offer.Create(type, pubKey, params[1].get_str(), params[2].get_str(), 1, price, minAmount, 30, "test offer", "test offer details", 0)) {
+    if (!offer.Create(type, pubKey, params[1].get_str(), params[2].get_str(), 1, price, minAmount, GetTime()+86400*30, "test offer", "test offer details", 0)) {
         throw runtime_error("\nERROR: error create offer");
     }
 

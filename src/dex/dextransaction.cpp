@@ -1,25 +1,25 @@
-#include "dextransaction.h"
 
 #include "init.h"
 #include "util.h"
 #include "utilstrencodings.h"
-
-#include "dexoffer.h"
-#include "dex/dexdb.h"
 #include "txmempool.h"
 #include "base58.h"
 #include "script/sign.h"
+#include "script/standard.h"
 #include "policy/policy.h"
 #include "consensus/validation.h"
 #include "core_io.h"
+#include "coincontrol.h"
+
+#include "dextransaction.h"
+#include "dexoffer.h"
+#include "dex/dexdb.h"
 #include "dex.h"
 
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
 #endif
 
-
-CAmount dexPayTxFee = 0;
 
 #define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s") + (B), "",  ##__VA_ARGS__); LogPrintf("%s:%d: %s\n", __FILE__, __LINE__, str.c_str()); sError += str; break; } }
 
@@ -31,10 +31,8 @@ bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std:
 #ifdef ENABLE_WALLET
     do {
         CAmount curBalance = pwalletMain->GetBalance();
-
-        int coef = offer.timeExpiration / 10;
-        LogPrintf("timeExpiration %d, coef %d\n",offer.timeExpiration, coef);
-        if (coef < 1) coef = 1;
+        int days = ((offer.timeExpiration - offer.timeCreate - 1) / 86400) + 1;
+        int coef = ((days - 1) / 10) + 1;
 
         CHECK(curBalance >= (PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE * coef), "Insufficient funds");
 
@@ -48,15 +46,14 @@ bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std:
         int nChangePosRet = -1;
         CRecipient recipient = {scriptPubKey, PAYOFFER_RETURN_FEE, false};
         vecSend.push_back(recipient);
-        dexPayTxFee = PAYOFFER_TX_FEE * coef;
-        CHECK(pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError), strError);
+        CCoinControl ccoin;
+        ccoin.nMinimumTotalFee = PAYOFFER_TX_FEE * coef;
+        CHECK(pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, &ccoin), strError);
         CHECK(pwalletMain->CommitTransaction(wtxNew, reservekey), "Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
         newTx = wtxNew;
-        dexPayTxFee = 0;
         return true;
     } while(false);
 #endif
-    dexPayTxFee = 0;
     return false;
 }
 
