@@ -62,7 +62,6 @@ MyOfferInfo fromJsonForAdd(const std::string &json, std::string &error)
         error = "invalid timeExpiration";
         return MyOfferInfo();
     }
-    offer.timeToExpiration = GetTime() + offer.timeToExpiration * 86400;
 
     offer.shortInfo = root.get<std::string>("shortInfo");
     offer.details = root.get<std::string>("details");

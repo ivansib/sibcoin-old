@@ -479,6 +479,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
     offer.status = Draft;
     offer.editingVersion = 0;
     offer.timeCreate = GetTime();
+    offer.timeToExpiration = GetTime() + offer.timeToExpiration * 86400;
 
     if (error.length() > 0) {
         throw runtime_error("\nERROR: " + error);
