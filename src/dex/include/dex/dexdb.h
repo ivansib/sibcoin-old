@@ -80,6 +80,7 @@ public:
     bool isExistMyOfferByHash(const uint256 &hash);
     std::list<MyOfferInfo> getMyOffers();
     MyOfferInfo getMyOffer(const uint256 &idTransaction);
+    MyOfferInfo getMyOfferByHash(const uint256 &hash);
 
     void addFilter(const std::string &filter);
     void deleteFilter(const std::string &filter);
@@ -121,6 +122,7 @@ private:
     OfferInfo getOffer(const std::string &tableName, const uint256 &idTransaction);
     OfferInfo getOfferByHash(const std::string &tableName, const uint256 &hash);
     OfferInfo getOffer(const std::string &guery, int &status);
+    MyOfferInfo getMyOffer(sqlite3pp::query::iterator it);
     static int addOrEditOffer(sqlite3pp::database &db, const std::string &query, const OfferInfo &offer);
     static int addOrEditMyOffer(sqlite3pp::database &db, const std::string &query, const MyOfferInfo &offer);
     static void bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer);
