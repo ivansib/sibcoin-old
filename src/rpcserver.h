@@ -302,6 +302,7 @@ extern UniValue dexoffers(const UniValue& params, bool fHelp);
 extern UniValue dexmyoffers(const UniValue& params, bool fHelp);
 extern UniValue deldexoffer(const UniValue& params, bool fHelp);
 extern UniValue adddexoffer(const UniValue& params, bool fHelp);
+extern UniValue editdexoffer(const UniValue& params, bool fHelp);
 #endif // ENABLE_DEX
 
 bool StartRPC();

@@ -449,6 +449,9 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
             "adddexoffer <json-data>\n\n"
 
             "\nArgument:\n"
+            "\tjson-data    (string) offer data in format json.\n"
+
+            "\njson attributes:\n"
             "\ttype             (string) offer type, 'buy' or 'sell'\n"
             "\tcountryIso       (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
             "\tcurrencyIso      (string) three-letter currency code (ISO 4217)\n"
@@ -504,5 +507,93 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
     return result;
 }
 
+UniValue editdexoffer(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+    if (fHelp || params.size() != 2)
+        throw runtime_error(
 
+            "editdexoffer <hash> <json-data>\n\n"
 
+            "\nArgument:\n"
+            "\thash         (string) offer hash, hex digest.\n"
+            "\tjson-data    (string) offer data in format json.\n"
+
+            "\njson attributes:\n"
+            "\ttype             (string) offer type, 'buy' or 'sell'\n"
+            "\tcountryIso       (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
+            "\tcurrencyIso      (string) three-letter currency code (ISO 4217)\n"
+            "\tpaymentMethod    (number) payment method, correct values: 1(cash payment), 128(online payment)\n"
+            "\tprice            (number) offer price\n"
+            "\tminAmount        (number) offer minAmount\n"
+            "\ttimeToExpiration (number) period valid offer, correct values: 10, 20, 30\n"
+            "\tshortInfo        (string) short info, max 140 symbols\n"
+            "\tdetails          (string) detail info\n"
+
+            "\nExample:\n"
+            + HelpExampleCli("editdexoffer", "AABB...CCDD \"{"
+                                            "\\\"type\\\": \\\"sell\\\","
+                                            "\\\"countryIso\\\": \\\"RU\\\","
+                                            "\\\"currencyIso\\\": \\\"RUB\\\","
+                                            "\\\"paymentMethod\\\": 1,"
+                                            "\\\"price\\\": 100,"
+                                            "\\\"minAmount\\\": 100,"
+                                            "\\\"timeToExpiration\\\": 30,"
+                                            "\\\"shortInfo\\\": \\\"test offer\\\","
+                                            "\\\"details\\\": \\\"test offer details\\\""
+                                            "}\"")
+        );
+
+    std::string strOfferHash = params[0].get_str();
+    if (strOfferHash.empty()) {
+        throw runtime_error("\nERROR: offer hash is empty");
+    }
+
+    uint256 hash = uint256S(strOfferHash);
+    if (hash.IsNull()) {
+        throw runtime_error("\nERROR: offer hash error\n");
+    }
+
+    if (!dex::DexDB::self()->isExistMyOfferByHash(hash)) {
+        throw runtime_error("\nERROR: offer not found in DB\n");
+    }
+
+    std::string jsonData = params[1].get_str();
+    std::string error;
+    MyOfferInfo offer = fromJsonForAdd(jsonData, error);
+
+    if (error.length() > 0) {
+        throw runtime_error("\nERROR: " + error);
+    }
+
+    if (dex::DexDB::self()->getMyOfferByHash(hash).status == Draft) {
+        offer.status = Draft;
+        offer.editingVersion = 0;
+        offer.timeCreate = GetTime();
+
+        CDexOffer dexOffer;
+        dexOffer.Create(offer);
+
+        if (hash != dexOffer.hash) {
+            dex::DexDB::self()->deleteMyOfferByHash(hash);
+        }
+
+        offer.setOfferInfo(dexOffer);
+        dex::DexDB::self()->editMyOffer(offer);
+
+        UniValue result(UniValue::VOBJ);
+        result.push_back(Pair("new hash", offer.hash.GetHex()));
+        return result;
+    }
+
+    return NullUniValue;
+}
