@@ -582,7 +582,7 @@ void TableViewLastColumnResizingFixer::adjustTableColumnsWidth()
     int nColsWidth = getColumnsWidth();
     if (nColsWidth > nTableWidth)
     {
-        resizeColumn(secondToLastColumnIndex,getAvailableWidthForColumn(secondToLastColumnIndex));
+        resizeColumn(interactiveColumnIndex, getAvailableWidthForColumn(interactiveColumnIndex));
     }
 }
 
@@ -612,7 +612,7 @@ void TableViewLastColumnResizingFixer::on_geometriesChanged()
     if ((getColumnsWidth() - this->tableView->horizontalHeader()->width()) != 0)
     {
         disconnectViewHeadersSignals();
-        resizeColumn(secondToLastColumnIndex, getAvailableWidthForColumn(secondToLastColumnIndex));
+        resizeColumn(interactiveColumnIndex, getAvailableWidthForColumn(interactiveColumnIndex));
         connectViewHeadersSignals();
     }
 }
@@ -621,16 +621,24 @@ void TableViewLastColumnResizingFixer::on_geometriesChanged()
  * Initializes all internal variables and prepares the
  * the resize modes of the last 2 columns of the table and
  */
-TableViewLastColumnResizingFixer::TableViewLastColumnResizingFixer(QTableView* table, int lastColMinimumWidth, int allColsMinimumWidth) :
+TableViewLastColumnResizingFixer::TableViewLastColumnResizingFixer(QTableView* table, int lastColMinimumWidth, int allColsMinimumWidth, int interactiveColIndex) :
     tableView(table),
     lastColumnMinimumWidth(lastColMinimumWidth),
     allColumnsMinimumWidth(allColsMinimumWidth)
 {
     columnCount = tableView->horizontalHeader()->count();
     lastColumnIndex = columnCount - 1;
-    secondToLastColumnIndex = columnCount - 2;
+
+    if (interactiveColIndex == -1)
+    {
+        interactiveColumnIndex = columnCount - 2;
+    }
+    else
+    {
+        interactiveColumnIndex = interactiveColIndex;
+    }
     tableView->horizontalHeader()->setMinimumSectionSize(allColumnsMinimumWidth);
-    setViewHeaderResizeMode(secondToLastColumnIndex, QHeaderView::Interactive);
+    setViewHeaderResizeMode(interactiveColumnIndex, QHeaderView::Interactive);
     setViewHeaderResizeMode(lastColumnIndex, QHeaderView::Interactive);
 }
 

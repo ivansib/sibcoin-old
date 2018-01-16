@@ -7,6 +7,7 @@
 #include "dex/dexdb.h"
 #include "tableofferdelegate.h"
 #include "callbackdbforgui.h"
+#include "commonsettingsforoffers.h"
 #include "ui_tableoffersdialog.h"
 
 using namespace dex;
@@ -27,8 +28,6 @@ protected:
     CallBackDbForGui *callBack;
     GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
 
-    virtual void resizeEvent(QResizeEvent *event);
-
     void init();
     QString currentCountry() const;
     QString currentCurrency() const;
@@ -36,6 +35,9 @@ protected:
     int currentOfferIndex() const;
 
     void useMyOfferMode(const bool &b);
+
+private:
+    CommonSettingsForOffers *settings;
 
 protected Q_SLOTS:
     virtual void openCreatorOffer();

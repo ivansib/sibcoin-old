@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "offerdetailseditor.h"
 
 OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetails(db, parent)
@@ -23,13 +24,16 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
     addLEditTransactionPrice(lEditTransactionPrice);
 
+    connect(btnDeleteDraft, &QPushButton::clicked, this, &OfferDetailsEditor::deleteDraftData);
+
     updateNavigationData();
 }
 
 void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
-    btnSaveDraft->setEnabled(true);
-    btnSend->setEnabled(true);
+    btnDeleteDraft->setVisible(true);
+    btnSaveDraft->setVisible(true);
+    btnSend->setVisible(true);
 
     offerInfo = info;
 
@@ -48,7 +52,8 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         isApproximateExpiration(false);
         enabledHashEditLines(false);
 
-        btnSaveDraft->setEnabled(false);
+        btnDeleteDraft->setVisible(false);
+        btnSaveDraft->setVisible(false);
 
         lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeToExpiration).toString("dd.MM.yyyy hh:mm"));
@@ -58,7 +63,7 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         lEditLeftEdits->setText(QString::number(leftEdits));
 
         if (leftEdits <= 0) {
-            btnSend->setEnabled(false);
+            btnSend->setVisible(false);
         }
     } else {
         isApproximateExpiration(true);
@@ -193,8 +198,23 @@ void OfferDetailsEditor::saveData()
 
 void OfferDetailsEditor::sendData()
 {
-    updateMyOffer();
+    if (confirmationSend()) {
+        updateMyOffer();
 
-    Q_EMIT dataSend(offerInfo);
-    close();
+        Q_EMIT dataSend(offerInfo);
+        close();
+    }
+}
+
+void OfferDetailsEditor::deleteDraftData()
+{
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Delete draft"),
+        tr("Confirm delete draft?"),
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel);
+
+    if(retval == QMessageBox::Yes) {
+        Q_EMIT draftDataDelete(offerInfo);
+        close();
+    }
 }

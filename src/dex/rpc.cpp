@@ -25,6 +25,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include "dextransaction.h"
+#include "parserjsonoffer.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
 #include "db/defaultdatafordb.h"
@@ -442,72 +443,65 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
             "DexDB is not initialized.\n"
         );
     }
-    if (fHelp || params.size() != 5)
+    if (fHelp || params.size() != 1)
         throw runtime_error(
-            "adddexoffer <type> <currency> <country> <price> <minamount>\n\n"
-            "ONLY FOR TEST!!!!! Add dexoffer to DB and broadcast message.\n"
+
+            "adddexoffer <json-data>\n\n"
 
             "\nArgument:\n"
-            "\ttype         (string) offer type, 'buy' or 'sell'\n"
-            "\tcountry      (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
-            "\tcurrency     (string) three-letter currency code (ISO 4217)\n"
-            "\tprice        (number) offer price\n"
-            "\tminamount    (number) offer minAmount\n"
+            "\ttype             (string) offer type, 'buy' or 'sell'\n"
+            "\tcountryIso       (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
+            "\tcurrencyIso      (string) three-letter currency code (ISO 4217)\n"
+            "\tpaymentMethod    (number) payment method, correct values: 1(cash payment), 128(online payment)\n"
+            "\tprice            (number) offer price\n"
+            "\tminAmount        (number) offer minAmount\n"
+            "\ttimeToExpiration (number) period valid offer, correct values: 10, 20, 30\n"
+            "\tshortInfo        (string) short info, max 140 symbols\n"
+            "\tdetails          (string) detail info\n"
 
             "\nExample:\n"
-            + HelpExampleCli("adddexoffer", "sell RU RUB 100 100")
+            + HelpExampleCli("adddexoffer", "\"{"
+                                            "\\\"type\\\": \\\"sell\\\","
+                                            "\\\"countryIso\\\": \\\"RU\\\","
+                                            "\\\"currencyIso\\\": \\\"RUB\\\","
+                                            "\\\"paymentMethod\\\": 1,"
+                                            "\\\"price\\\": 100,"
+                                            "\\\"minAmount\\\": 100,"
+                                            "\\\"timeToExpiration\\\": 30,"
+                                            "\\\"shortInfo\\\": \\\"test offer\\\","
+                                            "\\\"details\\\": \\\"test offer details\\\""
+                                            "}\"")
         );
 
+    std::string jsonData = params[0].get_str();
+    std::string error;
+    MyOfferInfo offer = fromJsonForAdd(jsonData, error);
+    offer.status = Draft;
+    offer.editingVersion = 0;
+    offer.timeCreate = GetTime();
 
-
-    std::string strtype = params[0].get_str();
-
-    if (strtype != "buy" && strtype != "sell") {
-        throw runtime_error("\nERROR: offer type is empty");
+    if (error.length() > 0) {
+        throw runtime_error("\nERROR: " + error);
     }
 
-    dex::CountryIso  countryiso;
-    if (!countryiso.isValid(params[1].get_str())) {
-        throw runtime_error("\nERROR: invalid country code");
-    }
-
-    dex::CurrencyIso currencyiso;
-    if (!currencyiso.isValid(params[2].get_str())) {
-        throw runtime_error("\nERROR: invalid currency code");
-    }
-
-    int price = atoi(params[3].get_str().c_str());
-    if (price <= 0) {
-        throw runtime_error("\nERROR: invalid price");
-    }
-    int minAmount = atoi(params[4].get_str().c_str());
-    if (minAmount <= 0) {
-        throw runtime_error("\nERROR: invalid minAmount");
-    }
-
-
-    CDexOffer offer;
-    CDexOffer::Type type = CDexOffer::BUY;
-    if (strtype == "sell") type = CDexOffer::SELL;
-
+    CDexOffer cOffer;
     CKey key = pwalletMain->GeneratePrivKey();
     CPubKey pkey = key.GetPubKey();
     if (!pwalletMain->AddKeyPubKey(key, pkey)) {
         throw runtime_error("\nERROR: add key to wallet error");
     }
 
+    offer.pubKey = HexStr(pkey.begin(), pkey.end());
 
-    std::string pubKey = HexStr(pkey.begin(), pkey.end());
-
-    if (!offer.Create(type, pubKey, params[1].get_str(), params[2].get_str(), 1, price, minAmount, GetTime()+86400*30, "test offer", "test offer details", 0)) {
+    if (!cOffer.Create(offer)) {
         throw runtime_error("\nERROR: error create offer");
     }
 
+    dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer));
 
-    UniValue result(UniValue::VARR);
-    dex::DexDB::self()->addMyOffer((dex::MyOfferInfo)(offer));
-
-    return offer.getUniValue();
+    UniValue result(UniValue::VOBJ);
+    result.push_back(Pair("hash", cOffer.hash.GetHex()));
+    return result;
 }
 
 

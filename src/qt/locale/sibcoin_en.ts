@@ -1995,6 +1995,14 @@ p, li { white-space: pre-wrap; }
         <source>Sell</source>
         <translation>Sell</translation>
     </message>
+    <message>
+        <source>Confirm send offer</source>
+        <translation>Confirm send offer</translation>
+    </message>
+    <message>
+        <source>Confirm send offer?</source>
+        <translation>Confirm send offer?</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>
@@ -2070,6 +2078,10 @@ p, li { white-space: pre-wrap; }
         <source>Send</source>
         <translation>Send</translation>
     </message>
+    <message>
+        <source>Error: Can't add public key to the wallet</source>
+        <translation>Error: Can't add public key to the wallet</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsEditor</name>
@@ -2127,8 +2139,16 @@ p, li { white-space: pre-wrap; }
         <translation>Time Expiration*:</translation>
     </message>
     <message>
-        <source>days     Time Expiration:</source>
-        <translation>days     Time Expiration:</translation>
+        <source>Time Expiration:</source>
+        <translation>Time Expiration:</translation>
+    </message>
+    <message>
+        <source>days   </source>
+        <translation>days   </translation>
+    </message>
+    <message>
+        <source>Approximate Time Expiration:</source>
+        <translation>Approximate Time Expiration:</translation>
     </message>
     <message>
         <source>Short Info:</source>
@@ -2193,6 +2213,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Left Edits:</source>
         <translation>Left Edits:</translation>
+    </message>
+    <message>
+        <source>Delete draft</source>
+        <translation>Delete draft</translation>
+    </message>
+    <message>
+        <source>Confirm delete draft?</source>
+        <translation>Confirm delete draft?</translation>
     </message>
 </context>
 <context>
@@ -2319,6 +2347,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>More Details</source>
         <translation>More Details</translation>
+    </message>
+</context>
+<context>
+    <name>CommonSettingsForOffersWidget</name>
+    <message>
+        <source>Default Settings</source>
+        <translation>Default Settings</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Country:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Currency:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Payment:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Min Amount:</translation>
     </message>
 </context>
 <context>
@@ -4865,13 +4916,11 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Zimbabwe Dollar</translation>
     </message>
     <message>
-        <location filename="../sibcoin.cpp" line="+86"/>
-        <location line="+7"/>
-        <location line="+15"/>
-        <location line="+17"/>
-        <location line="+14"/>
-        <location line="+9"/>
-        <location line="+9"/>
+        <source>Error</source>
+        <translation>Error
+</translation>
+    </message>
+    <message>
         <source>Sibcoin</source>
         <translation type="unfinished"></translation>
     </message>

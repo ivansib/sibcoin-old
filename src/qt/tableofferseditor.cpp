@@ -12,16 +12,16 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     tableView->setColumnWidth(0, 150);
     tableView->setColumnWidth(1, 150);
-    tableView->setColumnWidth(2, 150);
     tableView->setColumnWidth(3, 150);
     tableView->setColumnWidth(4, 150);
 
-    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 120, 23);
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 2);
 
     updateData();
 
     connect(editor, &OfferDetailsEditor::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
     connect(editor, &OfferDetailsEditor::dataSend, this, &TableOffersEditor::sendMyOffer);
+    connect(editor, &OfferDetailsEditor::draftDataDelete, this, &TableOffersEditor::deleteDraftData);
 
     connect(creator, &OfferDetailsCreator::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
     connect(creator, &OfferDetailsCreator::dataSend, this, &TableOffersEditor::sendMyOffer);
@@ -43,6 +43,12 @@ void TableOffersEditor::setModel(WalletModel *model)
     this->model = model;
     creator->setModel(model);
     editor->setModel(model);
+}
+
+void TableOffersEditor::resizeEvent(QResizeEvent *event)
+{
+    QDialog::resizeEvent(event);
+    columnResizingFixer->stretchColumnWidth(2);
 }
 
 void TableOffersEditor::updateData()
@@ -145,9 +151,18 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
     saveMyOffer(myOffer);
 }
 
+void TableOffersEditor::deleteDraftData(const QtMyOfferInfo &info)
+{
+    MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
+
+    if (myOffer.status == Draft) {
+        db->deleteMyOfferByHash(myOffer.hash);
+    }
+}
+
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
 {
-    if (table == MyOffers && (operation == Add || operation == Edit) && status == Ok) {
+    if (table == MyOffers && (operation == Add || operation == Edit || operation == Delete) && status == Ok) {
         updateData();
         Q_EMIT dataChanged();
     }

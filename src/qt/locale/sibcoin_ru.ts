@@ -1235,11 +1235,11 @@ Address: %4
     <name>ExchangeDialog</name>
     <message>
         <source>Buy Sibcoin</source>
-        <translation>Покупка Sibcoin</translation>
+        <translation>Купить Ч</translation>
     </message>
     <message>
         <source>Sell Sibcoin</source>
-        <translation>Продажа Sibcoin</translation>
+        <translation>Продать Ч</translation>
     </message>
     <message>
         <source>My Offers</source>
@@ -1247,7 +1247,7 @@ Address: %4
     </message>
     <message>
         <source>Exchanges</source>
-        <translation>Обмен</translation>
+        <translation>Биржи</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -1656,6 +1656,14 @@ p, li { white-space: pre-wrap; }
         <source>Sell</source>
         <translation>Продажа</translation>
     </message>
+    <message>
+        <source>Confirm send offer</source>
+        <translation>Отправка предложения</translation>
+    </message>
+    <message>
+        <source>Confirm send offer?</source>
+        <translation>Подтвердите отправку предложения?</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>
@@ -1731,6 +1739,10 @@ p, li { white-space: pre-wrap; }
         <source>Send</source>
         <translation>Отправить</translation>
     </message>
+    <message>
+        <source>Error: Can't add public key to the wallet</source>
+        <translation>Ошибка: Не удается добавить открытый ключ в кошелек</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsEditor</name>
@@ -1779,8 +1791,8 @@ p, li { white-space: pre-wrap; }
         <translation>Период До Истечения*:</translation>
     </message>
     <message>
-        <source>days     Time Expiration:</source>
-        <translation>дней     Дата Истечения:</translation>
+        <source>Approximate Time Expiration:</source>
+        <translation>Приблизительная Дата Истечения:</translation>
     </message>
     <message>
         <source>Short Info:</source>
@@ -1802,7 +1814,7 @@ p, li { white-space: pre-wrap; }
         <source>days   </source>
         <translation>дней   </translation>
     </message>
-        <message>
+    <message>
         <source>Active</source>
         <translation>Активен</translation>
     </message>
@@ -1861,6 +1873,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Left Edits:</source>
         <translation>Редактирований осталось:</translation>
+    </message>
+    <message>
+        <source>Delete draft</source>
+        <translation>Удалить черновик</translation>
+    </message>
+    <message>
+        <source>Confirm delete draft?</source>
+        <translation>Удалить черновик?</translation>
     </message>
 </context>
 <context>
@@ -1986,6 +2006,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>More Details</source>
         <translation>Больше Деталей</translation>
+    </message>
+</context>
+<context>
+    <name>CommonSettingsForOffersWidget</name>
+    <message>
+        <source>Default Settings</source>
+        <translation type="unfinished">Настройки по умолчанию</translation>
+    </message>
+    <message>
+        <source>Country:</source>
+        <translation>Страна:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>Payment:</source>
+        <translation>Платеж:</translation>
+    </message>
+    <message>
+        <source>Min Amount:</source>
+        <translation>Мин. Сумма:</translation>
     </message>
 </context>
 <context>
@@ -4344,6 +4387,10 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Zimbabwe Dollar</source>
         <translation>Доллар Зимбабве</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <source>Sibcoin</source>

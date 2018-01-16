@@ -73,7 +73,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Currency</string>
+        <string>Currency:</string>
        </property>
       </widget>
      </item>

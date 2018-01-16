@@ -147,6 +147,7 @@ public:
     bool setAddressBook(const CTxDestination& address, const std::string& strName, const std::string& strPurpose);
     void encryptKey(const CKey key, const std::string &pwd, const std::string &slt, std::vector<unsigned char> &crypted);
     void decryptKey(const std::vector<unsigned char> &crypted, const std::string &slt, const std::string &pwd, CKey &key);
+    bool addKeyPubKey(const CKey& key, const CPubKey &pubkey);
 
     // Check address for validity
     bool validateAddress(const QString &address);

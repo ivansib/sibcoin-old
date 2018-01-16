@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "offerdetails.h"
 #include "convertdata.h"
 #include "bitcoinunits.h"
@@ -89,6 +90,20 @@ QStringList OfferDetails::typeOffers() const
     QStringList l;
     l << tr("Buy") << tr("Sell");
     return l;
+}
+
+bool OfferDetails::confirmationSend()
+{
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm send offer"),
+        tr("Confirm send offer?"),
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel);
+
+    if(retval == QMessageBox::Yes) {
+        return true;
+    }
+
+    return false;
 }
 
 CAmount OfferDetails::transactionPrice(const int &coef) const

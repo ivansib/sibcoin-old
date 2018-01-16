@@ -31,6 +31,11 @@ private:
 protected Q_SLOTS:
     virtual void saveData();
     virtual void sendData();
+
+    void deleteDraftData();
+
+Q_SIGNALS:
+    void draftDataDelete(QtMyOfferInfo);
 };
 
 #endif

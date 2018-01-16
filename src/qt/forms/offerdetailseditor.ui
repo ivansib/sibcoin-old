@@ -386,6 +386,13 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnSend">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+         <underline>true</underline>
+        </font>
+       </property>
        <property name="text">
         <string>Send</string>
        </property>
@@ -411,6 +418,13 @@
       <widget class="QPushButton" name="btnSaveDraft">
        <property name="text">
         <string>Save draft</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnDeleteDraft">
+       <property name="text">
+        <string>Delete draft</string>
        </property>
       </widget>
      </item>
