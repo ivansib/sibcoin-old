@@ -48,9 +48,6 @@ unsigned int nTxConfirmTarget = DEFAULT_TX_CONFIRM_TARGET;
 bool bSpendZeroConfChange = DEFAULT_SPEND_ZEROCONF_CHANGE;
 bool fSendFreeTransactions = DEFAULT_SEND_FREE_TRANSACTIONS;
 
-#ifdef ENABLE_DEX
-extern CAmount dexPayTxFee;
-#endif
 
 /** 
  * Fees smaller than this (in duffs) are considered zero fee (for transaction creation)
@@ -3295,11 +3292,7 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, std:
         if (fBroadcastTransactions)
         {
             // Broadcast
-#ifdef ENABLE_DEX
-            if (!wtxNew.AcceptToMemoryPool(false, dexPayTxFee == 0))
-#else
             if (!wtxNew.AcceptToMemoryPool(false))
-#endif
             {
                 // This must not fail. The transaction has already been signed and recorded.
                 LogPrintf("CommitTransaction(): Error: Transaction not valid\n");
@@ -3345,10 +3338,6 @@ CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, unsigned int nConfirmTarge
     // But always obey the maximum
     if (nFeeNeeded > maxTxFee)
         nFeeNeeded = maxTxFee;
-#ifdef ENABLE_DEX
-     if (nFeeNeeded < dexPayTxFee)
-         nFeeNeeded = dexPayTxFee;
-#endif
 
     return nFeeNeeded;
 }

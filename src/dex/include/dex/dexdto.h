@@ -34,7 +34,7 @@ struct OfferInfo {
     uint64_t price;
     uint64_t minAmount;
     uint64_t timeCreate;
-    int timeToExpiration;
+    uint64_t timeToExpiration;
     std::string shortInfo;
     std::string details;
     int editingVersion;

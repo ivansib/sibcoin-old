@@ -154,9 +154,7 @@ void CDexManager::setStatusExpiredForMyOffers()
     long long int currentTime = static_cast<long long int>(time(NULL));
 
     for (auto item : offers) {
-        long long int finish = item.timeCreate + item.timeToExpiration * 86400;
-
-        if (finish < currentTime) {
+        if (item.timeToExpiration < currentTime) {
             item.status = dex::Expired;
             db->editMyOffer(item);
         }

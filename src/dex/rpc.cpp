@@ -76,8 +76,8 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             "     \"paymentMethod\" : 1,        payment method code (default 1 - cash, 128 - online)\n"
             "     \"price\"         : 10000,\n"
             "     \"minAmount\"     : 1000,\n"
-            "     \"timeCreate\"    : 94766313939344,\n"
-            "     \"timeExpiration\": 10,       offer expiration (in days)\n"
+            "     \"timeCreate\"    : 947...3344,\n"
+            "     \"timeExpiration\": 947...9344, offer expiration (in seconds)\n"
             "     \"shortInfo\"     : \"...\",    offer short info (max 140 bytes)\n"
             "     \"details\"       : \"...\"     offer details (max 1024 bytes)\n"
             "   },\n"
@@ -231,8 +231,8 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "     \"paymentMethod\" : 1,        payment method code (default 1 - cash, 128 - online)\n"
             "     \"price\"         : 10000,\n"
             "     \"minAmount\"     : 1000,\n"
-            "     \"timeCreate\"    : 94766313939344,\n"
-            "     \"timeExpiration\": 10,       offer expiration (in days)\n"
+            "     \"timeCreate\"    : 947...9344,\n"
+            "     \"timeExpiration\": 947...5344, offer expiration\n"
             "     \"shortInfo\"     : \"...\",    offer short info (max 140 bytes)\n"
             "     \"details\"       : \"...\"     offer details (max 1024 bytes)\n"
             "   },\n"
@@ -483,6 +483,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
     offer.status = Draft;
     offer.editingVersion = 0;
     offer.timeCreate = GetTime();
+    offer.timeToExpiration = GetTime() + offer.timeToExpiration * 86400;
 
     if (error.length() > 0) {
         throw runtime_error("\nERROR: " + error);
