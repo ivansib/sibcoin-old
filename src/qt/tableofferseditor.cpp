@@ -100,55 +100,12 @@ void TableOffersEditor::addOrEditMyOffer(const QtMyOfferInfo &info)
 void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
 {
     MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
-
-    CDexOffer dexOffer;
-
-    if (myOffer.status == Indefined || myOffer.status == Draft) {
-        uint256 oldHash = myOffer.hash;
-        dexOffer.Create(myOffer);
-
-        if (oldHash != dexOffer.hash) {
-            db->deleteMyOfferByHash(oldHash);
-        }
-    } else if (myOffer.status == Active) {
-        myOffer.editingVersion++;
-
-        dexOffer = CDexOffer(myOffer);
-    }
-
-    CDex dex(dexOffer);
-
     std::string error;
-    uint256 tx;
+    dexman.prepareAndSendOffer(myOffer, error);
 
-    if (!dexOffer.idTransaction.IsNull()) {
-        dexman.sendEditedOffer(dex.offer);
-
-        if (dex.offer.isBuy()) {
-            db->editOfferBuy(dex.offer);
-        }
-        if (dex.offer.isSell()) {
-            db->editOfferSell(dex.offer);
-        }
-    } else if (dex.PayForOffer(tx, error)) {
-        dexman.sendNewOffer(dex.offer);
-
-        myOffer.setOfferInfo(dex.offer);
-        myOffer.status = Active;
-        if (dex.offer.isBuy()) {
-            db->addOfferBuy(dex.offer);
-        }
-        if (dex.offer.isSell()) {
-            db->addOfferSell(dex.offer);
-        }
-    } else {
-        myOffer.setOfferInfo(dex.offer);
-        myOffer.status = Draft;
-
+    if (!error.empty()) {
         QMessageBox::warning(this, tr("Warning"), tr(error.c_str()));
     }
-
-    saveMyOffer(myOffer);
 }
 
 void TableOffersEditor::deleteDraftData(const QtMyOfferInfo &info)
