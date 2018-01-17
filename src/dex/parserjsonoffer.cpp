@@ -1,9 +1,10 @@
 #include <univalue.h>
+#include "util.h"
 #include "parserjsonoffer.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
 
-MyOfferInfo fromJsonForAdd(const std::string &json, std::string &error)
+MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
 {
     MyOfferInfo offer;
 
@@ -45,11 +46,14 @@ MyOfferInfo fromJsonForAdd(const std::string &json, std::string &error)
     offer.price = uv["price"].get_int();
     offer.minAmount = uv["minAmount"].get_int();
 
-    offer.timeToExpiration = uv["timeToExpiration"].get_int();
-    if (offer.timeToExpiration != 10 && offer.timeToExpiration != 20 && offer.timeToExpiration != 30) {
+    offer.timeCreate = GetTime();
+    int timeTo = uv["timeToExpiration"].get_int();
+    if (timeTo != 10 && timeTo != 20 && timeTo != 30) {
         error = "invalid timeExpiration";
         return MyOfferInfo();
     }
+
+    offer.timeToExpiration = offer.timeCreate + timeTo * 86400;
 
     offer.shortInfo = uv["shortInfo"].get_str();
     offer.details = uv["details"].get_str();
