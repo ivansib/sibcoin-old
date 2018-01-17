@@ -248,10 +248,9 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
 
     std::string typefilter, countryfilter, currencyfilter, methodfilter;
     std::string statusfilter = "*";
-    int statusval = -1;
+    dex::CStatusOffer status;
     unsigned char methodfiltertype = 0;
     std::list<std::string> words {"buy", "sell", "all"};
-    std::vector<std::string> statuses { "active","draft","expired","cancelled","suspended","unconfirmed"};
     dex::CountryIso  countryiso;
     dex::CurrencyIso currencyiso;
 
@@ -296,16 +295,10 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
 
         {
             statusfilter.clear();
-            std::string statusname = boost::algorithm::to_lower_copy(params[i].get_str());
-            for (size_t j = 0; j < statuses.size(); j++) {
-                if (statuses[j] == statusname)  {
-                    statusfilter = statusname;
-                    statusval = j;
-                    continue;
-                }
-            }
-
-            if (statusfilter.empty()) {
+            status.set(params[i].get_str());
+            if (status != dex::Indefined) {
+                statusfilter = (std::string)status;
+            } else {
                 throw runtime_error("\nwrong parameter: " + params[i].get_str() + "\n");
             }
         }
@@ -341,11 +334,11 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
         if (countryfilter  != "*" && countryfilter  != i.countryIso ) continue;
         if (currencyfilter != "*" && currencyfilter != i.currencyIso) continue;
         if (methodfilter != "*"   && methodfiltertype != i.paymentMethod) continue;
-        if (statusfilter != "*"   && statusval        != i.status) continue;
+        if (statusfilter != "*"   && status           != i.status) continue;
         CDexOffer o(i.getOfferInfo(), i.type);
         UniValue v = o.getUniValue();
         v.push_back(Pair("status", i.status));
-        v.push_back(Pair("statusStr", statuses[i.status]));
+        v.push_back(Pair("statusStr", status.status2str(i.status)));
         result.push_back(v);
     }
     return result;
