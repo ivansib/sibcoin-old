@@ -2,6 +2,7 @@
 #define DEXDTO_H
 
 #include "uint256.h"
+#include <algorithm>
 
 namespace dex {
 
@@ -53,6 +54,44 @@ enum StatusOffer {
     Cancelled,
     Suspended,
     Unconfirmed
+};
+
+class CStatusOffer {
+public:
+    std::vector<std::string> statuses_;
+    StatusOffer status;
+
+public:
+    CStatusOffer() : statuses_({"Indefined","Active","Draft","Expired","Cancelled","Suspended","Unconfirmed"}) { 
+      status = Indefined;
+    };
+
+    StatusOffer get() const { return status; };
+    std::string str() const { return status2str(status); };
+    operator StatusOffer() const { return status; };
+    operator std::string() const { return status2str(status); };
+
+    void set(StatusOffer status) { this->status = status; };
+    void set(const std::string &strstatus) { status = str2status(strstatus); };
+    CStatusOffer &operator =(const StatusOffer &status) { set(status); return *this; };
+    CStatusOffer &operator =(const std::string &str) { set(str); return *this; };
+
+    std::string status2str(const StatusOffer status)  const { return statuses_[status]; };
+    StatusOffer str2status(const std::string &strstatus) const {
+        for (size_t i = 0; i < statuses_.size(); i++) {
+            if (std::equal(strstatus.begin(), strstatus.end(), statuses_[i].begin(), isequal) == 0) {
+                return static_cast<StatusOffer>(i);
+            }
+        }
+        return Indefined;
+    };
+
+    static bool isequal(int c1, int c2)
+    {
+        return std::toupper(c1) == std::toupper(c2);
+    };
+
+
 };
 
 enum TypeTable {

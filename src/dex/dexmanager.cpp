@@ -151,7 +151,7 @@ void CDexManager::setStatusExpiredForMyOffers()
 {
     auto offers = db->getMyOffers();
 
-    long long int currentTime = static_cast<long long int>(time(NULL));
+    uint64_t currentTime = static_cast<uint64_t>(time(NULL));
 
     for (auto item : offers) {
         if (item.timeToExpiration < currentTime) {

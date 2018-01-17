@@ -8,6 +8,7 @@
 #include "db/paymentmethodtype.h"
 #include "utilstrencodings.h"
 #include <univalue.h>
+#include <string.h>
 
 
 const char * OFFER_TYPE_BUY  =  "buy";
@@ -17,7 +18,6 @@ const char * OFFER_TYPE_SELL = "sell";
 dex::CurrencyIso  defaultCurrencyIso;
 dex::CountryIso   defaultCountryIso;
 dex::PaymentMethodType defaultPaymentMethod;
-
 
 
 CDexOffer::CDexOffer()
@@ -404,6 +404,5 @@ UniValue CDexOffer::getUniValue()
     result.push_back(Pair("editingVersion", editingVersion));
     return result;
 }
-
 
 
