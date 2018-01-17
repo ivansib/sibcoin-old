@@ -529,6 +529,8 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
             "\thash         (string) offer hash, hex digest.\n"
             "\tjson-data    (string) offer data in format json.\n"
 
+            "\nWARNING: If offer have status Active, you can change only price, shortInfo, details"
+
             "\njson attributes:\n"
             "\ttype             (string) offer type, 'buy' or 'sell'\n"
             "\tcountryIso       (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
@@ -576,8 +578,8 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         throw runtime_error("\nERROR: " + error);
     }
 
-    MyOfferInfo oldMyOffer = dex::DexDB::self()->getMyOfferByHash(hash);
-    if (oldMyOffer.status == Draft) {
+    MyOfferInfo currentMyOffer = dex::DexDB::self()->getMyOfferByHash(hash);
+    if (currentMyOffer.status == Draft) {
         offer.status = Draft;
         offer.editingVersion = 0;
 
@@ -594,6 +596,44 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         UniValue result(UniValue::VOBJ);
         result.push_back(Pair("new hash", offer.hash.GetHex()));
         return result;
+    } else if (currentMyOffer.status == Active) {
+        if (currentMyOffer.type != offer.type) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.countryIso != offer.countryIso) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.currencyIso != offer.currencyIso) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.paymentMethod != offer.paymentMethod) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.minAmount != offer.minAmount) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        int shelfLife = ((offer.timeToExpiration - offer.timeCreate - 1) / 86400) +1;
+        int currentShelfLife = ((currentMyOffer.timeToExpiration - currentMyOffer.timeCreate - 1) / 86400) +1;
+
+        if (shelfLife != currentShelfLife) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        currentMyOffer.price = offer.price;
+        currentMyOffer.shortInfo = offer.shortInfo;
+        currentMyOffer.details = offer.details;
+
+        std::string error;
+        dexman.prepareAndSendOffer(currentMyOffer, error);
+
+        if (!error.empty()) {
+            throw runtime_error("\nERROR: " + error + "\n");
+        }
     }
 
     return NullUniValue;
