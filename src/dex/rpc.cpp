@@ -26,6 +26,7 @@
 
 #include "dextransaction.h"
 #include "parserjsonoffer.h"
+#include "dexmanager.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
 #include "db/defaultdatafordb.h"
@@ -590,4 +591,59 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
     }
 
     return NullUniValue;
+}
+
+UniValue senddexoffer(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+
+            "senddexoffer <hash>\n\n"
+
+            "\nArgument:\n"
+            "\thash    (string) offer hash, hex digest.\n"
+
+            "\nExample:\n"
+            + HelpExampleCli("senddexoffer", "AABB...CCDD")
+        );
+
+    std::string strOfferHash = params[0].get_str();
+    if (strOfferHash.empty()) {
+        throw runtime_error("\nERROR: offer hash is empty");
+    }
+
+    uint256 hash = uint256S(strOfferHash);
+    if (hash.IsNull()) {
+        throw runtime_error("\nERROR: offer hash error\n");
+    }
+
+    if (!dex::DexDB::self()->isExistMyOfferByHash(hash)) {
+        throw runtime_error("\nERROR: offer not found in DB\n");
+    }
+
+    MyOfferInfo myOffer = dex::DexDB::self()->getMyOfferByHash(hash);
+
+    std::string error;
+    myOffer.timeCreate = GetTime();
+    dexman.prepareAndSendOffer(myOffer, error);
+
+    if (!error.empty()) {
+        throw runtime_error("\nERROR: " + error + "\n");
+    }
+
+    UniValue result(UniValue::VOBJ);
+    result.push_back(Pair("new hash", myOffer.hash.GetHex()));
+    return result;
 }

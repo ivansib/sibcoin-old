@@ -19,13 +19,12 @@ CDexManager dexman;
 CDexManager::CDexManager()
 {
     db = nullptr;
-    isInitDb = false;
     uncOffers = new UnconfirmedOffers();
 }
 
 CDexManager::~CDexManager()
 {
-    if (isInitDb) {
+    if (db != nullptr) {
         db->freeInstance();
     }
 
@@ -36,8 +35,7 @@ CDexManager::~CDexManager()
 
 void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
-    db = DexDB::instance();
-    isInitDb = true;
+    initDB();
 
     if (strCommand == NetMsgType::DEXSYNCGETALLHASH) {
         sendHashOffers(pfrom);
@@ -53,6 +51,56 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
         getAndDelOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXOFFEDIT) {
         getAndSendEditedOffer(vRecv);
+    }
+}
+
+void CDexManager::prepareAndSendOffer(MyOfferInfo &myOffer, std::string &error)
+{
+    initDB();
+
+    CDexOffer dexOffer;
+
+    if (myOffer.status == Indefined || myOffer.status == Draft) {
+        uint256 oldHash = myOffer.hash;
+        dexOffer.Create(myOffer);
+
+        if (oldHash != dexOffer.hash) {
+            db->deleteMyOfferByHash(oldHash);
+        }
+    } else if (myOffer.status == Active) {
+        myOffer.editingVersion++;
+
+        dexOffer = CDexOffer(myOffer);
+    }
+
+    CDex dex(dexOffer);
+
+    uint256 tx;
+
+    if (!dexOffer.idTransaction.IsNull()) {
+        dexman.sendEditedOffer(dex.offer);
+
+        if (dex.offer.isBuy()) {
+            db->editOfferBuy(dex.offer);
+        }
+        if (dex.offer.isSell()) {
+            db->editOfferSell(dex.offer);
+        }
+    } else if (dex.PayForOffer(tx, error)) {
+        dexman.sendNewOffer(dex.offer);
+
+        myOffer.setOfferInfo(dex.offer);
+        myOffer.status = Active;
+        if (dex.offer.isBuy()) {
+            db->addOfferBuy(dex.offer);
+        }
+        if (dex.offer.isSell()) {
+            db->addOfferSell(dex.offer);
+        }
+    }
+
+    if (error.empty()) {
+        saveMyOffer(myOffer);
     }
 }
 
@@ -122,6 +170,13 @@ void CDexManager::deleteOldOffers()
 {
     db->deleteOldOffersBuy();
     db->deleteOldOffersSell();
+}
+
+void CDexManager::initDB()
+{
+    if (db == nullptr) {
+        db = DexDB::instance();
+    }
 }
 
 void CDexManager::sendHashOffers(CNode *pfrom) const
@@ -394,6 +449,15 @@ CDexOffer CDexManager::getOfferInfo(const uint256 &hash) const
     }
 
     return CDexOffer();
+}
+
+void CDexManager::saveMyOffer(const MyOfferInfo &info)
+{
+    if (db->isExistMyOfferByHash(info.hash)) {
+        db->editMyOffer(info);
+    } else {
+        db->addMyOffer(info);
+    }
 }
 
 
