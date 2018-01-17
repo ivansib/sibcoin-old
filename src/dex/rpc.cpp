@@ -479,6 +479,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
 
     std::string jsonData = params[0].get_str();
     std::string error;
+
     MyOfferInfo offer = fromJsonForAdd(jsonData, error);
     offer.status = Draft;
     offer.editingVersion = 0;
