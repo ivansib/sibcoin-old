@@ -4,8 +4,6 @@
 #include <QList>
 #include "dto.h"
 
-const int decimals = 8;
-
 class ConvertData {
 public:
     static QtOfferInfo toQtOfferInfo(const OfferInfo &offer);

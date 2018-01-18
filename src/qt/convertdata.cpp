@@ -1,6 +1,7 @@
 #include <QObject>
 #include <QStringList>
 #include "convertdata.h"
+#include "dex/parserjsonoffer.h"
 
 QtOfferInfo ConvertData::toQtOfferInfo(const OfferInfo &offer)
 {
@@ -107,8 +108,8 @@ std::string ConvertData::fromQString(const QString &str)
 QString ConvertData::toUiPrice(const quint64 &i)
 {
     QString num = QString::number(i);
-    if (num.size() > decimals) {
-        int dot = num.size()-decimals;
+    if (num.size() > numberOfDecimalsForPrice) {
+        int dot = num.size()-numberOfDecimalsForPrice;
 
         num = num.insert(dot, '.');
 
@@ -126,7 +127,7 @@ QString ConvertData::toUiPrice(const quint64 &i)
             num = num.mid(0, num.size()-1);
         }
     } else if (num != "0") {
-        int s = decimals - num.size();
+        int s = numberOfDecimalsForPrice - num.size();
 
         QString zero("0");
         zero = zero.repeated(s);
@@ -149,24 +150,7 @@ QString ConvertData::toUiPrice(const quint64 &i)
 
 quint64 ConvertData::fromUiPrice(QString str)
 {
-    if (str.indexOf('.') > -1) {
-        QStringList l = str.split('.');
-        QString dec = l[1];
-        if (dec.size() < decimals) {
-            int size = decimals-dec.size();
-            for (int i = 0; i < size; i++) {
-                dec += "0";
-            }
-        }
-
-        str = l[0] + dec;
-    } else {
-        QString zero("0");
-        zero = zero.repeated(decimals);
-        str += zero;
-    }
-    quint64 num = str.toULongLong();
-    return num;
+    return priceFromString(str.toUtf8().constData());
 }
 
 QtCountryInfo ConvertData::toQtCountryInfo(const CountryInfo &info)
