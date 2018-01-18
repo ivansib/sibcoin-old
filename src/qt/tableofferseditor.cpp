@@ -19,11 +19,11 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDi
 
     updateData();
 
-    connect(editor, &OfferDetailsEditor::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
+    connect(editor, &OfferDetailsEditor::dataSave, this, &TableOffersEditor::addOrEditDraftMyOffer);
     connect(editor, &OfferDetailsEditor::dataSend, this, &TableOffersEditor::sendMyOffer);
     connect(editor, &OfferDetailsEditor::draftDataDelete, this, &TableOffersEditor::deleteDraftData);
 
-    connect(creator, &OfferDetailsCreator::dataSave, this, &TableOffersEditor::addOrEditMyOffer);
+    connect(creator, &OfferDetailsCreator::dataSave, this, &TableOffersEditor::addOrEditDraftMyOffer);
     connect(creator, &OfferDetailsCreator::dataSend, this, &TableOffersEditor::sendMyOffer);
 
     connect(this, &TableOffersEditor::navigationDataUpdate, editor, &OfferDetailsEditor::updateNavigationData);
@@ -79,29 +79,17 @@ void TableOffersEditor::openCreatorOffer()
     creator->show();
 }
 
-void TableOffersEditor::addOrEditMyOffer(const QtMyOfferInfo &info)
+void TableOffersEditor::addOrEditDraftMyOffer(const QtMyOfferInfo &info)
 {
     MyOfferInfo offer = ConvertData::fromQtMyOfferInfo(info);
-    offer.status = Draft;
-
-    CDexOffer dexOffer;
-    uint256 oldHash = offer.hash;
-    dexOffer.Create(offer);
-
-    if (!oldHash.IsNull() && oldHash != dexOffer.hash) {
-        db->deleteMyOfferByHash(oldHash);
-    }
-
-    offer.setOfferInfo(dexOffer);
-
-    saveMyOffer(offer);
+    dexman.addOrEditDraftMyOffer(offer);
 }
 
 void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
 {
     MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
     std::string error;
-    dexman.prepareAndSendOffer(myOffer, error);
+    dexman.prepareAndSendMyOffer(myOffer, error);
 
     if (!error.empty()) {
         QMessageBox::warning(this, tr("Warning"), tr(error.c_str()));

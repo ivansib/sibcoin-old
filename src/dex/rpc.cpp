@@ -26,6 +26,7 @@
 
 #include "dextransaction.h"
 #include "parserjsonoffer.h"
+#include "callbackdbforrpc.h"
 #include "dexmanager.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
@@ -494,7 +495,23 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
         throw runtime_error("\nERROR: error create offer");
     }
 
+    CallBackDBForRpc callBack;
+    dex::DexDB::self()->addCallBack(&callBack);
     dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer));
+
+    for (int i = 0; i < 50; i++) {
+        if (callBack.statusAddMyOffer() != NotDone) {
+            break;
+        }
+        MilliSleep(10);
+    }
+
+    CallBackStatus status = callBack.statusAddMyOffer();
+    dex::DexDB::self()->removeCallBack(&callBack);
+
+    if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(cOffer.hash)) {
+        throw runtime_error("\nERROR: the operation failed");
+    }
 
     UniValue result(UniValue::VOBJ);
     result.push_back(Pair("hash", cOffer.hash.GetHex()));
@@ -576,15 +593,23 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         offer.status = Draft;
         offer.editingVersion = 0;
 
-        CDexOffer dexOffer;
-        dexOffer.Create(offer);
+        CallBackDBForRpc callBack;
+        dex::DexDB::self()->addCallBack(&callBack);
 
-        if (hash != dexOffer.hash) {
-            dex::DexDB::self()->deleteMyOfferByHash(hash);
+        dexman.addOrEditDraftMyOffer(offer);
+
+        for (int i = 0; i < 50; i++) {
+            if (callBack.statusChangedMyOffer() != NotDone) {
+                break;
+            }
+            MilliSleep(10);
         }
 
-        offer.setOfferInfo(dexOffer);
-        dex::DexDB::self()->editMyOffer(offer);
+        CallBackStatus status = callBack.statusChangedMyOffer();
+        dex::DexDB::self()->removeCallBack(&callBack);
+        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
+            throw runtime_error("\nERROR: the operation failed");
+        }
 
         UniValue result(UniValue::VOBJ);
         result.push_back(Pair("new hash", offer.hash.GetHex()));
@@ -621,8 +646,24 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         currentMyOffer.shortInfo = offer.shortInfo;
         currentMyOffer.details = offer.details;
 
+        CallBackDBForRpc callBack;
+        dex::DexDB::self()->addCallBack(&callBack);
+
         std::string error;
-        dexman.prepareAndSendOffer(currentMyOffer, error);
+        dexman.prepareAndSendMyOffer(currentMyOffer, error);
+
+        for (int i = 0; i < 50; i++) {
+            if (callBack.statusChangedMyOffer() != NotDone) {
+                break;
+            }
+            MilliSleep(10);
+        }
+
+        CallBackStatus status = callBack.statusChangedMyOffer();
+        dex::DexDB::self()->removeCallBack(&callBack);
+        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(currentMyOffer.hash)) {
+            throw runtime_error("\nERROR: the operation failed");
+        }
 
         if (!error.empty()) {
             throw runtime_error("\nERROR: " + error + "\n");
@@ -676,7 +717,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
 
     std::string error;
     myOffer.timeCreate = GetTime();
-    dexman.prepareAndSendOffer(myOffer, error);
+    dexman.prepareAndSendMyOffer(myOffer, error);
 
     if (!error.empty()) {
         throw runtime_error("\nERROR: " + error + "\n");

@@ -34,7 +34,7 @@ protected Q_SLOTS:
     virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 
 private Q_SLOTS:
-    void addOrEditMyOffer(const QtMyOfferInfo &info);
+    void addOrEditDraftMyOffer(const QtMyOfferInfo &info);
     void sendMyOffer(const QtMyOfferInfo &info);
     void deleteDraftData(const QtMyOfferInfo &info);
 };
