@@ -2,6 +2,7 @@
 #include "dexmanager.h"
 
 #include "init.h"
+#include "wallet.h"
 #include "util.h"
 #include "utilstrencodings.h"
 #include "masternode-sync.h"
@@ -90,6 +91,12 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
         myOffer.editingVersion++;
 
         dexOffer = CDexOffer(myOffer);
+    }
+
+    CPubKey pubKey = dexOffer.getPubKeyObject();
+    if (!pwalletMain->HaveKey(pubKey.GetID())) {
+        error = "Don't find pub key";
+        return;
     }
 
     CDex dex(dexOffer);

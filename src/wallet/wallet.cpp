@@ -143,6 +143,11 @@ CPubKey CWallet::GenerateNewKey()
     return pubkey;
 }
 
+bool CWallet::HaveKey(const CKeyID &address) const
+{
+    return CCryptoKeyStore::HaveKey(address);
+}
+
 bool CWallet::AddKeyPubKey(const CKey& secret, const CPubKey &pubkey)
 {
     AssertLockHeld(cs_wallet); // mapKeyMetadata
