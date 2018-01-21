@@ -2,6 +2,7 @@
 #include "dexmanager.h"
 
 #include "init.h"
+#include "wallet.h"
 #include "util.h"
 #include "utilstrencodings.h"
 #include "masternode-sync.h"
@@ -54,7 +55,26 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
     }
 }
 
-void CDexManager::prepareAndSendOffer(MyOfferInfo &myOffer, std::string &error)
+void CDexManager::addOrEditDraftMyOffer(MyOfferInfo &myOffer)
+{
+    initDB();
+
+    myOffer.status = Draft;
+
+    CDexOffer dexOffer;
+    uint256 oldHash = myOffer.hash;
+    dexOffer.Create(myOffer);
+
+    if (!oldHash.IsNull() && oldHash != dexOffer.hash) {
+        db->deleteMyOfferByHash(oldHash);
+    }
+
+    myOffer.setOfferInfo(dexOffer);
+
+    saveMyOffer(myOffer);
+}
+
+void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error)
 {
     initDB();
 
@@ -71,6 +91,12 @@ void CDexManager::prepareAndSendOffer(MyOfferInfo &myOffer, std::string &error)
         myOffer.editingVersion++;
 
         dexOffer = CDexOffer(myOffer);
+    }
+
+    CPubKey pubKey = dexOffer.getPubKeyObject();
+    if (!pwalletMain->HaveKey(pubKey.GetID())) {
+        error = "Don't find pub key";
+        return;
     }
 
     CDex dex(dexOffer);

@@ -6,6 +6,8 @@
 
 namespace dex {
 
+const int numberOfDecimalsForPrice = 8;
+
 struct CountryInfo {
     std::string iso;
     std::string name;

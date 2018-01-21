@@ -1,28 +1,17 @@
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-
+#include <univalue.h>
+#include "util.h"
 #include "parserjsonoffer.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
 
-MyOfferInfo fromJsonForAdd(const std::string &json, std::string &error)
+MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
 {
-    std::stringstream ss;
-    ss << json;
-    namespace pt = boost::property_tree;
-    pt::ptree root;
-
     MyOfferInfo offer;
 
-    try {
-        pt::read_json(ss, root);
-    } catch(boost::property_tree::json_parser::json_parser_error &je) {
-        error = "Error parsing: " + je.filename() + " on line: " + std::to_string(je.line()) + "\n";
-        error += je.message() + "\n";
-        return MyOfferInfo();
-    }
+    UniValue uv(UniValue::VOBJ);
+    uv.read(json);
 
-    std::string strType = root.get<std::string>("type");
+    std::string strType = uv["type"].get_str();
 
     if (strType != "buy" && strType != "sell") {
         error = "offer type is empty";
@@ -34,37 +23,64 @@ MyOfferInfo fromJsonForAdd(const std::string &json, std::string &error)
         offer.type = Sell;
     }
 
-    offer.countryIso = root.get<std::string>("countryIso");
+    offer.countryIso = uv["countryIso"].get_str();
     dex::CountryIso countryiso;
     if (!countryiso.isValid(offer.countryIso)) {
         error = "invalid country code";
         return MyOfferInfo();
     }
 
-    offer.currencyIso = root.get<std::string>("currencyIso");
+    offer.currencyIso = uv["currencyIso"].get_str();
     dex::CurrencyIso currencyiso;
     if (!currencyiso.isValid(offer.currencyIso)) {
         error = "invalid currency code";
         return MyOfferInfo();
     }
 
-    offer.paymentMethod = root.get<uint8_t>("paymentMethod", 0);
+    offer.paymentMethod = uv["paymentMethod"].get_int();
     if (offer.paymentMethod != 1 && offer.paymentMethod != 128) {
         error = "invalid paymentMethod";
         return MyOfferInfo();
     }
 
-    offer.price = root.get<int>("price", 0);
-    offer.minAmount = root.get<int>("minAmount", 0);
+    offer.price = priceFromString(uv["price"].get_str());
+    offer.minAmount = priceFromString(uv["minAmount"].get_str());
 
-    offer.timeToExpiration = root.get<int>("timeToExpiration", 0);
-    if (offer.timeToExpiration != 10 && offer.timeToExpiration != 20 && offer.timeToExpiration != 30) {
+    offer.timeCreate = GetTime();
+    int timeTo = uv["timeToExpiration"].get_int();
+    if (timeTo != 10 && timeTo != 20 && timeTo != 30) {
         error = "invalid timeExpiration";
         return MyOfferInfo();
     }
 
-    offer.shortInfo = root.get<std::string>("shortInfo");
-    offer.details = root.get<std::string>("details");
+    offer.timeToExpiration = offer.timeCreate + timeTo * 86400;
+
+    offer.shortInfo = uv["shortInfo"].get_str();
+    offer.details = uv["details"].get_str();
 
     return offer;
+}
+
+uint64_t priceFromString(std::string strPrice)
+{
+    std::size_t found = strPrice.find(".");
+    if (found != std::string::npos) {
+        std::string i = strPrice.substr(0, found);
+        std::string f = strPrice.substr(found + 1);
+
+        if (f.length() < numberOfDecimalsForPrice) {
+            int size = numberOfDecimalsForPrice-f.size();
+            for (int i = 0; i< size; i++) {
+                f.push_back('0');
+            }
+        }
+        
+        strPrice = i + f;
+    } else {
+        std::string zero = std::string(numberOfDecimalsForPrice, '0');
+        strPrice += zero;
+    }
+
+    uint64_t price = std::strtoull(strPrice.c_str(), nullptr, 10);
+    return price;
 }

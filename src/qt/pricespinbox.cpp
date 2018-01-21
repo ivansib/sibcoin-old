@@ -26,7 +26,7 @@ quint64 PriceSpinBox::value() const
 void PriceSpinBox::stepBy(int steps)
 {
     quint64 num = value();
-    int s = steps * pow(10, decimals);
+    int s = steps * pow(10, numberOfDecimalsForPrice);
     num += s;
     setValue(num);
 }

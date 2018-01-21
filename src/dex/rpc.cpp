@@ -26,6 +26,7 @@
 
 #include "dextransaction.h"
 #include "parserjsonoffer.h"
+#include "callbackdbforrpc.h"
 #include "dexmanager.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
@@ -455,8 +456,8 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
             "\tcountryIso       (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
             "\tcurrencyIso      (string) three-letter currency code (ISO 4217)\n"
             "\tpaymentMethod    (number) payment method, correct values: 1(cash payment), 128(online payment)\n"
-            "\tprice            (number) offer price\n"
-            "\tminAmount        (number) offer minAmount\n"
+            "\tprice            (string) offer price\n"
+            "\tminAmount        (string) offer minAmount\n"
             "\ttimeToExpiration (number) period valid offer, correct values: 10, 20, 30\n"
             "\tshortInfo        (string) short info, max 140 symbols\n"
             "\tdetails          (string) detail info\n"
@@ -467,8 +468,8 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
                                             "\\\"countryIso\\\": \\\"RU\\\","
                                             "\\\"currencyIso\\\": \\\"RUB\\\","
                                             "\\\"paymentMethod\\\": 1,"
-                                            "\\\"price\\\": 100,"
-                                            "\\\"minAmount\\\": 100,"
+                                            "\\\"price\\\": \\\"100.05\\\","
+                                            "\\\"minAmount\\\": \\\"10.005\\\","
                                             "\\\"timeToExpiration\\\": 30,"
                                             "\\\"shortInfo\\\": \\\"test offer\\\","
                                             "\\\"details\\\": \\\"test offer details\\\""
@@ -477,11 +478,10 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
 
     std::string jsonData = params[0].get_str();
     std::string error;
-    MyOfferInfo offer = fromJsonForAdd(jsonData, error);
+
+    MyOfferInfo offer = jsonToMyOfferInfo(jsonData, error);
     offer.status = Draft;
     offer.editingVersion = 0;
-    offer.timeCreate = GetTime();
-    offer.timeToExpiration = GetTime() + offer.timeToExpiration * 86400;
 
     if (error.length() > 0) {
         throw runtime_error("\nERROR: " + error);
@@ -500,7 +500,23 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
         throw runtime_error("\nERROR: error create offer");
     }
 
+    CallBackDBForRpc callBack;
+    dex::DexDB::self()->addCallBack(&callBack);
     dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer));
+
+    for (int i = 0; i < 50; i++) {
+        if (callBack.statusAddMyOffer() != NotDone) {
+            break;
+        }
+        MilliSleep(10);
+    }
+
+    CallBackStatus status = callBack.statusAddMyOffer();
+    dex::DexDB::self()->removeCallBack(&callBack);
+
+    if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(cOffer.hash)) {
+        throw runtime_error("\nERROR: the operation failed");
+    }
 
     UniValue result(UniValue::VOBJ);
     result.push_back(Pair("hash", cOffer.hash.GetHex()));
@@ -528,13 +544,15 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
             "\thash         (string) offer hash, hex digest.\n"
             "\tjson-data    (string) offer data in format json.\n"
 
+            "\nWARNING: If offer have status Active, you can change only price, shortInfo, details"
+
             "\njson attributes:\n"
             "\ttype             (string) offer type, 'buy' or 'sell'\n"
             "\tcountryIso       (string) two-letter country code (ISO 3166-1 alpha-2 code)\n"
             "\tcurrencyIso      (string) three-letter currency code (ISO 4217)\n"
             "\tpaymentMethod    (number) payment method, correct values: 1(cash payment), 128(online payment)\n"
-            "\tprice            (number) offer price\n"
-            "\tminAmount        (number) offer minAmount\n"
+            "\tprice            (string) offer price\n"
+            "\tminAmount        (string) offer minAmount\n"
             "\ttimeToExpiration (number) period valid offer, correct values: 10, 20, 30\n"
             "\tshortInfo        (string) short info, max 140 symbols\n"
             "\tdetails          (string) detail info\n"
@@ -545,8 +563,8 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
                                             "\\\"countryIso\\\": \\\"RU\\\","
                                             "\\\"currencyIso\\\": \\\"RUB\\\","
                                             "\\\"paymentMethod\\\": 1,"
-                                            "\\\"price\\\": 100,"
-                                            "\\\"minAmount\\\": 100,"
+                                            "\\\"price\\\": \\\"100.03\\\","
+                                            "\\\"minAmount\\\": \\\"10.005\\\","
                                             "\\\"timeToExpiration\\\": 30,"
                                             "\\\"shortInfo\\\": \\\"test offer\\\","
                                             "\\\"details\\\": \\\"test offer details\\\""
@@ -569,30 +587,92 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
 
     std::string jsonData = params[1].get_str();
     std::string error;
-    MyOfferInfo offer = fromJsonForAdd(jsonData, error);
+    MyOfferInfo offer = jsonToMyOfferInfo(jsonData, error);
 
     if (error.length() > 0) {
         throw runtime_error("\nERROR: " + error);
     }
 
-    if (dex::DexDB::self()->getMyOfferByHash(hash).status == Draft) {
+    MyOfferInfo currentMyOffer = dex::DexDB::self()->getMyOfferByHash(hash);
+    if (currentMyOffer.status == Draft) {
         offer.status = Draft;
         offer.editingVersion = 0;
-        offer.timeCreate = GetTime();
 
-        CDexOffer dexOffer;
-        dexOffer.Create(offer);
+        CallBackDBForRpc callBack;
+        dex::DexDB::self()->addCallBack(&callBack);
 
-        if (hash != dexOffer.hash) {
-            dex::DexDB::self()->deleteMyOfferByHash(hash);
+        dexman.addOrEditDraftMyOffer(offer);
+
+        for (int i = 0; i < 50; i++) {
+            if (callBack.statusChangedMyOffer() != NotDone) {
+                break;
+            }
+            MilliSleep(10);
         }
 
-        offer.setOfferInfo(dexOffer);
-        dex::DexDB::self()->editMyOffer(offer);
+        CallBackStatus status = callBack.statusChangedMyOffer();
+        dex::DexDB::self()->removeCallBack(&callBack);
+        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
+            throw runtime_error("\nERROR: the operation failed");
+        }
 
         UniValue result(UniValue::VOBJ);
         result.push_back(Pair("new hash", offer.hash.GetHex()));
         return result;
+    } else if (currentMyOffer.status == Active) {
+        if (currentMyOffer.type != offer.type) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.countryIso != offer.countryIso) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.currencyIso != offer.currencyIso) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.paymentMethod != offer.paymentMethod) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        if (currentMyOffer.minAmount != offer.minAmount) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        int shelfLife = ((offer.timeToExpiration - offer.timeCreate - 1) / 86400) +1;
+        int currentShelfLife = ((currentMyOffer.timeToExpiration - currentMyOffer.timeCreate - 1) / 86400) +1;
+
+        if (shelfLife != currentShelfLife) {
+            throw runtime_error("\nERROR: unchanged data doesn't match");
+        }
+
+        currentMyOffer.price = offer.price;
+        currentMyOffer.shortInfo = offer.shortInfo;
+        currentMyOffer.details = offer.details;
+
+        CallBackDBForRpc callBack;
+        dex::DexDB::self()->addCallBack(&callBack);
+
+        std::string error;
+        dexman.prepareAndSendMyOffer(currentMyOffer, error);
+
+        for (int i = 0; i < 50; i++) {
+            if (callBack.statusChangedMyOffer() != NotDone) {
+                break;
+            }
+            MilliSleep(10);
+        }
+
+        CallBackStatus status = callBack.statusChangedMyOffer();
+        dex::DexDB::self()->removeCallBack(&callBack);
+        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(currentMyOffer.hash)) {
+            throw runtime_error("\nERROR: the operation failed");
+        }
+
+        if (!error.empty()) {
+            throw runtime_error("\nERROR: " + error + "\n");
+        }
     }
 
     return NullUniValue;
@@ -642,7 +722,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
 
     std::string error;
     myOffer.timeCreate = GetTime();
-    dexman.prepareAndSendOffer(myOffer, error);
+    dexman.prepareAndSendMyOffer(myOffer, error);
 
     if (!error.empty()) {
         throw runtime_error("\nERROR: " + error + "\n");

@@ -5,6 +5,7 @@
 
 using namespace dex;
 
-MyOfferInfo fromJsonForAdd(const std::string &json, std::string &error);
+MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error);
+uint64_t priceFromString(std::string strPrice);
 
 #endif
