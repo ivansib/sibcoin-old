@@ -248,7 +248,7 @@ void checkOffers(DexDB *db)
     info.currencyIso = "RUB";
     info.paymentMethod = 1;
     info.timeCreate = currentTime - secInDay * 10;
-    info.timeToExpiration = currentTime + secInDay;
+    info.timeToExpiration = info.timeCreate + secInDay;
     info.editingVersion = 0;
 
     std::list<OfferInfo> iList;
@@ -266,7 +266,7 @@ void checkOffers(DexDB *db)
     info.currencyIso = "USD";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 20;
-    info.timeToExpiration = currentTime - secInDay * 5;
+    info.timeToExpiration = info.timeCreate + secInDay * 5;
     info.editingVersion = 2;
 
     iList.push_back(info);
@@ -283,7 +283,7 @@ void checkOffers(DexDB *db)
     info.currencyIso = "UAN";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 13;
-    info.timeToExpiration = currentTime - secInDay * 4;
+    info.timeToExpiration = info.timeCreate + secInDay * 4;
     info.editingVersion = 3;
 
     iList.push_back(info);
@@ -344,7 +344,7 @@ void checkOffers(DexDB *db)
     info1.currencyIso = "AFN";
     info1.paymentMethod = 200;
     info1.timeCreate = currentTime - secInDay * 33;
-    info1.timeToExpiration = 30;
+    info1.timeToExpiration = info1.timeCreate + secInDay * 20;
     info1.editingVersion = 4;
 
     db->editOfferSell(info1);
@@ -356,8 +356,8 @@ void checkOffers(DexDB *db)
     info2.countryIso = "AX";
     info2.currencyIso = "EUR";
     info2.paymentMethod = 150;
-    info2.timeCreate = currentTime - secInDay * 3;
-    info2.timeToExpiration = currentTime + secInDay ;
+    info2.timeCreate = currentTime - secInDay * 7;
+    info2.timeToExpiration = info2.timeCreate + secInDay * 2;
     info2.editingVersion = 6;
 
     db->editOfferBuy(info2);
@@ -528,7 +528,7 @@ void checkMyOffers(DexDB *db)
     info.currencyIso = "RUB";
     info.paymentMethod = 1;
     info.timeCreate = currentTime - secInDay * 15;
-    info.timeToExpiration = currentTime - secInDay * 5;
+    info.timeToExpiration = info.timeCreate + secInDay * 5;
     info.editingVersion = 0;
 
     std::list<MyOfferInfo> iList;
@@ -547,7 +547,7 @@ void checkMyOffers(DexDB *db)
     info.currencyIso = "USD";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 33;
-    info.timeToExpiration = currentTime - secInDay * 18;
+    info.timeToExpiration = info.timeCreate + secInDay * 18;
     info.editingVersion = 4;
 
     iList.push_back(info);
@@ -565,7 +565,7 @@ void checkMyOffers(DexDB *db)
     info.currencyIso = "UAN";
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 17;
-    info.timeToExpiration = currentTime - secInDay * 8;
+    info.timeToExpiration = info.timeCreate + secInDay * 8;
     info.editingVersion = 6;
 
     iList.push_back(info);
@@ -624,8 +624,8 @@ void checkMyOffers(DexDB *db)
     info1.countryIso = "AF";
     info1.currencyIso = "AFN";
     info1.paymentMethod = 77;
-    info1.timeCreate = currentTime - secInDay * 3;
-    info1.timeToExpiration = currentTime - secInDay * 2;
+    info1.timeCreate = currentTime - secInDay * 7;
+    info1.timeToExpiration = info1.timeCreate + secInDay * 2;
     info1.editingVersion = 7;
 
     db->editMyOffer(info1);
@@ -646,6 +646,23 @@ void checkMyOffers(DexDB *db)
     }
 
     MyOfferInfo offer = db->getMyOffer(info1.idTransaction);
+
+    BOOST_CHECK(offer.pubKey == info1.pubKey);
+    BOOST_CHECK(offer.idTransaction == info1.idTransaction);
+    BOOST_CHECK(offer.hash == info1.hash);
+    BOOST_CHECK(offer.type == info1.type);
+    BOOST_CHECK(offer.status == info1.status);
+    BOOST_CHECK(offer.price == info1.price);
+    BOOST_CHECK(offer.minAmount == info1.minAmount);
+    BOOST_CHECK(offer.shortInfo == info1.shortInfo);
+    BOOST_CHECK(offer.countryIso == info1.countryIso);
+    BOOST_CHECK(offer.currencyIso == info1.currencyIso);
+    BOOST_CHECK(offer.paymentMethod == info1.paymentMethod);
+    BOOST_CHECK(offer.timeCreate == info1.timeCreate);
+    BOOST_CHECK(offer.timeToExpiration == info1.timeToExpiration);
+    BOOST_CHECK(offer.editingVersion == info1.editingVersion);
+
+    offer = db->getMyOfferByHash(info1.hash);
 
     BOOST_CHECK(offer.pubKey == info1.pubKey);
     BOOST_CHECK(offer.idTransaction == info1.idTransaction);
