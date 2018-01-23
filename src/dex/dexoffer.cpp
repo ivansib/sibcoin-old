@@ -82,6 +82,7 @@ CDexOffer::CDexOffer(const dex::MyOfferInfo &info)
     shortInfo        = info.shortInfo;
     details          = info.details;
     editingVersion   = info.editingVersion;
+    status           = info.status;
     switch (info.type) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
