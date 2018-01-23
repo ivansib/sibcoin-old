@@ -232,6 +232,7 @@ CDexOffer::operator dex::MyOfferInfo() const
     info.timeToExpiration = timeExpiration;
     info.shortInfo        = shortInfo;
     info.details          = details;
+    info.editingVersion   = editingVersion;
     info.type             = getTypeOffer();
     info.status           = (dex::StatusOffer)status;
     return info;
