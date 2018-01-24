@@ -721,7 +721,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
     MyOfferInfo myOffer = dex::DexDB::self()->getMyOfferByHash(hash);
 
     std::string error;
-    myOffer.timeCreate = GetTime();
+    //myOffer.timeCreate = GetTime(); error with change hash!!!!
     dexman.prepareAndSendMyOffer(myOffer, error);
 
     if (!error.empty()) {

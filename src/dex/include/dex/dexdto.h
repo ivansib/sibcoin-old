@@ -41,6 +41,7 @@ struct OfferInfo {
     std::string shortInfo;
     std::string details;
     int editingVersion;
+    std::string editsign;
 };
 
 enum TypeOffer {
@@ -138,6 +139,7 @@ struct MyOfferInfo : OfferInfo {
         info.shortInfo = shortInfo;
         info.details = details;
         info.editingVersion = editingVersion;
+        info.editsign = editsign;
 
         return info;
     }
@@ -156,6 +158,7 @@ struct MyOfferInfo : OfferInfo {
         shortInfo = info.shortInfo;
         details = info.details;
         editingVersion = info.editingVersion;
+        editsign = info.editsign;
     }
 };
 

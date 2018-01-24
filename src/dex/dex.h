@@ -48,7 +48,7 @@ public:
 
     // проверка транзакции 
     bool CheckOfferTx(std::string &sError);
-    
+
     // проверка подписи оффера публичным ключем
     bool CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError);
 
@@ -57,6 +57,12 @@ public:
 
     // ищет в кошельке приватный ключ по публичному
     bool FindKey(CKey &key, std::string &sError);
+
+    // проверка подписи редактирования оффера (поле editsign)
+    bool CheckEditSign();
+
+    // подписать изменения при редактировании приватным ключем (поле editsign)
+    bool MakeEditSign(const CKey &key, std::string &sError);
 
 
     ADD_SERIALIZE_METHODS;

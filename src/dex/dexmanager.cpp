@@ -101,6 +101,10 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
 
     CDex dex(dexOffer);
 
+    CKey key;
+    if (!dex.FindKey(key, error)) return;
+    if (!dex.MakeEditSign(key, error)) return;
+
     uint256 tx;
 
     if (!dexOffer.idTransaction.IsNull()) {
@@ -141,10 +145,12 @@ void CDexManager::sendNewOffer(const CDexOffer &offer)
 
 void CDexManager::sendEditedOffer(const CDexOffer &offer)
 {
+    std::vector<unsigned char> vchSign = ParseHex(offer.editsign);
+
     LOCK2(cs_main, cs_vNodes);
 
     for (CNode *pNode : vNodes) {
-        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer);
+        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
     }
 }
 
@@ -392,9 +398,12 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
 
 void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
 {
+    std::vector<unsigned char> vchSign;
     CDexOffer offer;
     vRecv >> offer;
-    if (offer.Check(true)) {
+    vRecv >> vchSign;
+    offer.editsign = HexStr(vchSign);
+    if (offer.Check(true) && offer.CheckEditSign()) {
         CDex dex(offer);
         std::string error;
         if (dex.CheckOfferTx(error)) {
@@ -428,7 +437,7 @@ void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
             if (isActual) {
                 LOCK2(cs_main, cs_vNodes);
                 for (CNode* pNode : vNodes) {
-                    pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer);
+                    pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
                 }
             }
 
