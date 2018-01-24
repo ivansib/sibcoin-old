@@ -100,7 +100,8 @@ endif
 
 if ENABLE_DEX
 BITCOIN_TESTS += \
-  test/dexdb_tests.cpp
+  test/dexdb_tests.cpp \
+  test/dexoffer_tests.cpp
 endif
 
 test_test_sibcoin_SOURCES = $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)

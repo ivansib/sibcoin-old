@@ -10,6 +10,7 @@
 #include "util.h"
 #include "uritests.h"
 #include "compattests.h"
+#include "convertdatatests.h"
 
 #ifdef ENABLE_WALLET
 #include "paymentservertests.h"
@@ -48,6 +49,11 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_WALLET
     PaymentServerTests test2;
     if (QTest::qExec(&test2) != 0)
+        fInvalid = true;
+#endif
+#ifdef ENABLE_DEX
+    ConvertDataTests test3;
+    if (QTest::qExec(&test3) != 0)
         fInvalid = true;
 #endif
     CompatTests test4;
