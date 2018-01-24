@@ -420,11 +420,13 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
         }
     }
 
-    if (sended > 1 || offer.status == dex::Draft) {
+    if (sended > 1 || offer.status == dex::Draft || offer.status == dex::Indefined) {
+        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuy (offer.idTransaction);
+        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSell(offer.idTransaction);
         if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOffer  (offer.idTransaction);
-        if (offer.isBuy())     dex::DexDB::self()->deleteOfferBuy (offer.idTransaction);
-        if (offer.isSell())    dex::DexDB::self()->deleteOfferSell(offer.idTransaction);
     }
+
+    throw runtime_error("\nsuccess\n");
 
     return NullUniValue;
 }
