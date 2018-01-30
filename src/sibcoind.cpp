@@ -146,7 +146,7 @@ bool AppInit(int argc, char* argv[])
                     }
                 }
             }
-            strDexDbFile = dexdbpath.c_str();
+            strDexDbFile = dexdbpath.string();
 
             try {
                 dex::DexDB::instance();
