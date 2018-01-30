@@ -41,6 +41,7 @@ CDexOffer::CDexOffer(const CDexOffer &off)
     details          = off.details;
     editingVersion   = off.editingVersion;
     type             = off.type;
+    editsign         = off.editsign;
     myoffer_         = off.myoffer_;
 }
 
@@ -60,6 +61,7 @@ CDexOffer::CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype)
     shortInfo        = info.shortInfo;
     details          = info.details;
     editingVersion   = info.editingVersion;
+    editsign         = info.editsign;
     switch (offertype) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
@@ -82,6 +84,7 @@ CDexOffer::CDexOffer(const dex::MyOfferInfo &info)
     shortInfo        = info.shortInfo;
     details          = info.details;
     editingVersion   = info.editingVersion;
+    editsign         = info.editsign;
     status           = info.status;
     switch (info.type) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
@@ -108,6 +111,7 @@ void CDexOffer::SetNull()
     shortInfo.clear();
     details.clear();
     editingVersion = 0;
+    editsign.clear();
     myoffer_ = false;
 }
 
@@ -170,6 +174,7 @@ bool CDexOffer::Create(const dex::OfferInfo &info, dex::TypeOffer offertype)
     shortInfo       = info.shortInfo;
     details         = info.details;
     editingVersion  = info.editingVersion;
+    editsign        = info.editsign;
     switch (offertype) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
@@ -215,6 +220,7 @@ CDexOffer::operator dex::OfferInfo() const
     info.shortInfo        = shortInfo;
     info.details          = details;
     info.editingVersion   = editingVersion;
+    info.editsign         = editsign;
     return info;
 }
 
@@ -235,6 +241,8 @@ CDexOffer::operator dex::MyOfferInfo() const
     info.details          = details;
     info.editingVersion   = editingVersion;
     info.type             = getTypeOffer();
+    info.editingVersion   = editingVersion;
+    info.editsign         = editsign;
     info.status           = (dex::StatusOffer)status;
     return info;
 }
@@ -258,6 +266,7 @@ CDexOffer& CDexOffer::operator=(const CDexOffer& off)
     type             = off.type;
     myoffer_         = off.myoffer_;
     status           = off.status;
+    editsign         = off.editsign;
     return *this;
 }
 
@@ -310,11 +319,12 @@ std::string CDexOffer::dump() const
         "\ttimeExpiration\t%lld\n"
         "\tshortInfo\t%s\n"
         "\tdetails\t\t%s\n"
-        "\teditingVersion\t\t%s\n",
+        "\teditingVersion\t\t%d\n"
+        "\teditsign\t\t%s\n"
         "\tstatus\t\t%d\n",
         type.c_str(), idTransaction.GetHex().c_str(), hash.GetHex().c_str(), pubKey.c_str(),
         countryIso.c_str(), currencyIso.c_str(), paymentMethod, price, minAmount, timeCreate,
-        timeExpiration, shortInfo.c_str(), details.c_str(), editingVersion, status);
+        timeExpiration, shortInfo.c_str(), details.c_str(), editingVersion, editsign.c_str(), status);
 }
 
 
@@ -404,7 +414,53 @@ UniValue CDexOffer::getUniValue()
     result.push_back(Pair("shortInfo", shortInfo));
     result.push_back(Pair("details", details));
     result.push_back(Pair("editingVersion", editingVersion));
+    result.push_back(Pair("editSign", editsign));
     return result;
+}
+
+
+uint256 CDexOffer::MakeEditHash()
+{
+    CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
+    ss << hash;
+    ss << idTransaction;
+    ss << price;
+    ss << shortInfo;
+    ss << details;
+    ss << editingVersion;
+    return ss.GetHash();
+}
+
+
+bool CDexOffer::CheckEditSign()
+{
+    do {
+        if (IsNull()) {
+            LogPrintf("DexOffer::CheckEditSign() error: offer is Null\n" );
+            break;
+        }
+
+        if (editsign.empty()) {
+            LogPrintf("DexOffer::CheckEditSign(%s) error: edit sign is empty\n", hash.GetHex().c_str());
+            break;
+        }
+        std::vector<unsigned char> vchSign = ParseHex(editsign);
+
+        CPubKey pkey = getPubKeyObject();
+        if (!pkey.IsFullyValid()) {
+            LogPrintf("DexOffer::CheckEditSign(%s) error: invalid pub key\n", hash.GetHex().c_str());
+            break;
+        }
+
+        uint256 edithash = MakeEditHash();
+
+        if (!pkey.Verify(edithash, vchSign)) {
+            LogPrintf("DexOffer::CheckEditSign(%s) error: invalid offer editsign\n", hash.GetHex().c_str());
+            break;
+        }
+        return true;
+    } while (false);
+    return false;
 }
 
 

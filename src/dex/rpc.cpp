@@ -388,10 +388,8 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
 
     CDexOffer offer;
     if (dex::DexDB::self()->isExistMyOfferByHash(hash)) {
-        std::list<dex::MyOfferInfo> myoffers = dex::DexDB::self()->getMyOffers();
-        for (auto i : myoffers) {
-            if (i.hash == hash) offer = CDexOffer(i);
-        }
+        dex::MyOfferInfo myoffer = dex::DexDB::self()->getMyOfferByHash(hash);
+        offer = CDexOffer(myoffer);
     } else if (dex::DexDB::self()->isExistOfferBuyByHash(hash)) {
         offer = CDexOffer(dex::DexDB::self()->getOfferBuyByHash(hash), dex::Buy);
     } else if (dex::DexDB::self()->isExistOfferSellByHash(hash)) {
@@ -412,14 +410,23 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
         throw runtime_error(error.c_str());
     }
 
-    if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOffer  (offer.idTransaction);
-    if (offer.isBuy())     dex::DexDB::self()->deleteOfferBuy (offer.idTransaction);
-    if (offer.isSell())    dex::DexDB::self()->deleteOfferSell(offer.idTransaction);
-
-    LOCK2(cs_main, cs_vNodes);
-    BOOST_FOREACH(CNode* pNode, vNodes) {
-        pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+    int sended = 0;
+    if (offer.status != dex::Draft) {
+        LOCK2(cs_main, cs_vNodes);
+        BOOST_FOREACH(CNode* pNode, vNodes) {
+            uint64_t bytes = pNode->nSendBytes;
+            pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+            if (pNode->nSendBytes > bytes) sended++;
+        }
     }
+
+    if (sended > 1 || offer.status == dex::Draft || offer.status == dex::Indefined) {
+        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuy (offer.idTransaction);
+        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSell(offer.idTransaction);
+        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOffer  (offer.idTransaction);
+    }
+
+    throw runtime_error("\nsuccess\n");
 
     return NullUniValue;
 }
@@ -716,7 +723,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
     MyOfferInfo myOffer = dex::DexDB::self()->getMyOfferByHash(hash);
 
     std::string error;
-    myOffer.timeCreate = GetTime();
+    //myOffer.timeCreate = GetTime(); error with change hash!!!!
     dexman.prepareAndSendMyOffer(myOffer, error);
 
     if (!error.empty()) {
