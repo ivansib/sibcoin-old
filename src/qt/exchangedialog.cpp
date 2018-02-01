@@ -18,6 +18,8 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     widgetExchanges = new QWidget();
     settings = new SettingsDialog(db);
 
+    ui->btnExchanges->setVisible(false);
+
     ui->stackedWidget->addWidget(tableBuy);
     ui->stackedWidget->addWidget(tableSell);
     ui->stackedWidget->addWidget(tableMyOffers);
