@@ -1,0 +1,11 @@
+--- old/configure	2018-01-22 20:57:37.000000000 +0200
++++ new/configure	2018-02-05 12:43:01.058498501 +0200
+@@ -591,7 +591,7 @@
+ PACKAGE_NAME='sqlite'
+ PACKAGE_TARNAME='sqlite'
+ PACKAGE_VERSION='3.22.0'
+-PACKAGE_STRING='sqlite 3.22.0'
++PACKAGE_STRING='sqlite_3.22.0'
+ PACKAGE_BUGREPORT='http://www.sqlite.org'
+ PACKAGE_URL=''
+ 

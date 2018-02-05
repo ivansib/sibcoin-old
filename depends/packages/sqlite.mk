@@ -1,10 +1,12 @@
 package=sqlite
-$(package)_version=3210000
-$(package)_sha256_hash=d7dd516775005ad87a57f428b6f86afd206cb341722927f104d3f0cf65fbbbe3
+$(package)_version=3220000
+$(package)_sha256_hash=2824ab1238b706bc66127320afbdffb096361130e23291f26928a027b885c612
 $(package)_file_name=$(package)-autoconf-$($(package)_version).tar.gz
-$(package)_download_path=https://www.sqlite.org/2017/
+$(package)_download_path=https://www.sqlite.org/2018/
+$(package)_patches=sqlite.patch
 
 define $(package)_preprocess_cmds
+   patch -p1 < $($(package)_patch_dir)/sqlite.patch
 endef
 
 define $(package)_set_vars
