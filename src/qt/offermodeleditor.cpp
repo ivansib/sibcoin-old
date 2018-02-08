@@ -1,4 +1,5 @@
 #include "offermodeleditor.h"
+#include "convertdata.h"
 
 OfferModelEditor::OfferModelEditor(QObject *parent) : OfferModel(parent)
 {

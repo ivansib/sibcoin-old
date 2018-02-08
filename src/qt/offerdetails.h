@@ -8,7 +8,7 @@
 #include <QTextEdit>
 #include <QLabel>
 #include "combobox.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "dex/dex.h"
 #include "dto.h"
 #include "amount.h"

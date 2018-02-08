@@ -305,8 +305,10 @@ if ENABLE_DEX
 QT_MOC_CPP += \
   moc_exchangedialog.cpp \
   moc_offermodeleditor.cpp \
+  moc_offermodel.cpp \
   moc_offermodelview.cpp \
   moc_tableofferssubdialog.cpp \
+  moc_tableoffersdialog.cpp \
   moc_offerdetails.cpp \
   moc_convertdata.cpp \
   moc_offerdetailseditor.cpp \
@@ -363,9 +365,11 @@ BITCOIN_QT_H += \
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
+  offermodel.cpp \
   offermodeleditor.cpp \
   offermodelview.cpp \
   tableofferssubdialog.cpp \
+  tableoffersdialog.cpp \
   offerdetails.cpp \
   convertdata.cpp \
   offerdetailseditor.cpp \

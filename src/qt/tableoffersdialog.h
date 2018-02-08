@@ -22,6 +22,7 @@ protected:
     virtual void changedFilterOfferType(const int &);
 };
 
-#include "tableoffersdialog.cpp"
+//template class TableOffersDialog<QtMyOfferInfo>;
+//template class TableOffersDialog<QtOfferInfo>;
 
 #endif

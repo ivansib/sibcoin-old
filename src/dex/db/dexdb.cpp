@@ -1,6 +1,6 @@
 #include <ctime>
 #include <thread>
-#include "dex/dexdb.h"
+#include "dexdb.h"
 #include "defaultdatafordb.h"
 #include <boost/thread/thread.hpp>
 

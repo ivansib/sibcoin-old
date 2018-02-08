@@ -1,7 +1,7 @@
 #ifndef PARSERJSONOFFER_H
 #define PARSERJSONOFFER_H
 
-#include "dex/dexdto.h"
+#include "dex/db/dexdto.h"
 
 using namespace dex;
 

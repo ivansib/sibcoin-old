@@ -3,7 +3,7 @@
 
 #include <QTableView>
 #include "currenciesmodel.h"
-#include <dex/dexdb.h>
+#include "dex/db/dexdb.h"
 
 using namespace dex;
 

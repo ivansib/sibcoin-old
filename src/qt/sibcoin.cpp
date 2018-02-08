@@ -25,7 +25,7 @@
 
 #ifdef ENABLE_DEX
 #include <QFontDatabase>
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #endif
 
 #ifdef ENABLE_WALLET

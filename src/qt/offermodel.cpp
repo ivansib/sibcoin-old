@@ -1,6 +1,9 @@
 #include "offermodel.h"
 #include "convertdata.h"
 
+//template class OfferModel<QtMyOfferInfo>;
+//template class OfferModel<QtOfferInfo>;
+
 template <class Offer>
 OfferModel<Offer>::OfferModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -68,13 +71,13 @@ QtOfferInfo OfferModel<Offer>::offerInfo(const int &row)
 }
 
 template <class Offer>
-QtMyOfferInfo OfferModel<Offer>::myOfferInfo(const int &row)
+Offer OfferModel<Offer>::myOfferInfo(const int &row)
 {
     if (row < offersView.size()) {
         return offersView[row];
     }
 
-    return QtMyOfferInfo();
+    return Offer();
 }
 
 template <class Offer>
@@ -102,3 +105,6 @@ QVariant OfferModel<Offer>::headerData(int section, Qt::Orientation orientation,
 
     return QVariant();
 }
+
+template class OfferModel<QtMyOfferInfo>;
+template class OfferModel<QtOfferInfo>;

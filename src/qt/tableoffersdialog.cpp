@@ -1,5 +1,8 @@
 #include "tableoffersdialog.h"
 
+//template class TableOffersDialog<QtMyOfferInfo>;
+//template class TableOffersDialog<QtOfferInfo>;
+
 template<class Offer>
 TableOffersDialog<Offer>::TableOffersDialog(DexDB *db, OfferModel<Offer> *model, const int &columnBtn, QDialog *parent) : TableOffersSubDialog(db, columnBtn, parent)
 {
@@ -38,3 +41,6 @@ void TableOffersDialog<Offer>::changedFilterOfferType(const int &)
     int type = cBoxOffer->currentIndex();
     pModel->setFilterTypeOffer(type);
 }
+
+template class TableOffersDialog<QtMyOfferInfo>;
+template class TableOffersDialog<QtOfferInfo>;
