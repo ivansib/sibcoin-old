@@ -68,7 +68,7 @@ void TableOffersEditor::saveMyOffer(const MyOfferInfo &info)
 
 void TableOffersEditor::clickedButton(const int &index)
 {
-    QtMyOfferInfo info = pModel->myOfferInfo(index);
+    QtMyOfferInfo info = pModel->offerInfo(index);
     editor->setOfferInfo(info);
     editor->show();
 }
