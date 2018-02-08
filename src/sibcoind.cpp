@@ -132,7 +132,7 @@ bool AppInit(int argc, char* argv[])
         {
             boost::filesystem::path dexdbpath = GetArg("-dexdb", DEX_DB_FILENAME);
             if (dexdbpath == dexdbpath.filename()) {
-                dexdbpath = GetDataDir(false) / dexdbpath;
+                dexdbpath = GetDataDir(true) / dexdbpath;
             } else {
                 if (boost::filesystem::exists(dexdbpath)) {
                     if (boost::filesystem::is_directory(dexdbpath)) {
