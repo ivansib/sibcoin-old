@@ -2,7 +2,7 @@
 #define COMBOBOX_H
 
 #include <QComboBox>
-#include "dex/dexdto.h"
+#include "dex/db/dexdto.h"
 
 using namespace dex;
 

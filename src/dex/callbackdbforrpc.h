@@ -1,8 +1,8 @@
 #ifndef CALLBACKDBFORRPC_H
 #define CALLBACKDBFORRPC_H
 
-#include "dex/callbackdb.h"
-#include "dex/dexdto.h"
+#include "dex/db/callbackdb.h"
+#include "dex/db/dexdto.h"
 
 using namespace dex;
 

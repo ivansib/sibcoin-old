@@ -6,7 +6,7 @@
 #include "tablecurrencies.h"
 #include "filterlist.h"
 #include "commonsettingsforofferswidget.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 
 using namespace dex;
 

@@ -58,23 +58,13 @@ int OfferModel<Offer>::rows() const
 }
 
 template <class Offer>
-QtOfferInfo OfferModel<Offer>::offerInfo(const int &row)
+Offer OfferModel<Offer>::offerInfo(const int &row)
 {
     if (row < offersView.size()) {
         return offersView[row];
     }
 
-    return QtOfferInfo();
-}
-
-template <class Offer>
-QtMyOfferInfo OfferModel<Offer>::myOfferInfo(const int &row)
-{
-    if (row < offersView.size()) {
-        return offersView[row];
-    }
-
-    return QtMyOfferInfo();
+    return Offer();
 }
 
 template <class Offer>
@@ -102,3 +92,6 @@ QVariant OfferModel<Offer>::headerData(int section, Qt::Orientation orientation,
 
     return QVariant();
 }
+
+template class OfferModel<QtMyOfferInfo>;
+template class OfferModel<QtOfferInfo>;

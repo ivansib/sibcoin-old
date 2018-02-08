@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QSet>
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 
 using namespace dex;
 

@@ -13,7 +13,7 @@
 
 #include "dextransaction.h"
 #include "dexoffer.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "dex.h"
 
 #ifdef ENABLE_WALLET

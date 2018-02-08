@@ -7,7 +7,7 @@
 #include "utilstrencodings.h"
 #include "masternode-sync.h"
 
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "txmempool.h"
 #include "base58.h"
 

@@ -5,7 +5,7 @@
 #include "tableoffersview.h"
 #include "tableofferseditor.h"
 #include "settingsdialog.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "callbackdbforgui.h"
 #include "walletmodel.h"
 

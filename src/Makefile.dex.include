@@ -8,7 +8,7 @@ LIBDEX_INT = dex/libdex.a
 EXTRA_LIBRARIES += $(LIBDEX_INT)
 LIBDEX += $(LIBDEX_INT)
 
-SQLITE_CPPFLAGS += -I$(srcdir)/dex/include
+SQLITE_CPPFLAGS += -I$(srcdir)/dex/db
 
 dex_libdexdb_a_CPPFLAGS = $(SQLITE_CPPFLAGS)
 
@@ -23,7 +23,7 @@ dex_libdexdb_a_SOURCES += dex/db/currencyiso.cpp
 dex_libdexdb_a_SOURCES += dex/db/paymentmethodtype.cpp
 dex_libdexdb_a_SOURCES += dex/db/defaultdatafordb.cpp
 
-dex_libdex_a_CPPFLAGS = -I$(srcdir)/univalue/include -I$(srcdir)/dex/include -I$(srcdir)/wallet  $(BDB_CPPFLAGS)
+dex_libdex_a_CPPFLAGS = -I$(srcdir)/univalue/include -I$(srcdir)/dex/db -I$(srcdir)/wallet  $(BDB_CPPFLAGS)
 dex_libdex_a_SOURCES = \
   dex/dex.cpp \
   dex/dexmanager.cpp \

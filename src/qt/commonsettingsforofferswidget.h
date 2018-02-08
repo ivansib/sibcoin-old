@@ -5,7 +5,7 @@
 #include "ui_commonsettingsforofferswidget.h"
 #include "commonsettingsforoffers.h"
 #include "commonsettingsforoffers.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 
 class CommonSettingsForOffersWidget : public QWidget, public Ui::CommonSettingsForOffersWidget
 {

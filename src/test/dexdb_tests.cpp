@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "test/test_sibcoin.h"
 
-#include "dex/dexdb.h"
-#include "dex/callbackdb.h"
+#include "dex/db/dexdb.h"
+#include "dex/db/callbackdb.h"
 #include "random.h"
 #include "util.h"
 

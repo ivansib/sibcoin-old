@@ -2,7 +2,7 @@
 #define DTO_H
 
 #include <QString>
-#include "dex/dexdto.h"
+#include "dex/db/dexdto.h"
 
 using namespace dex;
 

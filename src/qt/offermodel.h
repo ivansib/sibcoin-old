@@ -19,8 +19,7 @@ public:
     void setFilterTypeOffer(const int &typeOffer);
     int rows() const;
 
-    QtOfferInfo offerInfo(const int &row);
-    QtMyOfferInfo myOfferInfo(const int &row);
+    Offer offerInfo(const int &row);
 
     virtual int rowCount(const QModelIndex &parent=QModelIndex()) const;
     virtual int columnCount(const QModelIndex &parent) const;
@@ -40,7 +39,5 @@ protected:
 
     virtual void filterOffers() = 0;
 };
-
-#include "offermodel.cpp"
 
 #endif

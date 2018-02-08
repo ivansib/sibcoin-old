@@ -185,7 +185,23 @@ BITCOIN_CORE_H = \
   zmq/zmqconfig.h\
   zmq/zmqnotificationinterface.h \
   zmq/zmqpublishnotifier.h \
-  dex/dex.h
+  dex/dex.h \
+  dex/dexmanager.h \
+  dex/dexoffer.h \
+  dex/callbackdbforrpc.h \
+  dex/dextransaction.h \
+  dex/parserjsonoffer.h \
+  dex/unconfirmedoffers.h \
+  dex/db/dexdb.h \
+  dex/db/dexdto.h \
+  dex/db/callbackdb.h \
+  dex/db/countryiso.h \
+  dex/db/currencyiso.h \
+  dex/db/defaultdatafordb.h \
+  dex/db/paymentmethodtype.h \
+  sqlite/sqlite3pp/sqlite3pp.h \
+  sqlite/sqlite3pp/sqlite3ppext.h
+
 
 
 

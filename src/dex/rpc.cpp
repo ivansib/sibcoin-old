@@ -17,9 +17,9 @@
 #include <algorithm>
 #include "dexoffer.h"
 #include "random.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "dex.h"
-#include "dex/dexdto.h"
+#include "dex/db/dexdto.h"
 #include "core_io.h"
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>

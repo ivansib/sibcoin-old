@@ -6,7 +6,7 @@
 #include "dexoffer.h"
 #include "primitives/transaction.h"
 #include "utilstrencodings.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "dextransaction.h"
 #include "consensus/validation.h"
 #include "chainparams.h"

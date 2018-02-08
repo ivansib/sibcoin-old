@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 #include <stdio.h>
 #include "test/test_sibcoin.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "dex/dexoffer.h"
 #include "random.h"
 

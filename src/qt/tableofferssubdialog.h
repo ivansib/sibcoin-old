@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QComboBox>
 #include "guiutil.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 #include "tableofferdelegate.h"
 #include "callbackdbforgui.h"
 #include "commonsettingsforoffers.h"

@@ -22,6 +22,4 @@ protected:
     virtual void changedFilterOfferType(const int &);
 };
 
-#include "tableoffersdialog.cpp"
-
 #endif

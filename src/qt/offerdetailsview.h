@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "dto.h"
-#include "dex/dexdb.h"
+#include "dex/db/dexdb.h"
 
 namespace Ui {
     class OfferDetailsView;

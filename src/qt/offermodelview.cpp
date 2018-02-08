@@ -1,4 +1,5 @@
 #include "offermodelview.h"
+#include "convertdata.h"
 
 OfferModelView::OfferModelView(QObject *parent) : OfferModel(parent)
 {

@@ -38,3 +38,6 @@ void TableOffersDialog<Offer>::changedFilterOfferType(const int &)
     int type = cBoxOffer->currentIndex();
     pModel->setFilterTypeOffer(type);
 }
+
+template class TableOffersDialog<QtMyOfferInfo>;
+template class TableOffersDialog<QtOfferInfo>;
