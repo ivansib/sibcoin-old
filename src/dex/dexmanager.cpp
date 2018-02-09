@@ -51,7 +51,7 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
     } else if (strCommand == NetMsgType::DEXDELOFFER) {
         getAndDelOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXOFFEDIT) {
-        getAndSendEditedOffer(vRecv);
+        getAndSendEditedOffer(pfrom, vRecv);
     }
 }
 
@@ -293,7 +293,15 @@ void CDexManager::getOfferAndSaveInDb(CDataStream &vRecv)
                 }
             }
         } else {
-            uncOffers->setOffer(offer);
+            if (uncOffers->isExistOffer(offer.hash)) {
+                OfferInfo existOffer = uncOffers->getOffer(offer.hash);
+                if (offer.editingVersion > existOffer.editingVersion) {
+                    uncOffers->deleteOffer(offer.hash);
+                    uncOffers->setOffer(offer);
+                }
+            } else {
+                uncOffers->setOffer(offer);
+            }
         }
     }
 }
@@ -326,19 +334,24 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
             if (!bFound) { // need to save and relay
                 LOCK2(cs_main, cs_vNodes);
                 BOOST_FOREACH(CNode* pNode, vNodes) {
-                    pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                    if (pNode->addr != pfrom->addr) {
+                        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                    }
                 }
             }
             LogPrintf("DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
-            uncOffers->setOffer(offer);
+            if (!uncOffers->isExistOffer(offer.hash)) {
+                uncOffers->setOffer(offer);
 
-            LOCK2(cs_main, cs_vNodes);
-            BOOST_FOREACH(CNode* pNode, vNodes) {
-                pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                LOCK2(cs_main, cs_vNodes);
+                BOOST_FOREACH(CNode* pNode, vNodes) {
+                    if (pNode->addr != pfrom->addr) {
+                        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
+                    }
+                }
+                LogPrintf("DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
-
-            LogPrintf("DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
         }
     } else {
         LogPrintf("DEXOFFBCST -- offer check fail\n");
@@ -382,7 +395,9 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
             if (bFound) { // need to delete and relay
                 LOCK2(cs_main, cs_vNodes);
                 BOOST_FOREACH(CNode* pNode, vNodes) {
-                    pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+                    if (pNode->addr != pfrom->addr) {
+                        pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
+                    }
                 }
             }
             LogPrintf("DEXDELOFFER --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
@@ -396,7 +411,7 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
 
 
 
-void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
+void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
 {
     std::vector<unsigned char> vchSign;
     CDexOffer offer;
@@ -406,8 +421,8 @@ void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
     if (offer.Check(true) && offer.CheckEditSign()) {
         CDex dex(offer);
         std::string error;
+        bool isActual = false;
         if (dex.CheckOfferTx(error)) {
-            bool isActual = false;
             if (offer.isBuy()) {
                 if (db->isExistOfferBuy(offer.idTransaction)) {
                     OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
@@ -433,17 +448,28 @@ void CDexManager::getAndSendEditedOffer(CDataStream& vRecv)
                     isActual = true;
                 }
             }
-
-            if (isActual) {
-                LOCK2(cs_main, cs_vNodes);
-                for (CNode* pNode : vNodes) {
+            LogPrintf("DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
+        } else {
+            if (uncOffers->isExistOffer(offer.hash)) {
+                OfferInfo existOffer = uncOffers->getOffer(offer.hash);
+                if (offer.editingVersion > existOffer.editingVersion) {
+                    uncOffers->deleteOffer(offer.hash);
+                    uncOffers->setOffer(offer);
+                    isActual = true;
+                }
+            } else {
+                uncOffers->setOffer(offer);
+                isActual = true;
+            }
+            LogPrintf("DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
+        }
+        if (isActual) {
+            LOCK2(cs_main, cs_vNodes);
+            for (CNode* pNode : vNodes) {
+                if (pNode->addr != pfrom->addr) {
                     pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
                 }
             }
-
-            LogPrintf("DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
-        } else {
-            LogPrintf("DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
         }
     } else {
         LogPrintf("DEXOFFEDIT -- offer check fail\n");

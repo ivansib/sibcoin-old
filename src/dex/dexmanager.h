@@ -44,7 +44,7 @@ private:
     void getOfferAndSaveInDb(CDataStream& vRecv);
     void getAndSendNewOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndDelOffer(CNode* pfrom, CDataStream& vRecv);
-    void getAndSendEditedOffer(CDataStream& vRecv);
+    void getAndSendEditedOffer(CNode* pfrom, CDataStream& vRecv);
 
     std::list<std::pair<uint256, int> > availableOfferHashAndVersion() const;
     CDexOffer getOfferInfo(const uint256 &hash) const;

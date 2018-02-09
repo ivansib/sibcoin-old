@@ -10,9 +10,9 @@
 #include "dexoffer.h"
 
 
+#define PAYOFFER_MIN_TX_HEIGHT    1
 #define PAYOFFER_RETURN_FEE       10000
 #define PAYOFFER_TX_FEE           10000000
-#define PAYOFFER_MIN_TX_HEIGHT    6
 #define MAX_DEX_TRANSACTION_FEE   PAYOFFER_TX_FEE*3
 
 

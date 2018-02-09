@@ -84,6 +84,20 @@ bool CDex::CheckOfferTx(std::string &sError)
         CHECK(tx.vout.size() > 0, "vout empty");
         CHECK(tx.vout[0].nValue == PAYOFFER_RETURN_FEE, "bad op_return fee");
         CHECK(tx.vout[0].scriptPubKey.IsUnspendable(), "not op_return");
+
+        CHECK(!hashBlock.IsNull(), "transaction in mempool, not in block");
+        int confirmations = -1;
+        {
+            BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
+            if (mi != mapBlockIndex.end() && (*mi).second) {
+                CBlockIndex* pindex = (*mi).second;
+                if (chainActive.Contains(pindex)) {
+                  confirmations = 1 + chainActive.Height() - pindex->nHeight;
+                }
+            }
+        }
+        CHECK(confirmations >= PAYOFFER_MIN_TX_HEIGHT, "not enough transaction confirmations");
+
         {
             uint256 hash;
             opcodetype opcode;
