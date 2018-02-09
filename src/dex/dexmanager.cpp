@@ -213,6 +213,7 @@ void CDexManager::initDB()
 
 void CDexManager::sendHashOffers(CNode *pfrom) const
 {
+    LogPrintf("DEXSYNCGETALLHASH -- receive request on send list pairs hashe and version from %s\n", pfrom->addr.ToString());
     auto hvs = availableOfferHashAndVersion();
 
     if (hvs.size() > 0) {
@@ -223,7 +224,7 @@ void CDexManager::sendHashOffers(CNode *pfrom) const
 
 void CDexManager::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRecv) const
 {
-    LogPrintf("DEXSYNCALLHASH -- get list hashes\n");
+    LogPrintf("DEXSYNCALLHASH -- get list hashes from %s\n", pfrom->addr.ToString());
 
     std::list<std::pair<uint256, int>>  nodeHvs;
     vRecv >> nodeHvs;
@@ -251,6 +252,8 @@ void CDexManager::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &
 
 void CDexManager::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 {
+    LogPrintf("DEXSYNCGETOFFER -- receive request on send offer from %s\n", pfrom->addr.ToString());
+
     uint256 hash;
     vRecv >> hash;
 
@@ -308,6 +311,8 @@ void CDexManager::getOfferAndSaveInDb(CDataStream &vRecv)
 
 void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
 {
+    LogPrintf("DEXOFFBCST -- get new offer from = %s\n", pfrom->addr.ToString());
+
     CDexOffer offer;
     vRecv >> offer;
     if (offer.Check(true)) {
@@ -361,6 +366,8 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
 
 void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
 {
+    LogPrintf("DEXDELOFFER -- receive request on delete offer from = %s\n", pfrom->addr.ToString());
+
     std::vector<unsigned char> vchSign;
     CDexOffer offer;
     vRecv >> offer;
@@ -413,6 +420,8 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
 
 void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
 {
+    LogPrintf("DEXOFFEDIT -- receive request on edited offer from = %s\n", pfrom->addr.ToString());
+
     std::vector<unsigned char> vchSign;
     CDexOffer offer;
     vRecv >> offer;
@@ -530,6 +539,7 @@ void ThreadDexManager()
         MilliSleep(1000);
 
         if (masternodeSync.IsSynced()) {
+            LogPrintf("ThreadDexManager -- start synchronization offers\n");
             std::vector<CNode*> vNodesCopy = CopyNodeVector();
 
             for (auto node : vNodesCopy) {
@@ -549,15 +559,19 @@ void ThreadDexManager()
         MilliSleep(1000);
 
         if (step % 60 == 0) {
+            LogPrintf("ThreadDexManager -- check unconfirmed offers\n");
             dexman.checkUncOffers();
         }
 
         if (step % 1800 == 0) {
+            LogPrintf("ThreadDexManager -- delete old unconfirmed offers\n");
             dexman.deleteOldUncOffers();
         }
 
         if (step % 3600 == 0) {
+            LogPrintf("ThreadDexManager -- delete old offers\n");
             dexman.deleteOldOffers();
+            LogPrintf("ThreadDexManager -- set status expired for MyOffers\n");
             dexman.setStatusExpiredForMyOffers();
         }
 
