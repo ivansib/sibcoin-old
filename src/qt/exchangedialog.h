@@ -43,7 +43,6 @@ private Q_SLOTS:
     void currentPageMyOffers();
     void currentPageExchanges();
     void currentPageSettings();
-    void updateData();
     void finishTableOperation(const TypeTable & table, const TypeTableOperation &operation, const StatusTableOperation &status);
 };
 

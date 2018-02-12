@@ -32,8 +32,6 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     connect(ui->btnExchanges, &QPushButton::clicked, this, &ExchangeDialog::currentPageExchanges);
     connect(ui->btnSettings, &QPushButton::clicked, this, &ExchangeDialog::currentPageSettings);
 
-    connect(settings, &SettingsDialog::dataChanged, this, &ExchangeDialog::updateData);
-
     currentPageBuy();
     ui->btnBuy->setChecked(true);
 }
@@ -82,13 +80,6 @@ void ExchangeDialog::currentPageExchanges()
 void ExchangeDialog::currentPageSettings()
 {
     ui->stackedWidget->setCurrentWidget(settings);
-}
-
-void ExchangeDialog::updateData()
-{
-    tableBuy->updateNavigationData();
-    tableSell->updateNavigationData();
-    tableMyOffers->updateNavigationData();
 }
 
 void ExchangeDialog::finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
