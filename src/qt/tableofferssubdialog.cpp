@@ -2,8 +2,8 @@
 #include <QScrollBar>
 #include "tableofferssubdialog.h"
 
-TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, QDialog *parent) :
-    QDialog(parent), db(db)
+TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, const CommonSettingsForOffers::TypeSettings &typeSettings, QDialog *parent) :
+    QDialog(parent), db(db), typeSettings(typeSettings)
 {
     setupUi(this);
 
@@ -57,13 +57,16 @@ void TableOffersSubDialog::updateNavigationData()
     auto currencies = db->getCurrenciesInfo();
     cBoxCurrency->addData(currencies, ComboBox::View);
 
-    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType()));
-    cBoxCurrency->setCurrentData(settings->getCurrencyIso());
+    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType(typeSettings)));
+    cBoxCountry->setCurrentData(settings->getCountryIso(typeSettings));
+    cBoxCurrency->setCurrentData(settings->getCurrencyIso(typeSettings));
 
     cBoxOffer->clear();
     cBoxOffer->addItem(tr("All"));
     cBoxOffer->addItem(tr("Buy"));
     cBoxOffer->addItem(tr("Sell"));
+
+    cBoxOffer->setCurrentIndex(settings->getTypeOffer(typeSettings));
 
     Q_EMIT navigationDataUpdate();
 }

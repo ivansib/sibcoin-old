@@ -1,8 +1,8 @@
 #include "tableoffersview.h"
 #include "convertdata.h"
 
-TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, QDialog *parent)
-    : TableOffersDialog(db, new OfferModelView, 3, parent), type(type)
+TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, const CommonSettingsForOffers::TypeSettings &typeSettings, QDialog *parent)
+    : TableOffersDialog(db, new OfferModelView, 3, typeSettings, parent), type(type)
 {
     details = new OfferDetailsView(db, this);
 

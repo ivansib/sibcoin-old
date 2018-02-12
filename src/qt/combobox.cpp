@@ -18,7 +18,7 @@ void ComboBox::addData(const std::list<PaymentMethodInfo> &data, const ComboType
     auto it = data.begin();
 
     if (type == View) {
-        addItem(tr("All"));
+        addItem(tr("All"), "0");
     }
 
     while (it != data.end()) {
@@ -36,7 +36,7 @@ void ComboBox::addData(const std::list<CountryInfo> &data, const ComboType &type
     clear();
 
     if (type == View) {
-        addItem(tr("All"));
+        addItem(tr("All"), "all");
     }
 
     auto it = data.begin();
@@ -72,7 +72,7 @@ void ComboBox::addData(const std::list<CurrencyInfo> &data, const ComboType &typ
     auto it = data.begin();
 
     if (type == View) {
-        addItem(tr("All"));
+        addItem(tr("All"), "all");
     }
 
     while (it != data.end()) {

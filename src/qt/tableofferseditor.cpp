@@ -5,7 +5,8 @@
 #include "../dex/dex.h"
 #include "../dex/dexmanager.h"
 
-TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent) : TableOffersDialog(db, new OfferModelEditor(), 4, parent)
+TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
+    : TableOffersDialog(db, new OfferModelEditor(), 4, CommonSettingsForOffers::MyOffer, parent)
 {
     editor = new OfferDetailsEditor(db, this);
     creator = new OfferDetailsCreator(db, this);

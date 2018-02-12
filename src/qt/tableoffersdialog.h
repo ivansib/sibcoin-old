@@ -9,7 +9,7 @@ template <class Offer>
 class TableOffersDialog : public TableOffersSubDialog
 {
 public:
-    TableOffersDialog(DexDB *db, OfferModel<Offer> *model, const int &columnBtn, QDialog *parent = nullptr);
+    TableOffersDialog(DexDB *db, OfferModel<Offer> *model, const int &columnBtn, const CommonSettingsForOffers::TypeSettings &typeSettings, QDialog *parent = nullptr);
     virtual ~TableOffersDialog();
 
 protected:

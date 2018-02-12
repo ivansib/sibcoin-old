@@ -14,7 +14,7 @@ public:
         Sell
     };
 
-    TableOffersView(DexDB *db, const TypeOffer &type, QDialog *parent = nullptr);
+    TableOffersView(DexDB *db, const TypeOffer &type, const CommonSettingsForOffers::TypeSettings &typeSettings, QDialog *parent = nullptr);
     ~TableOffersView();
 
 protected:

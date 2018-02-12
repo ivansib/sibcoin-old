@@ -38,9 +38,9 @@ OfferDetailsCreator::~OfferDetailsCreator()
 void OfferDetailsCreator::initData()
 {
     cBoxOffer->setCurrentIndex(0);
-    cBoxCountry->setCurrentData(settings->getCountryIso());
-    cBoxCurrency->setCurrentData(settings->getCurrencyIso());
-    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType()));
+    cBoxCountry->setCurrentData(settings->getCountryIso(CommonSettingsForOffers::EditOffer));
+    cBoxCurrency->setCurrentData(settings->getCurrencyIso(CommonSettingsForOffers::EditOffer));
+    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType(CommonSettingsForOffers::EditOffer)));
     sBoxPrice->setValue(0);
     sBoxMinAmount->setValue(settings->getMinAmount());
     cBoxExpiration->setCurrentIndex(0);

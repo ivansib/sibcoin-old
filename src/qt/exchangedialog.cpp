@@ -12,8 +12,8 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     db = DexDB::instance();
     db->addCallBack(callback);
 
-    tableBuy = new TableOffersView(db, TableOffersView::Buy);
-    tableSell = new TableOffersView(db, TableOffersView::Sell);
+    tableBuy = new TableOffersView(db, TableOffersView::Buy, CommonSettingsForOffers::BuyOffer);
+    tableSell = new TableOffersView(db, TableOffersView::Sell, CommonSettingsForOffers::SellOffer);
     tableMyOffers = new TableOffersEditor(db);
     widgetExchanges = new QWidget();
     settings = new SettingsDialog(db);
@@ -33,6 +33,9 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     connect(ui->btnSettings, &QPushButton::clicked, this, &ExchangeDialog::currentPageSettings);
 
     connect(settings, &SettingsDialog::dataChanged, this, &ExchangeDialog::updateData);
+
+    currentPageBuy();
+    ui->btnBuy->setChecked(true);
 }
 
 ExchangeDialog::~ExchangeDialog()

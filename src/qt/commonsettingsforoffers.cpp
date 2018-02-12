@@ -40,51 +40,93 @@ void CommonSettingsForOffers::freeInstance()
     }
 }
 
-QString CommonSettingsForOffers::getCountryIso()
+QString CommonSettingsForOffers::getCountryIso(const TypeSettings &t)
 {
-    settings->beginGroup("default");
-    QString iso = settings->value("countryIso", "RU").toString();
+    QString def = "all";
+
+    if (t == TypeSettings::EditOffer) {
+        def = "RU";
+    }
+
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
+    QString iso = settings->value("countryIso", def).toString();
     settings->endGroup();
 
     return iso;
 }
 
-void CommonSettingsForOffers::setCountryIso(const QString &iso)
+void CommonSettingsForOffers::setCountryIso(const TypeSettings &t, const QString &iso)
 {
-    settings->beginGroup("default");
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
     settings->setValue("countryIso", iso);
     settings->endGroup();
 }
 
-QString CommonSettingsForOffers::getCurrencyIso()
+QString CommonSettingsForOffers::getCurrencyIso(const TypeSettings &t)
 {
-    settings->beginGroup("default");
-    QString iso = settings->value("currencyIso", "RUB").toString();
+    QString def = "all";
+
+    if (t == TypeSettings::EditOffer) {
+        def = "RUB";
+    }
+
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
+    QString iso = settings->value("currencyIso", def).toString();
     settings->endGroup();
 
     return iso;
 }
 
-void CommonSettingsForOffers::setCurrencyIso(const QString &iso)
+void CommonSettingsForOffers::setCurrencyIso(const TypeSettings &t, const QString &iso)
 {
-    settings->beginGroup("default");
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
     settings->setValue("currencyIso", iso);
     settings->endGroup();
 }
 
-quint8 CommonSettingsForOffers::getPaymentMethodType()
+quint8 CommonSettingsForOffers::getPaymentMethodType(const TypeSettings &t)
 {
-    settings->beginGroup("default");
-    quint8 type = settings->value("paymentMethodType", 128).toReal();
+    int def = 0;
+
+    if (t == TypeSettings::EditOffer) {
+        def = 128;
+    }
+
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
+    quint8 type = settings->value("paymentMethodType", def).toReal();
     settings->endGroup();
 
     return type;
 }
 
-void CommonSettingsForOffers::setPaymentMethodType(const quint8 &type)
+void CommonSettingsForOffers::setPaymentMethodType(const TypeSettings &t, const quint8 &type)
 {
-    settings->beginGroup("default");
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
     settings->setValue("paymentMethodType", type);
+    settings->endGroup();
+}
+
+int CommonSettingsForOffers::getTypeOffer(const CommonSettingsForOffers::TypeSettings &t)
+{
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
+    int type = settings->value("typeOffer", 0).toInt();
+    settings->endGroup();
+
+    return type;
+}
+
+void CommonSettingsForOffers::setTypeOffer(const CommonSettingsForOffers::TypeSettings &t, const int &type)
+{
+    QString group = QString("default/%1").arg(QString::number(t));
+    settings->beginGroup(group);
+    settings->setValue("typeOffer", type);
     settings->endGroup();
 }
 

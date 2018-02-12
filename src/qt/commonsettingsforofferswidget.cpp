@@ -26,9 +26,9 @@ CommonSettingsForOffersWidget::~CommonSettingsForOffersWidget()
 
 void CommonSettingsForOffersWidget::saveData()
 {
-    settings->setCountryIso(cBoxCountry->currentData().toString());
-    settings->setCurrencyIso(cBoxCurrency->currentData().toString());
-    settings->setPaymentMethodType(cBoxPayment->currentData().toReal());
+    settings->setCountryIso(CommonSettingsForOffers::EditOffer, cBoxCountry->currentData().toString());
+    settings->setCurrencyIso(CommonSettingsForOffers::EditOffer, cBoxCurrency->currentData().toString());
+    settings->setPaymentMethodType(CommonSettingsForOffers::EditOffer, cBoxPayment->currentData().toReal());
     settings->setMinAmount(sEditMinAmount->value());
 }
 
@@ -39,9 +39,9 @@ void CommonSettingsForOffersWidget::cancel()
 
 void CommonSettingsForOffersWidget::setData()
 {
-    cBoxCountry->setCurrentData(settings->getCountryIso());
-    cBoxCurrency->setCurrentData(settings->getCurrencyIso());
-    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType()));
+    cBoxCountry->setCurrentData(settings->getCountryIso(CommonSettingsForOffers::EditOffer));
+    cBoxCurrency->setCurrentData(settings->getCurrencyIso(CommonSettingsForOffers::EditOffer));
+    cBoxPayment->setCurrentData(QString::number(settings->getPaymentMethodType(CommonSettingsForOffers::EditOffer)));
     sEditMinAmount->setValue(settings->getMinAmount());
 }
 

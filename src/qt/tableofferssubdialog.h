@@ -17,7 +17,7 @@ class TableOffersSubDialog : public QDialog, public Ui::TableOffersDialog
     Q_OBJECT
 
 public:
-    TableOffersSubDialog(DexDB *db, const int &columnBtn, QDialog *parent = nullptr);
+    TableOffersSubDialog(DexDB *db, const int &columnBtn, const CommonSettingsForOffers::TypeSettings &typeSettings, QDialog *parent = nullptr);
     virtual ~TableOffersSubDialog();
 
     void updateNavigationData();
@@ -36,8 +36,9 @@ protected:
 
     void useMyOfferMode(const bool &b);
 
-private:
+protected:
     CommonSettingsForOffers *settings;
+    const CommonSettingsForOffers::TypeSettings typeSettings;
 
 protected Q_SLOTS:
     virtual void openCreatorOffer();
