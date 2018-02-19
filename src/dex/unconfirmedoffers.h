@@ -10,7 +10,7 @@ public:
 
     void setOffer(const CDexOffer &offer);
     std::list<uint256> hashs() const;
-    bool isExistOffer(const uint256 &hash);
+    bool isExistOffer(const uint256 &hash) const;
     CDexOffer getOffer(const uint256 &hash) const;
     std::list<CDexOffer> getOffers() const;
     void deleteOldOffers();

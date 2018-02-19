@@ -4,6 +4,7 @@
 #ifndef MASTERNODE_SYNC_H
 #define MASTERNODE_SYNC_H
 
+#include <boost/signals2/signal.hpp>
 #include "chain.h"
 #include "net.h"
 
@@ -87,6 +88,8 @@ public:
     void ProcessTick();
 
     void UpdatedBlockTip(const CBlockIndex *pindex);
+
+    boost::signals2::signal<void()> syncFinished;
 };
 
 #endif

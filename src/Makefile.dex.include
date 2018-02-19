@@ -32,4 +32,6 @@ dex_libdex_a_SOURCES = \
   dex/dextransaction.cpp \
   dex/unconfirmedoffers.cpp \
   dex/parserjsonoffer.cpp \
-  dex/callbackdbforrpc.cpp
+  dex/callbackdbforrpc.cpp \
+  dex/dexsync.cpp
+

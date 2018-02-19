@@ -189,6 +189,8 @@ void CMasternodeSync::SwitchToNextAsset()
             //try to activate our masternode if possible
             activeMasternode.ManageState();
 
+            syncFinished();
+
             TRY_LOCK(cs_vNodes, lockRecv);
             if(!lockRecv) return;
 

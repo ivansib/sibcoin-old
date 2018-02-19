@@ -5,12 +5,11 @@
 #include "wallet.h"
 #include "util.h"
 #include "utilstrencodings.h"
-#include "masternode-sync.h"
 
 #include "dex/db/dexdb.h"
+#include "dexsync.h"
 #include "txmempool.h"
 #include "base58.h"
-
 
 
 
@@ -32,21 +31,11 @@ CDexManager::~CDexManager()
     delete uncOffers;
 }
 
-
-
 void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv)
 {
     initDB();
 
-    if (strCommand == NetMsgType::DEXSYNCGETALLHASH) {
-        sendHashOffers(pfrom);
-    } else if (strCommand == NetMsgType::DEXSYNCALLHASH) {
-        getHashsAndSendRequestForGetOffers(pfrom, vRecv);
-    } else if (strCommand == NetMsgType::DEXSYNCGETOFFER) {
-        sendOffer(pfrom, vRecv);
-    } else if (strCommand == NetMsgType::DEXSYNCOFFER) {
-        getOfferAndSaveInDb(vRecv);
-    } else if (strCommand == NetMsgType::DEXOFFBCST) {
+    if (strCommand == NetMsgType::DEXOFFBCST) {
         getAndSendNewOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXDELOFFER) {
         getAndDelOffer(pfrom, vRecv);
@@ -208,104 +197,6 @@ void CDexManager::initDB()
 {
     if (db == nullptr) {
         db = DexDB::instance();
-    }
-}
-
-void CDexManager::sendHashOffers(CNode *pfrom) const
-{
-    LogPrintf("DEXSYNCGETALLHASH -- receive request on send list pairs hashe and version from %s\n", pfrom->addr.ToString());
-    auto hvs = availableOfferHashAndVersion();
-
-    if (hvs.size() > 0) {
-        LogPrintf("DEXSYNCGETALLHASH -- send list pairs hashe and version\n");
-        pfrom->PushMessage(NetMsgType::DEXSYNCALLHASH, hvs);
-    }
-}
-
-void CDexManager::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRecv) const
-{
-    LogPrintf("DEXSYNCALLHASH -- get list hashes from %s\n", pfrom->addr.ToString());
-
-    std::list<std::pair<uint256, int>>  nodeHvs;
-    vRecv >> nodeHvs;
-    auto hvs = availableOfferHashAndVersion();
-
-    for (auto h : nodeHvs) {
-        auto found = std::find_if(hvs.begin(), hvs.end(), [h](std::pair<uint256, int> item){ return item.first == h.first; });
-
-        auto isSend = false;
-
-        if (found != hvs.end()) {
-            if (h.second > found->second) {
-                isSend = true;
-            }
-        } else {
-            isSend = true;
-        }
-
-        if (isSend) {
-            LogPrintf("DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.first.GetHex().c_str());
-            pfrom->PushMessage(NetMsgType::DEXSYNCGETOFFER, h);
-        }
-    }
-}
-
-void CDexManager::sendOffer(CNode *pfrom, CDataStream &vRecv) const
-{
-    LogPrintf("DEXSYNCGETOFFER -- receive request on send offer from %s\n", pfrom->addr.ToString());
-
-    uint256 hash;
-    vRecv >> hash;
-
-    auto offer = getOfferInfo(hash);
-
-    if (offer.Check(true)) {
-        LogPrintf("DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
-        pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
-    }
-}
-
-void CDexManager::getOfferAndSaveInDb(CDataStream &vRecv)
-{
-    CDexOffer offer;
-    vRecv >> offer;
-
-    LogPrintf("DEXSYNCOFFER -- get offer info with hash = %s\n", offer.hash.GetHex().c_str());
-
-    if (offer.Check(true)) {
-        CDex dex(offer);
-        std::string error;
-        if (dex.CheckOfferTx(error)) {
-            if (offer.isBuy())  {
-                if (db->isExistOfferBuy(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
-                    if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferBuy(offer);
-                    }
-                } else {
-                    db->addOfferBuy(offer);
-                }
-            } else if (offer.isSell())  {
-                if (db->isExistOfferSell(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
-                    if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferSell(offer);
-                    }
-                } else {
-                    db->addOfferSell(offer);
-                }
-            }
-        } else {
-            if (uncOffers->isExistOffer(offer.hash)) {
-                OfferInfo existOffer = uncOffers->getOffer(offer.hash);
-                if (offer.editingVersion > existOffer.editingVersion) {
-                    uncOffers->deleteOffer(offer.hash);
-                    uncOffers->setOffer(offer);
-                }
-            } else {
-                uncOffers->setOffer(offer);
-            }
-        }
     }
 }
 
@@ -521,6 +412,11 @@ CDexOffer CDexManager::getOfferInfo(const uint256 &hash) const
     return CDexOffer();
 }
 
+UnconfirmedOffers *CDexManager::getUncOffers() const
+{
+    return uncOffers;
+}
+
 void CDexManager::saveMyOffer(const MyOfferInfo &info)
 {
     if (db->isExistMyOfferByHash(info.hash)) {
@@ -535,47 +431,35 @@ void CDexManager::saveMyOffer(const MyOfferInfo &info)
 
 void ThreadDexManager()
 {
-    while (true) {
-        MilliSleep(1000);
-
-        if (masternodeSync.IsSynced()) {
-            LogPrintf("ThreadDexManager -- start synchronization offers\n");
-            std::vector<CNode*> vNodesCopy = CopyNodeVector();
-
-            for (auto node : vNodesCopy) {
-                if(node->fMasternode || (fMasterNode && node->fInbound)) {
-                    continue;
-                }
-
-                node->PushMessage(NetMsgType::DEXSYNCGETALLHASH);
-            }
-
-            break;
-        }
-    }
+    MilliSleep(300000);
 
     int step = 0;
+    int minPeriod = 60000;
     while (true) {
-        MilliSleep(1000);
+        MilliSleep(minPeriod);
 
-        if (step % 60 == 0) {
+        if (!dexsync.isSynced()) {
+            continue;
+        }
+
+        if (step % 1 == 0) {
             LogPrintf("ThreadDexManager -- check unconfirmed offers\n");
             dexman.checkUncOffers();
         }
 
-        if (step % 1800 == 0) {
+        if (step % 30 == 0) {
             LogPrintf("ThreadDexManager -- delete old unconfirmed offers\n");
             dexman.deleteOldUncOffers();
         }
 
-        if (step % 3600 == 0) {
+        if (step % 60 == 0) {
             LogPrintf("ThreadDexManager -- delete old offers\n");
             dexman.deleteOldOffers();
             LogPrintf("ThreadDexManager -- set status expired for MyOffers\n");
             dexman.setStatusExpiredForMyOffers();
         }
 
-        if (step == 3600) {
+        if (step == 60) {
             step = 0;
         } else {
             step++;

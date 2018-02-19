@@ -49,6 +49,7 @@
 
 #ifdef ENABLE_DEX
   #include "dex/dexmanager.h"
+  #include "dex/dexsync.h"
 #endif
 
 
@@ -6374,6 +6375,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             governance.ProcessMessage(pfrom, strCommand, vRecv);
 #ifdef ENABLE_DEX
             dexman.ProcessMessage(pfrom, strCommand, vRecv);
+            dexsync.ProcessMessage(pfrom, strCommand, vRecv);
 #endif
 
         }

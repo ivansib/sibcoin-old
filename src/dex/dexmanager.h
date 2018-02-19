@@ -33,21 +33,18 @@ public:
     void deleteOldUncOffers();
     void deleteOldOffers();
 
+    std::list<std::pair<uint256, int> > availableOfferHashAndVersion() const;
+    CDexOffer getOfferInfo(const uint256 &hash) const;
+    UnconfirmedOffers *getUncOffers() const;
+
 private:
     DexDB *db;
     UnconfirmedOffers *uncOffers;
 
     void initDB();
-    void sendHashOffers(CNode* pfrom) const;
-    void getHashsAndSendRequestForGetOffers(CNode* pfrom, CDataStream& vRecv) const;
-    void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
-    void getOfferAndSaveInDb(CDataStream& vRecv);
     void getAndSendNewOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndDelOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndSendEditedOffer(CNode* pfrom, CDataStream& vRecv);
-
-    std::list<std::pair<uint256, int> > availableOfferHashAndVersion() const;
-    CDexOffer getOfferInfo(const uint256 &hash) const;
 
     void saveMyOffer(const MyOfferInfo &info);
 };

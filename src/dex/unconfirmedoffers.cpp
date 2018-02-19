@@ -21,7 +21,7 @@ std::list<uint256> UnconfirmedOffers::hashs() const
     return h;
 }
 
-bool UnconfirmedOffers::isExistOffer(const uint256 &hash)
+bool UnconfirmedOffers::isExistOffer(const uint256 &hash) const
 {
     for (auto item : offers) {
         if (item.offer.hash == hash) {
