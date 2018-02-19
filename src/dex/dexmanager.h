@@ -16,6 +16,8 @@ extern CDexManager dexman;
 
 using namespace dex;
 
+static const int MIN_DEX_PROTO_VERSION = 70207;
+
 class CDexManager
 {
 public:

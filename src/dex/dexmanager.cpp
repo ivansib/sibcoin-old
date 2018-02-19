@@ -543,6 +543,9 @@ void ThreadDexManager()
             std::vector<CNode*> vNodesCopy = CopyNodeVector();
 
             for (auto node : vNodesCopy) {
+                
+                if(node->nVersion < MIN_DEX_PROTO_VERSION) continue;
+                
                 if(node->fMasternode || (fMasterNode && node->fInbound)) {
                     continue;
                 }
