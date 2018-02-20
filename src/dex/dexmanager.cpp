@@ -431,10 +431,13 @@ void CDexManager::saveMyOffer(const MyOfferInfo &info)
 
 void ThreadDexManager()
 {
-    MilliSleep(300000);
-
     int step = 0;
     int minPeriod = 60000;
+
+    const int stepCheckUnc = 1;
+    const int stepDeleteOldUnc = 30;
+    const int stepDeleteOld = 60;
+
     while (true) {
         MilliSleep(minPeriod);
 
@@ -442,17 +445,17 @@ void ThreadDexManager()
             continue;
         }
 
-        if (step % 1 == 0) {
+        if (step % stepCheckUnc == 0) {
             LogPrintf("ThreadDexManager -- check unconfirmed offers\n");
             dexman.checkUncOffers();
         }
 
-        if (step % 30 == 0) {
+        if (step % stepDeleteOldUnc == 0) {
             LogPrintf("ThreadDexManager -- delete old unconfirmed offers\n");
             dexman.deleteOldUncOffers();
         }
 
-        if (step % 60 == 0) {
+        if (step % stepDeleteOld == 0) {
             LogPrintf("ThreadDexManager -- delete old offers\n");
             dexman.deleteOldOffers();
             LogPrintf("ThreadDexManager -- set status expired for MyOffers\n");
