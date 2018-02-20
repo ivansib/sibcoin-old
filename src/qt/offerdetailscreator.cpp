@@ -1,6 +1,7 @@
 #include <QMessageBox>
 #include "offerdetailscreator.h"
 #include "random.h"
+#include "dex/dexsync.h"
 
 OfferDetailsCreator::OfferDetailsCreator(DexDB *db, QDialog *parent) : OfferDetails(db, parent)
 {
@@ -37,6 +38,12 @@ OfferDetailsCreator::~OfferDetailsCreator()
 
 void OfferDetailsCreator::initData()
 {
+    if (!dexsync.isSynced()) {
+        btnSend->setEnabled(false);
+    } else {
+        btnSend->setEnabled(true);
+    }
+
     cBoxOffer->setCurrentIndex(0);
     cBoxCountry->setCurrentData(settings->getCountryIso(CommonSettingsForOffers::EditOffer));
     cBoxCurrency->setCurrentData(settings->getCurrencyIso(CommonSettingsForOffers::EditOffer));

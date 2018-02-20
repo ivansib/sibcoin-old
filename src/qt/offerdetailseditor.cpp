@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include "offerdetailseditor.h"
+#include "dex/dexsync.h"
 
 OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetails(db, parent)
 {
@@ -34,6 +35,12 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     btnDeleteDraft->setVisible(true);
     btnSaveDraft->setVisible(true);
     btnSend->setVisible(true);
+
+    if (!dexsync.isSynced()) {
+        btnSend->setEnabled(false);
+    } else {
+        btnSend->setEnabled(true);
+    }
 
     offerInfo = info;
 
