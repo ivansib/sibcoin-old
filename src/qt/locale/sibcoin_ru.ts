@@ -7596,6 +7596,18 @@ rpcpassword=%s
         <translation>Синхронизация выплат мастернодам...</translation>
     </message>
     <message>
+        <source>Synchronization offers pending...</source>
+        <translation>Ожидание синхронизации предложений...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers...</source>
+        <translation>Синхронизация предложений...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers finished</source>
+        <translation>Синхронизация предложений завершена</translation>
+    </message>
+    <message>
         <source>The transaction amount is too small to pay the fee</source>
         <translation>Сумма транзакции слишком мала для оплаты комиссии</translation>
     </message>

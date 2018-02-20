@@ -25,6 +25,10 @@
 #include "sibmodel.h"
 #endif // ENABLE_WALLET
 
+#ifdef ENABLE_DEX
+#include "dex/dexsync.h"
+#endif
+
 #ifdef Q_OS_MAC
 #include "macdockiconhandler.h"
 #endif
@@ -1096,7 +1100,12 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
         QString strSyncStatus;
         tooltip = tr("Up to date") + QString(".<br>") + tooltip;
 
-        if(masternodeSync.IsSynced()) {
+        bool isSynced = masternodeSync.IsSynced();
+
+#ifdef ENABLE_DEX
+        isSynced = masternodeSync.IsSynced() && dexsync.isSynced();
+#endif
+        if(isSynced) {
             progressBarLabel->setVisible(false);
             progressBar->setVisible(false);
             labelBlocksIcon->setPixmap(QIcon(":/icons/" + theme + "/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
@@ -1118,6 +1127,11 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
         }
 
         strSyncStatus = QString(masternodeSync.GetSyncStatus().c_str());
+#ifdef ENABLE_DEX
+        if (masternodeSync.IsSynced() && !dexsync.isSynced()) {
+            strSyncStatus = QString(dexsync.getSyncStatus().c_str());
+        }
+#endif
         progressBarLabel->setText(strSyncStatus);
         tooltip = strSyncStatus + QString("<br>") + tooltip;
     }
