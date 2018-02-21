@@ -28,8 +28,11 @@ public Q_SLOTS:
    void updateData();
 
 protected Q_SLOTS:
-    virtual void clickedButton(const int &index);
+   virtual void clickedButton(const int &index);
    virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
+
+private Q_SLOTS:
+    void updateTable();
 };
 
 #endif

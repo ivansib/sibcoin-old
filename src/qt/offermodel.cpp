@@ -4,6 +4,7 @@
 template <class Offer>
 OfferModel<Offer>::OfferModel(QObject *parent) : QAbstractTableModel(parent)
 {
+
 }
 
 template <class Offer>

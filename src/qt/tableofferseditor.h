@@ -37,6 +37,7 @@ private Q_SLOTS:
     void addOrEditDraftMyOffer(const QtMyOfferInfo &info);
     void sendMyOffer(const QtMyOfferInfo &info);
     void deleteDraftData(const QtMyOfferInfo &info);
+    void updateTable();
 };
 
 #endif

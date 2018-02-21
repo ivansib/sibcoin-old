@@ -6,13 +6,14 @@ TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, const CommonS
 {
     details = new OfferDetailsView(db, this);
 
+    updateData();
+
     tableView->setColumnWidth(0, 150);
     tableView->setColumnWidth(2, 150);
     tableView->setColumnWidth(3, 150);
 
     columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 1);
-
-    updateData();
+    connect(pModel, &OfferModelView::layoutChanged, this, &TableOffersView::updateTable);
 }
 
 TableOffersView::~TableOffersView()
@@ -59,4 +60,13 @@ void TableOffersView::updateTables(const TypeTable &table, const TypeTableOperat
             Q_EMIT dataChanged();
         }
     }
+}
+
+void TableOffersView::updateTable()
+{
+    columnResizingFixer->stretchColumnWidth(1);
+
+    tableView->setColumnWidth(0, 150);
+    tableView->setColumnWidth(2, 150);
+    tableView->setColumnWidth(3, 150);
 }

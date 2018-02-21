@@ -11,13 +11,6 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     editor = new OfferDetailsEditor(db, this);
     creator = new OfferDetailsCreator(db, this);
 
-    tableView->setColumnWidth(0, 150);
-    tableView->setColumnWidth(1, 150);
-    tableView->setColumnWidth(3, 150);
-    tableView->setColumnWidth(4, 150);
-
-    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 2);
-
     updateData();
 
     connect(editor, &OfferDetailsEditor::dataSave, this, &TableOffersEditor::addOrEditDraftMyOffer);
@@ -32,6 +25,14 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
 
     useMyOfferMode(true);
     init();
+
+    tableView->setColumnWidth(0, 150);
+    tableView->setColumnWidth(1, 150);
+    tableView->setColumnWidth(3, 150);
+    tableView->setColumnWidth(4, 150);
+
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 2);
+    connect(pModel, &OfferModelView::layoutChanged, this, &TableOffersEditor::updateTable);
 }
 
 TableOffersEditor::~TableOffersEditor()
@@ -104,6 +105,16 @@ void TableOffersEditor::deleteDraftData(const QtMyOfferInfo &info)
     if (myOffer.status == Draft) {
         db->deleteMyOfferByHash(myOffer.hash);
     }
+}
+
+void TableOffersEditor::updateTable()
+{
+    columnResizingFixer->stretchColumnWidth(2);
+
+    tableView->setColumnWidth(0, 150);
+    tableView->setColumnWidth(1, 150);
+    tableView->setColumnWidth(3, 150);
+    tableView->setColumnWidth(4, 150);
 }
 
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
