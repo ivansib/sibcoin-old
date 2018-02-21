@@ -224,9 +224,9 @@ AC_ARG_WITH([daemon],
 
 AC_ARG_WITH([dex],
   [AS_HELP_STRING([--with-dex],
-  [enable Decentralized EXchange (default=no)])],
+  [enable Decentralized EXchange (default=yes)])],
   [enable_dex=$withval],
-  [enable_dex=no])
+  [enable_dex=yes])
 
 use_pkgconfig=yes
 case $host in
