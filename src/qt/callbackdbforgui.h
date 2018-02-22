@@ -15,7 +15,7 @@ class CallBackDbForGui : public QObject, public CallBackDB
     Q_OBJECT
 
     CallBackDbForGui();
-    CallBackDbForGui(const CallBackDbForGui &) {}
+    CallBackDbForGui(const CallBackDbForGui &) : QObject() {}
     CallBackDbForGui &operator=(const CallBackDbForGui &) {return *this;}
 
     static CallBackDbForGui *pSingleton;
