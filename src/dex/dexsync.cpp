@@ -99,18 +99,18 @@ void CDexSync::initDB()
 
 void CDexSync::sendHashOffers(CNode *pfrom) const
 {
-    LogPrintf("DEXSYNCGETALLHASH -- receive request on send list pairs hashe and version from %s\n", pfrom->addr.ToString());
+    LogPrintf("dex", "DEXSYNCGETALLHASH -- receive request on send list pairs hashe and version from %s\n", pfrom->addr.ToString());
     auto hvs = dexman.availableOfferHashAndVersion();
 
     if (hvs.size() > 0) {
-        LogPrintf("DEXSYNCGETALLHASH -- send list pairs hashe and version\n");
+        LogPrintf("dex", "DEXSYNCGETALLHASH -- send list pairs hashe and version\n");
         pfrom->PushMessage(NetMsgType::DEXSYNCALLHASH, hvs);
     }
 }
 
 void CDexSync::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRecv)
 {
-    LogPrintf("DEXSYNCALLHASH -- get list hashes from %s\n", pfrom->addr.ToString());
+    LogPrintf("dex", "DEXSYNCALLHASH -- get list hashes from %s\n", pfrom->addr.ToString());
 
     std::list<std::pair<uint256, int>>  nodeHvs;
     vRecv >> nodeHvs;
@@ -131,7 +131,7 @@ void CDexSync::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRe
 
         if (isSend) {
             insertItemFromOffersNeedDownload(h.first);
-            LogPrintf("DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.first.GetHex().c_str());
+            LogPrintf("dex", "DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.first.GetHex().c_str());
             pfrom->PushMessage(NetMsgType::DEXSYNCGETOFFER, h);
         }
     }
@@ -139,7 +139,7 @@ void CDexSync::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRe
 
 void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 {
-    LogPrintf("DEXSYNCGETOFFER -- receive request on send offer from %s\n", pfrom->addr.ToString());
+    LogPrintf("dex", "DEXSYNCGETOFFER -- receive request on send offer from %s\n", pfrom->addr.ToString());
 
     uint256 hash;
     vRecv >> hash;
@@ -147,7 +147,7 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
     auto offer = dexman.getOfferInfo(hash);
 
     if (offer.Check(true)) {
-        LogPrintf("DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
+        LogPrintf("dex", "DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
         pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
     }
 }
@@ -158,7 +158,7 @@ void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
     CDexOffer offer;
     vRecv >> offer;
 
-    LogPrintf("DEXSYNCOFFER -- get offer info with hash = %s\n", offer.hash.GetHex().c_str());
+    LogPrintf("dex", "DEXSYNCOFFER -- get offer info with hash = %s\n", offer.hash.GetHex().c_str());
 
     if (offer.Check(true)) {
         CDex dex(offer);

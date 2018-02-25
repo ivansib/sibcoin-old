@@ -16,7 +16,7 @@
 #endif
 
 
-#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrintf("%s\n", str.c_str()); sError += str; break; } }
+#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrintf("dex", "%s\n", str.c_str()); sError += str; break; } }
 
 
 CDex::CDex()
