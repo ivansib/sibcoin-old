@@ -879,10 +879,22 @@ bool CMasternodePing::CheckAndUpdate(CMasternode* pmn, bool fFromNewBroadcast, i
     {
         LOCK(cs_main);
         BlockMap::iterator mi = mapBlockIndex.find(blockHash);
+        
         if ((*mi).second && (*mi).second->nHeight < chainActive.Height() - 24) {
-            LogPrintf("CMasternodePing::CheckAndUpdate -- Masternode ping is invalid, block hash is too old: masternode=%s  blockHash=%s\n", vin.prevout.ToStringShort(), blockHash.ToString());
-            // nDos = 1;
-            return false;
+            
+            // Because of recent hashrate surges (thanks to Nicehash) we can't
+            // rely on block height difference as a measure of time in a short term.
+            // So we need to check it explicitly.
+            // But GetAdjustedTime() requires a lock, so we have to use it cautiously
+            // and maybe remove this condition in the future.
+
+            LogPrint("masternode", "CMasternodePing::CheckAndUpdate -- Masternode ping can be invalid, ping block was more than 24 blocks ago: masternode=%s  blockHash=%s\n", vin.prevout.ToStringShort(), blockHash.ToString());
+            
+            if ( GetAdjustedTime() - (*mi).second->GetBlockTime() > MASTERNODE_EXPIRATION_SECONDS ) { 
+                LogPrintf("CMasternodePing::CheckAndUpdate -- Masternode ping is invalid, block hash is too old: masternode=%s  blockHash=%s\n", vin.prevout.ToStringShort(), blockHash.ToString());
+                // nDos = 1;
+                return false;
+            }
         }
     }
 
