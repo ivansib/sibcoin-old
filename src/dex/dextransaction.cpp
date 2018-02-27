@@ -21,7 +21,7 @@
 #endif
 
 
-#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s") + (B), "",  ##__VA_ARGS__); LogPrintf("dex", "%s:%d: %s\n", __FILE__, __LINE__, str.c_str()); sError += str; break; } }
+#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s") + (B), "",  ##__VA_ARGS__); LogPrint("dex", "%s:%d: %s\n", __FILE__, __LINE__, str.c_str()); sError += str; break; } }
 
 
 

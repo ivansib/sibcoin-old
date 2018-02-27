@@ -154,7 +154,7 @@ bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::str
     }
     hash = MakeHash();
     myoffer_ = false;
-    //LogPrintf("dex", "Create DexOffer\n%s\n", dump().c_str()); ///< for debug only
+    //LogPrint("dex", "Create DexOffer\n%s\n", dump().c_str()); ///< for debug only
     return true;
 }
 
@@ -340,54 +340,54 @@ bool CDexOffer::Check(bool fullcheck)
 {
     do {
         if (fullcheck && idTransaction.IsNull()) {
-            LogPrintf("dex", "DexOffer::Check error: idTransaction is empty\n");
+            LogPrint("dex", "DexOffer::Check error: idTransaction is empty\n");
             break;
         }
         if (fullcheck && hash.IsNull()) {
-            LogPrintf("dex", "DexOffer::Check(transactionId %s) error: hash is empty\n", idTransaction.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(transactionId %s) error: hash is empty\n", idTransaction.GetHex().c_str());
             break;
         }
         if (fullcheck && !getPubKeyObject().IsFullyValid()) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: pubKey is invalid\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: pubKey is invalid\n", hash.GetHex().c_str());
         }
         if (fullcheck && hash != MakeHash()) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: hash not equal\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: hash not equal\n", hash.GetHex().c_str());
             break;
         }
         if (countryIso.size() != 2) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: wrong countryIso size\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: wrong countryIso size\n", hash.GetHex().c_str());
             break;
         }
         if (currencyIso.size() != 3) {
-            LogPrintf("dex", "DexOffer::Check(%s) error:  wrong currencyIso size\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error:  wrong currencyIso size\n", hash.GetHex().c_str());
             break;
         }
         if (shortInfo.size() > DEX_SHORT_INFO_LENGTH) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: shortinfo string too long\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: shortinfo string too long\n", hash.GetHex().c_str());
             break;
         }
         if (details.size() > DEX_DETAILS_LENGTH) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: details string too long\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: details string too long\n", hash.GetHex().c_str());
             break;
         }
         if (type.empty() || (type != OFFER_TYPE_BUY && type != OFFER_TYPE_SELL)) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: error type\n", idTransaction.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: error type\n", idTransaction.GetHex().c_str());
             break;
         }
         if (!defaultCountryIso.isValid(countryIso)) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: wrong countryIso code\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: wrong countryIso code\n", hash.GetHex().c_str());
             break;
         }
         if (!defaultCurrencyIso.isValid(currencyIso)) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: wrong currencyIso code\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: wrong currencyIso code\n", hash.GetHex().c_str());
             break;
         }
         if (!defaultPaymentMethod.isValid(paymentMethod)) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: wrong payment method\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: wrong payment method\n", hash.GetHex().c_str());
             break;
         }
         if ((timeExpiration) < static_cast<uint64_t>(GetTime())) {
-            LogPrintf("dex", "DexOffer::Check(%s) error: offer expiration time out\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::Check(%s) error: offer expiration time out\n", hash.GetHex().c_str());
             break;
         }
         return true;
@@ -436,26 +436,26 @@ bool CDexOffer::CheckEditSign()
 {
     do {
         if (IsNull()) {
-            LogPrintf("dex", "DexOffer::CheckEditSign() error: offer is Null\n" );
+            LogPrint("dex", "DexOffer::CheckEditSign() error: offer is Null\n" );
             break;
         }
 
         if (editsign.empty()) {
-            LogPrintf("dex", "DexOffer::CheckEditSign(%s) error: edit sign is empty\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::CheckEditSign(%s) error: edit sign is empty\n", hash.GetHex().c_str());
             break;
         }
         std::vector<unsigned char> vchSign = ParseHex(editsign);
 
         CPubKey pkey = getPubKeyObject();
         if (!pkey.IsFullyValid()) {
-            LogPrintf("dex", "DexOffer::CheckEditSign(%s) error: invalid pub key\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::CheckEditSign(%s) error: invalid pub key\n", hash.GetHex().c_str());
             break;
         }
 
         uint256 edithash = MakeEditHash();
 
         if (!pkey.Verify(edithash, vchSign)) {
-            LogPrintf("dex", "DexOffer::CheckEditSign(%s) error: invalid offer editsign\n", hash.GetHex().c_str());
+            LogPrint("dex", "DexOffer::CheckEditSign(%s) error: invalid offer editsign\n", hash.GetHex().c_str());
             break;
         }
         return true;

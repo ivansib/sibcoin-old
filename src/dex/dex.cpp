@@ -16,7 +16,7 @@
 #endif
 
 
-#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrintf("dex", "%s\n", str.c_str()); sError += str; break; } }
+#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrint("dex", "%s\n", str.c_str()); sError += str; break; } }
 
 
 CDex::CDex()
@@ -123,7 +123,6 @@ bool CDex::CheckOfferTx(std::string &sError)
             CHECK (prevtx.vout.size() > i.prevout.n, "prev tx out error");
             debit += prevtx.vout[i.prevout.n].nValue;
         }
-        //LogPrintf("tx fee %ld %ld %d\n", debit,  credit, PAYOFFER_TX_FEE * coef);
         CHECK((debit - credit) == PAYOFFER_TX_FEE * coef, "payoffer tx fee error");
         return true;
     } while(false);
