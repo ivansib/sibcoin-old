@@ -42,9 +42,9 @@ public:
     void addLEditTransactionPrice(QLabel *label);
 
 protected:
-    const QList<int> expirations;
     DexDB *db;
     WalletModel *model;
+    const QList<int> expirations;
 
     QStringList typeOffers() const;
     bool confirmationSend();
