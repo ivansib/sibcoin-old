@@ -12,6 +12,7 @@
 #include "chainparams.h"
 #include "consensus/consensus.h"
 #include "consensus/params.h"
+#include "consensus/merkle.h"
 #include "consensus/validation.h"
 #include "core_io.h"
 #include "init.h"
