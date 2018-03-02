@@ -27,6 +27,7 @@ public:
     static DexDB *instance();
     static void freeInstance();
     static DexDB *self();
+    static bool bOffersRescan;
 
     void addCallBack(CallBackDB *callback);
     CallBackDB *getCallBack() const;
