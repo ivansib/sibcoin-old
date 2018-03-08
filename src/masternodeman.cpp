@@ -15,7 +15,7 @@
 /** Masternode manager */
 CMasternodeMan mnodeman;
 
-const std::string CMasternodeMan::SERIALIZATION_VERSION_STRING = "CMasternodeMan-Version-5";
+const std::string CMasternodeMan::SERIALIZATION_VERSION_STRING = "CMasternodeMan-Version-4";
 
 struct CompareLastPaidBlock
 {
@@ -1328,13 +1328,12 @@ void CMasternodeMan::ProcessVerifyBroadcast(CNode* pnode, const CMasternodeVerif
             return;
         }
 
-        if(darkSendSigner.VerifyMessage(pmn1->pubKeyMasternode, mnv.vchSig1, strMessage1, strError)) {
+        if(!darkSendSigner.VerifyMessage(pmn1->pubKeyMasternode, mnv.vchSig1, strMessage1, strError)) {
             LogPrintf("MasternodeMan::ProcessVerifyBroadcast -- VerifyMessage() for masternode1 failed, error: %s\n", strError);
             return;
         }
 
-
-        if(darkSendSigner.VerifyMessage(pmn2->pubKeyMasternode, mnv.vchSig2, strMessage2, strError)) {
+        if(!darkSendSigner.VerifyMessage(pmn2->pubKeyMasternode, mnv.vchSig2, strMessage2, strError)) {
             LogPrintf("MasternodeMan::ProcessVerifyBroadcast -- VerifyMessage() for masternode2 failed, error: %s\n", strError);
             return;
         }
