@@ -228,6 +228,13 @@ AC_ARG_WITH([dex],
   [enable_dex=$withval],
   [enable_dex=yes])
 
+AC_ARG_WITH([printsupport],
+  [AS_HELP_STRING([--with-printsupport],
+  [enable print support for Qt (default=yes)])],
+  [enable_printsupport=$withval],
+  [enable_printsupport=yes])
+
+
 use_pkgconfig=yes
 case $host in
   *mingw*)
@@ -948,6 +955,16 @@ else
   AC_MSG_RESULT(no)
 fi
 
+dnl enable printsupport
+AC_MSG_CHECKING([if printsupport should be enabled])
+if test x$enable_printsupport != xno; then
+  AC_MSG_RESULT(yes)
+  AC_DEFINE_UNQUOTED([ENABLE_PRINTSUPPORT],[1],[Define to 1 to enable printsupport])
+else
+  AC_MSG_RESULT(no)
+fi
+
+
 AM_CONDITIONAL([TARGET_DARWIN], [test x$TARGET_OS = xdarwin])
 AM_CONDITIONAL([BUILD_DARWIN], [test x$BUILD_OS = xdarwin])
 AM_CONDITIONAL([TARGET_WINDOWS], [test x$TARGET_OS = xwindows])
@@ -963,6 +980,7 @@ AM_CONDITIONAL([USE_COMPARISON_TOOL_REORG_TESTS],[test x$use_comparison_tool_reo
 AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([ENABLE_DEX],[test x$enable_dex = xyes])
+AM_CONDITIONAL([ENABLE_PRINTSUPPORT],[test x$enable_printsupport = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])
