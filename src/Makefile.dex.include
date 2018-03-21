@@ -34,4 +34,3 @@ dex_libdex_a_SOURCES = \
   dex/parserjsonoffer.cpp \
   dex/callbackdbforrpc.cpp \
   dex/dexsync.cpp
-

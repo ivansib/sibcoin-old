@@ -1,5 +1,5 @@
 
-#include "rpcserver.h"
+#include "rpc/server.h"
 
 #include "clientversion.h"
 #include "main.h"

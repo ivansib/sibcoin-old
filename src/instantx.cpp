@@ -57,7 +57,13 @@ void CInstantSend::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataSt
         CTxLockVote vote;
         vRecv >> vote;
 
-        LOCK2(cs_main, cs_instantsend);
+        LOCK(cs_main);
+#ifdef ENABLE_WALLET
+        if (pwalletMain)
+            LOCK(pwalletMain->cs_wallet);
+#endif
+        LOCK(cs_instantsend);
+
 
         uint256 nVoteHash = vote.GetHash();
 
@@ -172,7 +178,7 @@ void CInstantSend::Vote(CTxLockCandidate& txLockCandidate)
         int n = mnodeman.GetMasternodeRank(activeMasternode.vin, nLockInputHeight, MIN_INSTANTSEND_PROTO_VERSION);
 
         if(n == -1) {
-            LogPrint("instantsend", "CInstantSend::Vote -- Unknown Masternode %s\n", activeMasternode.vin.prevout.ToStringShort());
+            LogPrint("instantsend", "CInstantSend::Vote -- Can't calculate rank for masternode %s\n", activeMasternode.vin.prevout.ToStringShort());
             ++itOutpointLock;
             continue;
         }
@@ -251,7 +257,13 @@ void CInstantSend::Vote(CTxLockCandidate& txLockCandidate)
 //received a consensus vote
 bool CInstantSend::ProcessTxLockVote(CNode* pfrom, CTxLockVote& vote)
 {
-    LOCK2(cs_main, cs_instantsend);
+    // cs_main, cs_wallet and cs_instantsend should be already locked
+    AssertLockHeld(cs_main);
+#ifdef ENABLE_WALLET
+    if (pwalletMain)
+        AssertLockHeld(pwalletMain->cs_wallet);
+#endif
+    AssertLockHeld(cs_instantsend);
 
     uint256 txHash = vote.GetTxHash();
 
@@ -362,7 +374,13 @@ bool CInstantSend::ProcessTxLockVote(CNode* pfrom, CTxLockVote& vote)
 
 void CInstantSend::ProcessOrphanTxLockVotes()
 {
-    LOCK2(cs_main, cs_instantsend);
+    LOCK(cs_main);
+#ifdef ENABLE_WALLET
+    if (pwalletMain)
+        LOCK(pwalletMain->cs_wallet);
+#endif
+    LOCK(cs_instantsend);
+
     std::map<uint256, CTxLockVote>::iterator it = mapTxLockVotesOrphan.begin();
     while(it != mapTxLockVotesOrphan.end()) {
         if(ProcessTxLockVote(NULL, it->second)) {
@@ -406,7 +424,12 @@ bool CInstantSend::IsEnoughOrphanVotesForTxAndOutPoint(const uint256& txHash, co
 
 void CInstantSend::TryToFinalizeLockCandidate(const CTxLockCandidate& txLockCandidate)
 {
-    LOCK2(cs_main, cs_instantsend);
+    LOCK(cs_main);
+#ifdef ENABLE_WALLET
+    if (pwalletMain)
+        LOCK(pwalletMain->cs_wallet);
+#endif
+    LOCK(cs_instantsend);
 
     uint256 txHash = txLockCandidate.txLockRequest.GetHash();
     if(txLockCandidate.IsAllOutPointsReady() && !IsLockedInstantSendTransaction(txHash)) {
@@ -421,7 +444,12 @@ void CInstantSend::TryToFinalizeLockCandidate(const CTxLockCandidate& txLockCand
 
 void CInstantSend::UpdateLockedTransaction(const CTxLockCandidate& txLockCandidate)
 {
-    LOCK(cs_instantsend);
+    // cs_wallet and cs_instantsend should be already locked
+#ifdef ENABLE_WALLET
+    if (pwalletMain)
+        AssertLockHeld(pwalletMain->cs_wallet);
+#endif
+    AssertLockHeld(cs_instantsend);
 
     uint256 txHash = txLockCandidate.GetHash();
 
@@ -641,6 +669,7 @@ void CInstantSend::CheckAndRemove()
             ++itMasternodeOrphan;
         }
     }
+    LogPrintf("CInstantSend::CheckAndRemove -- %s\n", ToString());
 }
 
 bool CInstantSend::AlreadyHave(const uint256& hash)
@@ -786,7 +815,17 @@ void CInstantSend::SyncTransaction(const CTransaction& tx, const CBlock* pblock)
     uint256 txHash = tx.GetHash();
 
     // When tx is 0-confirmed or conflicted, pblock is NULL and nHeightNew should be set to -1
-    CBlockIndex* pblockindex = pblock ? mapBlockIndex[pblock->GetHash()] : NULL;
+    CBlockIndex* pblockindex = NULL;
+    if(pblock) {
+        uint256 blockHash = pblock->GetHash();
+        BlockMap::iterator mi = mapBlockIndex.find(blockHash);
+        if(mi == mapBlockIndex.end() || !mi->second) {
+            // shouldn't happen
+            LogPrint("instantsend", "CTxLockRequest::SyncTransaction -- Failed to find block %s\n", blockHash.ToString());
+            return;
+        }
+        pblockindex = mi->second;
+    }
     int nHeightNew = pblockindex ? pblockindex->nHeight : -1;
 
     LogPrint("instantsend", "CInstantSend::SyncTransaction -- txid=%s nHeightNew=%d\n", txHash.ToString(), nHeightNew);
@@ -828,6 +867,12 @@ void CInstantSend::SyncTransaction(const CTransaction& tx, const CBlock* pblock)
         }
         ++itOrphanVote;
     }
+}
+
+std::string CInstantSend::ToString()
+{
+    LOCK(cs_instantsend);
+    return strprintf("Lock Candidates: %llu, Votes %llu", mapTxLockCandidates.size(), mapTxLockVotes.size());
 }
 
 //
@@ -980,7 +1025,7 @@ bool CTxLockVote::IsValid(CNode* pnode) const
 
     if(n == -1) {
         //can be caused by past versions trying to vote with an invalid protocol
-        LogPrint("instantsend", "CTxLockVote::IsValid -- Outdated masternode %s\n", outpointMasternode.ToStringShort());
+        LogPrint("instantsend", "CTxLockVote::IsValid -- Can't calculate rank for masternode %s\n", outpointMasternode.ToStringShort());
         return false;
     }
     LogPrint("instantsend", "CTxLockVote::IsValid -- Masternode %s, rank=%d\n", outpointMasternode.ToStringShort(), n);

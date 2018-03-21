@@ -112,6 +112,7 @@ QT_MOC_CPP = \
   moc_signverifymessagedialog.cpp \
   moc_splashscreen.cpp \
   moc_trafficgraphwidget.cpp \
+  moc_trafficgraphdata.cpp \
   moc_transactiondesc.cpp \
   moc_transactiondescdialog.cpp \
   moc_transactionfilterproxy.cpp \
@@ -179,6 +180,7 @@ BITCOIN_QT_H = \
   sibmodel.h \
   signverifymessagedialog.h \
   splashscreen.h \
+  trafficgraphdata.h \
   trafficgraphwidget.h \
   transactiondesc.h \
   transactiondescdialog.h \
@@ -264,6 +266,7 @@ BITCOIN_QT_CPP = \
   qvaluecombobox.cpp \
   rpcconsole.cpp \
   splashscreen.cpp \
+  trafficgraphdata.cpp \
   trafficgraphwidget.cpp \
   utilitydialog.cpp \
   winshutdownmonitor.cpp

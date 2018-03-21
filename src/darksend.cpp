@@ -1530,7 +1530,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
 
             LogPrintf("CDarksendPool::DoAutomaticDenominating -- attempt to connect to masternode from queue, addr=%s\n", pmn->addr.ToString());
             // connect to Masternode and submit the queue request
-            CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : ConnectNode((CAddress)pmn->addr, NULL, true);
+            CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL, true);
             if(pnode) {
                 pSubmittedToMasternode = pmn;
                 nSessionDenom = dsq.nDenom;
@@ -1602,7 +1602,7 @@ bool CDarksendPool::DoAutomaticDenominating(bool fDryRun)
         }
 
         LogPrintf("CDarksendPool::DoAutomaticDenominating -- attempt %d connection to Masternode %s\n", nTries, pmn->addr.ToString());
-        CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : ConnectNode((CAddress)pmn->addr, NULL, true);
+        CNode* pnode = (pnodeFound && pnodeFound->fMasternode) ? pnodeFound : ConnectNode(CAddress(pmn->addr, NODE_NETWORK), NULL, true);
         if(pnode) {
             LogPrintf("CDarksendPool::DoAutomaticDenominating -- connected, addr=%s\n", pmn->addr.ToString());
             pSubmittedToMasternode = pmn;
