@@ -45,6 +45,10 @@ void CDexSync::startSyncDex()
             continue;
         }
 
+        if (!(node->nServicesExpected & NODE_NETWORK)) {
+            continue;
+        }
+
         if(node->fMasternode || (fMasterNode && node->fInbound)) {
             continue;
         }
