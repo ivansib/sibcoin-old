@@ -128,6 +128,10 @@ void CDexManager::sendNewOffer(const CDexOffer &offer)
     LOCK2(cs_main, cs_vNodes);
 
     for (CNode *pNode : vNodes) {
+        if (pNode->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
     }
 }
@@ -139,6 +143,10 @@ void CDexManager::sendEditedOffer(const CDexOffer &offer)
     LOCK2(cs_main, cs_vNodes);
 
     for (CNode *pNode : vNodes) {
+        if (pNode->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
         pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
     }
 }
@@ -230,6 +238,10 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
             if (!bFound) { // need to save and relay
                 LOCK2(cs_main, cs_vNodes);
                 BOOST_FOREACH(CNode* pNode, vNodes) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
@@ -242,6 +254,10 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
 
                 LOCK2(cs_main, cs_vNodes);
                 BOOST_FOREACH(CNode* pNode, vNodes) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
@@ -293,6 +309,10 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
             if (bFound) { // need to delete and relay
                 LOCK2(cs_main, cs_vNodes);
                 BOOST_FOREACH(CNode* pNode, vNodes) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
                     }
@@ -366,6 +386,10 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
         if (isActual) {
             LOCK2(cs_main, cs_vNodes);
             for (CNode* pNode : vNodes) {
+                if (pNode->nVersion < MIN_DEX_VERSION) {
+                    continue;
+                }
+
                 if (pNode->addr != pfrom->addr) {
                     pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
                 }

@@ -41,6 +41,10 @@ void CDexSync::startSyncDex()
     std::vector<CNode*> vNodesCopy = CopyNodeVector();
 
     for (auto node : vNodesCopy) {
+        if (node->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
         if(node->fMasternode || (fMasterNode && node->fInbound)) {
             continue;
         }

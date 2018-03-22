@@ -41,4 +41,7 @@ static const int NO_BLOOM_VERSION = 70201;
 //! "sendheaders" command and announcing blocks with headers starts with this version
 static const int SENDHEADERS_VERSION = 70201;
 
+//! don't send dex messages older that this version
+static const int MIN_DEX_VERSION = 70207;
+
 #endif // BITCOIN_VERSION_H
