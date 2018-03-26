@@ -5354,6 +5354,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         uint64_t nServiceInt;
         vRecv >> pfrom->nVersion >> nServiceInt >> nTime >> addrMe;
         pfrom->nServices = ServiceFlags(nServiceInt);
+
         if (!pfrom->fInbound)
         {
             addrman.SetServices(pfrom->addr, pfrom->nServices);
