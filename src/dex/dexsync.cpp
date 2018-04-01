@@ -2,6 +2,7 @@
 #include "dexsync.h"
 #include "dexmanager.h"
 #include "masternode-sync.h"
+#include "masternodeman.h"
 #include "init.h"
 #include "ui_interface.h"
 
@@ -45,7 +46,7 @@ void CDexSync::startSyncDex()
             continue;
         }
 
-        if (!(node->nServicesExpected & NODE_NETWORK)) {
+        if (!mnodeman.isExist(node)) {
             continue;
         }
 

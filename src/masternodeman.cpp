@@ -504,6 +504,19 @@ bool CMasternodeMan::Get(const CTxIn& vin, CMasternode& masternode)
     return true;
 }
 
+bool CMasternodeMan::isExist(const CNode *node) const
+{
+    LOCK(cs);
+
+    for (auto mn : vMasternodes) {
+        if (node->addr == mn.addr) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 masternode_info_t CMasternodeMan::GetMasternodeInfo(const CTxIn& vin)
 {
     masternode_info_t info;

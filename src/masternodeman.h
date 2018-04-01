@@ -235,6 +235,8 @@ public:
     bool Get(const CPubKey& pubKeyMasternode, CMasternode& masternode);
     bool Get(const CTxIn& vin, CMasternode& masternode);
 
+    bool isExist(const CNode *node) const;
+
     /// Retrieve masternode vin by index
     bool Get(int nIndex, CTxIn& vinMasternode, bool& fIndexRebuiltOut) {
         LOCK(cs);
