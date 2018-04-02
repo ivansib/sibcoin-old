@@ -5,6 +5,8 @@
 #include "masternodeman.h"
 #include "init.h"
 #include "ui_interface.h"
+#include "pubkey.h"
+#include "wallet.h"
 
 CDexSync dexsync;
 
@@ -208,6 +210,15 @@ void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
             }
 
             eraseItemFromOffersNeedDownload(offer.hash);
+        }
+        if (DexDB::bOffersRescan && !db->isExistMyOffer(offer.idTransaction)) {
+            CPubKey kPubKeyObj = offer.getPubKeyObject();
+            if (kPubKeyObj.IsValid()) {
+                if (pwalletMain->HaveKey(kPubKeyObj.GetID())) {
+                    MyOfferInfo mOfferInfo = offer;
+                    db->addMyOffer(mOfferInfo);
+                }
+            }
         }
     }
 }
