@@ -13,6 +13,7 @@ namespace dex {
 std::map<CallBackDB*, int> DexDB::callBack;
 DexDB *DexDB::pSingleton = nullptr;
 int DexDB::nCounter = 0;
+bool DexDB::bOffersRescan = false;
 
 
 DexDB::DexDB()
@@ -1201,6 +1202,7 @@ void DexDB::createTables()
                "shortInfo VARCHAR(140), details TEXT, type INT, status INT, editingVersion INT, editsign VARCHAR(150))");
 
     db.execute("CREATE TABLE IF NOT EXISTS filterList (filter VARCHAR(100) NOT NULL PRIMARY KEY)");
+    bOffersRescan = true;
 }
 
 void DexDB::addDefaultData()
