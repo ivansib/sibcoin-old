@@ -127,6 +127,7 @@ bool CMasternodeMan::Add(CMasternode &mn)
     if (pmn == NULL) {
         LogPrint("masternode", "CMasternodeMan::Add -- Adding new Masternode: addr=%s, %i now\n", mn.addr.ToString(), size() + 1);
         vMasternodes.push_back(mn);
+        sMasternodeAddrs.insert(mn.addr);
         indexMasternodes.AddMasternodeVIN(mn.vin);
         fMasternodesAdded = true;
         return true;
@@ -203,6 +204,7 @@ void CMasternodeMan::CheckAndRemove()
                 // erase all of the broadcasts we've seen from this txin, ...
                 mapSeenMasternodeBroadcast.erase(hash);
                 mWeAskedForMasternodeListEntry.erase((*it).vin.prevout);
+                sMasternodeAddrs.erase((*it).addr);
 
                 // and finally remove it from the list
                 it->FlagGovernanceItemsAsDirty();
@@ -367,6 +369,7 @@ void CMasternodeMan::Clear()
 {
     LOCK(cs);
     vMasternodes.clear();
+    sMasternodeAddrs.clear();
     mAskedUsForMasternodeList.clear();
     mWeAskedForMasternodeList.clear();
     mWeAskedForMasternodeListEntry.clear();
@@ -508,13 +511,11 @@ bool CMasternodeMan::isExist(const CNode *node) const
 {
     LOCK(cs);
 
-    for (auto mn : vMasternodes) {
-        if (node->addr == mn.addr) {
-            return true;
-        }
+    if (sMasternodeAddrs.find(static_cast<CService>(node->addr)) != sMasternodeAddrs.end()) {
+        return true;
+    } else {
+        return false;
     }
-
-    return false;
 }
 
 masternode_info_t CMasternodeMan::GetMasternodeInfo(const CTxIn& vin)

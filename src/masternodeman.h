@@ -128,6 +128,8 @@ private:
     // who we asked for the masternode verification
     std::map<CNetAddr, CMasternodeVerification> mWeAskedForVerification;
 
+    std::set<CService> sMasternodeAddrs;
+
     // these maps are used for masternode recovery from MASTERNODE_NEW_START_REQUIRED state
     std::map<uint256, std::pair< int64_t, std::set<CNetAddr> > > mMnbRecoveryRequests;
     std::map<uint256, std::vector<CMasternodeBroadcast> > mMnbRecoveryGoodReplies;
@@ -191,6 +193,13 @@ public:
         READWRITE(mapSeenMasternodeBroadcast);
         READWRITE(mapSeenMasternodePing);
         READWRITE(indexMasternodes);
+
+        if (vMasternodes.size() > 0) {
+            for (auto pNode : vMasternodes) {
+                sMasternodeAddrs.insert(pNode.addr);
+            }
+        }
+
         if(ser_action.ForRead() && (strVersion != SERIALIZATION_VERSION_STRING)) {
             Clear();
         }
