@@ -70,11 +70,6 @@
 using namespace std;
 
 namespace {
-    const int MAX_OUTBOUND_CONNECTIONS = 8;
-    const int MAX_OUTBOUND_MASTERNODE_CONNECTIONS = 20;
-    const int MAX_FEELER_CONNECTIONS = 1;
-    const int MIN_NUMBER_DEX_NODE = 4;
-
     struct ListenSocket {
         SOCKET socket;
         bool whitelisted;
@@ -1665,7 +1660,6 @@ void ThreadOpenConnections()
         // Only connect out to one peer per network group (/16 for IPv4).
         // Do this here so we don't have to critsect vNodes inside mapAddresses critsect.
         int nOutbound = 0;
-        int nDex = 0;
         std::set<std::vector<unsigned char> > setConnected;
         {
             LOCK(cs_vNodes);
@@ -1673,19 +1667,6 @@ void ThreadOpenConnections()
                 if (!pnode->fInbound && !pnode->fMasternode) {
                     setConnected.insert(pnode->addr.GetGroup());
                     nOutbound++;
-
-                    if (pnode->nVersion >= MIN_DEX_VERSION) {
-                        nDex++;
-                    }
-                }
-            }
-        }
-
-        if (nDex < MIN_NUMBER_DEX_NODE && (MAX_OUTBOUND_CONNECTIONS - nOutbound) < (MIN_NUMBER_DEX_NODE - nDex)) {
-            for (auto pnode : vNodes) {
-                if (!pnode->fInbound && !pnode->fMasternode && pnode->nVersion < MIN_DEX_VERSION) {
-                    pnode->fDisconnect = true;
-                    break;
                 }
             }
         }

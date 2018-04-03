@@ -5,6 +5,7 @@
 #include "wallet.h"
 #include "util.h"
 #include "utilstrencodings.h"
+#include "masternodeman.h"
 
 #include "dex/db/dexdb.h"
 #include "dexsync.h"
@@ -469,6 +470,8 @@ void ThreadDexManager()
             continue;
         }
 
+        CheckDexMasternode();
+
         if (step % stepCheckUnc == 0) {
             LogPrint("dex", "ThreadDexManager -- check unconfirmed offers\n");
             dexman.checkUncOffers();
@@ -490,6 +493,43 @@ void ThreadDexManager()
             step = 0;
         } else {
             step++;
+        }
+    }
+}
+
+void CheckDexMasternode()
+{
+    int nOutbound = 0;
+    int nDex = 0;
+    std::vector<CNode *> nodeToRemove;
+    std::set<std::vector<unsigned char> > setConnected;
+    {
+        LOCK(cs_vNodes);
+        BOOST_FOREACH(CNode* pNode, vNodes) {
+            if (!pNode->fInbound && !pNode->fMasternode) {
+                nOutbound++;
+
+                if (pNode->nVersion >= MIN_DEX_VERSION) {
+                    nDex++;
+                } else {
+                    if (!mnodeman.isExist(pNode)) {
+                        nodeToRemove.push_back(pNode);
+                    }
+                }
+            }
+        }
+    }
+
+    if (nDex < MIN_NUMBER_DEX_NODE && (MAX_OUTBOUND_CONNECTIONS - nOutbound) < (MIN_NUMBER_DEX_NODE - nDex)) {
+        if (nodeToRemove.size() > 0) {
+            nodeToRemove[0]->fDisconnect = true;
+        } else {
+            for (auto pNode : vNodes) {
+                if (!pNode->fInbound && !pNode->fMasternode && pNode->nVersion < MIN_DEX_VERSION) {
+                    pNode->fDisconnect = true;
+                    break;
+                }
+            }
         }
     }
 }

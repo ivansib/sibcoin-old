@@ -52,5 +52,6 @@ private:
 };
 
 void ThreadDexManager();
+void CheckDexMasternode();
 
 #endif // __DEX_MANAGER_H__
