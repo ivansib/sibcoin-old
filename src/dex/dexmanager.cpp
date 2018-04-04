@@ -503,32 +503,28 @@ void CheckDexMasternode()
     int nDex = 0;
     std::vector<CNode *> nodeToRemove;
     std::set<std::vector<unsigned char> > setConnected;
-    {
-        LOCK(cs_vNodes);
-        BOOST_FOREACH(CNode* pNode, vNodes) {
-            if (!pNode->fInbound && !pNode->fMasternode) {
-                nOutbound++;
 
-                if (pNode->nVersion >= MIN_DEX_VERSION) {
-                    nDex++;
-                } else {
-                    if (!mnodeman.isExist(pNode)) {
-                        nodeToRemove.push_back(pNode);
-                    }
-                }
+    LOCK(cs_vNodes);
+    for (auto pNode : vNodes) {
+        if (!pNode->fInbound && !pNode->fMasternode) {
+            nOutbound++;
+
+            if (pNode->nVersion >= MIN_DEX_VERSION && mnodeman.isExist(pNode)) {
+                nDex++;
+            } else {
+                nodeToRemove.push_back(pNode);
             }
         }
     }
 
-    if (nDex < MIN_NUMBER_DEX_NODE && (MAX_OUTBOUND_CONNECTIONS - nOutbound) < (MIN_NUMBER_DEX_NODE - nDex)) {
-        if (nodeToRemove.size() > 0) {
-            nodeToRemove[0]->fDisconnect = true;
-        } else {
-            for (auto pNode : vNodes) {
-                if (!pNode->fInbound && !pNode->fMasternode && pNode->nVersion < MIN_DEX_VERSION) {
-                    pNode->fDisconnect = true;
-                    break;
-                }
+    if ((MAX_OUTBOUND_CONNECTIONS == nOutbound) && nDex < MIN_NUMBER_DEX_NODE) {
+        int nDis = MIN_NUMBER_DEX_NODE - nDex;
+
+        for (int i = 0; i < nDis; i++) {
+            if (nodeToRemove.size() > i) {
+                nodeToRemove[i]->fDisconnect = true;
+            } else {
+                break;
             }
         }
     }
