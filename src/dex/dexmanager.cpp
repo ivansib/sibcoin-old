@@ -127,30 +127,34 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
 
 void CDexManager::sendNewOffer(const CDexOffer &offer)
 {
-    LOCK2(cs_main, cs_vNodes);
+    auto vNodesCopy = CopyNodeVector();
 
-    for (CNode *pNode : vNodes) {
+    for (auto pNode : vNodesCopy) {
         if (pNode->nVersion < MIN_DEX_VERSION) {
             continue;
         }
 
         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
     }
+
+    ReleaseNodeVector(vNodesCopy);
 }
 
 void CDexManager::sendEditedOffer(const CDexOffer &offer)
 {
     std::vector<unsigned char> vchSign = ParseHex(offer.editsign);
 
-    LOCK2(cs_main, cs_vNodes);
+    auto vNodesCopy = CopyNodeVector();
 
-    for (CNode *pNode : vNodes) {
+    for (auto pNode : vNodesCopy) {
         if (pNode->nVersion < MIN_DEX_VERSION) {
             continue;
         }
 
         pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
     }
+
+    ReleaseNodeVector(vNodesCopy);
 }
 
 void CDexManager::checkUncOffers()
@@ -238,8 +242,8 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
             }
 
             if (!bFound) { // need to save and relay
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
                     if (pNode->nVersion < MIN_DEX_VERSION) {
                         continue;
                     }
@@ -248,14 +252,16 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
                 }
+
+                ReleaseNodeVector(vNodesCopy);
             }
             LogPrint("dex", "DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
             if (!uncOffers->isExistOffer(offer.hash)) {
                 uncOffers->setOffer(offer);
 
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
                     if (pNode->nVersion < MIN_DEX_VERSION) {
                         continue;
                     }
@@ -264,6 +270,9 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
                 }
+
+                ReleaseNodeVector(vNodesCopy);
+
                 LogPrint("dex", "DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
         }
@@ -309,8 +318,8 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
             }
 
             if (bFound) { // need to delete and relay
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
                     if (pNode->nVersion < MIN_DEX_VERSION) {
                         continue;
                     }
@@ -319,6 +328,8 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
                         pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
                     }
                 }
+
+                ReleaseNodeVector(vNodesCopy);
             }
             LogPrint("dex", "DEXDELOFFER --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
@@ -386,8 +397,8 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
             LogPrint("dex", "DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
         }
         if (isActual) {
-            LOCK2(cs_main, cs_vNodes);
-            for (CNode* pNode : vNodes) {
+            auto vNodesCopy = CopyNodeVector();
+            for (auto pNode : vNodesCopy) {
                 if (pNode->nVersion < MIN_DEX_VERSION) {
                     continue;
                 }
@@ -396,6 +407,8 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
                     pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
                 }
             }
+
+            ReleaseNodeVector(vNodesCopy);
         }
     } else {
         LogPrint("dex", "DEXOFFEDIT -- offer check fail\n");
@@ -510,8 +523,9 @@ void CheckDexMasternode()
     std::vector<CNode *> nodeToRemove;
     std::set<std::vector<unsigned char> > setConnected;
 
-    LOCK(cs_vNodes);
-    for (auto pNode : vNodes) {
+    auto vNodesCopy = CopyNodeVector();
+
+    for (auto pNode : vNodesCopy) {
         if (!pNode->fInbound && !pNode->fMasternode) {
             nOutbound++;
 
@@ -534,4 +548,6 @@ void CheckDexMasternode()
             }
         }
     }
+
+    ReleaseNodeVector(vNodesCopy);
 }

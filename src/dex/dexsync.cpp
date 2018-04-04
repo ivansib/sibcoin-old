@@ -48,7 +48,7 @@ void CDexSync::startSyncDex()
 
     LogPrint(NULL, "startSyncDex -- start synchronization offers\n");
     maxOffersNeedDownload = 0;
-    std::vector<CNode*> vNodesCopy = CopyNodeVector();
+    auto vNodesCopy = CopyNodeVector();
 
     for (auto node : vNodesCopy) {
         if (node->nVersion < MIN_DEX_VERSION) {
@@ -68,6 +68,8 @@ void CDexSync::startSyncDex()
 
     status = Initial;
     uiInterface.NotifyAdditionalDataSyncProgressChanged(0);
+
+    ReleaseNodeVector(vNodesCopy);
 
     Timer timer(30000, FinishSyncDex);
 }
@@ -258,15 +260,17 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
 
 bool CDexSync::canStart()
 {
-    LOCK(cs_vNodes);
+    auto vNodesCopy = CopyNodeVector();
     int nDex = 0;
-    for (auto pNode : vNodes) {
+    for (auto pNode : vNodesCopy) {
         if (!pNode->fInbound && !pNode->fMasternode) {
             if (pNode->nVersion >= MIN_DEX_VERSION && mnodeman.isExist(pNode)) {
                 nDex++;
             }
         }
     }
+
+    ReleaseNodeVector(vNodesCopy);
 
     if (nDex >= MIN_NUMBER_DEX_NODE) {
         return true;

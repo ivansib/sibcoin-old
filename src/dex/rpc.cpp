@@ -412,12 +412,14 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
 
     int sended = 0;
     if (offer.status != dex::Draft) {
-        LOCK2(cs_main, cs_vNodes);
-        BOOST_FOREACH(CNode* pNode, vNodes) {
+        auto vNodesCopy = CopyNodeVector();
+        for (auto pNode : vNodesCopy) {
             uint64_t bytes = pNode->nSendBytes;
             pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
             if (pNode->nSendBytes > bytes) sended++;
         }
+
+        ReleaseNodeVector(vNodesCopy);
     }
 
     if (sended > 1 || offer.status == dex::Draft || offer.status == dex::Indefined) {
