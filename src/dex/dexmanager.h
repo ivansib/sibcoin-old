@@ -39,6 +39,8 @@ public:
     CDexOffer getOfferInfo(const uint256 &hash) const;
     UnconfirmedOffers *getUncOffers() const;
 
+    boost::signals2::signal<void()> startSyncDex;
+
 private:
     DexDB *db;
     UnconfirmedOffers *uncOffers;

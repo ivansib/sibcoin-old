@@ -41,6 +41,8 @@ class CDexSync
 {
 public:
     enum Status {
+        NoStarted,
+        Started,
         Initial,
         Sync,
         Finished
@@ -68,7 +70,7 @@ private:
     void getOfferAndSaveInDb(CDataStream& vRecv);
     void insertItemFromOffersNeedDownload(const uint256 &hash);
     void eraseItemFromOffersNeedDownload(const uint256 &hash);
-    void test();
+    bool canStart();
 
     std::set<uint256> offersNeedDownload;
     int maxOffersNeedDownload;

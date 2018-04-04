@@ -12,6 +12,7 @@ CDexSync dexsync;
 
 CDexSync::CDexSync()
 {
+    status = NoStarted;
     db = nullptr;
 }
 
@@ -39,6 +40,12 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
 
 void CDexSync::startSyncDex()
 {
+    if (!canStart() || status != NoStarted) {
+        return;
+    }
+
+    status = Started;
+
     LogPrint(NULL, "startSyncDex -- start synchronization offers\n");
     maxOffersNeedDownload = 0;
     std::vector<CNode*> vNodesCopy = CopyNodeVector();
@@ -249,9 +256,29 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
     }
 }
 
+bool CDexSync::canStart()
+{
+    LOCK(cs_vNodes);
+    int nDex = 0;
+    for (auto pNode : vNodes) {
+        if (!pNode->fInbound && !pNode->fMasternode) {
+            if (pNode->nVersion >= MIN_DEX_VERSION && mnodeman.isExist(pNode)) {
+                nDex++;
+            }
+        }
+    }
+
+    if (nDex >= MIN_NUMBER_DEX_NODE) {
+        return true;
+    }
+
+    return false;
+}
+
 void DexConnectSignals()
 {
     masternodeSync.syncFinished.connect(boost::bind(&CDexSync::startSyncDex, &dexsync));
+    dexman.startSyncDex.connect(boost::bind(&CDexSync::startSyncDex, &dexsync));
 }
 
 

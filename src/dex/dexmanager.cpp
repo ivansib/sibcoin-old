@@ -6,6 +6,7 @@
 #include "util.h"
 #include "utilstrencodings.h"
 #include "masternodeman.h"
+#include "masternode-sync.h"
 
 #include "dex/db/dexdb.h"
 #include "dexsync.h"
@@ -465,6 +466,11 @@ void ThreadDexManager()
 
     while (true) {
         MilliSleep(minPeriod);
+
+        if (masternodeSync.IsSynced() && dexsync.statusSync() == CDexSync::NoStarted) {
+            CheckDexMasternode();
+            dexman.startSyncDex();
+        }
 
         if (!dexsync.isSynced()) {
             continue;
