@@ -26,7 +26,7 @@ TableCurrencies::TableCurrencies(DexDB *db, QWidget *parent) : QTableView(parent
 
     resizeColumn();
 
-    connect(model, &CurrenciesModel::dataChanged, this, &TableCurrencies::changedData);
+    connect(model, SIGNAL(dataChanged()), this, SLOT(changedData()));
 }
 
 void TableCurrencies::saveData()

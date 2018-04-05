@@ -13,7 +13,7 @@ TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, const CommonS
     tableView->setColumnWidth(3, 150);
 
     columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 1);
-    connect(pModel, &OfferModelView::layoutChanged, this, &TableOffersView::updateTable);
+    connect(pModel, SIGNAL(layoutChanged()), this, SLOT(updateTable()));
 }
 
 TableOffersView::~TableOffersView()

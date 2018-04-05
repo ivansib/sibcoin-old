@@ -13,10 +13,10 @@ CommonSettingsForOffersWidget::CommonSettingsForOffersWidget(DexDB *db, QWidget 
 
     setData();
 
-    connect(cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CommonSettingsForOffersWidget::changedData);
-    connect(cBoxCurrency, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CommonSettingsForOffersWidget::changedData);
-    connect(cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CommonSettingsForOffersWidget::changedData);
-    connect(sEditMinAmount, &PriceSpinBox::valueChanged, this, &CommonSettingsForOffersWidget::changedData);
+    connect(cBoxCountry, SIGNAL(currentIndexChanged(int)), this, SLOT(changedData(int)));
+    connect(cBoxCurrency, SIGNAL(currentIndexChanged(int)), this, SLOT(changedData(int)));
+    connect(cBoxPayment, SIGNAL(currentIndexChanged(int)), this, SLOT(changedData(int)));
+    connect(sEditMinAmount, SIGNAL(valueChanged(int)), this, SLOT(changedData(int)));
 }
 
 CommonSettingsForOffersWidget::~CommonSettingsForOffersWidget()

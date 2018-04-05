@@ -1,4 +1,3 @@
-#include <QPushButton>
 #include <QApplication>
 #include <QMouseEvent>
 #include <QDialog>
@@ -25,10 +24,20 @@ void TableOfferDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 QWidget *TableOfferDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.column() == columnBtn) {
-        QPushButton *btn = new QPushButton(index.data(Qt::EditRole).toString(), parent);
-        connect(btn, &QPushButton::clicked, [=]{clicked(index.row());});
+        Button *btn = new Button(index.data(Qt::EditRole).toString(), index.row(), parent);
+        connect(btn, SIGNAL(clicked(int)), this, SIGNAL(clicked(int)));
         return btn;
     }
 
     return QItemDelegate::createEditor(parent, option, index);
+}
+
+Button::Button(const QString &title, const int &index, QWidget *parent) : QPushButton(title, parent), index(index)
+{
+    connect(this, SIGNAL(clicked()), this, SLOT(onClicked()));
+}
+
+void Button::onClicked()
+{
+    Q_EMIT clicked(index);
 }

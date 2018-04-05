@@ -17,19 +17,19 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
 
     ui->btnBox->setEnabled(false);
 
-    connect(ui->btnCommon, &QPushButton::clicked, this, &SettingsDialog::currentCommon);
-    connect(ui->btnCountries, &QPushButton::clicked, this, &SettingsDialog::currentCountries);
-    connect(ui->btnCurrencies, &QPushButton::clicked, this, &SettingsDialog::currentCurrencies);
-    connect(ui->btnFilters, &QPushButton::clicked, this, &SettingsDialog::currentFilters);
+    connect(ui->btnCommon, SIGNAL(clicked()), this, SLOT(currentCommon()));
+    connect(ui->btnCountries, SIGNAL(clicked()), this, SLOT(currentCountries()));
+    connect(ui->btnCurrencies, SIGNAL(clicked()), this, SLOT(currentCurrencies()));
+    connect(ui->btnFilters, SIGNAL(clicked()), this, SLOT(currentFilters()));
 
-    connect(common, &CommonSettingsForOffersWidget::dataChanged, this, &SettingsDialog::changedData);
-    connect(countries, &TableCountries::dataChanged, this, &SettingsDialog::changedData);
-    connect(currencies, &TableCurrencies::dataChanged, this, &SettingsDialog::changedData);
-    connect(filters, &FilterList::dataChanged, this, &SettingsDialog::changedData);
+    connect(common, SIGNAL(dataChanged()), this, SLOT(changedData()));
+    connect(countries, SIGNAL(dataChanged()), this, SLOT(changedData()));
+    connect(currencies, SIGNAL(dataChanged()), this, SLOT(changedData()));
+    connect(filters, SIGNAL(dataChanged()), this, SLOT(changedData()));
 
     QPushButton* btnApply = ui->btnBox->button(QDialogButtonBox::Apply);
-    connect(btnApply, &QPushButton::clicked, this, &SettingsDialog::saveData);
-    connect(ui->btnBox, &QDialogButtonBox::rejected, this, &SettingsDialog::cancel);
+    connect(btnApply, SIGNAL(clicked()), this, SLOT(saveData()));
+    connect(ui->btnBox, SIGNAL(rejected()), this, SLOT(cancel()));
 
     currentCommon();
 }

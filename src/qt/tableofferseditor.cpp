@@ -13,15 +13,15 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
 
     updateData();
 
-    connect(editor, &OfferDetailsEditor::dataSave, this, &TableOffersEditor::addOrEditDraftMyOffer);
-    connect(editor, &OfferDetailsEditor::dataSend, this, &TableOffersEditor::sendMyOffer);
-    connect(editor, &OfferDetailsEditor::draftDataDelete, this, &TableOffersEditor::deleteDraftData);
+    connect(editor, SIGNAL(dataSave(QtMyOfferInfo)), this, SLOT(addOrEditDraftMyOffer(QtMyOfferInfo)));
+    connect(editor, SIGNAL(dataSend(QtMyOfferInfo)), this, SLOT(sendMyOffer(QtMyOfferInfo)));
+    connect(editor, SIGNAL(draftDataDelete(QtMyOfferInfo)), this, SLOT(deleteDraftData(QtMyOfferInfo)));
 
-    connect(creator, &OfferDetailsCreator::dataSave, this, &TableOffersEditor::addOrEditDraftMyOffer);
-    connect(creator, &OfferDetailsCreator::dataSend, this, &TableOffersEditor::sendMyOffer);
+    connect(creator, SIGNAL(dataSave(QtMyOfferInfo)), this, SLOT(addOrEditDraftMyOffer(QtMyOfferInfo)));
+    connect(creator, SIGNAL(dataSend(QtMyOfferInfo)), this, SLOT(sendMyOffer(QtMyOfferInfo)));
 
-    connect(this, &TableOffersEditor::navigationDataUpdate, editor, &OfferDetailsEditor::updateNavigationData);
-    connect(this, &TableOffersEditor::navigationDataUpdate, creator, &OfferDetailsCreator::updateNavigationData);
+    connect(this, SIGNAL(navigationDataUpdate()), editor, SLOT(updateNavigationData()));
+    connect(this, SIGNAL(navigationDataUpdate()), creator, SLOT(updateNavigationData()));
 
     useMyOfferMode(true);
     init();
@@ -32,7 +32,7 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     tableView->setColumnWidth(4, 150);
 
     columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 2);
-    connect(pModel, &OfferModelView::layoutChanged, this, &TableOffersEditor::updateTable);
+    connect(pModel, SIGNAL(layoutChanged()), this, SLOT(updateTable()));
 }
 
 TableOffersEditor::~TableOffersEditor()

@@ -2,6 +2,7 @@
 #define OFFERMODEL_H
 
 #include <QAbstractTableModel>
+#include <QStringList>
 #include "dto.h"
 
 template <class Offer>

@@ -2,6 +2,7 @@
 #define CALLBACKDBFORGUI_H
 
 #include <QObject>
+#include <QMetaType>
 #include "dex/db/callbackdb.h"
 
 using namespace dex;

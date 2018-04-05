@@ -4,6 +4,7 @@
 #include <QMimeData>
 #include <QDataStream>
 #include <QAbstractTableModel>
+#include <QStringList>
 
 class SettingsModel : public QAbstractTableModel
 {

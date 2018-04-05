@@ -25,7 +25,7 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
     addLEditTransactionPrice(lEditTransactionPrice);
 
-    connect(btnDeleteDraft, &QPushButton::clicked, this, &OfferDetailsEditor::deleteDraftData);
+    connect(btnDeleteDraft, SIGNAL(clicked()), this, SLOT(deleteDraftData()));
 
     updateNavigationData();
 }
@@ -48,7 +48,9 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     lIdView->setText(info.idTransaction);
     lHashView->setText(info.hash);
     lStatusView->setText(status(info.status));
-    cBoxOffer->setCurrentText(offerType(info.type));
+
+    int indexOffer = cBoxOffer->findText(offerType(info.type));
+    cBoxOffer->setCurrentIndex(indexOffer);
     cBoxCountry->setCurrentData(info.countryIso);
     cBoxCurrency->setCurrentData(info.currencyIso);
     cBoxPayment->setCurrentData(QString::number(info.paymentMethod));

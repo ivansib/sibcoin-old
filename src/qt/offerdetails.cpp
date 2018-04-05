@@ -19,17 +19,17 @@ void OfferDetails::setModel(WalletModel *model)
 
 void OfferDetails::addBtnSend(QPushButton *btn)
 {
-    connect(btn, &QPushButton::clicked, this, &OfferDetails::sendData);
+    connect(btn, SIGNAL(clicked()), this, SLOT(sendData()));
 }
 
 void OfferDetails::addBtnSaveDraft(QPushButton *btn)
 {
-    connect(btn, &QPushButton::clicked, this, &OfferDetails::saveData);
+    connect(btn, SIGNAL(clicked()), this, SLOT(saveData()));
 }
 
 void OfferDetails::addBtnCancel(QPushButton *btn)
 {
-    connect(btn, &QPushButton::clicked, this, &OfferDetails::close);
+    connect(btn, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 void OfferDetails::addCBoxOffer(QComboBox *cBox)
@@ -56,7 +56,7 @@ void OfferDetails::addExpiration(QComboBox *cBox, QLabel *label)
 {
     editTimeExpiration = label;
 
-    connect(cBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OfferDetails::changedTimeToExpiration);
+    connect(cBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changedTimeToExpiration(int)));
 }
 
 void OfferDetails::addLEditTransactionPrice(QLabel *label)
@@ -68,7 +68,7 @@ void OfferDetails::addTEditShortInfo(QTextEdit *tEdit)
 {
     editShortInfo = tEdit;
 
-    connect(editShortInfo, &QTextEdit::textChanged, this, &OfferDetails::changedShortInfo);
+    connect(editShortInfo, SIGNAL(textChanged()), this, SLOT(changedShortInfo()));
 }
 
 void OfferDetails::updateNavigationData()

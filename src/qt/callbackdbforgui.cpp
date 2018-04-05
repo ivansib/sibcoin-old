@@ -35,5 +35,5 @@ void CallBackDbForGui::freeInstance()
 
 void CallBackDbForGui::finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
 {
-    this->tableOperationFinished(table, operation, status);
+    Q_EMIT tableOperationFinished(table, operation, status);
 }
