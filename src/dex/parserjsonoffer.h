@@ -6,6 +6,6 @@
 using namespace dex;
 
 MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error);
-uint64_t priceFromString(std::string strPrice);
+std::pair<uint64_t, bool> priceFromString(std::string strPrice);
 
 #endif

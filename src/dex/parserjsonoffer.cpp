@@ -43,8 +43,23 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
         return MyOfferInfo();
     }
 
-    offer.price = priceFromString(uv["price"].get_str());
-    offer.minAmount = priceFromString(uv["minAmount"].get_str());
+    auto price = priceFromString(uv["price"].get_str());
+
+    if (!price.second) {
+        error = "invalid price";
+        return MyOfferInfo();
+    }
+
+    offer.price = price.first;
+
+    auto minAmount = priceFromString(uv["minAmount"].get_str());
+
+    if (!minAmount.second) {
+        error = "invalid minAmount";
+        return MyOfferInfo();
+    }
+
+    offer.minAmount = minAmount.first;
 
     offer.timeCreate = GetTime();
     int timeTo = uv["timeToExpiration"].get_int();
@@ -56,13 +71,20 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
     offer.timeToExpiration = offer.timeCreate + timeTo * 86400;
 
     offer.shortInfo = uv["shortInfo"].get_str();
+
+    if (offer.shortInfo.size() > 140) {
+        error = "invalid shortInfo";
+        return MyOfferInfo();
+    }
+
     offer.details = uv["details"].get_str();
 
     return offer;
 }
 
-uint64_t priceFromString(std::string strPrice)
+std::pair<uint64_t, bool> priceFromString(std::string strPrice)
 {
+    bool isCorrect = true;
     std::size_t found = strPrice.find(".");
     if (found != std::string::npos) {
         std::string i = strPrice.substr(0, found);
@@ -73,6 +95,8 @@ uint64_t priceFromString(std::string strPrice)
             for (int i = 0; i< size; i++) {
                 f.push_back('0');
             }
+        } else if (f.length() > numberOfDecimalsForPrice) {
+            isCorrect = false;
         }
         
         strPrice = i + f;
@@ -82,5 +106,5 @@ uint64_t priceFromString(std::string strPrice)
     }
 
     uint64_t price = std::strtoull(strPrice.c_str(), nullptr, 10);
-    return price;
+    return std::make_pair(price, isCorrect);
 }

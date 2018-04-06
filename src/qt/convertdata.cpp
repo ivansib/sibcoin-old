@@ -150,7 +150,7 @@ QString ConvertData::toUiPrice(const quint64 &i)
 
 quint64 ConvertData::fromUiPrice(QString str)
 {
-    return priceFromString(str.toUtf8().constData());
+    return priceFromString(str.toUtf8().constData()).first;
 }
 
 QtCountryInfo ConvertData::toQtCountryInfo(const CountryInfo &info)
