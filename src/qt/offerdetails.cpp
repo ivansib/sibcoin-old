@@ -71,6 +71,13 @@ void OfferDetails::addTEditShortInfo(QTextEdit *tEdit)
     connect(editShortInfo, SIGNAL(textChanged()), this, SLOT(changedShortInfo()));
 }
 
+void OfferDetails::addTEditDetailInfo(QTextEdit *tEdit)
+{
+    editDetailInfo = tEdit;
+
+    connect(editDetailInfo, SIGNAL(textChanged()), this, SLOT(changedDetailInfo()));
+}
+
 void OfferDetails::updateNavigationData()
 {
     boxOffer->addItems(typeOffers());
@@ -132,8 +139,19 @@ void OfferDetails::changedShortInfo()
     QString text = editShortInfo->toPlainText();
     int size = text.size();
 
-    if (size > 140) {
-        editShortInfo->setText(text.mid(0, 140));
+    if (size > DEX_SHORT_INFO_LENGTH) {
+        editShortInfo->setText(text.mid(0, DEX_SHORT_INFO_LENGTH));
         editShortInfo->moveCursor(QTextCursor::End);
+    }
+}
+
+void OfferDetails::changedDetailInfo()
+{
+    QString text = editDetailInfo->toPlainText();
+    int size = text.size();
+
+    if (size > DEX_DETAILS_LENGTH) {
+        editDetailInfo->setText(text.mid(0, DEX_DETAILS_LENGTH));
+        editDetailInfo->moveCursor(QTextCursor::End);
     }
 }

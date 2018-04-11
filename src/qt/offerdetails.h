@@ -36,6 +36,7 @@ public:
     void addCBoxCurrency(ComboBox *cBox);
 
     void addTEditShortInfo(QTextEdit *tEdit);
+    void addTEditDetailInfo(QTextEdit *tEdit);
 
     void addExpiration(QComboBox *cBox, QLabel *label);
 
@@ -55,6 +56,7 @@ private:
     ComboBox *boxCountry;
     ComboBox *boxCurrency;
     QTextEdit *editShortInfo;
+    QTextEdit *editDetailInfo;
 
     QLabel *editTimeExpiration;
     QLabel *editTransactionPrice;
@@ -72,6 +74,7 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void changedShortInfo();
+    void changedDetailInfo();
 
 Q_SIGNALS:
     void dataSave(const QtMyOfferInfo &info);

@@ -71,13 +71,16 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
     offer.timeToExpiration = offer.timeCreate + timeTo * 86400;
 
     offer.shortInfo = uv["shortInfo"].get_str();
-
-    if (offer.shortInfo.size() > 140) {
+    if (numberSings(offer.shortInfo) > DEX_SHORT_INFO_LENGTH) {
         error = "invalid shortInfo";
         return MyOfferInfo();
     }
 
     offer.details = uv["details"].get_str();
+    if (numberSings(offer.details) > DEX_DETAILS_LENGTH) {
+        error = "invalid details";
+        return MyOfferInfo();
+    }
 
     return offer;
 }
@@ -107,4 +110,24 @@ std::pair<uint64_t, bool> priceFromString(std::string strPrice)
 
     uint64_t price = std::strtoull(strPrice.c_str(), nullptr, 10);
     return std::make_pair(price, isCorrect);
+}
+
+int numberSings(const std::string &str)
+{
+    int c,i,ix,q;
+    for (q=0, i=0, ix = str.size(); i < ix; i++, q++) {
+        c = static_cast<unsigned char>(str[i]);
+        if (c>=0 && c<=127) {
+            i+=0;
+        } else if ((c & 0xE0) == 0xC0) {
+            i+=1;
+        } else if ((c & 0xF0) == 0xE0) {
+            i+=2;
+        } else if ((c & 0xF8) == 0xF0) {
+            i+=3;
+        } else {
+            return 0;
+        }
+    }
+    return q;
 }

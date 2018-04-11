@@ -7,7 +7,8 @@ import sys
 import subprocess
 import copy
 
-correct = "{\"type\": \"sell\"" + \
+correct = []
+correct.append("{\"type\": \"sell\"" + \
     ",\"countryIso\": \"RU\"" + \
     ",\"currencyIso\": \"RUB\"" + \
     ",\"paymentMethod\": 1" + \
@@ -15,7 +16,57 @@ correct = "{\"type\": \"sell\"" + \
     ",\"minAmount\": \"10.00\"" + \
     ",\"timeToExpiration\": 10" + \
     ",\"shortInfo\": \"test offer v3\"" + \
-    ",\"details\": \"test offer details\"}"
+    ",\"details\": \"test offer details\"}")
+
+correct.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"" + "a" * 140  + "\"" + \
+    ",\"details\": \"test offer details\"}")
+
+correct.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"" + "ф" * 140  + "\"" + \
+    ",\"details\": \"test offer details\"}")
+
+correct.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"test offer v3\"" + \
+    ",\"details\": \"" + "a" * 768  + "\"}")
+
+correct.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"test offer v3\"" + \
+    ",\"details\": \"" + "ф" * 768  + "\"}")
+
+correct.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"test offer v3\"" + \
+    ",\"details\": \"" + "す" * 768  + "\"}")
 
 incorrect = []
 incorrect.append("{\"type\": \"sell\"" + \
@@ -98,6 +149,36 @@ incorrect.append("{\"type\": \"sell\"" + \
     ",\"shortInfo\": \"" + "x" * 150  + "\"" + \
     ",\"details\": \"test offer details\"}")
 
+incorrect.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"" + "ф" * 150  + "\"" + \
+    ",\"details\": \"test offer details\"}")
+
+incorrect.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"" + "short info\"" + \
+    ",\"details\": \"" + "a" * 769  + "\"}")
+
+incorrect.append("{\"type\": \"sell\"" + \
+    ",\"countryIso\": \"RU\"" + \
+    ",\"currencyIso\": \"RUB\"" + \
+    ",\"paymentMethod\": 1" + \
+    ",\"price\": \"100.005\"" + \
+    ",\"minAmount\": \"10.00\"" + \
+    ",\"timeToExpiration\": 10" + \
+    ",\"shortInfo\": \"" + "short info\"" + \
+    ",\"details\": \"" + "ф" * 769  + "\"}")
+
 def add(pathFile, otherCommand):
     listCmd = []
     listCmd.append(pathFile)
@@ -106,12 +187,13 @@ def add(pathFile, otherCommand):
         listCmd.extend(otherCommand)
     
     listCmd.append("adddexoffer")
-    
-    cmd = copy.copy(listCmd)
-    cmd.append(correct)
-    answer = subprocess.check_output(cmd).decode("utf-8")
-    if answer.find("error") != -1:
-        print("Wrong answer for correct query in add")
+
+    for i, item in enumerate(correct):    
+        cmd = copy.copy(listCmd)
+        cmd.append(item)
+        answer = subprocess.check_output(cmd).decode("utf-8")
+        if answer.find("error") != -1:
+            print("Wrong answer for correct query in: add", i)
 
     for i, item in enumerate(incorrect):
         cmd = copy.copy(listCmd)
@@ -132,7 +214,7 @@ def edit(pathFile, otherCommand):
     
     cmd = copy.copy(listCmd)
     cmd.append("adddexoffer")
-    cmd.append(correct)
+    cmd.append(correct[0])
     
     answer = subprocess.check_output(cmd).decode("utf-8")
     if answer.find("error") == -1:

@@ -20,6 +20,7 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
     addCBoxCurrency(cBoxCurrency);
 
     addTEditShortInfo(tEditShortInfo);
+    addTEditDetailInfo(tEditDetails);
 
     addExpiration(cBoxExpiration, lEditTimeExpiration);
 

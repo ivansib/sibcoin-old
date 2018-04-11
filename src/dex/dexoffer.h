@@ -11,11 +11,6 @@
 #include <univalue.h>
 
 
-
-static const int DEX_SHORT_INFO_LENGTH     =  140;
-static const int DEX_DETAILS_LENGTH        = 1024;
-
-
 class CDexOffer
 {
 private:
