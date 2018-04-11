@@ -113,6 +113,12 @@ bool OfferDetails::confirmationSend()
     return false;
 }
 
+void OfferDetails::messageSyncDexNotFinished()
+{
+    QMessageBox::StandardButton retval = QMessageBox::warning(this, tr("Warning"),
+                                                              tr("Dex synchronization is not complete yet, you need to wait"));
+}
+
 CAmount OfferDetails::transactionPrice(const int &coef) const
 {
     CAmount amount = PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE * coef;

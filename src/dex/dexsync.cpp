@@ -10,6 +10,9 @@
 
 CDexSync dexsync;
 
+const int MIN_NUMBER_DEX_NODE = 4;
+const int MIN_NUMBER_DEX_NODE_TESTNET = 2;
+
 CDexSync::CDexSync()
 {
     status = NoStarted;
@@ -40,6 +43,10 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
 
 void CDexSync::startSyncDex()
 {
+    if (status == NoStarted) {
+        uiInterface.NotifyAdditionalDataSyncProgressChanged(0);
+    }
+
     if (!canStart() || status != NoStarted) {
         return;
     }
@@ -67,7 +74,6 @@ void CDexSync::startSyncDex()
     }
 
     status = Initial;
-    uiInterface.NotifyAdditionalDataSyncProgressChanged(0);
 
     ReleaseNodeVector(vNodesCopy);
 
@@ -89,6 +95,8 @@ std::string CDexSync::getSyncStatus() const
 {
     std::string str;
     switch (status) {
+    case NoStarted:
+    case Started:
     case Initial:
         str = _("Synchronization offers pending...");
         break;
@@ -108,6 +116,16 @@ std::string CDexSync::getSyncStatus() const
 CDexSync::Status CDexSync::statusSync()
 {
     return status;
+}
+
+int CDexSync::minNumDexNode() const
+{
+    int minNumDexNode = MIN_NUMBER_DEX_NODE;
+    if (Params().NetworkIDString() == CBaseChainParams::TESTNET) {
+        minNumDexNode = MIN_NUMBER_DEX_NODE_TESTNET;
+    }
+
+    return minNumDexNode;
 }
 
 void CDexSync::initDB()
@@ -272,7 +290,7 @@ bool CDexSync::canStart()
 
     ReleaseNodeVector(vNodesCopy);
 
-    if (nDex >= MIN_NUMBER_DEX_NODE) {
+    if (nDex >= minNumDexNode()) {
         return true;
     }
 

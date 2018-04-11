@@ -537,8 +537,9 @@ void CheckDexMasternode()
         }
     }
 
-    if ((MAX_OUTBOUND_CONNECTIONS == nOutbound) && nDex < MIN_NUMBER_DEX_NODE) {
-        int nDis = MIN_NUMBER_DEX_NODE - nDex;
+    int minNumDexNode = dexsync.minNumDexNode();
+    if ((MAX_OUTBOUND_CONNECTIONS == nOutbound) && nDex < minNumDexNode) {
+        int nDis = minNumDexNode - nDex;
 
         for (int i = 0; i < nDis; i++) {
             if (nodeToRemove.size() > i) {

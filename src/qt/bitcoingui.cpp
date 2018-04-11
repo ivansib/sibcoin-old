@@ -1122,7 +1122,12 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
     QString strSyncStatus;
     tooltip = tr("Up to date") + QString(".<br>") + tooltip;
 
-    if(masternodeSync.IsSynced()) {
+    bool finishProgress = masternodeSync.IsSynced();
+#ifdef ENABLE_DEX
+    finishProgress = (masternodeSync.IsSynced() && dexsync.isSynced());
+#endif
+
+    if(finishProgress) {
         progressBarLabel->setVisible(false);
         progressBar->setVisible(false);
         labelBlocksIcon->setPixmap(QIcon(":/icons/" + theme + "/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));

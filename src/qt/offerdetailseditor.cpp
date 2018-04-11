@@ -37,12 +37,6 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     btnSaveDraft->setVisible(true);
     btnSend->setVisible(true);
 
-    if (!dexsync.isSynced()) {
-        btnSend->setEnabled(false);
-    } else {
-        btnSend->setEnabled(true);
-    }
-
     offerInfo = info;
 
     lPubKeyView->setText(info.pubKey);
@@ -208,7 +202,9 @@ void OfferDetailsEditor::saveData()
 
 void OfferDetailsEditor::sendData()
 {
-    if (confirmationSend()) {
+    if (!dexsync.isSynced()) {
+        messageSyncDexNotFinished();
+    } else if (confirmationSend()) {
         updateMyOffer();
 
         Q_EMIT dataSend(offerInfo);

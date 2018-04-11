@@ -84,7 +84,6 @@ static const unsigned int DEFAULT_MISBEHAVING_BANTIME = 60 * 60 * 24;  // Defaul
 const int MAX_OUTBOUND_CONNECTIONS = 8;
 const int MAX_OUTBOUND_MASTERNODE_CONNECTIONS = 20;
 const int MAX_FEELER_CONNECTIONS = 1;
-const int MIN_NUMBER_DEX_NODE = 4;
 
 unsigned int ReceiveFloodSize();
 unsigned int SendBufferSize();

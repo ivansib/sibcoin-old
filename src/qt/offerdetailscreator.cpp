@@ -39,12 +39,6 @@ OfferDetailsCreator::~OfferDetailsCreator()
 
 void OfferDetailsCreator::initData()
 {
-    if (!dexsync.isSynced()) {
-        btnSend->setEnabled(false);
-    } else {
-        btnSend->setEnabled(true);
-    }
-
     cBoxOffer->setCurrentIndex(0);
     cBoxCountry->setCurrentData(settings->getCountryIso(CommonSettingsForOffers::EditOffer));
     cBoxCurrency->setCurrentData(settings->getCurrencyIso(CommonSettingsForOffers::EditOffer));
@@ -103,7 +97,9 @@ void OfferDetailsCreator::saveData()
 
 void OfferDetailsCreator::sendData()
 {
-    if (confirmationSend()) {
+    if (!dexsync.isSynced()) {
+        messageSyncDexNotFinished();
+    } else if (confirmationSend()) {
         bool isError;
         QtMyOfferInfo info = getMyOffer(isError);
 

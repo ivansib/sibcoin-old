@@ -2003,6 +2003,14 @@ p, li { white-space: pre-wrap; }
         <source>Confirm send offer?</source>
         <translation>Confirm send offer?</translation>
     </message>
+    <message>
+        <source>Dex synchronization is not complete yet, you need to wait</source>
+        <translation>Dex synchronization is not complete yet, you need to wait</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Warning</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>

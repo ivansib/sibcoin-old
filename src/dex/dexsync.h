@@ -59,6 +59,7 @@ public:
     bool isSynced() const;
     std::string getSyncStatus() const;
     Status statusSync();
+    int minNumDexNode() const;
 
 private:
     DexDB *db;

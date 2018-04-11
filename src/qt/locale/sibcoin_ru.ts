@@ -1664,6 +1664,14 @@ p, li { white-space: pre-wrap; }
         <source>Confirm send offer?</source>
         <translation>Подтвердите отправку предложения?</translation>
     </message>
+    <message>
+        <source>Dex synchronization is not complete yet, you need to wait</source>
+        <translation>Синхронизация Dex еще не завершена, вам нужно подождать</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Внимание</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>

@@ -49,6 +49,7 @@ protected:
 
     QStringList typeOffers() const;
     bool confirmationSend();
+    void messageSyncDexNotFinished();
 
 private:
     QComboBox *boxOffer;
