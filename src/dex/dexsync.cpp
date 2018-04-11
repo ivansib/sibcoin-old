@@ -238,13 +238,17 @@ void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
 
             eraseItemFromOffersNeedDownload(offer.hash);
         }
+
         if (DexDB::bOffersRescan && !db->isExistMyOffer(offer.idTransaction)) {
             CPubKey kPubKeyObj = offer.getPubKeyObject();
             if (kPubKeyObj.IsValid()) {
                 if (pwalletMain->HaveKey(kPubKeyObj.GetID())) {
                     MyOfferInfo mOfferInfo = offer;
-                    mOfferInfo.status = Active;
-                    db->addMyOffer(mOfferInfo);
+
+                    if (dex.CheckOfferTx(error)) {
+                        mOfferInfo.status = Active;
+                        db->addMyOffer(mOfferInfo);
+                    }
                 }
             }
         }
