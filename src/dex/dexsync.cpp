@@ -243,6 +243,7 @@ void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
             if (kPubKeyObj.IsValid()) {
                 if (pwalletMain->HaveKey(kPubKeyObj.GetID())) {
                     MyOfferInfo mOfferInfo = offer;
+                    mOfferInfo.status = Active;
                     db->addMyOffer(mOfferInfo);
                 }
             }
