@@ -333,7 +333,7 @@ UniValue gobject(const UniValue& params, bool fHelp)
             nFailed++;
             statusObj.push_back(Pair("result", "failed"));
             statusObj.push_back(Pair("errorMessage", "Can't find masternode by collateral output"));
-            resultsObj.push_back(Pair("dash.conf", statusObj));
+            resultsObj.push_back(Pair("sibcoin.conf", statusObj));
             returnObj.push_back(Pair("overall", strprintf("Voted successfully %d time(s) and failed %d time(s).", nSuccessful, nFailed)));
             returnObj.push_back(Pair("detail", resultsObj));
             return returnObj;
@@ -344,7 +344,7 @@ UniValue gobject(const UniValue& params, bool fHelp)
             nFailed++;
             statusObj.push_back(Pair("result", "failed"));
             statusObj.push_back(Pair("errorMessage", "Failure to sign."));
-            resultsObj.push_back(Pair("dash.conf", statusObj));
+            resultsObj.push_back(Pair("sibcoin.conf", statusObj));
             returnObj.push_back(Pair("overall", strprintf("Voted successfully %d time(s) and failed %d time(s).", nSuccessful, nFailed)));
             returnObj.push_back(Pair("detail", resultsObj));
             return returnObj;
@@ -361,7 +361,7 @@ UniValue gobject(const UniValue& params, bool fHelp)
             statusObj.push_back(Pair("errorMessage", exception.GetMessage()));
         }
 
-        resultsObj.push_back(Pair("dash.conf", statusObj));
+        resultsObj.push_back(Pair("sibcoin.conf", statusObj));
 
         returnObj.push_back(Pair("overall", strprintf("Voted successfully %d time(s) and failed %d time(s).", nSuccessful, nFailed)));
         returnObj.push_back(Pair("detail", resultsObj));
