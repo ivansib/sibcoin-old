@@ -175,20 +175,27 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
 {
     CountryInfo info;
 
-    std::string query = "SELECT name, enabled FROM countries WHERE iso = '" + iso + "'";
-    sqlite3pp::query qry(db, query.c_str());
+    if (isGetCountriesDataFromDB) {
+        std::string query = "SELECT name, enabled FROM countries WHERE iso = '" + iso + "'";
+        sqlite3pp::query qry(db, query.c_str());
 
-    sqlite3pp::query::iterator i = qry.begin();
-    std::string name;
-    bool enabled;
-    std::tie(name, enabled) = (*i).get_columns<std::string, bool>(0, 1);
+        sqlite3pp::query::iterator i = qry.begin();
+        std::string name;
+        bool enabled;
+        std::tie(name, enabled) = (*i).get_columns<std::string, bool>(0, 1);
 
-    info.iso = iso;
-    info.name = name;
-    info.enabled = enabled;
+        info.iso = iso;
+        info.name = name;
+        info.enabled = enabled;
 
-    int status = qry.finish();
-    finishTableOperation(callBack, Countries, Read, status);
+        int status = qry.finish();
+        finishTableOperation(callBack, Countries, Read, status);
+    } else {
+        auto found = std::find_if(countries.begin(), countries.end(), [iso](CountryInfo info){ return info.iso == iso; });
+        if (found != countries.end()) {
+            info = *found;
+        }
+    }
 
     return info;
 }
@@ -252,23 +259,30 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
 {
     CurrencyInfo info;
 
-    std::string query = "SELECT name, symbol, enabled FROM currencies WHERE iso = '" + iso + "'";
+    if (isGetCurrenciesDataFromDB) {
+        std::string query = "SELECT name, symbol, enabled FROM currencies WHERE iso = '" + iso + "'";
 
-    sqlite3pp::query qry(db, query.c_str());
+        sqlite3pp::query qry(db, query.c_str());
 
-    sqlite3pp::query::iterator i = qry.begin();
-    std::string name;
-    std::string symbol;
-    bool enabled;
-    std::tie(name, symbol, enabled) = (*i).get_columns<std::string, std::string, bool>(0, 1, 2);
+        sqlite3pp::query::iterator i = qry.begin();
+        std::string name;
+        std::string symbol;
+        bool enabled;
+        std::tie(name, symbol, enabled) = (*i).get_columns<std::string, std::string, bool>(0, 1, 2);
 
-    info.iso = iso;
-    info.name = name;
-    info.symbol = symbol;
-    info.enabled = enabled;
+        info.iso = iso;
+        info.name = name;
+        info.symbol = symbol;
+        info.enabled = enabled;
 
-    int status = qry.finish();
-    finishTableOperation(callBack, Currencies, Read, status);
+        int status = qry.finish();
+        finishTableOperation(callBack, Currencies, Read, status);
+    } else {
+        auto found = std::find_if(currencies.begin(), currencies.end(), [iso](CurrencyInfo info){ return info.iso == iso; });
+        if (found != currencies.end()) {
+            info = *found;
+        }
+    }
 
     return info;
 }

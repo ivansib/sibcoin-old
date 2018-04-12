@@ -165,7 +165,7 @@ void checkCountry(DexDB *db)
     BOOST_CHECK(size == 245);
 
     auto front = cList.front();
-    cList.pop_back();
+    cList.pop_front();
     cList.push_back(front);
 
     db->editCountries(cList);
@@ -194,7 +194,7 @@ void checkCurrency(DexDB *db)
     BOOST_CHECK(size == 145);
 
     auto front = cList.front();
-    cList.pop_back();
+    cList.pop_front();
     cList.push_back(front);
 
     db->editCurrencies(cList);
