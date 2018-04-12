@@ -171,6 +171,7 @@ void OfferDetailsEditor::updateMyOffer()
         offerInfo.shortInfo = tEditShortInfo->toPlainText();
         offerInfo.details = tEditDetails->toPlainText();
     } else {
+        offerInfo.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
         offerInfo.countryIso = cBoxCountry->currentData().toString();
         offerInfo.currencyIso = cBoxCurrency->currentData().toString();
         offerInfo.paymentMethod = cBoxPayment->currentData().toInt();
