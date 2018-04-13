@@ -16,7 +16,7 @@ CommonSettingsForOffersWidget::CommonSettingsForOffersWidget(DexDB *db, QWidget 
     connect(cBoxCountry, SIGNAL(currentIndexChanged(int)), this, SLOT(changedData(int)));
     connect(cBoxCurrency, SIGNAL(currentIndexChanged(int)), this, SLOT(changedData(int)));
     connect(cBoxPayment, SIGNAL(currentIndexChanged(int)), this, SLOT(changedData(int)));
-    connect(sEditMinAmount, SIGNAL(valueChanged(int)), this, SLOT(changedData(int)));
+    connect(sEditMinAmount, SIGNAL(valueChanged(quint64)), this, SLOT(changedData(quint64)));
 }
 
 CommonSettingsForOffersWidget::~CommonSettingsForOffersWidget()
@@ -46,6 +46,11 @@ void CommonSettingsForOffersWidget::setData()
 }
 
 void CommonSettingsForOffersWidget::changedData(int)
+{
+    Q_EMIT dataChanged();
+}
+
+void CommonSettingsForOffersWidget::changedData(quint64)
 {
     Q_EMIT dataChanged();
 }

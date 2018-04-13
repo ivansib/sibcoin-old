@@ -26,6 +26,7 @@ private:
 
 private Q_SLOTS:
     void changedData(int);
+    void changedData(quint64);
 
 Q_SIGNALS:
     void dataChanged();
