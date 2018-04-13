@@ -32,6 +32,7 @@ SettingsDialog::SettingsDialog(DexDB *db, QDialog *parent) : QDialog(parent), ui
     connect(ui->btnBox, SIGNAL(rejected()), this, SLOT(cancel()));
 
     currentCommon();
+    ui->btnCommon->setChecked(true);
 }
 
 SettingsDialog::~SettingsDialog()
