@@ -7604,6 +7604,14 @@ rpcpassword=%s
         <translation>Синхронизация выплат мастернодам...</translation>
     </message>
     <message>
+        <source>Synchronization offers doesn't start...</source>
+        <translation>Синхронизации предложений еще не начата...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers started...</source>
+        <translation>Старт синхронизации предложений...</translation>
+    </message>
+    <message>
         <source>Synchronization offers pending...</source>
         <translation>Ожидание синхронизации предложений...</translation>
     </message>

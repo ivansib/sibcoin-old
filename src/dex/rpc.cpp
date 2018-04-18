@@ -16,6 +16,7 @@
 #include "streams.h"
 #include <algorithm>
 #include "dexoffer.h"
+#include "dexsync.h"
 #include "random.h"
 #include "dex/db/dexdb.h"
 #include "dex.h"
@@ -735,3 +736,42 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
     result.push_back(Pair("new hash", myOffer.hash.GetHex()));
     return result;
 }
+
+UniValue dexsync(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+                "dexsync [status|reset]\n"
+                "if status that returns status synchronization dex\n"
+
+                "\nExample:\n"
+                + HelpExampleCli("dexsync", "status")
+                );
+
+    UniValue result(UniValue::VOBJ);
+
+    std::string key = params[0].get_str();
+    if (key == "status") {
+        auto status =  dex::dexsync.getSyncStatus();
+        result.push_back(Pair("status", status));
+    } else if (key == "reset") {
+        dex::dexsync.reset();
+    } else {
+        throw runtime_error("\nwrong parameter " + key + "\n");
+    }
+
+    return result;
+}
+

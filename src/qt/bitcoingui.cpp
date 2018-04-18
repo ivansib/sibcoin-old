@@ -1114,6 +1114,11 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
     // Prevent orphan statusbar messages (e.g. hover Quit in main menu, wait until chain-sync starts -> garbelled text)
     statusBar()->clearMessage();
 
+    if (!progressBar->isVisible()) {
+        progressBarLabel->setVisible(true);
+        progressBar->setVisible(true);
+    }
+
     QString tooltip;
 
     // Set icon state: spinning if catching up, tick otherwise

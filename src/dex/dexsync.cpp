@@ -54,6 +54,7 @@ void CDexSync::startSyncDex()
     }
 
     status = Started;
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(0.01);
 
     LogPrint(NULL, "startSyncDex -- start synchronization offers\n");
     maxOffersNeedDownload = 0;
@@ -76,6 +77,7 @@ void CDexSync::startSyncDex()
     }
 
     status = Initial;
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(0.1);
 
     ReleaseNodeVector(vNodesCopy);
 
@@ -98,7 +100,11 @@ std::string CDexSync::getSyncStatus() const
     std::string str;
     switch (status) {
     case NoStarted:
+        str = _("Synchronization offers doesn't start...");
+        break;
     case Started:
+        str = _("Synchronization offers started...");
+        break;
     case Initial:
         str = _("Synchronization offers pending...");
         break;
@@ -128,6 +134,12 @@ int CDexSync::minNumDexNode() const
     }
 
     return minNumDexNode;
+}
+
+void CDexSync::reset()
+{
+    status = NoStarted;
+    startSyncDex();
 }
 
 void CDexSync::initDB()
@@ -274,7 +286,7 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
         offersNeedDownload.erase(it);
     }
 
-    float percent = 1 - static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    float percent = 1 - 0.9 * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
 
     if (offersNeedDownload.size() == 0) {
         finishSyncDex();

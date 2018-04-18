@@ -9069,6 +9069,14 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
         <translation>Synchronizing masternode payments...</translation>
     </message>
     <message>
+        <source>Synchronization offers doesn't start...</source>
+        <translation>Synchronization offers doesn't start...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers started...</source>
+        <translation>Synchronization offers started...</translation>
+    </message>
+    <message>
         <source>Synchronization offers pending...</source>
         <translation>Synchronization offers pending...</translation>
     </message>

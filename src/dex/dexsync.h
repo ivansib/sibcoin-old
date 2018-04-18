@@ -60,6 +60,7 @@ public:
     std::string getSyncStatus() const;
     Status statusSync();
     int minNumDexNode() const;
+    void reset();
 
 private:
     DexDB *db;
