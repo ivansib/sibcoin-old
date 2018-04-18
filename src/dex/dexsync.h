@@ -6,10 +6,10 @@
 #include "net.h"
 #include "dex/db/dexdb.h"
 
+namespace dex {
+
 class CDexSync;
 extern CDexSync dexsync;
-
-using namespace dex;
 
 class  Timer {
 private:
@@ -80,5 +80,7 @@ private:
 
 void DexConnectSignals();
 void FinishSyncDex();
+
+}
 
 #endif //DEXSYNC_H

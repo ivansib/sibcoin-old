@@ -11,14 +11,15 @@
 #include <univalue.h>
 #include <string.h>
 
+namespace dex {
 
 const char * OFFER_TYPE_BUY  =  "buy";
 const char * OFFER_TYPE_SELL = "sell";
 
 
-dex::CurrencyIso  defaultCurrencyIso;
-dex::CountryIso   defaultCountryIso;
-dex::PaymentMethodType defaultPaymentMethod;
+CurrencyIso  defaultCurrencyIso;
+CountryIso   defaultCountryIso;
+PaymentMethodType defaultPaymentMethod;
 
 
 CDexOffer::CDexOffer()
@@ -464,4 +465,4 @@ bool CDexOffer::CheckEditSign()
     return false;
 }
 
-
+}

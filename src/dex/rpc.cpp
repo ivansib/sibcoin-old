@@ -40,7 +40,6 @@
 using namespace std;
 
 
-
 UniValue dexoffers(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {

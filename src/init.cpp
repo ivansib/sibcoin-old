@@ -2022,7 +2022,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
 #ifdef ENABLE_DEX
    threadGroup.create_thread(boost::bind(&ThreadDexManager));
-   DexConnectSignals();
+   dex::DexConnectSignals();
 #endif
 
     threadGroup.create_thread(boost::bind(&ThreadSendAlert));

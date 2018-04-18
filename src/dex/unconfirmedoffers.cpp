@@ -1,5 +1,7 @@
 #include "unconfirmedoffers.h"
 
+namespace dex {
+
 UnconfirmedOffers::UnconfirmedOffers()
 {
 
@@ -64,4 +66,6 @@ void UnconfirmedOffers::deleteOldOffers()
 void UnconfirmedOffers::deleteOffer(const uint256 &hash)
 {
     offers.remove_if([hash](OfferTime o){ return o.offer.hash == hash; });
+}
+
 }

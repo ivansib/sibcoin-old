@@ -8,6 +8,8 @@
 #include "pubkey.h"
 #include "wallet.h"
 
+namespace dex {
+
 CDexSync dexsync;
 
 const int MIN_NUMBER_DEX_NODE = 4;
@@ -314,4 +316,6 @@ void FinishSyncDex()
     if (dexsync.statusSync() == CDexSync::Initial) {
         dexsync.finishSyncDex();
     }
+}
+
 }

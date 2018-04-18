@@ -25,6 +25,7 @@
 
 
 
+namespace dex {
 
 bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std::string &sError)
 {
@@ -57,4 +58,5 @@ bool CreatePayOfferTransaction(const CDexOffer &offer, CTransaction &newTx, std:
     return false;
 }
 
+}
 

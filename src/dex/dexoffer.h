@@ -10,6 +10,7 @@
 #include "dex/db/dexdto.h"
 #include <univalue.h>
 
+namespace dex {
 
 class CDexOffer
 {
@@ -125,6 +126,6 @@ public:
 
 };
 
-
+}
 
 #endif // __DEX_OFFER_H__

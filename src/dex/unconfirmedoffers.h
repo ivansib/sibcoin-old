@@ -4,6 +4,8 @@
 #include <ctime>
 #include "dexoffer.h"
 
+namespace dex {
+
 class UnconfirmedOffers {
 public:
     UnconfirmedOffers();
@@ -24,5 +26,7 @@ private:
 
     std::list<OfferTime> offers;
 };
+
+}
 
 #endif

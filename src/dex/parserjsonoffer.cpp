@@ -4,6 +4,8 @@
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
 
+namespace dex {
+
 MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
 {
     MyOfferInfo offer;
@@ -130,4 +132,6 @@ int numberSings(const std::string &str)
         }
     }
     return q;
+}
+
 }

@@ -1124,7 +1124,7 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
 
     bool finishProgress = masternodeSync.IsSynced();
 #ifdef ENABLE_DEX
-    finishProgress = (masternodeSync.IsSynced() && dexsync.isSynced());
+    finishProgress = (masternodeSync.IsSynced() && dex::dexsync.isSynced());
 #endif
 
     if(finishProgress) {
@@ -1150,8 +1150,8 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
 
     strSyncStatus = QString(masternodeSync.GetSyncStatus().c_str());
 #ifdef ENABLE_DEX
-    if (masternodeSync.IsSynced() && !dexsync.isSynced()) {
-        strSyncStatus = QString(dexsync.getSyncStatus().c_str());
+    if (masternodeSync.IsSynced() && !dex::dexsync.isSynced()) {
+        strSyncStatus = QString(dex::dexsync.getSyncStatus().c_str());
     }
 #endif
     progressBarLabel->setText(strSyncStatus);

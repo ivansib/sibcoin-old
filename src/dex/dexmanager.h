@@ -11,10 +11,10 @@
 #include "dexoffer.h"
 #include "unconfirmedoffers.h"
 
+namespace dex {
+
 class CDexManager;
 extern CDexManager dexman;
-
-using namespace dex;
 
 static const int MIN_DEX_PROTO_VERSION = 70207;
 
@@ -52,6 +52,8 @@ private:
 
     void saveMyOffer(const MyOfferInfo &info);
 };
+
+}
 
 void ThreadDexManager();
 void CheckDexMasternode();

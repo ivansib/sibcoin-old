@@ -6398,8 +6398,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             masternodeSync.ProcessMessage(pfrom, strCommand, vRecv);
             governance.ProcessMessage(pfrom, strCommand, vRecv);
 #ifdef ENABLE_DEX
-            dexman.ProcessMessage(pfrom, strCommand, vRecv);
-            dexsync.ProcessMessage(pfrom, strCommand, vRecv);
+            dex::dexman.ProcessMessage(pfrom, strCommand, vRecv);
+            dex::dexsync.ProcessMessage(pfrom, strCommand, vRecv);
 #endif
 
         }

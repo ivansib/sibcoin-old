@@ -18,6 +18,7 @@
 
 #define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrint("dex", "%s\n", str.c_str()); sError += str; break; } }
 
+namespace dex {
 
 CDex::CDex()
 {
@@ -206,3 +207,4 @@ bool CDex::MakeEditSign(const CKey &key, std::string &sError)
 #endif
 }
 
+}
