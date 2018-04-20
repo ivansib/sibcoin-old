@@ -354,64 +354,69 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     vRecv >> offer;
     vRecv >> vchSign;
     offer.editsign = HexStr(vchSign);
-    if (offer.Check(true) && offer.CheckEditSign()) {
-        CDex dex(offer);
-        std::string error;
-        bool isActual = false;
-        if (dex.CheckOfferTx(error)) {
-            if (offer.isBuy()) {
-                if (db->isExistOfferBuy(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
-                    if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferBuy(offer);
+    if (offer.Check(true)) {
+        if (offer.CheckEditSign()) {
+            CDex dex(offer);
+            std::string error;
+            bool isActual = false;
+            if (dex.CheckOfferTx(error)) {
+                if (offer.isBuy()) {
+                    if (db->isExistOfferBuy(offer.idTransaction)) {
+                        OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
+                        if (offer.editingVersion > existOffer.editingVersion) {
+                            db->editOfferBuy(offer);
+                            isActual = true;
+                        }
+                    } else {
+                        db->addOfferBuy(offer);
                         isActual = true;
                     }
-                } else {
-                    db->addOfferBuy(offer);
-                    isActual = true;
                 }
-            }
 
-            if (offer.isSell()) {
-                if (db->isExistOfferSell(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
+                if (offer.isSell()) {
+                    if (db->isExistOfferSell(offer.idTransaction)) {
+                        OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
+                        if (offer.editingVersion > existOffer.editingVersion) {
+                            db->editOfferSell(offer);
+                            isActual = true;
+                        }
+                    } else {
+                        db->addOfferSell(offer);
+                        isActual = true;
+                    }
+                }
+                LogPrint("dex", "DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
+            } else {
+                if (uncOffers->isExistOffer(offer.hash)) {
+                    OfferInfo existOffer = uncOffers->getOffer(offer.hash);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferSell(offer);
+                        uncOffers->deleteOffer(offer.hash);
+                        uncOffers->setOffer(offer);
                         isActual = true;
                     }
                 } else {
-                    db->addOfferSell(offer);
-                    isActual = true;
-                }
-            }
-            LogPrint("dex", "DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
-        } else {
-            if (uncOffers->isExistOffer(offer.hash)) {
-                OfferInfo existOffer = uncOffers->getOffer(offer.hash);
-                if (offer.editingVersion > existOffer.editingVersion) {
-                    uncOffers->deleteOffer(offer.hash);
                     uncOffers->setOffer(offer);
                     isActual = true;
                 }
-            } else {
-                uncOffers->setOffer(offer);
-                isActual = true;
+                LogPrint("dex", "DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
-            LogPrint("dex", "DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
-        }
-        if (isActual) {
-            auto vNodesCopy = CopyNodeVector();
-            for (auto pNode : vNodesCopy) {
-                if (pNode->nVersion < MIN_DEX_VERSION) {
-                    continue;
+            if (isActual) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
+                    if (pNode->addr != pfrom->addr) {
+                        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
+                    }
                 }
 
-                if (pNode->addr != pfrom->addr) {
-                    pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
-                }
+                ReleaseNodeVector(vNodesCopy);
             }
-
-            ReleaseNodeVector(vNodesCopy);
+        } else {
+            LogPrint("dex", "DEXOFFEDIT -- reach the limit for editing a offer\n");
+            Misbehaving(pfrom->GetId(), 5);
         }
     } else {
         LogPrint("dex", "DEXOFFEDIT -- offer check fail\n");
