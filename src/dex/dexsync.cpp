@@ -198,9 +198,14 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 
     auto offer = dexman.getOfferInfo(hash);
 
-    if (offer.Check(true)) {
-        LogPrint("dex", "DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
-        pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
+    if (!offer.IsNull()) {
+        if (offer.Check(true)) {
+            LogPrint("dex", "DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
+            pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
+        }
+    } else {
+        LogPrint("dex", "DEXSYNCGETOFFER -- offer with hash = %s not found\n", hash.GetHex().c_str());
+        Misbehaving(pfrom->GetId(), 1);
     }
 }
 
