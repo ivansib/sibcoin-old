@@ -25,8 +25,10 @@ private:
     void setData();
 
 private Q_SLOTS:
+    void changedData();
     void changedData(int);
     void changedData(quint64);
+    void changedShowMaxRows();
 
 Q_SIGNALS:
     void dataChanged();

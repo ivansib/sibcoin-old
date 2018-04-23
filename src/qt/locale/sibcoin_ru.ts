@@ -2019,8 +2019,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CommonSettingsForOffersWidget</name>
     <message>
-        <source>Default Settings</source>
-        <translation type="unfinished">Настройки по умолчанию</translation>
+        <source>Default settings</source>
+        <translation>Настройки по умолчанию</translation>
+    </message>
+    <message>
+        <source>Default settings for details</source>
+        <translation>Настройки для детальной информации</translation>
+    </message>
+    <message>
+        <source>Number of rows in tables:</source>
+        <translation>Количество строк в таблице</translation>
+    </message>
+        <message>
+        <source>Show max rows</source>
+        <translation>Показывать максимальное количество строк</translation>
     </message>
     <message>
         <source>Country:</source>

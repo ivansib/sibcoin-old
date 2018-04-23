@@ -145,3 +145,35 @@ void CommonSettingsForOffers::setMinAmount(const quint64 &min)
     settings->setValue("minAmount", min);
     settings->endGroup();
 }
+
+int CommonSettingsForOffers::getNumRowsTables()
+{
+    settings->beginGroup("default");
+    int num = settings->value("numRowsTables", 200).toInt();
+    settings->endGroup();
+
+    return num;
+}
+
+void CommonSettingsForOffers::setNumRowsTables(const int &num)
+{
+    settings->beginGroup("default");
+    settings->setValue("numRowsTables", num);
+    settings->endGroup();
+}
+
+bool CommonSettingsForOffers::getShowMaxRowsTables()
+{
+    settings->beginGroup("default");
+    bool isShow = settings->value("showMaxRowsTables", false).toBool();
+    settings->endGroup();
+
+    return isShow;
+}
+
+void CommonSettingsForOffers::setShowMaxRowsTables(const bool isShow)
+{
+    settings->beginGroup("default");
+    settings->setValue("showMaxRowsTables", isShow);
+    settings->endGroup();
+}

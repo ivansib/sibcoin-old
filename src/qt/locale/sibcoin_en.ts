@@ -2360,8 +2360,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CommonSettingsForOffersWidget</name>
     <message>
-        <source>Default Settings</source>
-        <translation>Default Settings</translation>
+        <source>Default settings</source>
+        <translation>Default settings</translation>
+    </message>
+    <message>
+        <source>Default settings for details</source>
+        <translation>Default settings for details</translation>
+    </message>
+    <message>
+        <source>Number of rows in tables:</source>
+        <translation>Number of rows in tables:</translation>
+    </message>
+        <message>
+        <source>Show max rows</source>
+        <translation>Show max rows</translation>
     </message>
     <message>
         <source>Country:</source>
