@@ -4,7 +4,7 @@
 template <class Offer>
 OfferModel<Offer>::OfferModel(QObject *parent) : QAbstractTableModel(parent)
 {
-
+    settings = CommonSettingsForOffers::instance();
 }
 
 template <class Offer>
@@ -53,12 +53,6 @@ void OfferModel<Offer>::setFilterTypeOffer(const int &typeOffer)
 }
 
 template <class Offer>
-int OfferModel<Offer>::rows() const
-{
-    return offersView.size();
-}
-
-template <class Offer>
 Offer OfferModel<Offer>::offerInfo(const int &row)
 {
     if (row < offersView.size()) {
@@ -71,6 +65,10 @@ Offer OfferModel<Offer>::offerInfo(const int &row)
 template <class Offer>
 int OfferModel<Offer>::rowCount(const QModelIndex &parent) const
 {
+    if (!settings->getShowMaxRowsTables() && settings->getNumRowsTables() < offersView.size()) {
+        return settings->getNumRowsTables();
+    }
+
     return offersView.size();
 }
 

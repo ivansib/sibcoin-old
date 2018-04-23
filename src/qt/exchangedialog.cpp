@@ -33,6 +33,10 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     connect(ui->btnExchanges, SIGNAL(clicked()), this, SLOT(currentPageExchanges()));
     connect(ui->btnSettings, SIGNAL(clicked()), this, SLOT(currentPageSettings()));
 
+    connect(settings, SIGNAL(dataChanged()), tableBuy, SLOT(updateData()));
+    connect(settings, SIGNAL(dataChanged()), tableSell, SLOT(updateData()));
+    connect(settings, SIGNAL(dataChanged()), tableMyOffers, SLOT(updateData()));
+
     currentPageBuy();
     ui->btnBuy->setChecked(true);
 }

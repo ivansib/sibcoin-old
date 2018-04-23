@@ -20,7 +20,7 @@ CommonSettingsForOffersWidget::CommonSettingsForOffersWidget(DexDB *db, QWidget 
     connect(chBoxMaxRows, SIGNAL(clicked()), this, SLOT(changedData()));
     connect(sBoxNumRows, SIGNAL(valueChanged(int)), this, SLOT(changedData(int)));
 
-    connect(chBoxMaxRows, SIGNAL(clicked()), this, SLOT(changedShowMaxRows()));
+    connect(chBoxMaxRows, SIGNAL(toggled(bool)), this, SLOT(changedShowMaxRows(bool)));
 }
 
 CommonSettingsForOffersWidget::~CommonSettingsForOffersWidget()
@@ -51,6 +51,8 @@ void CommonSettingsForOffersWidget::setData()
     sEditMinAmount->setValue(settings->getMinAmount());
     chBoxMaxRows->setChecked(settings->getShowMaxRowsTables());
     sBoxNumRows->setValue(settings->getNumRowsTables());
+
+    changedShowMaxRows(settings->getShowMaxRowsTables());
 }
 
 void CommonSettingsForOffersWidget::changedData()
@@ -68,11 +70,7 @@ void CommonSettingsForOffersWidget::changedData(quint64)
     Q_EMIT dataChanged();
 }
 
-void CommonSettingsForOffersWidget::changedShowMaxRows()
+void CommonSettingsForOffersWidget::changedShowMaxRows(bool isCheked)
 {
-    if (chBoxMaxRows->isChecked()) {
-        sBoxNumRows->setEnabled(false);
-    } else {
-        sBoxNumRows->setEnabled(true);
-    }
+    sBoxNumRows->setEnabled(!isCheked);
 }

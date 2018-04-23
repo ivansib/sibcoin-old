@@ -28,7 +28,7 @@ private Q_SLOTS:
     void changedData();
     void changedData(int);
     void changedData(quint64);
-    void changedShowMaxRows();
+    void changedShowMaxRows(bool isCheked);
 
 Q_SIGNALS:
     void dataChanged();

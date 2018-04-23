@@ -25,8 +25,10 @@ private:
     CallBackDbForGui *callBack;
     WalletModel *model;
 
-    void updateData();
     void saveMyOffer(const MyOfferInfo &info);
+
+public Q_SLOTS:
+    void updateData();
 
 protected Q_SLOTS:
     virtual void clickedButton(const int &index);

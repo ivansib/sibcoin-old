@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include <QStringList>
+#include "commonsettingsforoffers.h"
 #include "dto.h"
 
 template <class Offer>
@@ -18,7 +19,6 @@ public:
     void setFilterCurrencyIso(const QString &iso);
     void setFilterPaymentMethod(const uint8_t &payment);
     void setFilterTypeOffer(const int &typeOffer);
-    int rows() const;
 
     Offer offerInfo(const int &row);
 
@@ -32,6 +32,8 @@ protected:
 
     QList<Offer> offers;
     QList<Offer> offersView;
+    CommonSettingsForOffers *settings;
+
 
     QString countryIso;
     QString currencyIso;
