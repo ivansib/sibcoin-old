@@ -55,9 +55,9 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
         );
     }
 
-    if (fHelp || params.size() < 1 || params.size() > 4)
+    if (fHelp || params.size() < 1 || params.size() > 6)
         throw runtime_error(
-            "dexoffers [buy|sell|all] [country] [currency] [payment_method]\n"
+            "dexoffers [buy|sell|all] [country] [currency] [payment_method] [maxoutput N]\n"
             "Get DEX offers list.\n"
 
             "\nArguments:\n"
@@ -65,6 +65,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             "\tcountry         (string, optional) two-letter country code (ISO 3166-1 alpha-2 code).\n"
             "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
             "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
+            "\tmaxoutput N     (int, optional) N max output offers, default use global settings"
 
             "\nResult (for example):\n"
             "[\n"
@@ -89,6 +90,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             + HelpExampleCli("dexoffers", "all USD")
             + HelpExampleCli("dexoffers", "RU RUB cash")
             + HelpExampleCli("dexoffers", "all USD online")
+            + HelpExampleCli("dexoffers", "all USD maxoutput 3")
         );
 
     UniValue result(UniValue::VARR);
@@ -100,7 +102,19 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
     dex::CountryIso  countryiso;
     dex::CurrencyIso currencyiso;
 
+    int max = 0;
+
     for (size_t i = 0; i < params.size(); i++) {
+        if (params[i].get_str() == "maxoutput") {
+            if (i == 0 || params.size() <= i+1) {
+                throw runtime_error("\nnot enough parameters\n");
+            }
+
+            std::string maxStr = params[i+1].get_str();
+            max = std::stoi(maxStr);
+            break;
+        }
+
         if (i == 0 && typefilter.empty()) {
             if (std::find(words.begin(), words.end(), params[0].get_str()) != words.end()) {
                 typefilter = params[0].get_str();
@@ -164,7 +178,10 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
         }
     }
 
-
+    if (max == 0) {
+        max = maxOutput();
+    }
+    int step = 0;
 
     if (typefilter == "buy" || typefilter == "all") {
         std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersBuy();
@@ -174,10 +191,18 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
           if (methodfilter   != "*" && methodfiltertype != i.paymentMethod) continue;
           CDexOffer o(i, dex::Buy);
           result.push_back(o.getUniValue());
+
+          if (max > 0) {
+              step++;
+
+              if (step == max) {
+                  break;
+              }
+          }
         }
     }
 
-    if (typefilter == "sell" || typefilter == "all") {
+    if ((typefilter == "sell" || typefilter == "all") && !(max > 0 && step == max)) {
         std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersSell();
         for (auto i : offers) {
           if (countryfilter  != "*" && countryfilter    != i.countryIso   ) continue;
@@ -185,6 +210,14 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
           if (methodfilter   != "*" && methodfiltertype != i.paymentMethod) continue;
           CDexOffer o(i, dex::Sell);
           result.push_back(o.getUniValue());
+
+          if (max > 0) {
+              step++;
+
+              if (step == max) {
+                  break;
+              }
+          }
         }
     }
 
@@ -206,9 +239,9 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "DexDB is not initialized.\n"
         );
     }
-    if (fHelp || params.size() < 1 || params.size() > 5)
+    if (fHelp || params.size() < 1 || params.size() > 7)
         throw runtime_error(
-            "dexmyoffers [buy|sell|all] [country] [currency] [payment_method] [status]\n"
+            "dexmyoffers [buy|sell|all] [country] [currency] [payment_method] [status] [maxoutput N]\n"
             "Return a list of  DEX own offers.\n"
 
             "\nArguments:\n"
@@ -217,6 +250,7 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
             "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
             "\tstatus          (string, optional, case insensitive) offer status (Active,Draft,Expired,Cancelled,Suspended,Unconfirmed).\n"
+            "\tmaxoutput N     (int, optional) N max output offers, default use global settings"
 
             "\nResult (for example):\n"
             "[\n"
@@ -244,6 +278,7 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             + HelpExampleCli("dexmyoffers", "all USD")
             + HelpExampleCli("dexmyoffers", "RU RUB cash")
             + HelpExampleCli("dexmyoffers", "all USD online")
+            + HelpExampleCli("dexmyoffers", "all USD maxoutput 3")
         );
 
     UniValue result(UniValue::VARR);
@@ -256,7 +291,19 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
     dex::CountryIso  countryiso;
     dex::CurrencyIso currencyiso;
 
+    int max = 0;
+
     for (size_t i = 0; i < params.size(); i++) {
+        if (params[i].get_str() == "maxoutput") {
+            if (i == 0 || params.size() <= i+1) {
+                throw runtime_error("\nnot enough parameters\n");
+            }
+
+            std::string maxStr = params[i+1].get_str();
+            max = std::stoi(maxStr);
+            break;
+        }
+
         if (i == 0 && typefilter.empty()) {
             if (std::find(words.begin(), words.end(), params[0].get_str()) != words.end()) {
                 typefilter = params[0].get_str();
@@ -265,6 +312,7 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
                 typefilter = "all";
             }
         }
+
         if (i < 2 && countryfilter.empty()) {
             if (countryiso.isValid(params[i].get_str())) {
                 countryfilter = params[i].get_str();
@@ -330,6 +378,11 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
     }
 
     std::list<dex::MyOfferInfo> myoffers = dex::DexDB::self()->getMyOffers();
+
+    if (max == 0) {
+        max = maxOutput();
+    }
+    int step = 0;
     for (auto i : myoffers) {
         if (typefilter == "buy"   && i.type != dex::Buy ) continue;
         if (typefilter == "sell"  && i.type != dex::Sell) continue;
@@ -342,6 +395,14 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
         v.push_back(Pair("status", i.status));
         v.push_back(Pair("statusStr", status.status2str(i.status)));
         result.push_back(v);
+
+        if (max > 0) {
+            step++;
+
+            if (step == max) {
+                break;
+            }
+        }
     }
     return result;
 }
