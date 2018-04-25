@@ -775,3 +775,51 @@ UniValue dexsync(const UniValue& params, bool fHelp)
     return result;
 }
 
+UniValue dexsettings(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+
+    if (fHelp || params.size() < 1 || params.size() > 2)
+        throw runtime_error(
+                "dexsettings [maxoutput num]\n"
+                "maxoutput return max number output offer dex\n"
+                "num - (number, optional) if num not empty changed max number output, if num == 0 show all"
+
+                "\nExample:\n"
+                + HelpExampleCli("dexsettings", "maxoutput 100")
+                );
+
+    UniValue result(UniValue::VOBJ);
+
+    std::string key = params[0].get_str();
+    if (key == "maxoutput") {
+        int num;
+        if (params.size() == 2) {
+            num = params[1].get_int();
+            changedMaxOutput(num);
+        } else {
+            num = maxOutput();
+        }
+
+        if (num == 0) {
+            result.push_back(Pair("maxoutput", "all"));
+        } else {
+            result.push_back(Pair("maxoutput", num));
+        }
+    } else {
+        throw runtime_error("\nwrong parameter " + key + "\n");
+    }
+
+    return result;
+}
+

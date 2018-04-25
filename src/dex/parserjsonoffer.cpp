@@ -3,6 +3,8 @@
 #include "parserjsonoffer.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
 
 namespace dex {
 
@@ -132,6 +134,37 @@ int numberSings(const std::string &str)
         }
     }
     return q;
+}
+
+int maxOutput()
+{
+    boost::filesystem::path pathSettings = GetDataDir() / DEX_CONFIG;
+    boost::property_tree::ptree pt;
+    boost::property_tree::ini_parser::read_ini(pathSettings.string(), pt);
+    bool show = pt.get<bool>("default.showMaxRowsTables", false);
+    int max = pt.get<int>("default.numRowsTables", DEX_MAX_ROWS_OUTPUT);
+
+    if (show) {
+        return 0;
+    }
+
+    return max;
+}
+
+void changedMaxOutput(const int &max) // NOTE: Start here, rewrite showMaxRowsTables, check write in empty file
+{
+    boost::filesystem::path pathSettings = GetDataDir() / DEX_CONFIG;
+    boost::property_tree::ptree pt;
+    boost::property_tree::ini_parser::read_ini(pathSettings.string(), pt);
+
+    if (max == 0) {
+        pt.put("default.showMaxRowsTables", true);
+    } else {
+        pt.put("default.showMaxRowsTables", false);
+        pt.put("default.numRowsTables", max);
+    }
+
+    boost::property_tree::ini_parser::write_ini(pathSettings.string(), pt);
 }
 
 }

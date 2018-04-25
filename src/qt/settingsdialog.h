@@ -22,6 +22,8 @@ public:
     SettingsDialog(DexDB *db, QDialog *parent = nullptr);
     ~SettingsDialog();
 
+    void update();
+
 private:
     Ui::SettingsDialog *ui;
     DexDB *db;

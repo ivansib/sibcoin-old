@@ -9,6 +9,9 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error);
 std::pair<uint64_t, bool> priceFromString(std::string strPrice);
 int numberSings(const std::string &str);
 
+int maxOutput();
+void changedMaxOutput(const int &max);
+
 }
 
 #endif

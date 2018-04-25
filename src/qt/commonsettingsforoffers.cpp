@@ -1,12 +1,13 @@
 #include "commonsettingsforoffers.h"
 #include "util.h"
+#include "dex/db/dexdto.h"
 
 CommonSettingsForOffers *CommonSettingsForOffers::pSingleton = nullptr;
 int CommonSettingsForOffers::nCounter = 0;
 
 CommonSettingsForOffers::CommonSettingsForOffers()
 {
-    boost::filesystem::path pathSettings = GetDataDir() / "dex.conf";
+    boost::filesystem::path pathSettings = GetDataDir() / dex::DEX_CONFIG;
     QString strPathSetting = QString::fromStdWString(pathSettings.wstring());
 
     settings = new QSettings(strPathSetting, QSettings::IniFormat);
@@ -15,6 +16,11 @@ CommonSettingsForOffers::CommonSettingsForOffers()
 CommonSettingsForOffers::~CommonSettingsForOffers()
 {
     delete settings;
+}
+
+void CommonSettingsForOffers::sync()
+{
+    settings->sync();
 }
 
 CommonSettingsForOffers *CommonSettingsForOffers::instance()
@@ -149,7 +155,7 @@ void CommonSettingsForOffers::setMinAmount(const quint64 &min)
 int CommonSettingsForOffers::getNumRowsTables()
 {
     settings->beginGroup("default");
-    int num = settings->value("numRowsTables", 200).toInt();
+    int num = settings->value("numRowsTables", dex::DEX_MAX_ROWS_OUTPUT).toInt();
     settings->endGroup();
 
     return num;

@@ -305,6 +305,7 @@ extern UniValue adddexoffer(const UniValue& params, bool fHelp);
 extern UniValue editdexoffer(const UniValue& params, bool fHelp);
 extern UniValue senddexoffer(const UniValue& params, bool fHelp);
 extern UniValue dexsync(const UniValue& params, bool fHelp);
+extern UniValue dexsettings(const UniValue& params, bool fHelp);
 #endif // ENABLE_DEX
 
 bool StartRPC();

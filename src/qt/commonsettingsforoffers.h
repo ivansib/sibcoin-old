@@ -21,6 +21,8 @@ public:
         EditOffer
     };
 
+    void sync();
+
     static CommonSettingsForOffers *instance();
     static void freeInstance();
 

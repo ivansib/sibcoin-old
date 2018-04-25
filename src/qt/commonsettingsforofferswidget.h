@@ -15,6 +15,7 @@ public:
     CommonSettingsForOffersWidget(DexDB *db, QWidget *parent = nullptr);
     ~CommonSettingsForOffersWidget();
 
+    void update();
     void saveData();
     void cancel();
 
@@ -23,6 +24,9 @@ private:
     CommonSettingsForOffers *settings;
 
     void setData();
+
+    void connectWidgets();
+    void disconnectWidgets();
 
 private Q_SLOTS:
     void changedData();

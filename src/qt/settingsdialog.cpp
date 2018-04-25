@@ -40,9 +40,15 @@ SettingsDialog::~SettingsDialog()
     delete ui;
 }
 
+void SettingsDialog::update()
+{
+    common->update();
+}
+
 void SettingsDialog::currentCommon()
 {
     ui->stackedWidget->setCurrentWidget(common);
+    common->update();
 }
 
 void SettingsDialog::currentCountries()

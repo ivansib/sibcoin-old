@@ -85,6 +85,7 @@ void ExchangeDialog::currentPageExchanges()
 void ExchangeDialog::currentPageSettings()
 {
     ui->stackedWidget->setCurrentWidget(settings);
+    settings->update();
 }
 
 void ExchangeDialog::finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
