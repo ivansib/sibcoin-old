@@ -2,8 +2,8 @@
 #include "tableofferseditor.h"
 #include "convertdata.h"
 #include "net.h"
-#include "../dex/dex.h"
-#include "../dex/dexmanager.h"
+#include "dex/dex.h"
+#include "dex/dexmanager.h"
 
 TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     : TableOffersDialog(db, new OfferModelEditor(), 4, CommonSettingsForOffers::MyOffer, parent)
@@ -32,7 +32,7 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     tableView->setColumnWidth(4, 150);
 
     columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 2);
-    connect(pModel, SIGNAL(layoutChanged()), this, SLOT(updateTable()));
+    connect(pModel, SIGNAL(layoutChanged()), this, SLOT(resizeTable()));
 }
 
 TableOffersEditor::~TableOffersEditor()
@@ -107,7 +107,7 @@ void TableOffersEditor::deleteDraftData(const QtMyOfferInfo &info)
     }
 }
 
-void TableOffersEditor::updateTable()
+void TableOffersEditor::resizeTable()
 {
     columnResizingFixer->stretchColumnWidth(2);
 
@@ -120,7 +120,6 @@ void TableOffersEditor::updateTable()
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
 {
     if (table == MyOffers && (operation == Add || operation == Edit || operation == Delete) && status == Ok) {
-        updateData();
-        Q_EMIT dataChanged();
+        updateTable();
     }
 }

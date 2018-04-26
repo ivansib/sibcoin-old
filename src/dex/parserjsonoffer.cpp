@@ -151,7 +151,7 @@ int maxOutput()
     return max;
 }
 
-void changedMaxOutput(const int &max) // NOTE: Start here, rewrite showMaxRowsTables, check write in empty file
+void changedMaxOutput(const int &max)
 {
     boost::filesystem::path pathSettings = GetDataDir() / DEX_CONFIG;
     boost::property_tree::ptree pt;

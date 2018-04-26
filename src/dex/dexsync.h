@@ -62,6 +62,8 @@ public:
     int minNumDexNode() const;
     void reset();
 
+    boost::signals2::signal<void()> syncFinished;
+
 private:
     DexDB *db;
 

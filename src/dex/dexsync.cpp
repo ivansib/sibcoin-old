@@ -88,6 +88,7 @@ void CDexSync::finishSyncDex()
 {
     status = Finished;
     uiInterface.NotifyAdditionalDataSyncProgressChanged(1);
+    syncFinished();
 }
 
 bool CDexSync::isSynced() const

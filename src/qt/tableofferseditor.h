@@ -25,21 +25,19 @@ private:
     CallBackDbForGui *callBack;
     WalletModel *model;
 
-    void saveMyOffer(const MyOfferInfo &info);
-
-public Q_SLOTS:
-    void updateData();
+    void saveMyOffer(const MyOfferInfo &info);    
 
 protected Q_SLOTS:
-    virtual void clickedButton(const int &index);
-    virtual void openCreatorOffer();
-    virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
+    virtual void clickedButton(const int &index) override;
+    virtual void openCreatorOffer() override;
+    virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status) override;
+    virtual void updateData() override;
+    virtual void resizeTable() override;
 
 private Q_SLOTS:
     void addOrEditDraftMyOffer(const QtMyOfferInfo &info);
     void sendMyOffer(const QtMyOfferInfo &info);
     void deleteDraftData(const QtMyOfferInfo &info);
-    void updateTable();
 };
 
 #endif

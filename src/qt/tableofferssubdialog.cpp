@@ -1,6 +1,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include "tableofferssubdialog.h"
+#include "dex/dexsync.h"
 
 TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, const CommonSettingsForOffers::TypeSettings &typeSettings, QDialog *parent) :
     QDialog(parent), db(db), typeSettings(typeSettings)
@@ -34,6 +35,8 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, cons
     connect(pDelegate, SIGNAL(clicked(int)), this, SLOT(clickedButton(int)));
 
     useMyOfferMode(false);
+
+    dex::dexsync.syncFinished.connect(boost::bind(&TableOffersSubDialog::updateTable, this));
 }
 
 TableOffersSubDialog::~TableOffersSubDialog()
@@ -107,6 +110,14 @@ void TableOffersSubDialog::useMyOfferMode(const bool &b)
         connect(cBoxOffer, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterOfferType(int)));
 
         connect(btnCreate, SIGNAL(clicked()), this, SLOT(openCreatorOffer()));
+    }
+}
+
+void TableOffersSubDialog::updateTable()
+{
+    if (dex::dexsync.isSynced()) {
+        updateData();
+        Q_EMIT dataChanged();
     }
 }
 
