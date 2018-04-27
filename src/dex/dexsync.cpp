@@ -40,7 +40,7 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
     } else if (strCommand == NetMsgType::DEXSYNCGETOFFER) {
         sendOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCOFFER) {
-        getOfferAndSaveInDb(vRecv);
+        getOfferAndSaveInDb(pfrom, vRecv);
     }
 }
 
@@ -253,7 +253,7 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
     }
 }
 
-void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
+void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 {
     status = Sync;
     CDexOffer offer;
@@ -315,6 +315,9 @@ void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
                 }
             }
         }
+    } else {
+        LogPrint("dex", "DEXSYNCOFFER -- offer check fail\n");
+        Misbehaving(pfrom->GetId(), 20);
     }
 }
 

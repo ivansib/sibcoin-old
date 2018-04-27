@@ -77,7 +77,7 @@ private:
     void sendHashOffers(CNode* pfrom) const;
     void getHashsAndSendRequestForGetOffers(CNode* pfrom, CDataStream& vRecv);
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
-    void getOfferAndSaveInDb(CDataStream& vRecv);
+    void getOfferAndSaveInDb(CNode* pfrom, CDataStream& vRecv);
     void insertItemFromOffersNeedDownload(const uint256 &hash);
     void eraseItemFromOffersNeedDownload(const uint256 &hash);
     bool canStart();
