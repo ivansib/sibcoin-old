@@ -124,7 +124,7 @@ bool CDex::CheckOfferTx(std::string &sError)
             CHECK (prevtx.vout.size() > i.prevout.n, "prev tx out error");
             debit += prevtx.vout[i.prevout.n].nValue;
         }
-        CHECK((debit - credit) == PAYOFFER_TX_FEE * coef, "payoffer tx fee error");
+        CHECK((debit - credit) >= PAYOFFER_TX_FEE * coef, "payoffer tx fee error");
         return true;
     } while(false);
     return false;
