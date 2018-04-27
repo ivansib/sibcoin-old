@@ -828,7 +828,11 @@ UniValue dexsync(const UniValue& params, bool fHelp)
         auto status =  dex::dexsync.getSyncStatus();
         result.push_back(Pair("status", status));
     } else if (key == "reset") {
-        dex::dexsync.reset();
+        if (dex::dexsync.reset()) {
+           result.push_back(Pair("status", "reset sunc"));
+        } else {
+           result.push_back(Pair("status", "reset is not available now"));
+        }
     } else {
         throw runtime_error("\nwrong parameter " + key + "\n");
     }

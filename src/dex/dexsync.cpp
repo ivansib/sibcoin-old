@@ -18,6 +18,7 @@ const int MIN_NUMBER_DEX_NODE_TESTNET = 2;
 CDexSync::CDexSync()
 {
     status = NoStarted;
+    statusPercent = 0;
     db = nullptr;
 }
 
@@ -45,16 +46,24 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
 
 void CDexSync::startSyncDex()
 {
-    if (status == NoStarted) {
-        uiInterface.NotifyAdditionalDataSyncProgressChanged(0);
+    if (status == NoStarted || status == NoRestarted ) {
+        uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent);
     }
 
-    if (!canStart() || status != NoStarted) {
+    if (!canStart() || !(status == NoStarted || status == NoRestarted)) {
         return;
     }
 
-    status = Started;
-    uiInterface.NotifyAdditionalDataSyncProgressChanged(0.01);
+    if (statusPercent > 0) {
+        status = Restarted;
+    } else {
+        status = Started;
+    }
+
+    prevMaxOffersNeedDownload = 0;
+    prevOffersNeedDownloadSize = 0;
+
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent + 0.01);
 
     LogPrint(NULL, "startSyncDex -- start synchronization offers\n");
     maxOffersNeedDownload = 0;
@@ -77,11 +86,11 @@ void CDexSync::startSyncDex()
     }
 
     status = Initial;
-    uiInterface.NotifyAdditionalDataSyncProgressChanged(0.1);
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent + 0.1);
 
     ReleaseNodeVector(vNodesCopy);
 
-    Timer timer(30000, FinishSyncDex);
+    startTimer();
 }
 
 void CDexSync::finishSyncDex()
@@ -106,6 +115,8 @@ std::string CDexSync::getSyncStatus() const
     case Started:
         str = _("Synchronization offers started...");
         break;
+    case NoRestarted:
+    case Restarted:
     case Initial:
         str = _("Synchronization offers pending...");
         break;
@@ -137,10 +148,42 @@ int CDexSync::minNumDexNode() const
     return minNumDexNode;
 }
 
-void CDexSync::reset()
+bool CDexSync::reset()
 {
-    status = NoStarted;
+    if (status != Finished || status != NoStarted || status != NoRestarted) {
+        return false;
+    } else {
+        statusPercent = 0;
+        status = NoStarted;
+        startSyncDex();
+    }
+}
+
+void CDexSync::restart()
+{
+    statusPercent = 1 - (0.9 - statusPercent) * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    status = NoRestarted;
     startSyncDex();
+}
+
+void CDexSync::updatePrevData()
+{
+    prevOffersNeedDownloadSize = offersNeedDownload.size();
+    prevMaxOffersNeedDownload = maxOffersNeedDownload;
+}
+
+bool CDexSync::checkSyncData()
+{
+    if (prevOffersNeedDownloadSize == offersNeedDownload.size() && prevMaxOffersNeedDownload == maxOffersNeedDownload) {
+        return false;
+    }
+
+    return true;
+}
+
+bool CDexSync::startTimer()
+{
+    Timer timer(30000, FinishSyncDex);
 }
 
 void CDexSync::initDB()
@@ -292,7 +335,7 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
         offersNeedDownload.erase(it);
     }
 
-    float percent = 1 - 0.9 * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    float percent = 1 - (0.9 - statusPercent) * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
 
     if (offersNeedDownload.size() == 0) {
         finishSyncDex();
@@ -333,6 +376,14 @@ void FinishSyncDex()
 {
     if (dexsync.statusSync() == CDexSync::Initial) {
         dexsync.finishSyncDex();
+    } else {
+        if (!dexsync.checkSyncData()) {
+            dexsync.restart();
+        } else if (!dexsync.isSynced()) {
+            dexsync.updatePrevData();
+
+            dexsync.startTimer();
+        }
     }
 }
 

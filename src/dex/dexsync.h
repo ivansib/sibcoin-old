@@ -42,7 +42,9 @@ class CDexSync
 public:
     enum Status {
         NoStarted,
+        NoRestarted,
         Started,
+        Restarted,
         Initial,
         Sync,
         Finished
@@ -60,7 +62,11 @@ public:
     std::string getSyncStatus() const;
     Status statusSync();
     int minNumDexNode() const;
-    void reset();
+    bool reset();
+    void restart();
+    void updatePrevData();
+    bool checkSyncData();
+    bool startTimer();
 
     boost::signals2::signal<void()> syncFinished;
 
@@ -78,6 +84,10 @@ private:
 
     std::set<uint256> offersNeedDownload;
     int maxOffersNeedDownload;
+    int prevOffersNeedDownloadSize;
+    int prevMaxOffersNeedDownload;
+    float statusPercent;
+
     Status status;
 };
 
