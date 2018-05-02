@@ -379,6 +379,11 @@ std::list<OfferInfo> DexDB::getOffersSell()
     return getOffers("offersSell");
 }
 
+std::list<OfferInfo> DexDB::getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset)
+{
+    return getOffers("offersSell", countryIso, currencyIso, payment, limit, offset);
+}
+
 OfferInfo DexDB::getOfferSell(const uint256 &idTransaction)
 {
     return getOffer("offersSell", idTransaction);
@@ -431,6 +436,11 @@ void DexDB::deleteOldOffersBuy()
 std::list<OfferInfo> DexDB::getOffersBuy()
 {
     return getOffers("offersBuy");
+}
+
+std::list<OfferInfo> DexDB::getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset)
+{
+    return getOffers("offersBuy", countryIso, currencyIso, payment, limit, offset);
 }
 
 OfferInfo DexDB::getOfferBuy(const uint256 &idTransaction)
@@ -821,6 +831,64 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
                       "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details, editingVersion, editsign FROM " + tableName;
 
     sqlite3pp::query qry(db, str.c_str());
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        OfferInfo info = getOffer(i);
+        offers.push_back(info);
+    }
+
+    TypeTable tTable = OffersBuy;
+    if (tableName == "offersSell") {
+        tTable = OffersSell;
+    }
+
+    int status = qry.finish();
+    finishTableOperation(callBack, tTable, Read, status);
+
+    return offers;
+}
+
+std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset)
+{
+    std::list<OfferInfo> offers;
+
+    std::string strQuery = "SELECT idTransaction, hash, pubKey, countryIso, currencyIso, "
+                      "paymentMethod, price, minAmount, timeCreate, timeToExpiration, shortInfo, details, editingVersion, editsign FROM " + tableName;
+
+    std::string where = "";
+    if (countryIso != "") {
+        where += " countryIso = " + countryIso;
+    }
+
+    if (currencyIso != "") {
+        if (where != "") {
+            where += ",";
+        }
+
+        where += " currencyIso = " + currencyIso;
+    }
+
+    if (payment > 0) {
+        if (where != "") {
+            where += ",";
+        }
+
+        where += " paymentMethod = " + std::to_string(payment);
+    }
+
+    if (where != "") {
+        strQuery += " WHERE" + where;
+    }
+
+    if (limit > 0) {
+        strQuery += " LIMIT " + std::to_string(limit);
+
+        if (offset > 0) {
+            strQuery += " OFFSET " + std::to_string(offset);
+        }
+    }
+
+    sqlite3pp::query qry(db, strQuery.c_str());
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         OfferInfo info = getOffer(i);

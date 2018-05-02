@@ -55,6 +55,7 @@ public:
     void deleteOfferSell(const uint256 &idTransaction);
     void deleteOldOffersSell();
     std::list<OfferInfo> getOffersSell();
+    std::list<OfferInfo> getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
     OfferInfo getOfferSell(const uint256 &idTransaction);
     OfferInfo getOfferSellByHash(const uint256 &hash);
     bool isExistOfferSell(const uint256 &idTransaction);
@@ -66,6 +67,7 @@ public:
     void deleteOfferBuy(const uint256 &idTransaction);
     void deleteOldOffersBuy();
     std::list<OfferInfo> getOffersBuy();
+    std::list<OfferInfo> getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
     OfferInfo getOfferBuy(const uint256 &idTransaction);
     OfferInfo getOfferBuyByHash(const uint256 &hash);
     bool isExistOfferBuy(const uint256 &idTransaction);
@@ -120,6 +122,7 @@ private:
     static void deleteOfferByHash(sqlite3pp::database &db, const CallBack &callBack, const std::string &tableName, const uint256 &hash);
     static void deleteOldOffers(sqlite3pp::database &db, const CallBack &callBack, const std::string &tableName);
     std::list<OfferInfo> getOffers(const std::string &tableName);
+    std::list<OfferInfo> getOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, int const &limit, int const &offset);
     OfferInfo getOffer(const std::string &tableName, const uint256 &idTransaction);
     OfferInfo getOfferByHash(const std::string &tableName, const uint256 &hash);
     OfferInfo getOffer(const std::string &guery, int &status);
