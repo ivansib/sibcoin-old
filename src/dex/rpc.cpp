@@ -96,7 +96,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
     UniValue result(UniValue::VARR);
 
     std::string typefilter, countryfilter, currencyfilter;
-    std::string methodfilter = "*";
+    std::string methodfilter;
     unsigned char methodfiltertype = 0;
     std::list<std::string> words {"buy", "sell", "all"};
     dex::CountryIso  countryiso;
@@ -127,16 +127,12 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             if (countryiso.isValid(params[i].get_str())) {
                 countryfilter = params[i].get_str();
                 continue;
-            } else {
-                countryfilter = "*";
             }
         }
         if (i < 3 && currencyfilter.empty()) {
             if (currencyiso.isValid(params[i].get_str())) {
                 currencyfilter = params[i].get_str();
                 continue;
-            } else {
-                currencyfilter = "*";
             }
         }
         {
@@ -157,21 +153,18 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
         }
     }
 
-    if (currencyfilter.empty()) currencyfilter = "*";
-    if (countryfilter.empty()) countryfilter = "*";
-
-    if (countryfilter.empty() || currencyfilter.empty() || typefilter.empty() || methodfilter.empty()) {
+    if (typefilter.empty()) {
         throw runtime_error("\nwrong parameters\n");
     }
 
     // check country and currency in DB
-    if (countryfilter != "*") {
+    if (countryfilter != "") {
         dex::CountryInfo  countryinfo = dex::DexDB::self()->getCountryInfo(countryfilter);
         if (!countryinfo.enabled) {
             throw runtime_error("\nERROR: this country is disabled in DB\n");
         }
     }
-    if (currencyfilter != "*") {
+    if (currencyfilter != "") {
         dex::CurrencyInfo  currencyinfo = dex::DexDB::self()->getCurrencyInfo(currencyfilter);
         if (!currencyinfo.enabled) {
             throw runtime_error("\nERROR: this currency is disabled in DB\n");
@@ -184,40 +177,26 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
     int step = 0;
 
     if (typefilter == "buy" || typefilter == "all") {
-        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersBuy();
+        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersBuy(countryfilter, currencyfilter, methodfiltertype, max, 0);
         for (auto i : offers) {
-          if (countryfilter  != "*" && countryfilter    != i.countryIso   ) continue;
-          if (currencyfilter != "*" && currencyfilter   != i.currencyIso  ) continue;
-          if (methodfilter   != "*" && methodfiltertype != i.paymentMethod) continue;
-          CDexOffer o(i, dex::Buy);
-          result.push_back(o.getUniValue());
+            CDexOffer o(i, dex::Buy);
+            result.push_back(o.getUniValue());
 
-          if (max > 0) {
-              step++;
+            if (max > 0) {
+                step++;
 
-              if (step == max) {
-                  break;
-              }
-          }
+                if (step == max) {
+                    break;
+                }
+            }
         }
     }
 
     if ((typefilter == "sell" || typefilter == "all") && !(max > 0 && step == max)) {
-        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersSell();
+        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersSell(countryfilter, currencyfilter, methodfiltertype, max-step, 0);
         for (auto i : offers) {
-          if (countryfilter  != "*" && countryfilter    != i.countryIso   ) continue;
-          if (currencyfilter != "*" && currencyfilter   != i.currencyIso  ) continue;
-          if (methodfilter   != "*" && methodfiltertype != i.paymentMethod) continue;
-          CDexOffer o(i, dex::Sell);
-          result.push_back(o.getUniValue());
-
-          if (max > 0) {
-              step++;
-
-              if (step == max) {
-                  break;
-              }
-          }
+            CDexOffer o(i, dex::Sell);
+            result.push_back(o.getUniValue());
         }
     }
 

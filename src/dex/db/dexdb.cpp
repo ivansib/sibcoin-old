@@ -857,7 +857,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::s
 
     std::string where = "";
     if (countryIso != "") {
-        where += " countryIso = " + countryIso;
+        where += " countryIso = '" + countryIso + "'";
     }
 
     if (currencyIso != "") {
@@ -865,7 +865,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::s
             where += ",";
         }
 
-        where += " currencyIso = " + currencyIso;
+        where += " currencyIso = '" + currencyIso + "'";
     }
 
     if (payment > 0) {
@@ -888,6 +888,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::s
         }
     }
 
+//    throw std::runtime_error(strQuery);
     sqlite3pp::query qry(db, strQuery.c_str());
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
