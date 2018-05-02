@@ -580,7 +580,7 @@ MyOfferInfo DexDB::getMyOfferByHash(const uint256 &hash)
     return info;
 }
 
-MyOfferInfo DexDB::getMyOffer(sqlite3pp::query::iterator it)
+MyOfferInfo DexDB::getMyOffer(sqlite3pp::query::iterator &it)
 {
     std::string idTransaction;
     std::string hash;
@@ -823,41 +823,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     sqlite3pp::query qry(db, str.c_str());
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
-        std::string idTransaction;
-        std::string hash;
-        std::string pubKey;
-        std::string countryIso;
-        std::string currencyIso;
-        uint8_t paymentMethod;
-        long long int price;
-        long long int minAmount;
-        long long int timeCreate;
-        long long int timeToExpiration;
-        std::string shortInfo;
-        std::string details;
-        int editingVersion;
-        std::string editsign;
-        std::tie(idTransaction, hash, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount,
-                 timeCreate, timeToExpiration, shortInfo, details, editingVersion, editsign)
-                = (*i).get_columns<std::string, std::string, std::string, std::string, std::string, uint8_t,
-                long long int, long long int, long long int, long long int, std::string, std::string, int, std::string>
-                (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
-
-        OfferInfo info;
-        info.idTransaction.SetHex(idTransaction);
-        info.hash.SetHex(hash);
-        info.pubKey = pubKey;
-        info.countryIso = countryIso;
-        info.currencyIso = currencyIso;
-        info.paymentMethod = paymentMethod;
-        info.price = price;
-        info.minAmount = minAmount;
-        info.shortInfo = shortInfo;
-        info.timeCreate = timeCreate;
-        info.timeToExpiration = timeToExpiration;
-        info.details = details;
-        info.editingVersion = editingVersion;
-        info.editsign = editsign;
+        OfferInfo info = getOffer(i);
         offers.push_back(info);
     }
 
@@ -913,9 +879,16 @@ OfferInfo DexDB::getOfferByHash(const std::string &tableName, const uint256 &has
 OfferInfo DexDB::getOffer(const std::string &guery, int &status)
 {
     sqlite3pp::query qry(db, guery.c_str());
-
     sqlite3pp::query::iterator i = qry.begin();
+    OfferInfo info = getOffer(i);
 
+    status = qry.finish();
+
+    return info;
+}
+
+OfferInfo DexDB::getOffer(sqlite3pp::query::iterator &it)
+{
     std::string hash;
     std::string idTransaction;
     std::string pubKey;
@@ -932,7 +905,7 @@ OfferInfo DexDB::getOffer(const std::string &guery, int &status)
     std::string editsign;
     std::tie(hash, idTransaction, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount,
              timeCreate, timeToExpiration, shortInfo, details, editingVersion, editsign)
-            = (*i).get_columns<std::string, std::string, std::string, std::string, std::string, uint8_t,
+            = (*it).get_columns<std::string, std::string, std::string, std::string, std::string, uint8_t,
             long long int, long long int, long long int, long long int, std::string, std::string, int, std::string>
             (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
 
@@ -951,7 +924,6 @@ OfferInfo DexDB::getOffer(const std::string &guery, int &status)
     info.details = details;
     info.editingVersion = editingVersion;
     info.editsign = editsign;
-    status = qry.finish();
 
     return info;
 }

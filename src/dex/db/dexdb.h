@@ -123,7 +123,8 @@ private:
     OfferInfo getOffer(const std::string &tableName, const uint256 &idTransaction);
     OfferInfo getOfferByHash(const std::string &tableName, const uint256 &hash);
     OfferInfo getOffer(const std::string &guery, int &status);
-    MyOfferInfo getMyOffer(sqlite3pp::query::iterator it);
+    OfferInfo getOffer(sqlite3pp::query::iterator &it);
+    MyOfferInfo getMyOffer(sqlite3pp::query::iterator &it);
     static int addOrEditOffer(sqlite3pp::database &db, const std::string &query, const OfferInfo &offer);
     static int addOrEditMyOffer(sqlite3pp::database &db, const std::string &query, const MyOfferInfo &offer);
     static void bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer);
