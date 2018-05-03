@@ -558,6 +558,75 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     return offers;
 }
 
+std::list<MyOfferInfo> DexDB::getMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, const int &limit, const int &offset)
+{
+    std::list<MyOfferInfo> offers;
+
+    std::string strQuery = "SELECT idTransaction, hash, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount, timeCreate, "
+                           "timeToExpiration, shortInfo, details, type, status, editingVersion, editsign FROM myOffers";
+
+    std::string where = "";
+    if (countryIso != "") {
+        where += " countryIso = '" + countryIso + "'";
+    }
+
+    if (currencyIso != "") {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " currencyIso = '" + currencyIso + "'";
+    }
+
+    if (payment > 0) {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " paymentMethod = " + std::to_string(payment);
+    }
+
+    if (type > 0) {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " type = " + std::to_string(type);
+    }
+
+    if (statusOffer > 0) {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " status = " + std::to_string(statusOffer);
+    }
+
+    if (where != "") {
+        strQuery += " WHERE" + where;
+    }
+
+    if (limit > 0) {
+        strQuery += " LIMIT " + std::to_string(limit);
+
+        if (offset > 0) {
+            strQuery += " OFFSET " + std::to_string(offset);
+        }
+    }
+
+    sqlite3pp::query qry(db, strQuery.c_str());
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        MyOfferInfo info = getMyOffer(i);
+        offers.push_back(info);
+    }
+
+    int status = qry.finish();
+    finishTableOperation(callBack, MyOffers, Read, status);
+
+    return offers;
+}
+
 MyOfferInfo DexDB::getMyOffer(const uint256 &idTransaction)
 {
     std::string str = "SELECT idTransaction, hash, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount, timeCreate, "
@@ -862,7 +931,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::s
 
     if (currencyIso != "") {
         if (where != "") {
-            where += ",";
+            where += " AND";
         }
 
         where += " currencyIso = '" + currencyIso + "'";
@@ -870,7 +939,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::s
 
     if (payment > 0) {
         if (where != "") {
-            where += ",";
+            where += " AND";
         }
 
         where += " paymentMethod = " + std::to_string(payment);
@@ -888,7 +957,6 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::s
         }
     }
 
-//    throw std::runtime_error(strQuery);
     sqlite3pp::query qry(db, strQuery.c_str());
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {

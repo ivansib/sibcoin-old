@@ -55,7 +55,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
         );
     }
 
-    if (fHelp || params.size() < 1 || params.size() > 6)
+    if (fHelp || params.size() < 1 || params.size() > 8)
         throw runtime_error(
             "dexoffers [buy|sell|all] [country] [currency] [payment_method] [limit N] [offset N]\n"
             "Get DEX offers list.\n"
@@ -235,9 +235,9 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "DexDB is not initialized.\n"
         );
     }
-    if (fHelp || params.size() < 1 || params.size() > 7)
+    if (fHelp || params.size() < 1 || params.size() > 9)
         throw runtime_error(
-            "dexmyoffers [buy|sell|all] [country] [currency] [payment_method] [status] [maxoutput N]\n"
+            "dexmyoffers [buy|sell|all] [country] [currency] [payment_method] [status] [limit N] [offset N]\n"
             "Return a list of  DEX own offers.\n"
 
             "\nArguments:\n"
@@ -246,7 +246,8 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
             "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
             "\tstatus          (string, optional, case insensitive) offer status (Active,Draft,Expired,Cancelled,Suspended,Unconfirmed).\n"
-            "\tmaxoutput N     (int, optional) N max output offers, default use global settings"
+            "\tlimit N         (int, optional) N max output offers, default use global settings"
+            "\toffset N        (int, optional) N identify the starting point to return rows, use with limit"
 
             "\nResult (for example):\n"
             "[\n"
@@ -274,132 +275,122 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
             + HelpExampleCli("dexmyoffers", "all USD")
             + HelpExampleCli("dexmyoffers", "RU RUB cash")
             + HelpExampleCli("dexmyoffers", "all USD online")
-            + HelpExampleCli("dexmyoffers", "all USD maxoutput 3")
+            + HelpExampleCli("dexmyoffers", "all USD limit 3")
+            + HelpExampleCli("dexmyoffers", "all USD limit 3 offset 10")
         );
 
     UniValue result(UniValue::VARR);
 
     std::string typefilter, countryfilter, currencyfilter, methodfilter;
-    std::string statusfilter = "*";
+    int statusfilter = dex::Indefined;
     dex::CStatusOffer status;
     unsigned char methodfiltertype = 0;
-    std::list<std::string> words {"buy", "sell", "all"};
+    std::map<std::string, int> words;
+    words["buy"] = 0;
+    words["sell"] = 1;
+    words["all"] = -1;
     dex::CountryIso  countryiso;
     dex::CurrencyIso currencyiso;
 
-    int max = 0;
+    int limit = 0;
+    int offset = 0;
 
     for (size_t i = 0; i < params.size(); i++) {
-        if (params[i].get_str() == "maxoutput") {
+        if (params[i].get_str() == "limit") {
             if (i == 0 || params.size() <= i+1) {
                 throw runtime_error("\nnot enough parameters\n");
             }
 
             std::string maxStr = params[i+1].get_str();
-            max = std::stoi(maxStr);
+            limit = std::stoi(maxStr);
+
+            if (params.size() > i+2) {
+                i++;
+                continue;
+            } else {
+                break;
+            }
+        } else if (params[i].get_str() == "offset" && limit > 0) {
+            if (i == 0 || params.size() <= i+1) {
+                throw runtime_error("\nnot enough parameters\n");
+            }
+
+            std::string maxStr = params[i+1].get_str();
+            offset = std::stoi(maxStr);
             break;
-        }
-
-        if (i == 0 && typefilter.empty()) {
-            if (std::find(words.begin(), words.end(), params[0].get_str()) != words.end()) {
-                typefilter = params[0].get_str();
-                continue;
-            } else {
-                typefilter = "all";
-            }
-        }
-
-        if (i < 2 && countryfilter.empty()) {
-            if (countryiso.isValid(params[i].get_str())) {
-                countryfilter = params[i].get_str();
-                continue;
-            } else {
-                countryfilter = "*";
-            }
-        }
-        if (i < 3 && currencyfilter.empty()) {
-            if (currencyiso.isValid(params[i].get_str())) {
-                currencyfilter = params[i].get_str();
-                continue;
-            } else {
-                currencyfilter = "*";
-            }
-        }
-
-        if (methodfilter.empty()) {
-            std::string methodname = boost::algorithm::to_lower_copy(params[i].get_str());
-            std::list<dex::PaymentMethodInfo> pms = dex::DexDB::self()->getPaymentMethodsInfo();
-            for (auto j : pms) {
-                std::string name = boost::algorithm::to_lower_copy(j.name);
-                if (name == methodname) {
-                    methodfilter = j.name;
-                    methodfiltertype = j.type;
+        } else {
+            if (typefilter.empty()) {
+                std::string key = boost::algorithm::to_lower_copy(params[i].get_str());
+                if (words.find(key) != words.end()) {
+                    typefilter = key;
                     continue;
                 }
             }
-        }
-
-        {
-            statusfilter.clear();
-            status.set(params[i].get_str());
-            if (status != dex::Indefined) {
-                statusfilter = (std::string)status;
-            } else {
-                throw runtime_error("\nwrong parameter: " + params[i].get_str() + "\n");
+            if (countryfilter.empty()) {
+                if (countryiso.isValid(params[i].get_str())) {
+                    countryfilter = params[i].get_str();
+                    continue;
+                }
+            }
+            if (currencyfilter.empty()) {
+                if (currencyiso.isValid(params[i].get_str())) {
+                    currencyfilter = params[i].get_str();
+                    continue;
+                }
+            }
+            if (methodfilter.empty()) {
+                std::string methodname = boost::algorithm::to_lower_copy(params[i].get_str());
+                std::list<dex::PaymentMethodInfo> pms = dex::DexDB::self()->getPaymentMethodsInfo();
+                for (auto j : pms) {
+                    std::string name = boost::algorithm::to_lower_copy(j.name);
+                    if (name == methodname) {
+                        methodfilter = j.name;
+                        methodfiltertype = j.type;
+                        continue;
+                    }
+                }
+            }
+            if (statusfilter == dex::Indefined) {
+                status.set(params[i].get_str());
+                if (status != dex::Indefined) {
+                    statusfilter = status;
+                }
             }
         }
     }
 
-    if (currencyfilter.empty()) currencyfilter = "*";
-    if ( countryfilter.empty()) countryfilter  = "*";
-    if (  methodfilter.empty()) methodfilter   = "*";
-
-
-    if (countryfilter.empty() || currencyfilter.empty() || typefilter.empty() || methodfilter.empty() || statusfilter.empty()) {
-        throw runtime_error("\nwrong parameters\n");
+    if (typefilter.empty()) {
+        typefilter = "all";
     }
 
     // check country and currency in DB
-    if (countryfilter != "*") {
+    if (countryfilter != "") {
         dex::CountryInfo  countryinfo = dex::DexDB::self()->getCountryInfo(countryfilter);
         if (!countryinfo.enabled) {
             throw runtime_error("\nERROR: this country is disabled in DB\n");
         }
     }
-    if (currencyfilter != "*") {
+    if (currencyfilter != "") {
         dex::CurrencyInfo  currencyinfo = dex::DexDB::self()->getCurrencyInfo(currencyfilter);
         if (!currencyinfo.enabled) {
             throw runtime_error("\nERROR: this currency is disabled in DB\n");
         }
     }
 
-    std::list<dex::MyOfferInfo> myoffers = dex::DexDB::self()->getMyOffers();
-
-    if (max == 0) {
-        max = maxOutput();
+    if (limit == 0) {
+        limit = maxOutput();
     }
-    int step = 0;
+
+    std::list<dex::MyOfferInfo> myoffers = dex::DexDB::self()->getMyOffers(countryfilter, currencyfilter, methodfiltertype, words[typefilter], status, limit, offset);
+
     for (auto i : myoffers) {
-        if (typefilter == "buy"   && i.type != dex::Buy ) continue;
-        if (typefilter == "sell"  && i.type != dex::Sell) continue;
-        if (countryfilter  != "*" && countryfilter  != i.countryIso ) continue;
-        if (currencyfilter != "*" && currencyfilter != i.currencyIso) continue;
-        if (methodfilter != "*"   && methodfiltertype != i.paymentMethod) continue;
-        if (statusfilter != "*"   && status           != i.status) continue;
         CDexOffer o(i.getOfferInfo(), i.type);
         UniValue v = o.getUniValue();
         v.push_back(Pair("status", i.status));
         v.push_back(Pair("statusStr", status.status2str(i.status)));
         result.push_back(v);
-
-        if (max > 0) {
-            step++;
-
-            if (step == max) {
-                break;
-            }
-        }
     }
+
     return result;
 }
 
