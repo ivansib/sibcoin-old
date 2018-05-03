@@ -57,7 +57,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 1 || params.size() > 6)
         throw runtime_error(
-            "dexoffers [buy|sell|all] [country] [currency] [payment_method] [maxoutput N]\n"
+            "dexoffers [buy|sell|all] [country] [currency] [payment_method] [limit N] [offset N]\n"
             "Get DEX offers list.\n"
 
             "\nArguments:\n"
@@ -65,7 +65,8 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             "\tcountry         (string, optional) two-letter country code (ISO 3166-1 alpha-2 code).\n"
             "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
             "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
-            "\tmaxoutput N     (int, optional) N max output offers, default use global settings"
+            "\tlimit N         (int, optional) N max output offers, default use global settings"
+            "\toffset N        (int, optional) N identify the starting point to return rows, use with limit"
 
             "\nResult (for example):\n"
             "[\n"
@@ -90,7 +91,8 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
             + HelpExampleCli("dexoffers", "all USD")
             + HelpExampleCli("dexoffers", "RU RUB cash")
             + HelpExampleCli("dexoffers", "all USD online")
-            + HelpExampleCli("dexoffers", "all USD maxoutput 3")
+            + HelpExampleCli("dexoffers", "all USD limit 3")
+            + HelpExampleCli("dexoffers", "all USD limit 3 offset 10")
         );
 
     UniValue result(UniValue::VARR);
@@ -102,19 +104,34 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
     dex::CountryIso  countryiso;
     dex::CurrencyIso currencyiso;
 
-    int max = 0;
+    int limit = 0;
+    int offset = 0;
 
     for (size_t i = 0; i < params.size(); i++) {
-        if (params[i].get_str() == "maxoutput") {
+        if (params[i].get_str() == "limit") {
             if (i == 0 || params.size() <= i+1) {
                 throw runtime_error("\nnot enough parameters\n");
             }
 
             std::string maxStr = params[i+1].get_str();
-            max = std::stoi(maxStr);
+            limit = std::stoi(maxStr);
+
+            if (params.size() > i+2) {
+                i++;
+                continue;
+            } else {
+                break;
+            }
+        }
+        if (params[i].get_str() == "offset" && limit > 0) {
+            if (i == 0 || params.size() <= i+1) {
+                throw runtime_error("\nnot enough parameters\n");
+            }
+
+            std::string maxStr = params[i+1].get_str();
+            offset = std::stoi(maxStr);
             break;
         }
-
         if (i == 0 && typefilter.empty()) {
             if (std::find(words.begin(), words.end(), params[0].get_str()) != words.end()) {
                 typefilter = params[0].get_str();
@@ -171,29 +188,29 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
         }
     }
 
-    if (max == 0) {
-        max = maxOutput();
+    if (limit == 0) {
+        limit = maxOutput();
     }
     int step = 0;
 
     if (typefilter == "buy" || typefilter == "all") {
-        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersBuy(countryfilter, currencyfilter, methodfiltertype, max, 0);
+        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersBuy(countryfilter, currencyfilter, methodfiltertype, limit, offset);
         for (auto i : offers) {
             CDexOffer o(i, dex::Buy);
             result.push_back(o.getUniValue());
 
-            if (max > 0) {
+            if (limit > 0) {
                 step++;
 
-                if (step == max) {
+                if (step == limit) {
                     break;
                 }
             }
         }
     }
 
-    if ((typefilter == "sell" || typefilter == "all") && !(max > 0 && step == max)) {
-        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersSell(countryfilter, currencyfilter, methodfiltertype, max-step, 0);
+    if ((typefilter == "sell" || typefilter == "all") && !(limit > 0 && step == limit)) {
+        std::list<dex::OfferInfo> offers = dex::DexDB::self()->getOffersSell(countryfilter, currencyfilter, methodfiltertype, limit-step, offset);
         for (auto i : offers) {
             CDexOffer o(i, dex::Sell);
             result.push_back(o.getUniValue());
