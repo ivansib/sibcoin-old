@@ -65,7 +65,7 @@ void CDexSync::startSyncDex()
 
     uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent + 0.01);
 
-    LogPrint(NULL, "startSyncDex -- start synchronization offers\n");
+    LogPrint("dex", "CDexSync -- start synchronization offers\n");
     maxOffersNeedDownload = 0;
     auto vNodesCopy = CopyNodeVector();
 
@@ -95,6 +95,7 @@ void CDexSync::startSyncDex()
 
 void CDexSync::finishSyncDex()
 {
+    LogPrint("dex", "CDexSync -- finish sync\n");
     status = Finished;
     uiInterface.NotifyAdditionalDataSyncProgressChanged(1);
     syncFinished();
@@ -150,7 +151,7 @@ int CDexSync::minNumDexNode() const
 
 bool CDexSync::reset()
 {
-    if (status != Finished || status != NoStarted || status != NoRestarted) {
+    if (status != Finished && status != NoStarted && status != NoRestarted) {
         return false;
     } else {
         statusPercent = 0;
@@ -161,6 +162,7 @@ bool CDexSync::reset()
 
 void CDexSync::restart()
 {
+    LogPrint("dex", "CDexSync -- restart sync\n");
     statusPercent = 1 - (0.9 - statusPercent) * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
     status = NoRestarted;
     startSyncDex();
@@ -186,6 +188,11 @@ bool CDexSync::startTimer()
     Timer timer(30000, FinishSyncDex);
 }
 
+int CDexSync::offersNeedDownloadSize() const
+{
+    return offersNeedDownload.size();
+}
+
 void CDexSync::initDB()
 {
     if (db == nullptr) {
@@ -208,7 +215,7 @@ void CDexSync::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRe
 {
     LogPrint("dex", "DEXSYNCALLHASH -- get list hashes from %s\n", pfrom->addr.ToString());
 
-    std::list<std::pair<uint256, int>>  nodeHvs;
+    std::list<std::pair<uint256, int>> nodeHvs;
     vRecv >> nodeHvs;
     auto hvs = dexman.availableOfferHashAndVersion();
 
@@ -243,10 +250,8 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
     auto offer = dexman.getOfferInfo(hash);
 
     if (!offer.IsNull()) {
-        if (offer.Check(true)) {
-            LogPrint("dex", "DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
-            pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
-        }
+        LogPrint("dex", "DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
+        pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
     } else {
         LogPrint("dex", "DEXSYNCGETOFFER -- offer with hash = %s not found\n", hash.GetHex().c_str());
         Misbehaving(pfrom->GetId(), 1);
@@ -274,8 +279,6 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
                 } else {
                     db->addOfferBuy(offer);
                 }
-
-                eraseItemFromOffersNeedDownload(offer.hash);
             } else if (offer.isSell())  {
                 if (db->isExistOfferSell(offer.idTransaction)) {
                     OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
@@ -285,8 +288,6 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
                 } else {
                     db->addOfferSell(offer);
                 }
-
-                eraseItemFromOffersNeedDownload(offer.hash);
             }
         } else {
             if (dexman.getUncOffers()->isExistOffer(offer.hash)) {
@@ -298,8 +299,6 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
             } else {
                 dexman.getUncOffers()->setOffer(offer);
             }
-
-            eraseItemFromOffersNeedDownload(offer.hash);
         }
 
         if (DexDB::bOffersRescan && !db->isExistMyOffer(offer.idTransaction)) {
@@ -319,6 +318,8 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
         LogPrint("dex", "DEXSYNCOFFER -- offer check fail\n");
         Misbehaving(pfrom->GetId(), 20);
     }
+
+    eraseItemFromOffersNeedDownload(offer.hash);
 }
 
 void CDexSync::insertItemFromOffersNeedDownload(const uint256 &hash)
@@ -377,14 +378,14 @@ void DexConnectSignals()
 
 void FinishSyncDex()
 {
-    if (dexsync.statusSync() == CDexSync::Initial) {
+    if (dexsync.statusSync() == CDexSync::Initial && dexsync.offersNeedDownloadSize() == 0) {
         dexsync.finishSyncDex();
     } else {
         if (!dexsync.checkSyncData()) {
             dexsync.restart();
         } else if (!dexsync.isSynced()) {
+            LogPrint("dex", "CDexSync -- restart timer\n");
             dexsync.updatePrevData();
-
             dexsync.startTimer();
         }
     }

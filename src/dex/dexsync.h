@@ -67,6 +67,7 @@ public:
     void updatePrevData();
     bool checkSyncData();
     bool startTimer();
+    int offersNeedDownloadSize() const;
 
     boost::signals2::signal<void()> syncFinished;
 
