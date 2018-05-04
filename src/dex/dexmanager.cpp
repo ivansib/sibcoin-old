@@ -495,7 +495,7 @@ void ThreadDexManager()
             dexman.startSyncDex();
         }
 
-        if (!dexsync.isSynced()) {
+        if (!dexsync.isSynced() && step != 0) {
             continue;
         }
 
