@@ -539,9 +539,13 @@ void CheckDexMasternode()
         if (!pNode->fInbound && !pNode->fMasternode) {
             nOutbound++;
 
+            LogPrint("dex", "CheckDexMasternode -- outbound node: %s\n", pNode->addr.ToString());
+
             if (pNode->nVersion >= MIN_DEX_VERSION && mnodeman.isExist(pNode)) {
+                LogPrint("dex", "CheckDexMasternode -- dex node: %s\n", pNode->addr.ToString());
                 nDex++;
             } else {
+                LogPrint("dex", "CheckDexMasternode -- node to remove: %s\n", pNode->addr.ToString());
                 nodeToRemove.push_back(pNode);
             }
         }
@@ -549,9 +553,9 @@ void CheckDexMasternode()
 
     int minNumDexNode = dexsync.minNumDexNode();
     if ((MAX_OUTBOUND_CONNECTIONS == nOutbound) && nDex < minNumDexNode) {
-        int nDis = minNumDexNode - nDex;
+        unsigned nDis = minNumDexNode - nDex;
 
-        for (int i = 0; i < nDis; i++) {
+        for (unsigned i = 0; i < nDis; i++) {
             if (nodeToRemove.size() > i) {
                 nodeToRemove[i]->fDisconnect = true;
             } else {
