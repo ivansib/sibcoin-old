@@ -66,7 +66,7 @@ public:
     void restart();
     void updatePrevData();
     bool checkSyncData();
-    bool startTimer();
+    void startTimer();
     int offersNeedDownloadSize() const;
 
     boost::signals2::signal<void()> syncFinished;
@@ -84,9 +84,9 @@ private:
     bool canStart();
 
     std::set<uint256> offersNeedDownload;
-    int maxOffersNeedDownload;
-    int prevOffersNeedDownloadSize;
-    int prevMaxOffersNeedDownload;
+    size_t maxOffersNeedDownload;
+    size_t prevOffersNeedDownloadSize;
+    size_t prevMaxOffersNeedDownload;
     float statusPercent;
 
     Status status;

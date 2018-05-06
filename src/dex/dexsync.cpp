@@ -158,6 +158,8 @@ bool CDexSync::reset()
         status = NoStarted;
         startSyncDex();
     }
+    
+    return true;
 }
 
 void CDexSync::restart()
@@ -183,7 +185,7 @@ bool CDexSync::checkSyncData()
     return true;
 }
 
-bool CDexSync::startTimer()
+void CDexSync::startTimer()
 {
     Timer timer(30000, FinishSyncDex);
 }
