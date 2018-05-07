@@ -356,10 +356,20 @@ void DexDB::addOfferSell(const OfferInfo &offer)
     thr.detach();
 }
 
+void DexDB::addOfferSellNoThr(const OfferInfo &offer)
+{
+    addOffer(db, callBack, "offersSell", offer);
+}
+
 void DexDB::editOfferSell(const OfferInfo &offer)
 {
     boost::thread thr(editOffer, boost::ref(db), boost::ref(callBack), "offersSell", offer);
     thr.detach();
+}
+
+void DexDB::editOfferSellNoThr(const OfferInfo &offer)
+{
+    editOffer(db, callBack, "offersSell", offer);
 }
 
 void DexDB::deleteOfferSell(const uint256 &idTransaction)
@@ -367,6 +377,12 @@ void DexDB::deleteOfferSell(const uint256 &idTransaction)
     boost::thread thr(deleteOffer, boost::ref(db), boost::ref(callBack), "offersSell", idTransaction);
     thr.detach();
 }
+
+void DexDB::deleteOfferSellNoThr(const uint256 &idTransaction)
+{
+   deleteOffer(db, callBack, "offersSell", idTransaction);
+}
+
 
 void DexDB::deleteOldOffersSell()
 {
@@ -415,16 +431,31 @@ void DexDB::addOfferBuy(const OfferInfo &offer)
     thr.detach();
 }
 
+void DexDB::addOfferBuyNoThr(const OfferInfo &offer)
+{
+    addOffer(db, callBack, "offersBuy", offer);
+}
+
 void DexDB::editOfferBuy(const OfferInfo &offer)
 {
     boost::thread thr(editOffer, boost::ref(db), boost::ref(callBack), "offersBuy", offer);
     thr.detach();
 }
 
+void DexDB::editOfferBuyNoThr(const OfferInfo &offer)
+{
+    editOffer(db, callBack, "offersBuy", offer);
+}
+
 void DexDB::deleteOfferBuy(const uint256 &idTransaction)
 {
     boost::thread thr(deleteOffer, boost::ref(db), boost::ref(callBack), "offersBuy", idTransaction);
     thr.detach();
+}
+
+void DexDB::deleteOfferBuyNoThr(const uint256 &idTransaction)
+{
+    deleteOffer(db, callBack, "offersBuy", idTransaction);
 }
 
 void DexDB::deleteOldOffersBuy()
@@ -474,10 +505,20 @@ void DexDB::addMyOffer(const MyOfferInfo &offer)
     thr.detach();
 }
 
+void DexDB::addMyOfferNoThr(const MyOfferInfo &offer)
+{
+    addMyOfferInThread(db, callBack, offer);
+}
+
 void DexDB::editMyOffer(const MyOfferInfo &offer)
 {
     boost::thread thr(editMyOfferInThread, boost::ref(db), boost::ref(callBack), offer);
     thr.detach();
+}
+
+void DexDB::editMyOfferNoThr(const MyOfferInfo &offer)
+{
+    editMyOfferInThread(db, callBack, offer);
 }
 
 void DexDB::deleteMyOffer(const uint256 &idTransaction)
@@ -486,11 +527,22 @@ void DexDB::deleteMyOffer(const uint256 &idTransaction)
     thr.detach();
 }
 
+void DexDB::deleteMyOfferNoThr(const uint256 &idTransaction)
+{
+    deleteOffer(db, callBack, "myOffers", idTransaction);
+}
+
 void DexDB::deleteMyOfferByHash(const uint256 &hash)
 {
     boost::thread thr(deleteOfferByHash, boost::ref(db), boost::ref(callBack), "myOffers", hash);
     thr.detach();
 }
+
+void DexDB::deleteMyOfferByHashNoThr(const uint256 &hash)
+{
+    deleteOfferByHash(db, callBack, "myOffers", hash);
+}
+
 
 void DexDB::deleteOldMyOffers()
 {

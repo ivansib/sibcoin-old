@@ -471,9 +471,9 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
     }
 
     if (sended > 1 || offer.status == dex::Draft || offer.status == dex::Indefined) {
-        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuy (offer.idTransaction);
-        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSell(offer.idTransaction);
-        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOffer  (offer.idTransaction);
+        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuyNoThr (offer.idTransaction);
+        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSellNoThr(offer.idTransaction);
+        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOfferNoThr  (offer.idTransaction);
     }
 
     throw runtime_error("\nsuccess\n");
@@ -554,15 +554,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
 
     CallBackDBForRpc callBack;
     dex::DexDB::self()->addCallBack(&callBack);
-    dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer));
-
-    for (int i = 0; i < 50; i++) {
-        if (callBack.statusAddMyOffer() != NotDone) {
-            break;
-        }
-        MilliSleep(10);
-    }
-
+    dex::DexDB::self()->addMyOfferNoThr(MyOfferInfo(cOffer));
     CallBackStatus status = callBack.statusAddMyOffer();
     dex::DexDB::self()->removeCallBack(&callBack);
 
@@ -653,15 +645,7 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         CallBackDBForRpc callBack;
         dex::DexDB::self()->addCallBack(&callBack);
 
-        dexman.addOrEditDraftMyOffer(offer);
-
-        for (int i = 0; i < 50; i++) {
-            if (callBack.statusChangedMyOffer() != NotDone) {
-                break;
-            }
-            MilliSleep(10);
-        }
-
+        dexman.addOrEditDraftMyOffer(offer, false);
         CallBackStatus status = callBack.statusChangedMyOffer();
         dex::DexDB::self()->removeCallBack(&callBack);
         if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
@@ -707,14 +691,7 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         dex::DexDB::self()->addCallBack(&callBack);
 
         std::string error;
-        dexman.prepareAndSendMyOffer(currentMyOffer, error);
-
-        for (int i = 0; i < 50; i++) {
-            if (callBack.statusChangedMyOffer() != NotDone) {
-                break;
-            }
-            MilliSleep(10);
-        }
+        dexman.prepareAndSendMyOffer(currentMyOffer, error, false);
 
         CallBackStatus status = callBack.statusChangedMyOffer();
         dex::DexDB::self()->removeCallBack(&callBack);
@@ -774,7 +751,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
 
     std::string error;
     //myOffer.timeCreate = GetTime(); error with change hash!!!!
-    dexman.prepareAndSendMyOffer(myOffer, error);
+    dexman.prepareAndSendMyOffer(myOffer, error, false);
 
     if (!error.empty()) {
         throw runtime_error("\nERROR: " + error + "\n");
