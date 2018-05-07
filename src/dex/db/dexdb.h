@@ -61,6 +61,8 @@ public:
     bool isExistOfferSell(const uint256 &idTransaction);
     bool isExistOfferSellByHash(const uint256 &hash);
     std::list<uint256> getSellHashs();
+    int countOffersSell();
+    int countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
 
     void addOfferBuy(const OfferInfo &offer);
     void editOfferBuy(const OfferInfo &offer);
@@ -73,6 +75,8 @@ public:
     bool isExistOfferBuy(const uint256 &idTransaction);
     bool isExistOfferBuyByHash(const uint256 &hash);
     std::list<uint256> getBuyHashs();
+    int countOffersBuy();
+    int countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
 
     void addMyOffer(const MyOfferInfo &offer);
     void editMyOffer(const MyOfferInfo &offer);
@@ -85,6 +89,8 @@ public:
     std::list<MyOfferInfo> getMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, const int &limit, const int &offset);
     MyOfferInfo getMyOffer(const uint256 &idTransaction);
     MyOfferInfo getMyOfferByHash(const uint256 &hash);
+    int countMyOffers();
+    int countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer);
 
     void addFilter(const std::string &filter);
     void deleteFilter(const std::string &filter);
@@ -135,6 +141,8 @@ private:
     bool isExistOffer(const std::string &tableName, const uint256 &idTransaction);
     bool isExistOfferByHash(const std::string &tableName, const uint256 &hash);
     std::list<uint256> getHashs(const std::string &tableName);
+    int countOffers(const std::string &tableName, int &status);
+    int countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status);
 
     sqlite3pp::database db;
     static std::map<CallBackDB*, int> callBack; 

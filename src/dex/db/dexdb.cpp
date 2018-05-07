@@ -409,6 +409,28 @@ std::list<uint256> DexDB::getSellHashs()
     return getHashs("offersSell");
 }
 
+int DexDB::countOffersSell()
+{
+    std::string tableName = "offersSell";
+
+    int status;
+    int count = countOffers(tableName, status);
+    finishTableOperation(callBack, OffersSell, Read, status);
+
+    return count;
+}
+
+int DexDB::countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment)
+{
+    std::string tableName = "offersSell";
+
+    int status;
+    int count = countOffers(tableName, countryIso, currencyIso, payment, 0, 0, status);
+    finishTableOperation(callBack, OffersSell, Read, status);
+
+    return count;
+}
+
 void DexDB::addOfferBuy(const OfferInfo &offer)
 {
     boost::thread thr(addOffer, boost::ref(db), boost::ref(callBack), "offersBuy", offer);
@@ -466,6 +488,28 @@ bool DexDB::isExistOfferBuyByHash(const uint256 &hash)
 std::list<uint256> DexDB::getBuyHashs()
 {
     return getHashs("offersBuy");
+}
+
+int DexDB::countOffersBuy()
+{
+    std::string tableName = "offersBuy";
+
+    int status;
+    int count = countOffers(tableName, status);
+    finishTableOperation(callBack, OffersBuy, Read, status);
+
+    return count;
+}
+
+int DexDB::countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment)
+{
+    std::string tableName = "offersBuy";
+
+    int status;
+    int count = countOffers(tableName, countryIso, currencyIso, payment, 0, 0, status);
+    finishTableOperation(callBack, OffersBuy, Read, status);
+
+    return count;
 }
 
 void DexDB::addMyOffer(const MyOfferInfo &offer)
@@ -657,6 +701,28 @@ MyOfferInfo DexDB::getMyOfferByHash(const uint256 &hash)
     finishTableOperation(callBack, MyOffers, Read, stat);
 
     return info;
+}
+
+int DexDB::countMyOffers()
+{
+    std::string tableName = "myOffers";
+
+    int status;
+    int count = countOffers(tableName, status);
+    finishTableOperation(callBack, MyOffers, Read, status);
+
+    return count;
+}
+
+int DexDB::countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer)
+{
+    std::string tableName = "myOffers";
+
+    int status;
+    int count = countOffers(tableName, countryIso, currencyIso, payment, type, statusOffer, status);
+    finishTableOperation(callBack, MyOffers, Read, status);
+
+    return count;
 }
 
 MyOfferInfo DexDB::getMyOffer(sqlite3pp::query::iterator &it)
@@ -1140,6 +1206,75 @@ std::list<uint256> DexDB::getHashs(const std::string &tableName)
     finishTableOperation(callBack, tTable, Read, status);
 
     return ids;
+}
+
+int DexDB::countOffers(const std::string &tableName, int &status)
+{
+    int count;
+    std::string query = "SELECT count(*) FROM " + tableName;
+    sqlite3pp::query qry(db, query.c_str());
+
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+    status = qry.finish();
+
+    return count;
+}
+
+int DexDB::countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status)
+{
+    int count;
+    std::list<MyOfferInfo> offers;
+
+    std::string strQuery = "SELECT count(*) FROM " + tableName;
+
+    std::string where = "";
+    if (countryIso != "") {
+        where += " countryIso = '" + countryIso + "'";
+    }
+
+    if (currencyIso != "") {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " currencyIso = '" + currencyIso + "'";
+    }
+
+    if (payment > 0) {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " paymentMethod = " + std::to_string(payment);
+    }
+
+    if (type > 0) {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " type = " + std::to_string(type);
+    }
+
+    if (statusOffer > 0) {
+        if (where != "") {
+            where += " AND";
+        }
+
+        where += " status = " + std::to_string(statusOffer);
+    }
+
+    if (where != "") {
+        strQuery += " WHERE" + where;
+    }
+
+    sqlite3pp::query qry(db, strQuery.c_str());
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+    status = qry.finish();
+
+    return count;
 }
 
 void DexDB::addCountryInThread(sqlite3pp::database &db, const CallBack &callBack, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
