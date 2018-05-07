@@ -52,6 +52,10 @@ protected Q_SLOTS:
     virtual void changedFilterOfferType(const int &) = 0;
     virtual void updateData() = 0;
     virtual void resizeTable() = 0;
+    virtual void firstPage() = 0;
+    virtual void prevPage() = 0;
+    virtual void nextPage() = 0;
+    virtual void lastPage() = 0;
 
 Q_SIGNALS:
     void navigationDataUpdate();

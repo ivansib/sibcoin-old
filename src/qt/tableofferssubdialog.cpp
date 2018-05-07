@@ -32,6 +32,11 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, cons
     connect(cBoxCurrency, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterCurrencyIso(int)));
     connect(cBoxPayment, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterPaymentMethod(int)));
 
+    connect(btnFirstPage, SIGNAL(clicked()), this, SLOT(firstPage()));
+    connect(btnPrevPage, SIGNAL(clicked()), this, SLOT(prevPage()));
+    connect(btnNextPage, SIGNAL(clicked()), this, SLOT(nextPage()));
+    connect(btnLastPage, SIGNAL(clicked()), this, SLOT(lastPage()));
+
     connect(pDelegate, SIGNAL(clicked(int)), this, SLOT(clickedButton(int)));
 
     useMyOfferMode(false);
@@ -104,7 +109,7 @@ void TableOffersSubDialog::useMyOfferMode(const bool &b)
 {
     cBoxOffer->setVisible(b);
     labelOffer->setVisible(b);
-    widgetBottom->setVisible(b);
+    btnCreate->setVisible(b);
 
     if (b) {
         connect(cBoxOffer, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterOfferType(int)));

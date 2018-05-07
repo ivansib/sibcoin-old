@@ -69,3 +69,23 @@ void TableOffersView::resizeTable()
     tableView->setColumnWidth(2, 150);
     tableView->setColumnWidth(3, 150);
 }
+
+void TableOffersView::firstPage()
+{
+
+}
+
+void TableOffersView::prevPage()
+{
+
+}
+
+void TableOffersView::nextPage()
+{
+
+}
+
+void TableOffersView::lastPage()
+{
+
+}

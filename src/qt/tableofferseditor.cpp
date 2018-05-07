@@ -117,6 +117,26 @@ void TableOffersEditor::resizeTable()
     tableView->setColumnWidth(4, 150);
 }
 
+void TableOffersEditor::firstPage()
+{
+
+}
+
+void TableOffersEditor::prevPage()
+{
+
+}
+
+void TableOffersEditor::nextPage()
+{
+
+}
+
+void TableOffersEditor::lastPage()
+{
+
+}
+
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
 {
     if (table == MyOffers && (operation == Add || operation == Edit || operation == Delete) && status == Ok) {

@@ -25,10 +25,15 @@ private:
     const TypeOffer type;
 
 protected Q_SLOTS:
-   virtual void clickedButton(const int &index) override;
-   virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status) override;
-   virtual void updateData() override;
-   virtual void resizeTable() override;
+    virtual void clickedButton(const int &index) override;
+    virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status) override;
+    virtual void updateData() override;
+    virtual void resizeTable() override;
+    virtual void firstPage() override;
+    virtual void prevPage() override;
+    virtual void nextPage() override;
+    virtual void lastPage() override;
+
 };
 
 #endif
