@@ -6,6 +6,9 @@
 #include "commonsettingsforoffers.h"
 #include "dto.h"
 
+Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
+Q_DECLARE_METATYPE(QAbstractItemModel::LayoutChangeHint)
+
 template <class Offer>
 class OfferModel : public QAbstractTableModel
 {
