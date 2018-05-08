@@ -471,9 +471,9 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
     }
 
     if (sended > 1 || offer.status == dex::Draft || offer.status == dex::Indefined) {
-        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuyNoThr (offer.idTransaction);
-        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSellNoThr(offer.idTransaction);
-        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOfferNoThr  (offer.idTransaction);
+        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuy(offer.idTransaction, false);
+        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSell(offer.idTransaction, false);
+        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOffer(offer.idTransaction, false);
     }
 
     throw runtime_error("\nsuccess\n");
@@ -554,7 +554,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
 
     CallBackDBForRpc callBack;
     dex::DexDB::self()->addCallBack(&callBack);
-    dex::DexDB::self()->addMyOfferNoThr(MyOfferInfo(cOffer));
+    dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer), false);
     CallBackStatus status = callBack.statusAddMyOffer();
     dex::DexDB::self()->removeCallBack(&callBack);
 

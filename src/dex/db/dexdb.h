@@ -50,13 +50,10 @@ public:
     std::list<PaymentMethodInfo> getPaymentMethodsInfo();
     PaymentMethodInfo getPaymentMethodInfo(const unsigned char &type);
 
-    void addOfferSell(const OfferInfo &offer);
-    void addOfferSellNoThr(const OfferInfo &offer);
-    void editOfferSell(const OfferInfo &offer);
-    void editOfferSellNoThr(const OfferInfo &offer);
-    void deleteOfferSell(const uint256 &idTransaction);
-    void deleteOfferSellNoThr(const uint256 &idTransaction);
-    void deleteOldOffersSell();
+    void addOfferSell(const OfferInfo &offer, bool usethread = true);
+    void editOfferSell(const OfferInfo &offer, bool usethread = true);
+    void deleteOfferSell(const uint256 &idTransaction, bool usethread = true);
+    void deleteOldOffersSell(bool usethread = true);
     std::list<OfferInfo> getOffersSell();
     std::list<OfferInfo> getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
     OfferInfo getOfferSell(const uint256 &idTransaction);
@@ -67,13 +64,10 @@ public:
     int countOffersSell();
     int countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
 
-    void addOfferBuy(const OfferInfo &offer);
-    void addOfferBuyNoThr(const OfferInfo &offer);
-    void editOfferBuy(const OfferInfo &offer);
-    void editOfferBuyNoThr(const OfferInfo &offer);
-    void deleteOfferBuy(const uint256 &idTransaction);
-    void deleteOfferBuyNoThr(const uint256 &idTransaction);
-    void deleteOldOffersBuy();
+    void addOfferBuy(const OfferInfo &offer, bool usethread = true);
+    void editOfferBuy(const OfferInfo &offer, bool usethread = true);
+    void deleteOfferBuy(const uint256 &idTransaction, bool usethread = true);
+    void deleteOldOffersBuy(bool usethread = true);
     std::list<OfferInfo> getOffersBuy();
     std::list<OfferInfo> getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
     OfferInfo getOfferBuy(const uint256 &idTransaction);
@@ -84,14 +78,10 @@ public:
     int countOffersBuy();
     int countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
 
-    void addMyOffer(const MyOfferInfo &offer);
-    void addMyOfferNoThr(const MyOfferInfo &offer);
-    void editMyOffer(const MyOfferInfo &offer);
-    void editMyOfferNoThr(const MyOfferInfo &offer);
-    void deleteMyOffer(const uint256 &idTransaction);
-    void deleteMyOfferNoThr(const uint256 &idTransaction);
-    void deleteMyOfferByHash(const uint256 &hash);
-    void deleteMyOfferByHashNoThr(const uint256 &hash);
+    void addMyOffer(const MyOfferInfo &offer, bool usethread = true);
+    void editMyOffer(const MyOfferInfo &offer, bool usethread = true);
+    void deleteMyOffer(const uint256 &idTransaction, bool usethread = true);
+    void deleteMyOfferByHash(const uint256 &hash, bool usethread = true);
     void deleteOldMyOffers();
     bool isExistMyOffer(const uint256 &idTransaction);
     bool isExistMyOfferByHash(const uint256 &hash);

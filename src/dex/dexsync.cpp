@@ -276,19 +276,19 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
                 if (db->isExistOfferBuy(offer.idTransaction)) {
                     OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferBuy(offer);
+                        db->editOfferBuy(offer, false);
                     }
                 } else {
-                    db->addOfferBuy(offer);
+                    db->addOfferBuy(offer, false);
                 }
             } else if (offer.isSell())  {
                 if (db->isExistOfferSell(offer.idTransaction)) {
                     OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferSell(offer);
+                        db->editOfferSell(offer, false);
                     }
                 } else {
-                    db->addOfferSell(offer);
+                    db->addOfferSell(offer, false);
                 }
             }
         } else {
@@ -311,7 +311,7 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 
                     if (dex.CheckOfferTx(error)) {
                         mOfferInfo.status = Active;
-                        db->addMyOffer(mOfferInfo);
+                        db->addMyOffer(mOfferInfo, false);
                     }
                 }
             }
