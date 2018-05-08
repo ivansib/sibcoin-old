@@ -55,8 +55,11 @@ void TableOffersEditor::resizeEvent(QResizeEvent *event)
 
 void TableOffersEditor::updateData()
 {
-    QList<QtMyOfferInfo> offers = ConvertData::toListQtMyOfferInfo(db->getMyOffers());
+    int limit = rowOnPage();
+    int offset = limit * page;
+    QList<QtMyOfferInfo> offers = ConvertData::toListQtMyOfferInfo(db->getMyOffers(countryIso, currencyIso, paymentMethod, offerType, 0, limit, offset));
     pModel->setOffers(offers);
+    updatePageInfo();
 }
 
 void TableOffersEditor::saveMyOffer(const MyOfferInfo &info)
@@ -66,6 +69,11 @@ void TableOffersEditor::saveMyOffer(const MyOfferInfo &info)
     } else {
         db->addMyOffer(info);
     }
+}
+
+int TableOffersEditor::countOffers() const
+{
+    return db->countMyOffers(countryIso, currencyIso, paymentMethod, offerType, 0);
 }
 
 void TableOffersEditor::clickedButton(const int &index)
@@ -115,26 +123,6 @@ void TableOffersEditor::resizeTable()
     tableView->setColumnWidth(1, 150);
     tableView->setColumnWidth(3, 150);
     tableView->setColumnWidth(4, 150);
-}
-
-void TableOffersEditor::firstPage()
-{
-
-}
-
-void TableOffersEditor::prevPage()
-{
-
-}
-
-void TableOffersEditor::nextPage()
-{
-
-}
-
-void TableOffersEditor::lastPage()
-{
-
 }
 
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)

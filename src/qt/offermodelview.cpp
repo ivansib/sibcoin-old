@@ -81,19 +81,3 @@ void OfferModelView::sort(int column, Qt::SortOrder order)
 
     Q_EMIT layoutChanged();
 }
-
-void OfferModelView::filterOffers()
-{
-    offersView.clear();
-    for (auto item : offers) {
-        bool b1 = (paymentMethod == item.paymentMethod || paymentMethod == 0);
-        bool b2 = countryIso == item.countryIso || countryIso == "all";
-        bool b3 = currencyIso == item.currencyIso || currencyIso == "all";
-
-        if (b1 && b2 && b3) {
-            offersView << item;
-        }
-    }
-
-    Q_EMIT layoutChanged();
-}

@@ -19,6 +19,7 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
+    virtual int countOffers() const override;
 
 private:
     OfferDetailsView *details;
@@ -29,11 +30,6 @@ protected Q_SLOTS:
     virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status) override;
     virtual void updateData() override;
     virtual void resizeTable() override;
-    virtual void firstPage() override;
-    virtual void prevPage() override;
-    virtual void nextPage() override;
-    virtual void lastPage() override;
-
 };
 
 #endif

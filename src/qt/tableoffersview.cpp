@@ -8,6 +8,7 @@ TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, const CommonS
     details = new OfferDetailsView(db, this);
 
     updateData();
+    init();
 
     tableView->setColumnWidth(0, 150);
     tableView->setColumnWidth(2, 150);
@@ -27,18 +28,29 @@ void TableOffersView::resizeEvent(QResizeEvent *event)
     columnResizingFixer->stretchColumnWidth(1);
 }
 
+int TableOffersView::countOffers() const
+{
+    if (type == Buy) {
+        return db->countOffersBuy(countryIso, currencyIso, paymentMethod);
+    }
+
+    return db->countOffersSell(countryIso, currencyIso, paymentMethod);
+}
+
 void TableOffersView::updateData()
 {
+    int limit = rowOnPage();
+    int offset = limit * page;
+
     QList<QtOfferInfo> offers;
     if (type == Buy) {
-        offers = ConvertData::toListQtOfferInfo(db->getOffersBuy());
+        offers = ConvertData::toListQtOfferInfo(db->getOffersBuy(countryIso, currencyIso, paymentMethod, limit, offset));
     } else {
-        offers = ConvertData::toListQtOfferInfo(db->getOffersSell());
+        offers = ConvertData::toListQtOfferInfo(db->getOffersSell(countryIso, currencyIso, paymentMethod, limit, offset));
     }
 
     pModel->setOffers(offers);
-
-    init();
+    updatePageInfo();
 }
 
 void TableOffersView::clickedButton(const int &index)
@@ -68,24 +80,4 @@ void TableOffersView::resizeTable()
     tableView->setColumnWidth(0, 150);
     tableView->setColumnWidth(2, 150);
     tableView->setColumnWidth(3, 150);
-}
-
-void TableOffersView::firstPage()
-{
-
-}
-
-void TableOffersView::prevPage()
-{
-
-}
-
-void TableOffersView::nextPage()
-{
-
-}
-
-void TableOffersView::lastPage()
-{
-
 }

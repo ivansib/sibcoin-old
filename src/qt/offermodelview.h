@@ -12,9 +12,6 @@ public:
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
     virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
-
-protected:
-    virtual void filterOffers();
 };
 
 #endif

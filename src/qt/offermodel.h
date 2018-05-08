@@ -18,17 +18,13 @@ public:
     virtual ~OfferModel();
 
     void setOffers(const QList<Offer> &offers);
-    void setFilterCountryIso(const QString &iso);
-    void setFilterCurrencyIso(const QString &iso);
-    void setFilterPaymentMethod(const uint8_t &payment);
-    void setFilterTypeOffer(const int &typeOffer);
 
     Offer offerInfo(const int &row);
 
     virtual int rowCount(const QModelIndex &parent=QModelIndex()) const;
     virtual int columnCount(const QModelIndex &parent) const;
 
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;    
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 protected:
     QStringList listHead;
@@ -42,8 +38,6 @@ protected:
     QString currencyIso;
     uint8_t paymentMethod;
     int typeOffer;
-
-    virtual void filterOffers() = 0;
 };
 
 #endif

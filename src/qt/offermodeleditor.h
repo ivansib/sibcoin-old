@@ -13,9 +13,6 @@ public:
 
     virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
-protected:
-    virtual void filterOffers();
-
 private:
     QString status(const StatusOffer &s) const;
 };

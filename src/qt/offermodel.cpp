@@ -22,37 +22,7 @@ void OfferModel<Offer>::setOffers(const QList<Offer> &offers)
     this->offers = offers;
     offersView = this->offers;
 
-    filterOffers();
-
     Q_EMIT layoutChanged();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterCountryIso(const QString &iso)
-{
-    countryIso = iso;
-    filterOffers();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterCurrencyIso(const QString &iso)
-{
-    currencyIso = iso;
-    filterOffers();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterPaymentMethod(const uint8_t &payment)
-{
-    paymentMethod = payment;
-    filterOffers();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterTypeOffer(const int &typeOffer)
-{
-    this->typeOffer = typeOffer;
-    filterOffers();
 }
 
 template <class Offer>

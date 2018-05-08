@@ -441,7 +441,7 @@ int DexDB::countOffersSell(const std::string &countryIso, const std::string &cur
     std::string tableName = "offersSell";
 
     int status;
-    int count = countOffers(tableName, countryIso, currencyIso, payment, 0, 0, status);
+    int count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
     finishTableOperation(callBack, OffersSell, Read, status);
 
     return count;
@@ -537,7 +537,7 @@ int DexDB::countOffersBuy(const std::string &countryIso, const std::string &curr
     std::string tableName = "offersBuy";
 
     int status;
-    int count = countOffers(tableName, countryIso, currencyIso, payment, 0, 0, status);
+    int count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
     finishTableOperation(callBack, OffersBuy, Read, status);
 
     return count;
@@ -682,7 +682,7 @@ std::list<MyOfferInfo> DexDB::getMyOffers(const std::string &countryIso, const s
         where += " paymentMethod = " + std::to_string(payment);
     }
 
-    if (type > 0) {
+    if (type >= 0) {
         if (where != "") {
             where += " AND";
         }
@@ -1301,7 +1301,7 @@ int DexDB::countOffers(const std::string &tableName, const std::string &countryI
         where += " paymentMethod = " + std::to_string(payment);
     }
 
-    if (type > 0) {
+    if (type >= 0) {
         if (where != "") {
             where += " AND";
         }
