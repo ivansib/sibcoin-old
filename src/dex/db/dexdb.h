@@ -51,8 +51,11 @@ public:
     PaymentMethodInfo getPaymentMethodInfo(const unsigned char &type);
 
     void addOfferSell(const OfferInfo &offer);
+    void addOfferSellNoThr(const OfferInfo &offer);
     void editOfferSell(const OfferInfo &offer);
+    void editOfferSellNoThr(const OfferInfo &offer);
     void deleteOfferSell(const uint256 &idTransaction);
+    void deleteOfferSellNoThr(const uint256 &idTransaction);
     void deleteOldOffersSell();
     std::list<OfferInfo> getOffersSell();
     std::list<OfferInfo> getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
@@ -65,8 +68,11 @@ public:
     int countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
 
     void addOfferBuy(const OfferInfo &offer);
+    void addOfferBuyNoThr(const OfferInfo &offer);
     void editOfferBuy(const OfferInfo &offer);
+    void editOfferBuyNoThr(const OfferInfo &offer);
     void deleteOfferBuy(const uint256 &idTransaction);
+    void deleteOfferBuyNoThr(const uint256 &idTransaction);
     void deleteOldOffersBuy();
     std::list<OfferInfo> getOffersBuy();
     std::list<OfferInfo> getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
@@ -79,9 +85,13 @@ public:
     int countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
 
     void addMyOffer(const MyOfferInfo &offer);
+    void addMyOfferNoThr(const MyOfferInfo &offer);
     void editMyOffer(const MyOfferInfo &offer);
+    void editMyOfferNoThr(const MyOfferInfo &offer);
     void deleteMyOffer(const uint256 &idTransaction);
+    void deleteMyOfferNoThr(const uint256 &idTransaction);
     void deleteMyOfferByHash(const uint256 &hash);
+    void deleteMyOfferByHashNoThr(const uint256 &hash);
     void deleteOldMyOffers();
     bool isExistMyOffer(const uint256 &idTransaction);
     bool isExistMyOfferByHash(const uint256 &hash);
