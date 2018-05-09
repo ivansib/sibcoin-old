@@ -15,6 +15,7 @@ public:
     CommonSettingsForOffersWidget(DexDB *db, QWidget *parent = nullptr);
     ~CommonSettingsForOffersWidget();
 
+    void update();
     void saveData();
     void cancel();
 
@@ -24,8 +25,14 @@ private:
 
     void setData();
 
+    void connectWidgets();
+    void disconnectWidgets();
+
 private Q_SLOTS:
+    void changedData();
     void changedData(int);
+    void changedData(quint64);
+    void changedShowMaxRows(bool isCheked);
 
 Q_SIGNALS:
     void dataChanged();

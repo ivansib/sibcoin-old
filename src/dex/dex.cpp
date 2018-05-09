@@ -18,6 +18,7 @@
 
 #define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrint("dex", "%s\n", str.c_str()); sError += str; break; } }
 
+namespace dex {
 
 CDex::CDex()
 {
@@ -123,7 +124,7 @@ bool CDex::CheckOfferTx(std::string &sError)
             CHECK (prevtx.vout.size() > i.prevout.n, "prev tx out error");
             debit += prevtx.vout[i.prevout.n].nValue;
         }
-        CHECK((debit - credit) == PAYOFFER_TX_FEE * coef, "payoffer tx fee error");
+        CHECK((debit - credit) >= PAYOFFER_TX_FEE * coef, "payoffer tx fee error");
         return true;
     } while(false);
     return false;
@@ -206,3 +207,4 @@ bool CDex::MakeEditSign(const CKey &key, std::string &sError)
 #endif
 }
 
+}

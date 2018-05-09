@@ -21,6 +21,8 @@ public:
         EditOffer
     };
 
+    void sync();
+
     static CommonSettingsForOffers *instance();
     static void freeInstance();
 
@@ -38,6 +40,12 @@ public:
 
     quint64 getMinAmount();
     void setMinAmount(const quint64 &min);
+
+    int getNumRowsTables();
+    void setNumRowsTables(const int &num);
+
+    bool getShowMaxRowsTables();
+    void setShowMaxRowsTables(const bool isShow);
 
 private:
     QSettings *settings;

@@ -11,6 +11,14 @@ void ComboBox::setCurrentData(const QString &data) {
     setCurrentIndex(index);
 }
 
+#if QT_VERSION < 0x050200
+QVariant ComboBox::currentData() const
+{
+    int index = currentIndex();
+    return itemData(index);
+}
+#endif
+
 void ComboBox::addData(const std::list<PaymentMethodInfo> &data, const ComboType &type)
 {
     clear();

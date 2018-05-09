@@ -5,6 +5,8 @@
 #include "wallet.h"
 #include "util.h"
 #include "utilstrencodings.h"
+#include "masternodeman.h"
+#include "masternode-sync.h"
 
 #include "dex/db/dexdb.h"
 #include "dexsync.h"
@@ -12,6 +14,7 @@
 #include "base58.h"
 
 
+namespace dex {
 
 CDexManager dexman;
 
@@ -44,7 +47,7 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
     }
 }
 
-void CDexManager::addOrEditDraftMyOffer(MyOfferInfo &myOffer)
+void CDexManager::addOrEditDraftMyOffer(MyOfferInfo &myOffer, bool usethread)
 {
     initDB();
 
@@ -60,10 +63,10 @@ void CDexManager::addOrEditDraftMyOffer(MyOfferInfo &myOffer)
 
     myOffer.setOfferInfo(dexOffer);
 
-    saveMyOffer(myOffer);
+    saveMyOffer(myOffer, usethread);
 }
 
-void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error)
+void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error, bool usethread)
 {
     initDB();
 
@@ -74,7 +77,7 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
         dexOffer.Create(myOffer);
 
         if (oldHash != dexOffer.hash) {
-            db->deleteMyOfferByHash(oldHash);
+            db->deleteMyOfferByHash(oldHash, usethread);
         }
     } else if (myOffer.status == Active) {
         myOffer.editingVersion++;
@@ -100,10 +103,10 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
         dexman.sendEditedOffer(dex.offer);
 
         if (dex.offer.isBuy()) {
-            db->editOfferBuy(dex.offer);
+            db->editOfferBuy(dex.offer, usethread);
         }
         if (dex.offer.isSell()) {
-            db->editOfferSell(dex.offer);
+            db->editOfferSell(dex.offer, usethread);
         }
     } else if (dex.PayForOffer(tx, error)) {
         dexman.sendNewOffer(dex.offer);
@@ -111,36 +114,48 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
         myOffer.setOfferInfo(dex.offer);
         myOffer.status = Active;
         if (dex.offer.isBuy()) {
-            db->addOfferBuy(dex.offer);
+            db->addOfferBuy(dex.offer, usethread);
         }
         if (dex.offer.isSell()) {
-            db->addOfferSell(dex.offer);
+            db->addOfferSell(dex.offer, usethread);
         }
     }
 
     if (error.empty()) {
-        saveMyOffer(myOffer);
+        saveMyOffer(myOffer, usethread);
     }
 }
 
 void CDexManager::sendNewOffer(const CDexOffer &offer)
 {
-    LOCK2(cs_main, cs_vNodes);
+    auto vNodesCopy = CopyNodeVector();
 
-    for (CNode *pNode : vNodes) {
+    for (auto pNode : vNodesCopy) {
+        if (pNode->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
     }
+
+    ReleaseNodeVector(vNodesCopy);
 }
 
 void CDexManager::sendEditedOffer(const CDexOffer &offer)
 {
     std::vector<unsigned char> vchSign = ParseHex(offer.editsign);
 
-    LOCK2(cs_main, cs_vNodes);
+    auto vNodesCopy = CopyNodeVector();
 
-    for (CNode *pNode : vNodes) {
+    for (auto pNode : vNodesCopy) {
+        if (pNode->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
         pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
     }
+
+    ReleaseNodeVector(vNodesCopy);
 }
 
 void CDexManager::checkUncOffers()
@@ -153,13 +168,13 @@ void CDexManager::checkUncOffers()
         if (dex.CheckOfferTx(error)) {
             if (offer.isBuy())  {
                 if (!db->isExistOfferBuy(offer.idTransaction)) {
-                    db->addOfferBuy(offer);
+                    db->addOfferBuy(offer, false);
                 }
             }
 
             if (offer.isSell())  {
                 if (!db->isExistOfferSell(offer.idTransaction)) {
-                    db->addOfferSell(offer);
+                    db->addOfferSell(offer, false);
                 }
             }
 
@@ -177,7 +192,7 @@ void CDexManager::setStatusExpiredForMyOffers()
     for (auto item : offers) {
         if (item.timeToExpiration < currentTime) {
             item.status = dex::Expired;
-            db->editMyOffer(item);
+            db->editMyOffer(item, false);
         }
     }
 }
@@ -189,8 +204,8 @@ void CDexManager::deleteOldUncOffers()
 
 void CDexManager::deleteOldOffers()
 {
-    db->deleteOldOffersBuy();
-    db->deleteOldOffersSell();
+    db->deleteOldOffersBuy(false);
+    db->deleteOldOffersSell(false);
 }
 
 void CDexManager::initDB()
@@ -215,7 +230,7 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
                 if (db->isExistOfferBuy(offer.idTransaction)) {
                   bFound = true;
                 } else {
-                    db->addOfferBuy(offer);
+                    db->addOfferBuy(offer, false);
                 }
             }
 
@@ -223,34 +238,48 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
                 if (db->isExistOfferSell(offer.idTransaction)) {
                   bFound = true;
                 } else {
-                    db->addOfferSell(offer);
+                    db->addOfferSell(offer, false);
                 }
             }
 
             if (!bFound) { // need to save and relay
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
                 }
+
+                ReleaseNodeVector(vNodesCopy);
             }
             LogPrint("dex", "DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
             if (!uncOffers->isExistOffer(offer.hash)) {
                 uncOffers->setOffer(offer);
 
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
                     }
                 }
+
+                ReleaseNodeVector(vNodesCopy);
+
                 LogPrint("dex", "DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
         }
     } else {
         LogPrint("dex", "DEXOFFBCST -- offer check fail\n");
+        Misbehaving(pfrom->GetId(), 20);
     }
 }
 
@@ -271,14 +300,14 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
             bool bFound = false;
             if (offer.isBuy())  {
                 if (db->isExistOfferBuy(offer.idTransaction)) {
-                    db->deleteOfferBuy(offer.idTransaction);
+                    db->deleteOfferBuy(offer.idTransaction, false);
                     bFound = true;
                 }
             }
 
             if (offer.isSell())  {
                 if (db->isExistOfferSell(offer.idTransaction)) {
-                    db->deleteOfferSell(offer.idTransaction);
+                    db->deleteOfferSell(offer.idTransaction, false);
                     bFound = true;
                 }
             }
@@ -291,12 +320,18 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
             }
 
             if (bFound) { // need to delete and relay
-                LOCK2(cs_main, cs_vNodes);
-                BOOST_FOREACH(CNode* pNode, vNodes) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
                     if (pNode->addr != pfrom->addr) {
                         pNode->PushMessage(NetMsgType::DEXDELOFFER, offer, vchSign);
                     }
                 }
+
+                ReleaseNodeVector(vNodesCopy);
             }
             LogPrint("dex", "DEXDELOFFER --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
@@ -304,6 +339,7 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
         }
     } else {
         LogPrint("dex", "DEXDELOFFER -- offer check fail\n");
+        Misbehaving(pfrom->GetId(), 20);
     }
 }
 
@@ -318,61 +354,73 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     vRecv >> offer;
     vRecv >> vchSign;
     offer.editsign = HexStr(vchSign);
-    if (offer.Check(true) && offer.CheckEditSign()) {
-        CDex dex(offer);
-        std::string error;
-        bool isActual = false;
-        if (dex.CheckOfferTx(error)) {
-            if (offer.isBuy()) {
-                if (db->isExistOfferBuy(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
-                    if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferBuy(offer);
+    if (offer.Check(true)) {
+        if (offer.CheckEditSign()) {
+            CDex dex(offer);
+            std::string error;
+            bool isActual = false;
+            if (dex.CheckOfferTx(error)) {
+                if (offer.isBuy()) {
+                    if (db->isExistOfferBuy(offer.idTransaction)) {
+                        OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
+                        if (offer.editingVersion > existOffer.editingVersion) {
+                            db->editOfferBuy(offer, false);
+                            isActual = true;
+                        }
+                    } else {
+                        db->addOfferBuy(offer, false);
                         isActual = true;
                     }
-                } else {
-                    db->addOfferBuy(offer);
-                    isActual = true;
                 }
-            }
 
-            if (offer.isSell()) {
-                if (db->isExistOfferSell(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
+                if (offer.isSell()) {
+                    if (db->isExistOfferSell(offer.idTransaction)) {
+                        OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
+                        if (offer.editingVersion > existOffer.editingVersion) {
+                            db->editOfferSell(offer, false);
+                            isActual = true;
+                        }
+                    } else {
+                        db->addOfferSell(offer, false);
+                        isActual = true;
+                    }
+                }
+                LogPrint("dex", "DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
+            } else {
+                if (uncOffers->isExistOffer(offer.hash)) {
+                    OfferInfo existOffer = uncOffers->getOffer(offer.hash);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferSell(offer);
+                        uncOffers->deleteOffer(offer.hash);
+                        uncOffers->setOffer(offer);
                         isActual = true;
                     }
                 } else {
-                    db->addOfferSell(offer);
-                    isActual = true;
-                }
-            }
-            LogPrint("dex", "DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
-        } else {
-            if (uncOffers->isExistOffer(offer.hash)) {
-                OfferInfo existOffer = uncOffers->getOffer(offer.hash);
-                if (offer.editingVersion > existOffer.editingVersion) {
-                    uncOffers->deleteOffer(offer.hash);
                     uncOffers->setOffer(offer);
                     isActual = true;
                 }
-            } else {
-                uncOffers->setOffer(offer);
-                isActual = true;
+                LogPrint("dex", "DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
-            LogPrint("dex", "DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
-        }
-        if (isActual) {
-            LOCK2(cs_main, cs_vNodes);
-            for (CNode* pNode : vNodes) {
-                if (pNode->addr != pfrom->addr) {
-                    pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
+            if (isActual) {
+                auto vNodesCopy = CopyNodeVector();
+                for (auto pNode : vNodesCopy) {
+                    if (pNode->nVersion < MIN_DEX_VERSION) {
+                        continue;
+                    }
+
+                    if (pNode->addr != pfrom->addr) {
+                        pNode->PushMessage(NetMsgType::DEXOFFEDIT, offer, vchSign);
+                    }
                 }
+
+                ReleaseNodeVector(vNodesCopy);
             }
+        } else {
+            LogPrint("dex", "DEXOFFEDIT -- reach the limit for editing a offer\n");
+            Misbehaving(pfrom->GetId(), 5);
         }
     } else {
         LogPrint("dex", "DEXOFFEDIT -- offer check fail\n");
+        Misbehaving(pfrom->GetId(), 20);
     }
 }
 
@@ -417,17 +465,18 @@ UnconfirmedOffers *CDexManager::getUncOffers() const
     return uncOffers;
 }
 
-void CDexManager::saveMyOffer(const MyOfferInfo &info)
+void CDexManager::saveMyOffer(const MyOfferInfo &info, bool usethread)
 {
     if (db->isExistMyOfferByHash(info.hash)) {
-        db->editMyOffer(info);
+        db->editMyOffer(info, usethread);
     } else {
-        db->addMyOffer(info);
+        db->addMyOffer(info, usethread);
     }
 }
 
+}
 
-
+using namespace dex;
 
 void ThreadDexManager()
 {
@@ -441,9 +490,16 @@ void ThreadDexManager()
     while (true) {
         MilliSleep(minPeriod);
 
-        if (!dexsync.isSynced()) {
+        if (masternodeSync.IsSynced() && (dexsync.statusSync() == CDexSync::NoStarted || dexsync.statusSync() == CDexSync::NoRestarted)) {
+            CheckDexMasternode();
+            dexman.startSyncDex();
+        }
+
+        if (!dexsync.isSynced() && step != 0) {
             continue;
         }
+
+        CheckDexMasternode();
 
         if (step % stepCheckUnc == 0) {
             LogPrint("dex", "ThreadDexManager -- check unconfirmed offers\n");
@@ -468,4 +524,45 @@ void ThreadDexManager()
             step++;
         }
     }
+}
+
+void CheckDexMasternode()
+{
+    int nOutbound = 0;
+    int nDex = 0;
+    std::vector<CNode *> nodeToRemove;
+    std::set<std::vector<unsigned char> > setConnected;
+
+    auto vNodesCopy = CopyNodeVector();
+
+    for (auto pNode : vNodesCopy) {
+        if (!pNode->fInbound && !pNode->fMasternode) {
+            nOutbound++;
+
+            LogPrint("dex", "CheckDexMasternode -- outbound node: %s\n", pNode->addr.ToString());
+
+            if (pNode->nVersion >= MIN_DEX_VERSION && mnodeman.isExist(pNode)) {
+                LogPrint("dex", "CheckDexMasternode -- dex node: %s\n", pNode->addr.ToString());
+                nDex++;
+            } else {
+                LogPrint("dex", "CheckDexMasternode -- node to remove: %s\n", pNode->addr.ToString());
+                nodeToRemove.push_back(pNode);
+            }
+        }
+    }
+
+    int minNumDexNode = dexsync.minNumDexNode();
+    if ((MAX_OUTBOUND_CONNECTIONS == nOutbound) && nDex < minNumDexNode) {
+        unsigned nDis = minNumDexNode - nDex;
+
+        for (unsigned i = 0; i < nDis; i++) {
+            if (nodeToRemove.size() > i) {
+                nodeToRemove[i]->fDisconnect = true;
+            } else {
+                break;
+            }
+        }
+    }
+
+    ReleaseNodeVector(vNodesCopy);
 }

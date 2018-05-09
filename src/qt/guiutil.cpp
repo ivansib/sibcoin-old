@@ -210,7 +210,7 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
     //    which will lower-case it (and thus invalidate the address).
     if(uri.startsWith("sibcoin://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 11, "sibcoin:");
+        uri.replace(0, 10, "sibcoin:");
     }
     QUrl uriInstance(uri);
     return parseBitcoinURI(uriInstance, out);
@@ -898,14 +898,17 @@ void restoreWindowGeometry(const QString& strSetting, const QSize& defaultSize, 
     QPoint pos = settings.value(strSetting + "Pos").toPoint();
     QSize size = settings.value(strSetting + "Size", defaultSize).toSize();
 
-    if (!pos.x() && !pos.y()) {
-        QRect screen = QApplication::desktop()->screenGeometry();
-        pos.setX((screen.width() - size.width()) / 2);
-        pos.setY((screen.height() - size.height()) / 2);
-    }
-
     parent->resize(size);
     parent->move(pos);
+
+    if ((!pos.x() && !pos.y()) || (QApplication::desktop()->screenNumber(parent) == -1))
+    {
+        QRect screen = QApplication::desktop()->screenGeometry();
+        QPoint defaultPos = screen.center() -
+            QPoint(defaultSize.width() / 2, defaultSize.height() / 2);
+        parent->resize(defaultSize);
+        parent->move(defaultPos);
+    }
 }
 
 // Return name of current UI-theme or default theme if no theme was found

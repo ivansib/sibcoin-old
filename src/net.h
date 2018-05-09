@@ -17,6 +17,7 @@
 #include "uint256.h"
 #include "util.h"
 
+#include <atomic>
 #include <deque>
 #include <stdint.h>
 
@@ -42,6 +43,8 @@ static const int PING_INTERVAL = 2 * 60;
 static const int TIMEOUT_INTERVAL = 20 * 60;
 /** Minimum time between warnings printed to log. */
 static const int WARNING_INTERVAL = 10 * 60;
+/** Run the feeler connection loop once every 2 minutes or 120 seconds. **/
+static const int FEELER_INTERVAL = 120;
 /** The maximum number of entries in an 'inv' protocol message */
 static const unsigned int MAX_INV_SZ = 50000;
 /** The maximum number of new addresses to accumulate before announcing. */
@@ -73,8 +76,14 @@ static const bool DEFAULT_FORCEDNSSEED = false;
 static const size_t DEFAULT_MAXRECEIVEBUFFER = 5 * 1000;
 static const size_t DEFAULT_MAXSENDBUFFER    = 1 * 1000;
 
+static const ServiceFlags REQUIRED_SERVICES = NODE_NETWORK;
+
 // NOTE: When adjusting this, update rpcnet:setban's help ("24h")
 static const unsigned int DEFAULT_MISBEHAVING_BANTIME = 60 * 60 * 24;  // Default 24-hour ban
+
+const int MAX_OUTBOUND_CONNECTIONS = 8;
+const int MAX_OUTBOUND_MASTERNODE_CONNECTIONS = 20;
+const int MAX_FEELER_CONNECTIONS = 1;
 
 unsigned int ReceiveFloodSize();
 unsigned int SendBufferSize();
@@ -88,7 +97,7 @@ CNode* FindNode(const CService& ip);
 // fConnectToMasternode should be 'true' only if you want this node to allow to connect to itself
 // and/or you want it to be disconnected on CMasternodeMan::ProcessMasternodeConnections()
 CNode* ConnectNode(CAddress addrConnect, const char *pszDest = NULL, bool fConnectToMasternode = false);
-bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false);
+bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false, bool fFeeler = false);
 void MapPort(bool fUseUPnP);
 unsigned short GetListenPort();
 bool BindListenPort(const CService &bindAddr, std::string& strError, bool fWhitelisted = false);
@@ -156,7 +165,7 @@ CAddress GetLocalAddress(const CNetAddr *paddrPeer = NULL);
 
 extern bool fDiscover;
 extern bool fListen;
-extern uint64_t nLocalServices;
+extern ServiceFlags nLocalServices;
 extern uint64_t nLocalHostNonce;
 extern CAddrMan addrman;
 
@@ -186,12 +195,13 @@ struct LocalServiceInfo {
 
 extern CCriticalSection cs_mapLocalHost;
 extern std::map<CNetAddr, LocalServiceInfo> mapLocalHost;
+typedef std::map<std::string, uint64_t> mapMsgCmdSize; //command, total bytes
 
 class CNodeStats
 {
 public:
     NodeId nodeid;
-    uint64_t nServices;
+    ServiceFlags nServices;
     bool fRelayTxes;
     int64_t nLastSend;
     int64_t nLastRecv;
@@ -203,7 +213,9 @@ public:
     bool fInbound;
     int nStartingHeight;
     uint64_t nSendBytes;
+    mapMsgCmdSize mapSendBytesPerMsgCmd;
     uint64_t nRecvBytes;
+    mapMsgCmdSize mapRecvBytesPerMsgCmd;
     bool fWhitelisted;
     double dPingTime;
     double dPingWait;
@@ -319,7 +331,8 @@ class CNode
 {
 public:
     // socket
-    uint64_t nServices;
+    ServiceFlags nServices;
+    ServiceFlags nServicesExpected;
     SOCKET hSocket;
     CDataStream ssSend;
     size_t nSendSize; // total size of all vSendMsg entries
@@ -350,6 +363,7 @@ public:
     // the network or wire types and the cleaned string used when displayed or logged.
     std::string strSubVer, cleanSubVer;
     bool fWhitelisted; // This peer can bypass DoS banning.
+    bool fFeeler; // If true this node is being used as a short lived feeler.
     bool fOneShot;
     bool fClient;
     bool fInbound;
@@ -382,6 +396,9 @@ protected:
     static std::vector<CSubNet> vWhitelistedRange;
     static CCriticalSection cs_vWhitelistedRange;
 
+    mapMsgCmdSize mapSendBytesPerMsgCmd;
+    mapMsgCmdSize mapRecvBytesPerMsgCmd;
+
     // Basic fuzz-testing
     void Fuzz(int nChance); // modifies ssSend
 
@@ -407,6 +424,10 @@ public:
     // Used for headers announcements - unfiltered blocks to relay
     // Also protected by cs_inventory
     std::vector<uint256> vBlockHashesToAnnounce;
+
+    // Block and TXN accept times
+    std::atomic<int64_t> nLastBlockTime;
+    std::atomic<int64_t> nLastTXTime;
 
     // Ping time measurement:
     // The pong reply we're expecting, or 0 if no pong expected.
@@ -551,7 +572,7 @@ public:
     void AbortMessage() UNLOCK_FUNCTION(cs_vSend);
 
     // TODO: Document the precondition of this function.  Is cs_vSend locked?
-    void EndMessage() UNLOCK_FUNCTION(cs_vSend);
+    void EndMessage(const char* pszCommand) UNLOCK_FUNCTION(cs_vSend);
 
     void PushVersion();
 
@@ -561,7 +582,7 @@ public:
         try
         {
             BeginMessage(pszCommand);
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -577,7 +598,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -593,7 +614,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -609,7 +630,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -625,7 +646,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -641,7 +662,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -657,7 +678,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5 << a6;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -673,7 +694,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -689,7 +710,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7 << a8;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -705,7 +726,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7 << a8 << a9;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -721,7 +742,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7 << a8 << a9 << a10;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -737,7 +758,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7 << a8 << a9 << a10 << a11;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -753,7 +774,7 @@ public:
         {
             BeginMessage(pszCommand);
             ssSend << a1 << a2 << a3 << a4 << a5 << a6 << a7 << a8 << a9 << a10 << a11 << a12;
-            EndMessage();
+            EndMessage(pszCommand);
         }
         catch (...)
         {
@@ -851,6 +872,7 @@ public:
     CAddrDB();
     bool Write(const CAddrMan& addr);
     bool Read(CAddrMan& addr);
+    bool Read(CAddrMan& addr, CDataStream& ssPeers);
 };
 
 /** Access to the banlist database (banlist.dat) */
@@ -864,13 +886,21 @@ public:
     bool Read(banmap_t& banSet);
 };
 
-void DumpBanlist();
-
 /** Return a timestamp in the future (in microseconds) for exponentially distributed events. */
 int64_t PoissonNextSend(int64_t nNow, int average_interval_seconds);
 
 std::vector<CNode*> CopyNodeVector();
 
 void ReleaseNodeVector(const std::vector<CNode*>& vecNodes);
+
+struct AddedNodeInfo
+{
+    std::string strAddedNode;
+    CService resolvedAddress;
+    bool fConnected;
+    bool fInbound;
+};
+
+std::vector<AddedNodeInfo> GetAddedNodeInfo();
 
 #endif // BITCOIN_NET_H

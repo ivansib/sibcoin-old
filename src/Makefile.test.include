@@ -53,6 +53,7 @@ BITCOIN_TESTS =\
   test/crypto_tests.cpp \
   test/DoS_tests.cpp \
   test/getarg_tests.cpp \
+  test/governance_validators_tests.cpp \
   test/hash_tests.cpp \
   test/key_tests.cpp \
   test/limitedmap_tests.cpp \
@@ -62,6 +63,7 @@ BITCOIN_TESTS =\
   test/merkle_tests.cpp \
   test/miner_tests.cpp \
   test/multisig_tests.cpp \
+  test/net_tests.cpp \
   test/netbase_tests.cpp \
   test/pmt_tests.cpp \
   test/policyestimator_tests.cpp \
@@ -145,7 +147,9 @@ check-local:
 	@echo "Running test/bitcoin-util-test.py..."
 	$(AM_V_at)srcdir=$(srcdir) PYTHONPATH=$(builddir)/test $(srcdir)/test/bitcoin-util-test.py
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C secp256k1 check
+if EMBEDDED_UNIVALUE
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C univalue check
+endif
 
 %.json.h: %.json
 	@$(MKDIR_P) $(@D)

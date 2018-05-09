@@ -19,6 +19,10 @@ public:
 
     void setCurrentData(const QString &data);
 
+#if QT_VERSION < 0x050200
+    QVariant currentData() const;
+#endif
+
     void addData(const std::list<PaymentMethodInfo> &data, const ComboType &type);
     void addData(const std::list<CountryInfo> &data, const ComboType &type);
     void addData(const std::list<CurrencyInfo> &data, const ComboType &type);

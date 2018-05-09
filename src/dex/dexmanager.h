@@ -11,10 +11,10 @@
 #include "dexoffer.h"
 #include "unconfirmedoffers.h"
 
+namespace dex {
+
 class CDexManager;
 extern CDexManager dexman;
-
-using namespace dex;
 
 static const int MIN_DEX_PROTO_VERSION = 70207;
 
@@ -26,8 +26,8 @@ public:
 
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
 
-    void addOrEditDraftMyOffer(MyOfferInfo &myOffer);
-    void prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error);
+    void addOrEditDraftMyOffer(MyOfferInfo &myOffer, bool usethread = true);
+    void prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error, bool usethread = true);
     void sendNewOffer(const CDexOffer &offer);
     void sendEditedOffer(const CDexOffer &offer);
     void checkUncOffers();
@@ -39,6 +39,8 @@ public:
     CDexOffer getOfferInfo(const uint256 &hash) const;
     UnconfirmedOffers *getUncOffers() const;
 
+    boost::signals2::signal<void()> startSyncDex;
+
 private:
     DexDB *db;
     UnconfirmedOffers *uncOffers;
@@ -48,9 +50,12 @@ private:
     void getAndDelOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndSendEditedOffer(CNode* pfrom, CDataStream& vRecv);
 
-    void saveMyOffer(const MyOfferInfo &info);
+    void saveMyOffer(const MyOfferInfo &info, bool usethread = true);
 };
 
+}
+
 void ThreadDexManager();
+void CheckDexMasternode();
 
 #endif // __DEX_MANAGER_H__

@@ -49,17 +49,18 @@ bool CMasternodeSync::CheckNodeHeight(CNode* pnode, bool fDisconnectStuckNodes)
 bool CMasternodeSync::IsBlockchainSynced(bool fBlockAccepted)
 {
     static bool fBlockchainSynced = false;
-    static int64_t nTimeLastProcess = GetTime();
     static int nSkipped = 0;
     static bool fFirstBlockAccepted = false;
+
+    if(!pCurrentBlockIndex || !pindexBestHeader || fImporting || fReindex) return false;
+
+    static int64_t nTimeLastProcess = GetTime();
 
     // if the last call to this function was more than 60 minutes ago (client was in sleep mode) reset the sync process
     if(GetTime() - nTimeLastProcess > 60*60) {
         Reset();
         fBlockchainSynced = false;
     }
-
-    if(!pCurrentBlockIndex || !pindexBestHeader || fImporting || fReindex) return false;
 
     if(fBlockAccepted) {
         // this should be only triggered while we are still syncing
@@ -137,7 +138,6 @@ void CMasternodeSync::Reset()
     nTimeLastPaymentVote = GetTime();
     nTimeLastGovernanceItem = GetTime();
     nTimeLastFailure = 0;
-    nCountFailures = 0;
 }
 
 std::string CMasternodeSync::GetAssetName()
@@ -314,7 +314,7 @@ void CMasternodeSync::ProcessTick()
         // Don't try to sync any data from outbound "masternode" connections -
         // they are temporary and should be considered unreliable for a sync process.
         // Inbound connection this early is most likely a "masternode" connection
-        // initialted from another node, so skip it too.
+        // initiated from another node, so skip it too.
         if(pnode->fMasternode || (fMasterNode && pnode->fInbound)) continue;
 
         // QUICK MODE (REGTEST ONLY!)
@@ -362,7 +362,7 @@ void CMasternodeSync::ProcessTick()
             if(nRequestedMasternodeAssets == MASTERNODE_SYNC_LIST) {
                 LogPrint("masternode", "CMasternodeSync::ProcessTick -- nTick %d nRequestedMasternodeAssets %d nTimeLastMasternodeList %lld GetTime() %lld diff %lld\n", nTick, nRequestedMasternodeAssets, nTimeLastMasternodeList, GetTime(), GetTime() - nTimeLastMasternodeList);
                 // check for timeout first
-                if(nTimeLastMasternodeList < GetTime() - MASTERNODE_SYNC_TIMEOUT_SECONDS) {
+                if(GetTime() - nTimeLastMasternodeList > MASTERNODE_SYNC_TIMEOUT_SECONDS) {
                     LogPrintf("CMasternodeSync::ProcessTick -- nTick %d nRequestedMasternodeAssets %d -- timeout\n", nTick, nRequestedMasternodeAssets);
                     if (nRequestedMasternodeAttempt == 0) {
                         LogPrintf("CMasternodeSync::ProcessTick -- ERROR: failed to sync %s\n", GetAssetName());
@@ -396,7 +396,7 @@ void CMasternodeSync::ProcessTick()
                 // check for timeout first
                 // This might take a lot longer than MASTERNODE_SYNC_TIMEOUT_SECONDS minutes due to new blocks,
                 // but that should be OK and it should timeout eventually.
-                if(nTimeLastPaymentVote < GetTime() - MASTERNODE_SYNC_TIMEOUT_SECONDS) {
+                if(GetTime() - nTimeLastPaymentVote > MASTERNODE_SYNC_TIMEOUT_SECONDS) {
                     LogPrintf("CMasternodeSync::ProcessTick -- nTick %d nRequestedMasternodeAssets %d -- timeout\n", nTick, nRequestedMasternodeAssets);
                     if (nRequestedMasternodeAttempt == 0) {
                         LogPrintf("CMasternodeSync::ProcessTick -- ERROR: failed to sync %s\n", GetAssetName());

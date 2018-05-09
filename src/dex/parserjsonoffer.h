@@ -3,9 +3,15 @@
 
 #include "dex/db/dexdto.h"
 
-using namespace dex;
+namespace dex {
 
 MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error);
-uint64_t priceFromString(std::string strPrice);
+std::pair<uint64_t, bool> priceFromString(std::string strPrice);
+int numberSings(const std::string &str);
+
+int maxOutput();
+void changedMaxOutput(const int &max);
+
+}
 
 #endif

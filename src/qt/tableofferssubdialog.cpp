@@ -1,6 +1,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include "tableofferssubdialog.h"
+#include "dex/dexsync.h"
 
 TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, const CommonSettingsForOffers::TypeSettings &typeSettings, QDialog *parent) :
     QDialog(parent), db(db), typeSettings(typeSettings)
@@ -10,7 +11,8 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, cons
     callBack = CallBackDbForGui::instance();
     db->addCallBack(callBack);
 
-    connect(callBack, &CallBackDbForGui::tableOperationFinished, this, &TableOffersSubDialog::updateTables);
+    connect(callBack, SIGNAL(tableOperationFinished(TypeTable, TypeTableOperation, StatusTableOperation)),
+            this, SLOT(updateTables(TypeTable, TypeTableOperation, StatusTableOperation)));
 
     settings = CommonSettingsForOffers::instance();
     pDelegate = new TableOfferDelegate(columnBtn);
@@ -26,16 +28,20 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, cons
 
     updateNavigationData();
 
-    connect(cBoxCountry, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &TableOffersSubDialog::changedFilterCountryIso);
-    connect(cBoxCurrency, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &TableOffersSubDialog::changedFilterCurrencyIso);
-    connect(cBoxPayment, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, &TableOffersSubDialog::changedFilterPaymentMethod);
+    connect(cBoxCountry, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterCountryIso(int)));
+    connect(cBoxCurrency, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterCurrencyIso(int)));
+    connect(cBoxPayment, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterPaymentMethod(int)));
 
-    connect(pDelegate, &TableOfferDelegate::clicked, this, &TableOffersSubDialog::clickedButton);
+    connect(btnFirstPage, SIGNAL(clicked()), this, SLOT(firstPage()));
+    connect(btnPrevPage, SIGNAL(clicked()), this, SLOT(prevPage()));
+    connect(btnNextPage, SIGNAL(clicked()), this, SLOT(nextPage()));
+    connect(btnLastPage, SIGNAL(clicked()), this, SLOT(lastPage()));
+
+    connect(pDelegate, SIGNAL(clicked(int)), this, SLOT(clickedButton(int)));
 
     useMyOfferMode(false);
+
+    dex::dexsync.syncFinished.connect(boost::bind(&TableOffersSubDialog::updateTable, this));
 }
 
 TableOffersSubDialog::~TableOffersSubDialog()
@@ -103,13 +109,20 @@ void TableOffersSubDialog::useMyOfferMode(const bool &b)
 {
     cBoxOffer->setVisible(b);
     labelOffer->setVisible(b);
-    widgetBottom->setVisible(b);
+    btnCreate->setVisible(b);
 
     if (b) {
-        connect(cBoxOffer, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-                this, &TableOffersSubDialog::changedFilterOfferType);
+        connect(cBoxOffer, SIGNAL(currentIndexChanged(int)), this, SLOT(changedFilterOfferType(int)));
 
-        connect(btnCreate, &QPushButton::clicked, this, &TableOffersSubDialog::openCreatorOffer);
+        connect(btnCreate, SIGNAL(clicked()), this, SLOT(openCreatorOffer()));
+    }
+}
+
+void TableOffersSubDialog::updateTable()
+{
+    if (dex::dexsync.isSynced()) {
+        updateData();
+        Q_EMIT dataChanged();
     }
 }
 

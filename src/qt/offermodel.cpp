@@ -4,7 +4,10 @@
 template <class Offer>
 OfferModel<Offer>::OfferModel(QObject *parent) : QAbstractTableModel(parent)
 {
+    qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
+    qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
 
+    settings = CommonSettingsForOffers::instance();
 }
 
 template <class Offer>
@@ -19,43 +22,7 @@ void OfferModel<Offer>::setOffers(const QList<Offer> &offers)
     this->offers = offers;
     offersView = this->offers;
 
-    filterOffers();
-
     Q_EMIT layoutChanged();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterCountryIso(const QString &iso)
-{
-    countryIso = iso;
-    filterOffers();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterCurrencyIso(const QString &iso)
-{
-    currencyIso = iso;
-    filterOffers();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterPaymentMethod(const uint8_t &payment)
-{
-    paymentMethod = payment;
-    filterOffers();
-}
-
-template <class Offer>
-void OfferModel<Offer>::setFilterTypeOffer(const int &typeOffer)
-{
-    this->typeOffer = typeOffer;
-    filterOffers();
-}
-
-template <class Offer>
-int OfferModel<Offer>::rows() const
-{
-    return offersView.size();
 }
 
 template <class Offer>
@@ -71,6 +38,10 @@ Offer OfferModel<Offer>::offerInfo(const int &row)
 template <class Offer>
 int OfferModel<Offer>::rowCount(const QModelIndex &parent) const
 {
+    if (!settings->getShowMaxRowsTables() && settings->getNumRowsTables() < offersView.size()) {
+        return settings->getNumRowsTables();
+    }
+
     return offersView.size();
 }
 

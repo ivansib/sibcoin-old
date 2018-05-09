@@ -405,7 +405,8 @@ void CMasternodePayments::ProcessMessage(CNode* pfrom, std::string& strCommand, 
         ExtractDestination(vote.payee, address1);
         CBitcoinAddress address2(address1);
 
-        LogPrint("mnpayments", "MASTERNODEPAYMENTVOTE -- vote: address=%s, nBlockHeight=%d, nHeight=%d, prevout=%s\n", address2.ToString(), vote.nBlockHeight, pCurrentBlockIndex->nHeight, vote.vinMasternode.prevout.ToStringShort());
+        LogPrint("mnpayments", "MASTERNODEPAYMENTVOTE -- vote: address=%s, nBlockHeight=%d, nHeight=%d, prevout=%s, hash=%s new\n",
+                    address2.ToString(), vote.nBlockHeight, pCurrentBlockIndex->nHeight, vote.vinMasternode.prevout.ToStringShort(), nHash.ToString());
 
         if(AddPaymentVote(vote)){
             vote.Relay();
@@ -527,7 +528,7 @@ bool CMasternodeBlockPayees::GetBestPayee(CScript& payeeRet)
     return (nVotes > -1);
 }
 
-bool CMasternodeBlockPayees::HasPayeeWithVotes(CScript payeeIn, int nVotesReq)
+bool CMasternodeBlockPayees::HasPayeeWithVotes(const CScript& payeeIn, int nVotesReq)
 {
     LOCK(cs_vecPayees);
 
@@ -777,8 +778,12 @@ bool CMasternodePayments::ProcessBlock(int nBlockHeight)
 
 void CMasternodePaymentVote::Relay()
 {
-    // do not relay until synced
-    if (!masternodeSync.IsWinnersListSynced()) return;
+    // Do not relay until fully synced
+    if(!masternodeSync.IsSynced()) {
+        LogPrint("mnpayments", "CMasternodePayments::Relay -- won't relay until fully synced\n");
+        return;
+    }
+
     CInv inv(MSG_MASTERNODE_PAYMENT_VOTE, GetHash());
     RelayInv(inv);
 }

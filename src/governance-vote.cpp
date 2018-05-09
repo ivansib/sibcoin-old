@@ -4,6 +4,8 @@
 
 #include "darksend.h"
 #include "governance-vote.h"
+#include "governance-object.h"
+#include "masternode-sync.h"
 #include "masternodeman.h"
 #include "util.h"
 
@@ -225,6 +227,12 @@ CGovernanceVote::CGovernanceVote(CTxIn vinMasternodeIn, uint256 nParentHashIn, v
 
 void CGovernanceVote::Relay() const
 {
+    // Do not relay until fully synced
+    if(!masternodeSync.IsSynced()) {
+        LogPrint("gobject", "CGovernanceVote::Relay -- won't relay until fully synced\n");
+        return;
+    }
+
     CInv inv(MSG_GOVERNANCE_OBJECT_VOTE, GetHash());
     RelayInv(inv, PROTOCOL_VERSION);
 }

@@ -20,12 +20,13 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
     addCBoxCurrency(cBoxCurrency);
 
     addTEditShortInfo(tEditShortInfo);
+    addTEditDetailInfo(tEditDetails);
 
     addExpiration(cBoxExpiration, lEditTimeExpiration);
 
     addLEditTransactionPrice(lEditTransactionPrice);
 
-    connect(btnDeleteDraft, &QPushButton::clicked, this, &OfferDetailsEditor::deleteDraftData);
+    connect(btnDeleteDraft, SIGNAL(clicked()), this, SLOT(deleteDraftData()));
 
     updateNavigationData();
 }
@@ -36,19 +37,15 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     btnSaveDraft->setVisible(true);
     btnSend->setVisible(true);
 
-    if (!dexsync.isSynced()) {
-        btnSend->setEnabled(false);
-    } else {
-        btnSend->setEnabled(true);
-    }
-
     offerInfo = info;
 
     lPubKeyView->setText(info.pubKey);
     lIdView->setText(info.idTransaction);
     lHashView->setText(info.hash);
     lStatusView->setText(status(info.status));
-    cBoxOffer->setCurrentText(offerType(info.type));
+
+    int indexOffer = cBoxOffer->findText(offerType(info.type));
+    cBoxOffer->setCurrentIndex(indexOffer);
     cBoxCountry->setCurrentData(info.countryIso);
     cBoxCurrency->setCurrentData(info.currencyIso);
     cBoxPayment->setCurrentData(QString::number(info.paymentMethod));
@@ -174,6 +171,7 @@ void OfferDetailsEditor::updateMyOffer()
         offerInfo.shortInfo = tEditShortInfo->toPlainText();
         offerInfo.details = tEditDetails->toPlainText();
     } else {
+        offerInfo.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
         offerInfo.countryIso = cBoxCountry->currentData().toString();
         offerInfo.currencyIso = cBoxCurrency->currentData().toString();
         offerInfo.paymentMethod = cBoxPayment->currentData().toInt();
@@ -205,7 +203,9 @@ void OfferDetailsEditor::saveData()
 
 void OfferDetailsEditor::sendData()
 {
-    if (confirmationSend()) {
+    if (!dexsync.isSynced()) {
+        messageSyncDexNotFinished();
+    } else if (confirmationSend()) {
         updateMyOffer();
 
         Q_EMIT dataSend(offerInfo);

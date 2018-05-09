@@ -19,17 +19,17 @@ void OfferDetails::setModel(WalletModel *model)
 
 void OfferDetails::addBtnSend(QPushButton *btn)
 {
-    connect(btn, &QPushButton::clicked, this, &OfferDetails::sendData);
+    connect(btn, SIGNAL(clicked()), this, SLOT(sendData()));
 }
 
 void OfferDetails::addBtnSaveDraft(QPushButton *btn)
 {
-    connect(btn, &QPushButton::clicked, this, &OfferDetails::saveData);
+    connect(btn, SIGNAL(clicked()), this, SLOT(saveData()));
 }
 
 void OfferDetails::addBtnCancel(QPushButton *btn)
 {
-    connect(btn, &QPushButton::clicked, this, &OfferDetails::close);
+    connect(btn, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 void OfferDetails::addCBoxOffer(QComboBox *cBox)
@@ -56,7 +56,7 @@ void OfferDetails::addExpiration(QComboBox *cBox, QLabel *label)
 {
     editTimeExpiration = label;
 
-    connect(cBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &OfferDetails::changedTimeToExpiration);
+    connect(cBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changedTimeToExpiration(int)));
 }
 
 void OfferDetails::addLEditTransactionPrice(QLabel *label)
@@ -68,7 +68,14 @@ void OfferDetails::addTEditShortInfo(QTextEdit *tEdit)
 {
     editShortInfo = tEdit;
 
-    connect(editShortInfo, &QTextEdit::textChanged, this, &OfferDetails::changedShortInfo);
+    connect(editShortInfo, SIGNAL(textChanged()), this, SLOT(changedShortInfo()));
+}
+
+void OfferDetails::addTEditDetailInfo(QTextEdit *tEdit)
+{
+    editDetailInfo = tEdit;
+
+    connect(editDetailInfo, SIGNAL(textChanged()), this, SLOT(changedDetailInfo()));
 }
 
 void OfferDetails::updateNavigationData()
@@ -106,6 +113,12 @@ bool OfferDetails::confirmationSend()
     return false;
 }
 
+void OfferDetails::messageSyncDexNotFinished()
+{
+    QMessageBox::StandardButton retval = QMessageBox::warning(this, tr("Warning"),
+                                                              tr("Dex synchronization is not complete yet, you need to wait"));
+}
+
 CAmount OfferDetails::transactionPrice(const int &coef) const
 {
     CAmount amount = PAYOFFER_RETURN_FEE + PAYOFFER_TX_FEE * coef;
@@ -132,8 +145,19 @@ void OfferDetails::changedShortInfo()
     QString text = editShortInfo->toPlainText();
     int size = text.size();
 
-    if (size > 140) {
-        editShortInfo->setText(text.mid(0, 140));
+    if (size > DEX_SHORT_INFO_LENGTH) {
+        editShortInfo->setText(text.mid(0, DEX_SHORT_INFO_LENGTH));
         editShortInfo->moveCursor(QTextCursor::End);
+    }
+}
+
+void OfferDetails::changedDetailInfo()
+{
+    QString text = editDetailInfo->toPlainText();
+    int size = text.size();
+
+    if (size > DEX_DETAILS_LENGTH) {
+        editDetailInfo->setText(text.mid(0, DEX_DETAILS_LENGTH));
+        editDetailInfo->moveCursor(QTextCursor::End);
     }
 }

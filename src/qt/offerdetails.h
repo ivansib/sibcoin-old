@@ -36,18 +36,20 @@ public:
     void addCBoxCurrency(ComboBox *cBox);
 
     void addTEditShortInfo(QTextEdit *tEdit);
+    void addTEditDetailInfo(QTextEdit *tEdit);
 
     void addExpiration(QComboBox *cBox, QLabel *label);
 
     void addLEditTransactionPrice(QLabel *label);
 
 protected:
-    const QList<int> expirations;
     DexDB *db;
     WalletModel *model;
+    const QList<int> expirations;
 
     QStringList typeOffers() const;
     bool confirmationSend();
+    void messageSyncDexNotFinished();
 
 private:
     QComboBox *boxOffer;
@@ -55,6 +57,7 @@ private:
     ComboBox *boxCountry;
     ComboBox *boxCurrency;
     QTextEdit *editShortInfo;
+    QTextEdit *editDetailInfo;
 
     QLabel *editTimeExpiration;
     QLabel *editTransactionPrice;
@@ -72,6 +75,7 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     void changedShortInfo();
+    void changedDetailInfo();
 
 Q_SIGNALS:
     void dataSave(const QtMyOfferInfo &info);

@@ -10,11 +10,7 @@
 #include "dex/db/dexdto.h"
 #include <univalue.h>
 
-
-
-static const int DEX_SHORT_INFO_LENGTH     =  140;
-static const int DEX_DETAILS_LENGTH        = 1024;
-
+namespace dex {
 
 class CDexOffer
 {
@@ -130,6 +126,6 @@ public:
 
 };
 
-
+}
 
 #endif // __DEX_OFFER_H__

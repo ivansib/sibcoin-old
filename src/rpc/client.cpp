@@ -5,9 +5,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcclient.h"
-
-#include "rpcprotocol.h"
+#include "rpc/client.h"
+#include "rpc/protocol.h"
 #include "util.h"
 
 #include <set>
@@ -127,6 +126,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "getaddressdeltas", 0},
     { "getaddressutxos", 0},
     { "getaddressmempool", 0},
+    { "dexsettings", 1},
 };
 
 class CRPCConvertTable

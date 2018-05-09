@@ -7,8 +7,8 @@ FilterList::FilterList(DexDB *db, QWidget *parent) : QWidget(parent), ui(new Ui:
 {
     ui->setupUi(this);
 
-    connect(ui->btnAdd, &QPushButton::clicked, this, &FilterList::clikedAdd);
-    connect(ui->btnDelete, &QPushButton::clicked, this, &FilterList::clickedDelete);
+    connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(clikedAdd()));
+    connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(clickedDelete()));
 
     initList();
 }
@@ -49,7 +49,7 @@ void FilterList::initList()
 void FilterList::clikedAdd()
 {
     FilterItemEditor f;
-    connect(&f, &FilterItemEditor::newItem, this, &FilterList::addItem);
+    connect(&f, SIGNAL(newItem(QString)), this, SLOT(addItem(QString)));
     int i = f.exec();
 
     if (i == 1) {

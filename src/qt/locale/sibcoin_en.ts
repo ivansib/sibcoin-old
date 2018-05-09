@@ -2003,6 +2003,14 @@ p, li { white-space: pre-wrap; }
         <source>Confirm send offer?</source>
         <translation>Confirm send offer?</translation>
     </message>
+    <message>
+        <source>Dex synchronization is not complete yet, you need to wait</source>
+        <translation>Dex synchronization is not complete yet, you need to wait</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Warning</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>
@@ -2352,8 +2360,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CommonSettingsForOffersWidget</name>
     <message>
-        <source>Default Settings</source>
-        <translation>Default Settings</translation>
+        <source>Default settings</source>
+        <translation>Default settings</translation>
+    </message>
+    <message>
+        <source>Default settings for details</source>
+        <translation>Default settings for details</translation>
+    </message>
+    <message>
+        <source>Number of rows in tables:</source>
+        <translation>Number of rows in tables:</translation>
+    </message>
+        <message>
+        <source>Show max rows</source>
+        <translation>Show max rows</translation>
     </message>
     <message>
         <source>Country:</source>
@@ -9059,6 +9079,14 @@ for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.
     <message>
         <source>Synchronizing masternode payments...</source>
         <translation>Synchronizing masternode payments...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers doesn't start...</source>
+        <translation>Synchronization offers doesn't start...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers started...</source>
+        <translation>Synchronization offers started...</translation>
     </message>
     <message>
         <source>Synchronization offers pending...</source>

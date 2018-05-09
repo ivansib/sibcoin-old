@@ -1,12 +1,13 @@
 #include "commonsettingsforoffers.h"
 #include "util.h"
+#include "dex/db/dexdto.h"
 
 CommonSettingsForOffers *CommonSettingsForOffers::pSingleton = nullptr;
 int CommonSettingsForOffers::nCounter = 0;
 
 CommonSettingsForOffers::CommonSettingsForOffers()
 {
-    boost::filesystem::path pathSettings = GetDataDir() / "dex.conf";
+    boost::filesystem::path pathSettings = GetDataDir() / dex::DEX_CONFIG;
     QString strPathSetting = QString::fromStdWString(pathSettings.wstring());
 
     settings = new QSettings(strPathSetting, QSettings::IniFormat);
@@ -15,6 +16,11 @@ CommonSettingsForOffers::CommonSettingsForOffers()
 CommonSettingsForOffers::~CommonSettingsForOffers()
 {
     delete settings;
+}
+
+void CommonSettingsForOffers::sync()
+{
+    settings->sync();
 }
 
 CommonSettingsForOffers *CommonSettingsForOffers::instance()
@@ -143,5 +149,37 @@ void CommonSettingsForOffers::setMinAmount(const quint64 &min)
 {
     settings->beginGroup("default");
     settings->setValue("minAmount", min);
+    settings->endGroup();
+}
+
+int CommonSettingsForOffers::getNumRowsTables()
+{
+    settings->beginGroup("default");
+    int num = settings->value("numRowsTables", dex::DEX_MAX_ROWS_OUTPUT).toInt();
+    settings->endGroup();
+
+    return num;
+}
+
+void CommonSettingsForOffers::setNumRowsTables(const int &num)
+{
+    settings->beginGroup("default");
+    settings->setValue("numRowsTables", num);
+    settings->endGroup();
+}
+
+bool CommonSettingsForOffers::getShowMaxRowsTables()
+{
+    settings->beginGroup("default");
+    bool isShow = settings->value("showMaxRowsTables", false).toBool();
+    settings->endGroup();
+
+    return isShow;
+}
+
+void CommonSettingsForOffers::setShowMaxRowsTables(const bool isShow)
+{
+    settings->beginGroup("default");
+    settings->setValue("showMaxRowsTables", isShow);
     settings->endGroup();
 }

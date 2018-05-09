@@ -7,7 +7,8 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     ui->setupUi(this);
 
     callback = CallBackDbForGui::instance();
-    connect(callback, &CallBackDbForGui::tableOperationFinished, this, &ExchangeDialog::finishTableOperation);
+    connect(callback, SIGNAL(tableOperationFinished(TypeTable, TypeTableOperation, StatusTableOperation)),
+            this, SLOT(finishTableOperation(TypeTable, TypeTableOperation, StatusTableOperation)));
 
     db = DexDB::instance();
     db->addCallBack(callback);
@@ -26,11 +27,15 @@ ExchangeDialog::ExchangeDialog(QDialog *parent) : QDialog(parent), ui(new Ui::Ex
     ui->stackedWidget->addWidget(widgetExchanges);
     ui->stackedWidget->addWidget(settings);
 
-    connect(ui->btnBuy, &QPushButton::clicked, this, &ExchangeDialog::currentPageBuy);
-    connect(ui->btnSell, &QPushButton::clicked, this, &ExchangeDialog::currentPageSell);
-    connect(ui->btnMyOffers, &QPushButton::clicked, this, &ExchangeDialog::currentPageMyOffers);
-    connect(ui->btnExchanges, &QPushButton::clicked, this, &ExchangeDialog::currentPageExchanges);
-    connect(ui->btnSettings, &QPushButton::clicked, this, &ExchangeDialog::currentPageSettings);
+    connect(ui->btnBuy, SIGNAL(clicked()), this, SLOT(currentPageBuy()));
+    connect(ui->btnSell, SIGNAL(clicked()), this, SLOT(currentPageSell()));
+    connect(ui->btnMyOffers, SIGNAL(clicked()), this, SLOT(currentPageMyOffers()));
+    connect(ui->btnExchanges, SIGNAL(clicked()), this, SLOT(currentPageExchanges()));
+    connect(ui->btnSettings, SIGNAL(clicked()), this, SLOT(currentPageSettings()));
+
+    connect(settings, SIGNAL(dataChanged()), tableBuy, SLOT(updateData()));
+    connect(settings, SIGNAL(dataChanged()), tableSell, SLOT(updateData()));
+    connect(settings, SIGNAL(dataChanged()), tableMyOffers, SLOT(updateData()));
 
     currentPageBuy();
     ui->btnBuy->setChecked(true);
@@ -80,6 +85,7 @@ void ExchangeDialog::currentPageExchanges()
 void ExchangeDialog::currentPageSettings()
 {
     ui->stackedWidget->setCurrentWidget(settings);
+    settings->update();
 }
 
 void ExchangeDialog::finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)

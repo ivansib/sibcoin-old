@@ -3,6 +3,10 @@
 #include "parserjsonoffer.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+
+namespace dex {
 
 MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
 {
@@ -43,8 +47,23 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
         return MyOfferInfo();
     }
 
-    offer.price = priceFromString(uv["price"].get_str());
-    offer.minAmount = priceFromString(uv["minAmount"].get_str());
+    auto price = priceFromString(uv["price"].get_str());
+
+    if (!price.second) {
+        error = "invalid price";
+        return MyOfferInfo();
+    }
+
+    offer.price = price.first;
+
+    auto minAmount = priceFromString(uv["minAmount"].get_str());
+
+    if (!minAmount.second) {
+        error = "invalid minAmount";
+        return MyOfferInfo();
+    }
+
+    offer.minAmount = minAmount.first;
 
     offer.timeCreate = GetTime();
     int timeTo = uv["timeToExpiration"].get_int();
@@ -56,13 +75,23 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
     offer.timeToExpiration = offer.timeCreate + timeTo * 86400;
 
     offer.shortInfo = uv["shortInfo"].get_str();
+    if (numberSings(offer.shortInfo) > DEX_SHORT_INFO_LENGTH) {
+        error = "invalid shortInfo";
+        return MyOfferInfo();
+    }
+
     offer.details = uv["details"].get_str();
+    if (numberSings(offer.details) > DEX_DETAILS_LENGTH) {
+        error = "invalid details";
+        return MyOfferInfo();
+    }
 
     return offer;
 }
 
-uint64_t priceFromString(std::string strPrice)
+std::pair<uint64_t, bool> priceFromString(std::string strPrice)
 {
+    bool isCorrect = true;
     std::size_t found = strPrice.find(".");
     if (found != std::string::npos) {
         std::string i = strPrice.substr(0, found);
@@ -73,6 +102,8 @@ uint64_t priceFromString(std::string strPrice)
             for (int i = 0; i< size; i++) {
                 f.push_back('0');
             }
+        } else if (f.length() > numberOfDecimalsForPrice) {
+            isCorrect = false;
         }
         
         strPrice = i + f;
@@ -82,5 +113,58 @@ uint64_t priceFromString(std::string strPrice)
     }
 
     uint64_t price = std::strtoull(strPrice.c_str(), nullptr, 10);
-    return price;
+    return std::make_pair(price, isCorrect);
+}
+
+int numberSings(const std::string &str)
+{
+    int c,i,ix,q;
+    for (q=0, i=0, ix = str.size(); i < ix; i++, q++) {
+        c = static_cast<unsigned char>(str[i]);
+        if (c>=0 && c<=127) {
+            i+=0;
+        } else if ((c & 0xE0) == 0xC0) {
+            i+=1;
+        } else if ((c & 0xF0) == 0xE0) {
+            i+=2;
+        } else if ((c & 0xF8) == 0xF0) {
+            i+=3;
+        } else {
+            return 0;
+        }
+    }
+    return q;
+}
+
+int maxOutput()
+{
+    boost::filesystem::path pathSettings = GetDataDir() / DEX_CONFIG;
+    boost::property_tree::ptree pt;
+    boost::property_tree::ini_parser::read_ini(pathSettings.string(), pt);
+    bool show = pt.get<bool>("default.showMaxRowsTables", false);
+    int max = pt.get<int>("default.numRowsTables", DEX_MAX_ROWS_OUTPUT);
+
+    if (show) {
+        return 0;
+    }
+
+    return max;
+}
+
+void changedMaxOutput(const int &max)
+{
+    boost::filesystem::path pathSettings = GetDataDir() / DEX_CONFIG;
+    boost::property_tree::ptree pt;
+    boost::property_tree::ini_parser::read_ini(pathSettings.string(), pt);
+
+    if (max == 0) {
+        pt.put("default.showMaxRowsTables", true);
+    } else {
+        pt.put("default.showMaxRowsTables", false);
+        pt.put("default.numRowsTables", max);
+    }
+
+    boost::property_tree::ini_parser::write_ini(pathSettings.string(), pt);
+}
+
 }

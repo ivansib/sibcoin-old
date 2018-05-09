@@ -5,8 +5,8 @@ FilterItemEditor::FilterItemEditor(QDialog *parent) : QDialog(parent), ui(new Ui
 {
     ui->setupUi(this);
 
-    connect(ui->btnBox, &QDialogButtonBox::accepted, this, &FilterItemEditor::clickedOk);
-    connect(ui->btnBox, &QDialogButtonBox::rejected, this, &FilterItemEditor::close);
+    connect(ui->btnBox, SIGNAL(accepted()), this, SLOT(clickedOk()));
+    connect(ui->btnBox, SIGNAL(rejected()), this, SLOT(close()));
 }
 
 FilterItemEditor::~FilterItemEditor()

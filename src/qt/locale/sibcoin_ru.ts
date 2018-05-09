@@ -1664,6 +1664,14 @@ p, li { white-space: pre-wrap; }
         <source>Confirm send offer?</source>
         <translation>Подтвердите отправку предложения?</translation>
     </message>
+    <message>
+        <source>Dex synchronization is not complete yet, you need to wait</source>
+        <translation>Синхронизация Dex еще не завершена, вам нужно подождать</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Внимание</translation>
+    </message>
 </context>
 <context>
     <name>OfferDetailsCreator</name>
@@ -2011,8 +2019,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CommonSettingsForOffersWidget</name>
     <message>
-        <source>Default Settings</source>
-        <translation type="unfinished">Настройки по умолчанию</translation>
+        <source>Default settings</source>
+        <translation>Настройки по умолчанию</translation>
+    </message>
+    <message>
+        <source>Default settings for details</source>
+        <translation>Настройки для детальной информации</translation>
+    </message>
+    <message>
+        <source>Number of rows in tables:</source>
+        <translation>Количество строк в таблице</translation>
+    </message>
+        <message>
+        <source>Show max rows</source>
+        <translation>Показывать максимальное количество строк</translation>
     </message>
     <message>
         <source>Country:</source>
@@ -7594,6 +7614,14 @@ rpcpassword=%s
     <message>
         <source>Synchronizing masternode payments...</source>
         <translation>Синхронизация выплат мастернодам...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers doesn't start...</source>
+        <translation>Синхронизации предложений еще не начата...</translation>
+    </message>
+    <message>
+        <source>Synchronization offers started...</source>
+        <translation>Старт синхронизации предложений...</translation>
     </message>
     <message>
         <source>Synchronization offers pending...</source>

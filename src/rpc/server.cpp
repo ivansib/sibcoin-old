@@ -5,7 +5,7 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcserver.h"
+#include "rpc/server.h"
 
 #include "base58.h"
 #include "init.h"
@@ -422,6 +422,8 @@ static const CRPCCommand vRPCCommands[] =
     { "dex",                "adddexoffer",            &adddexoffer,            true  },
     { "dex",                "editdexoffer",           &editdexoffer,           true  },
     { "dex",                "senddexoffer",           &senddexoffer,           true  },
+    { "dex",                "dexsync",                &dexsync,                true  },
+    { "dex",                "dexsettings",            &dexsettings,            true  },
 #endif // ENABLE_DEX
 
 };

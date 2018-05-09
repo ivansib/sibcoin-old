@@ -15,7 +15,7 @@
 #define PAYOFFER_TX_FEE           10000000
 #define MAX_DEX_TRANSACTION_FEE   PAYOFFER_TX_FEE*3
 
-
+namespace dex {
 
 class CDex
 {
@@ -76,5 +76,6 @@ public:
 
 };
 
+}
 
 #endif // __DEX_H__

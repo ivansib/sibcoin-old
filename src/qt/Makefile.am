@@ -52,7 +52,6 @@ QT_FORMS_UI = \
   forms/coincontroldialog.ui \
   forms/darksendconfig.ui \
   forms/editaddressdialog.ui \
-  forms/genandprintdialog.ui \
   forms/goodsdialog.ui \
   forms/exchangedialog.ui \
   forms/tableoffersdialog.ui \
@@ -90,7 +89,6 @@ QT_MOC_CPP = \
   moc_csvmodelwriter.cpp \
   moc_darksendconfig.cpp \
   moc_editaddressdialog.cpp \
-  moc_genandprintdialog.cpp \
   moc_goodsdialog.cpp \
   moc_guiutil.cpp \
   moc_intro.cpp \
@@ -114,6 +112,7 @@ QT_MOC_CPP = \
   moc_signverifymessagedialog.cpp \
   moc_splashscreen.cpp \
   moc_trafficgraphwidget.cpp \
+  moc_trafficgraphdata.cpp \
   moc_transactiondesc.cpp \
   moc_transactiondescdialog.cpp \
   moc_transactionfilterproxy.cpp \
@@ -123,6 +122,8 @@ QT_MOC_CPP = \
   moc_walletframe.cpp \
   moc_walletmodel.cpp \
   moc_walletview.cpp
+
+
 
 BITCOIN_MM = \
   macdockiconhandler.mm \
@@ -155,7 +156,6 @@ BITCOIN_QT_H = \
   csvmodelwriter.h \
   darksendconfig.h \
   editaddressdialog.h \
-  genandprintdialog.h \
   goodsdialog.h \
   guiconstants.h \
   guiutil.h \
@@ -180,6 +180,7 @@ BITCOIN_QT_H = \
   sibmodel.h \
   signverifymessagedialog.h \
   splashscreen.h \
+  trafficgraphdata.h \
   trafficgraphwidget.h \
   transactiondesc.h \
   transactiondescdialog.h \
@@ -193,6 +194,8 @@ BITCOIN_QT_H = \
   walletmodeltransaction.h \
   walletview.h \
   winshutdownmonitor.h
+
+
 
 RES_ICONS = \
   res/icons/add.png \
@@ -263,9 +266,11 @@ BITCOIN_QT_CPP = \
   qvaluecombobox.cpp \
   rpcconsole.cpp \
   splashscreen.cpp \
+  trafficgraphdata.cpp \
   trafficgraphwidget.cpp \
   utilitydialog.cpp \
   winshutdownmonitor.cpp
+
 
 if ENABLE_WALLET
 BITCOIN_QT_CPP += \
@@ -276,7 +281,6 @@ BITCOIN_QT_CPP += \
   coincontroltreewidget.cpp \
   darksendconfig.cpp \
   editaddressdialog.cpp \
-  genandprintdialog.cpp \
   goodsdialog.cpp \
   openuridialog.cpp \
   overviewpage.cpp \
@@ -300,6 +304,8 @@ BITCOIN_QT_CPP += \
   walletmodeltransaction.cpp \
   walletview.cpp
 endif
+
+
 
 if ENABLE_DEX
 QT_MOC_CPP += \
@@ -407,6 +413,13 @@ RES_IMAGES = \
   res/images/drkblue_qtreeview_selected.png \
   res/images/drkblue_walletFrame_bg.png \
   res/images/drkblue_walletFrame.png
+
+if ENABLE_PRINTSUPPORT
+  QT_FORMS_UI += forms/genandprintdialog.ui
+  QT_MOC_CPP += moc_genandprintdialog.cpp
+  BITCOIN_QT_H += genandprintdialog.h 
+  BITCOIN_QT_CPP += genandprintdialog.cpp
+endif
 
 RES_CSS = \
   res/css/drkblue.css

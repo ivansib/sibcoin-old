@@ -26,7 +26,7 @@ TableCountries::TableCountries(DexDB *db, QWidget *parent) : QTableView(parent),
 
     resizeColumn();
 
-    connect(model, &CountriesModel::dataChanged, this, &TableCountries::changedData);
+    connect(model, SIGNAL(dataChanged()), this, SLOT(changedData()));
 }
 
 void TableCountries::saveData()

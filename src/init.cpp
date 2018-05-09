@@ -26,7 +26,7 @@
 #include "net.h"
 #include "netfulfilledman.h"
 #include "policy/policy.h"
-#include "rpcserver.h"
+#include "rpc/server.h"
 #include "script/standard.h"
 #include "script/sigcache.h"
 #include "scheduler.h"
@@ -419,7 +419,8 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-prune=<n>", strprintf(_("Reduce storage requirements by pruning (deleting) old blocks. This mode is incompatible with -txindex and -rescan. "
             "Warning: Reverting this setting requires re-downloading the entire blockchain. "
             "(default: 0 = disable pruning blocks, >%u = target size in MiB to use for block files)"), MIN_DISK_SPACE_FOR_BLOCK_FILES / 1024 / 1024));
-    strUsage += HelpMessageOpt("-reindex", _("Rebuild block chain index from current blk000??.dat files on startup"));
+    strUsage += HelpMessageOpt("-reindex-chainstate", _("Rebuild chain state from the currently indexed blocks"));
+    strUsage += HelpMessageOpt("-reindex", _("Rebuild chain state and block index from the blk*.dat files on disk"));
 #ifndef WIN32
     strUsage += HelpMessageOpt("-sysperms", _("Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)"));
 #endif
@@ -489,6 +490,9 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-txconfirmtarget=<n>", strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), DEFAULT_TX_CONFIRM_TARGET));
     strUsage += HelpMessageOpt("-maxtxfee=<amt>", strprintf(_("Maximum total fees (in %s) to use in a single wallet transaction; setting this too low may abort large transactions (default: %s)"),
         CURRENCY_UNIT, FormatMoney(DEFAULT_TRANSACTION_MAXFEE)));
+    strUsage += HelpMessageOpt("-mnemonic", _("User defined mnemonic for HD wallet (bip39). Only has effect during wallet creation/first start (default: randomly generated)"));
+    strUsage += HelpMessageOpt("-mnemonicpassphrase", _("User defined memonic passphrase for HD wallet (bip39). Only has effect during wallet creation/first start (default: randomly generated)"));
+    strUsage += HelpMessageOpt("-hdseed", _("User defined seed for HD wallet (should be in hex). Only has effect during wallet creation/first start (default: randomly generated)"));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));
     strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory)") + " " + strprintf(_("(default: %s)"), "wallet.dat"));
     strUsage += HelpMessageOpt("-walletbroadcast", _("Make the wallet broadcast transactions") + " " + strprintf(_("(default: %u)"), DEFAULT_WALLETBROADCAST));
@@ -539,7 +543,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-limitdescendantcount=<n>", strprintf("Do not accept transactions if any ancestor would have <n> or more in-mempool descendants (default: %u)", DEFAULT_DESCENDANT_LIMIT));
         strUsage += HelpMessageOpt("-limitdescendantsize=<n>", strprintf("Do not accept transactions if any ancestor would have more than <n> kilobytes of in-mempool descendants (default: %u).", DEFAULT_DESCENDANT_SIZE_LIMIT));
     }
-    string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, mempool, mempoolrej, net, proxy, prune, http, libevent, tor, zmq, "
+    string debugCategories = "addrman, alert, bench, coindb, db, http, libevent, lock, mempool, mempoolrej, net, proxy, prune, rand, reindex, rpc, selectcoins, tor, zmq, "
                              "dash (or specifically: privatesend, instantsend, masternode, spork, keepass, mnpayments, gobject)"; // Don't translate these and qt below
     if (mode == HMM_BITCOIN_QT)
         debugCategories += ", qt";
@@ -586,7 +590,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-enableprivatesend=<n>", strprintf(_("Enable use of automated PrivateSend for funds stored in this wallet (0-1, default: %u)"), 0));
     strUsage += HelpMessageOpt("-privatesendmultisession=<n>", strprintf(_("Enable multiple PrivateSend mixing sessions per block, experimental (0-1, default: %u)"), DEFAULT_PRIVATESEND_MULTISESSION));
     strUsage += HelpMessageOpt("-privatesendrounds=<n>", strprintf(_("Use N separate masternodes for each denominated input to mix funds (2-16, default: %u)"), DEFAULT_PRIVATESEND_ROUNDS));
-    strUsage += HelpMessageOpt("-privatesendamount=<n>", strprintf(_("Keep N SIB anonymized (default: %u)"), DEFAULT_PRIVATESEND_AMOUNT));
+    strUsage += HelpMessageOpt("-privatesendamount=<n>", strprintf(_("Keep N DASH anonymized (default: %u)"), DEFAULT_PRIVATESEND_AMOUNT));
     strUsage += HelpMessageOpt("-liquidityprovider=<n>", strprintf(_("Provide liquidity to PrivateSend by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)"), DEFAULT_PRIVATESEND_LIQUIDITY));
 
     strUsage += HelpMessageGroup(_("InstantSend options:"));
@@ -717,9 +721,10 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 {
     const CChainParams& chainparams = Params();
     RenameThread("sibcoin-loadblk");
+    CImportingNow imp;
+
     // -reindex
     if (fReindex) {
-        CImportingNow imp;
         int nFile = 0;
         while (true) {
             CDiskBlockPos pos(nFile, 0);
@@ -744,7 +749,6 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
     if (boost::filesystem::exists(pathBootstrap)) {
         FILE *file = fopen(pathBootstrap.string().c_str(), "rb");
         if (file) {
-            CImportingNow imp;
             boost::filesystem::path pathBootstrapOld = GetDataDir() / "bootstrap.dat.old";
             LogPrintf("Importing bootstrap.dat...\n");
             LoadExternalBlockFile(chainparams, file);
@@ -758,12 +762,18 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
     BOOST_FOREACH(const boost::filesystem::path& path, vImportFiles) {
         FILE *file = fopen(path.string().c_str(), "rb");
         if (file) {
-            CImportingNow imp;
             LogPrintf("Importing blocks file %s...\n", path.string());
             LoadExternalBlockFile(chainparams, file);
         } else {
             LogPrintf("Warning: Could not open blocks file %s\n", path.string());
         }
+    }
+
+    // scan for better chains in the block chain database, that are not yet connected in the active best chain
+    CValidationState state;
+    if (!ActivateBestChain(state, chainparams)) {
+        LogPrintf("Failed to connect best block");
+        StartShutdown();
     }
 
     if (GetBoolArg("-stopafterblockimport", DEFAULT_STOPAFTERBLOCKIMPORT)) {
@@ -905,6 +915,12 @@ void InitParameterInteraction()
         LogPrintf("%s: parameter interaction: -liquidityprovider=%d -> setting -privatesendamount=999999\n", __func__, nLiqProvTmp);
         mapArgs["-privatesendmultisession"] = "0";
         LogPrintf("%s: parameter interaction: -liquidityprovider=%d -> setting -privatesendmultisession=0\n", __func__, nLiqProvTmp);
+    }
+
+    if (mapArgs.count("-hdseed") && IsHex(GetArg("-hdseed", "not hex")) && (mapArgs.count("-mnemonic") || mapArgs.count("-mnemonicpassphrase"))) {
+        mapArgs.erase("-mnemonic");
+        mapArgs.erase("-mnemonicpassphrase");
+        LogPrintf("%s: parameter interaction: can't use -hdseed and -mnemonic/-mnemonicpassphrase together, will prefer -seed\n", __func__);
     }
 }
 
@@ -1168,7 +1184,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     SetMockTime(GetArg("-mocktime", 0)); // SetMockTime(0) is a no-op
 
     if (GetBoolArg("-peerbloomfilters", true))
-        nLocalServices |= NODE_BLOOM;
+        nLocalServices = ServiceFlags(nLocalServices | NODE_BLOOM);
 
     fEnableReplacement = GetBoolArg("-mempoolreplacement", DEFAULT_ENABLE_REPLACEMENT);
     if ((!fEnableReplacement) && mapArgs.count("-mempoolreplacement")) {
@@ -1215,8 +1231,11 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 #ifndef WIN32
     CreatePidFile(GetPidFile(), getpid());
 #endif
-    if (GetBoolArg("-shrinkdebugfile", !fDebug))
+    if (GetBoolArg("-shrinkdebugfile", !fDebug)) {
+        // Do this first since it both loads a bunch of debug.log into memory,
+        // and because this needs to happen before any other debug.log printing
         ShrinkDebugFile();
+    }
 
     if (fPrintToDebugLog)
         OpenDebugLog();
@@ -1293,8 +1312,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             return InitError(strError);
 
 
-    // Initialize KeePass Integration
-    keePassInt.init();
+        // Initialize KeePass Integration
+        keePassInt.init();
 
     } // (!fDisableWallet)
 #endif // ENABLE_WALLET
@@ -1436,6 +1455,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // ********************************************************* Step 7: load block chain
 
     fReindex = GetBoolArg("-reindex", false);
+    bool fReindexChainState = GetBoolArg("-reindex-chainstate", false);
 
     // Upgrading to 0.8; hard-link the old blknnnn.dat files into /blocks/
     boost::filesystem::path blocksDir = GetDataDir() / "blocks";
@@ -1497,7 +1517,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 delete pblocktree;
 
                 pblocktree = new CBlockTreeDB(nBlockTreeDBCache, false, fReindex);
-                pcoinsdbview = new CCoinsViewDB(nCoinDBCache, false, fReindex);
+                pcoinsdbview = new CCoinsViewDB(nCoinDBCache, false, fReindex || fReindexChainState);
                 pcoinscatcher = new CCoinsViewErrorCatcher(pcoinsdbview);
                 pcoinsTip = new CCoinsViewCache(pcoinscatcher);
 
@@ -1526,7 +1546,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
                 // Check for changed -txindex state
                 if (fTxIndex != GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
-                    strLoadError = _("You need to rebuild the database using -reindex to change -txindex");
+                    strLoadError = _("You need to rebuild the database using -reindex-chainstate to change -txindex");
                     break;
                 }
 
@@ -1644,10 +1664,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                              " or address book entries might be missing or incorrect."));
             }
             else if (nLoadWalletRet == DB_TOO_NEW)
-                strErrors << _("Error loading wallet.dat: Wallet requires newer version of Sibcoin Core") << "\n";
+                strErrors << _("Error loading wallet.dat: Wallet requires newer version of Dash Core") << "\n";
             else if (nLoadWalletRet == DB_NEED_REWRITE)
             {
-                strErrors << _("Wallet needed to be rewritten: restart Sibcoin Core to complete") << "\n";
+                strErrors << _("Wallet needed to be rewritten: restart Dash Core to complete") << "\n";
                 LogPrintf("%s", strErrors.str());
                 return InitError(strErrors.str());
             }
@@ -1776,7 +1796,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // after any wallet rescanning has taken place.
     if (fPruneMode) {
         LogPrintf("Unsetting NODE_NETWORK on prune mode\n");
-        nLocalServices &= ~NODE_NETWORK;
+        nLocalServices = ServiceFlags(nLocalServices & ~NODE_NETWORK);
         if (!fReindex) {
             uiInterface.InitMessage(_("Pruning blockstore..."));
             PruneAndFlush();
@@ -1787,12 +1807,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     if (mapArgs.count("-blocknotify"))
         uiInterface.NotifyBlockTip.connect(BlockNotifyCallback);
-
-    uiInterface.InitMessage(_("Activating best chain..."));
-    // scan for better chains in the block chain database, that are not yet connected in the active best chain
-    CValidationState state;
-    if (!ActivateBestChain(state, chainparams))
-        strErrors << "Failed to connect best block";
 
     std::vector<boost::filesystem::path> vImportFiles;
     if (mapArgs.count("-loadblock"))
@@ -1867,7 +1881,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             }
             pwalletMain->LockCoin(outpoint);
             LogPrintf("  %s %s - locked successfully\n", mne.getTxHash(), mne.getOutputIndex());
-        }   }
+        }
+    }
 
 
     nLiquidityProvider = GetArg("-liquidityprovider", nLiquidityProvider);
@@ -1907,33 +1922,40 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // LOAD SERIALIZED DAT FILES INTO DATA CACHES FOR INTERNAL USE
 
+    boost::filesystem::path pathDB = GetDataDir();
+    std::string strDBName;
+
+    strDBName = "mncache.dat";
     uiInterface.InitMessage(_("Loading masternode cache..."));
-    CFlatDB<CMasternodeMan> flatdb1("mncache.dat", "magicMasternodeCache");
+    CFlatDB<CMasternodeMan> flatdb1(strDBName, "magicMasternodeCache");
     if(!flatdb1.Load(mnodeman)) {
-        return InitError("Failed to load masternode cache from mncache.dat");
+        return InitError(_("Failed to load masternode cache from") + "\n" + (pathDB / strDBName).string());
     }
 
     if(mnodeman.size()) {
+        strDBName = "mnpayments.dat";
         uiInterface.InitMessage(_("Loading masternode payment cache..."));
-        CFlatDB<CMasternodePayments> flatdb2("mnpayments.dat", "magicMasternodePaymentsCache");
+        CFlatDB<CMasternodePayments> flatdb2(strDBName, "magicMasternodePaymentsCache");
         if(!flatdb2.Load(mnpayments)) {
-            return InitError("Failed to load masternode payments cache from mnpayments.dat");
+            return InitError(_("Failed to load masternode payments cache from") + "\n" + (pathDB / strDBName).string());
         }
 
+        strDBName = "governance.dat";
         uiInterface.InitMessage(_("Loading governance cache..."));
-        CFlatDB<CGovernanceManager> flatdb3("governance.dat", "magicGovernanceCache");
+        CFlatDB<CGovernanceManager> flatdb3(strDBName, "magicGovernanceCache");
         if(!flatdb3.Load(governance)) {
-            return InitError("Failed to load governance cache from governance.dat");
+            return InitError(_("Failed to load governance cache from") + "\n" + (pathDB / strDBName).string());
         }
         governance.InitOnLoad();
     } else {
         uiInterface.InitMessage(_("Masternode cache is empty, skipping payments and governance cache..."));
     }
 
+    strDBName = "netfulfilled.dat";
     uiInterface.InitMessage(_("Loading fulfilled requests cache..."));
-    CFlatDB<CNetFulfilledRequestManager> flatdb4("netfulfilled.dat", "magicFulfilledCache");
+    CFlatDB<CNetFulfilledRequestManager> flatdb4(strDBName, "magicFulfilledCache");
     if(!flatdb4.Load(netfulfilledman)) {
-        return InitError("Failed to load fulfilled requests cache from netfulfilled.dat");
+        return InitError(_("Failed to load fulfilled requests cache from") + "\n" + (pathDB / strDBName).string());
     }
 
     // ********************************************************* Step 11c: update block tip in Dash modules
@@ -1947,7 +1969,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     masternodeSync.UpdatedBlockTip(chainActive.Tip());
     governance.UpdatedBlockTip(chainActive.Tip());
 
-    // ********************************************************* Step 11d: start dash-privatesend thread
+    // ********************************************************* Step 11d: start dash-ps-<smth> threads
 
     threadGroup.create_thread(boost::bind(&ThreadCheckDarkSendPool));
 
@@ -1965,28 +1987,20 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     LogPrintf("mapBlockIndex.size() = %u\n",   mapBlockIndex.size());
     LogPrintf("chainActive.Height() = %d\n",   chainActive.Height());
 #ifdef ENABLE_WALLET
-    LogPrintf("setKeyPool.size() = %u\n",      pwalletMain ? pwalletMain->setKeyPool.size() : 0);
-    LogPrintf("mapWallet.size() = %u\n",       pwalletMain ? pwalletMain->mapWallet.size() : 0);
-    LogPrintf("mapAddressBook.size() = %u\n",  pwalletMain ? pwalletMain->mapAddressBook.size() : 0);
+    if (pwalletMain) {
+        LOCK(pwalletMain->cs_wallet);
+        LogPrintf("setKeyPool.size() = %u\n",           pwalletMain->setKeyPool.size());
+        LogPrintf("mapWallet.size() = %u\n",            pwalletMain->mapWallet.size());
+        LogPrintf("mapAddressBook.size() = %u\n",       pwalletMain->mapAddressBook.size());
+    } else {
+        LogPrintf("wallet is NULL\n");
+    }
 #endif
 
     if (GetBoolArg("-listenonion", DEFAULT_LISTEN_ONION))
         StartTorControl(threadGroup, scheduler);
 
     StartNode(threadGroup, scheduler);
-
-    // Monitor the chain, and alert if we get blocks much quicker or slower than expected
-    // The "bad chain alert" scheduler has been disabled because the current system gives far
-    // too many false positives, such that users are starting to ignore them.
-    // This code will be disabled for 0.12.1 while a fix is deliberated in #7568
-    // this was discussed in the IRC meeting on 2016-03-31.
-    //
-    // --- disabled ---
-    //int64_t nPowTargetSpacing = Params().GetConsensus().nPowTargetSpacing;
-    //CScheduler::Function f = boost::bind(&PartitionCheck, &IsInitialBlockDownload,
-    //                                     boost::ref(cs_main), boost::cref(pindexBestHeader), nPowTargetSpacing);
-    //scheduler.scheduleEvery(f, nPowTargetSpacing);
-    // --- end disabled ---
 
     // Generate coins in the background
     GenerateBitcoins(GetBoolArg("-gen", DEFAULT_GENERATE), GetArg("-genproclimit", DEFAULT_GENERATE_THREADS), chainparams);
@@ -2008,7 +2022,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
 #ifdef ENABLE_DEX
    threadGroup.create_thread(boost::bind(&ThreadDexManager));
-   DexConnectSignals();
+   dex::DexConnectSignals();
 #endif
 
     threadGroup.create_thread(boost::bind(&ThreadSendAlert));

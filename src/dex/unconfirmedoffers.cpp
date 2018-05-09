@@ -1,5 +1,7 @@
 #include "unconfirmedoffers.h"
 
+namespace dex {
+
 UnconfirmedOffers::UnconfirmedOffers()
 {
 
@@ -93,4 +95,6 @@ void UnconfirmedOffers::deleteOffer(const uint256 &hash)
         else
             ++it;
     }
+}
+
 }

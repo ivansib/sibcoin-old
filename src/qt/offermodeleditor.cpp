@@ -90,32 +90,6 @@ void OfferModelEditor::sort(int column, Qt::SortOrder order)
     Q_EMIT layoutChanged();
 }
 
-void OfferModelEditor::filterOffers()
-{
-    offersView.clear();
-    for (auto item : offers) {
-        bool b1 = (paymentMethod == item.paymentMethod || paymentMethod == 0);
-        bool b2 = countryIso == item.countryIso || countryIso == "all";
-        bool b3 = currencyIso == item.currencyIso || currencyIso == "all";
-
-        bool b4 = false;
-
-        if (item.type == TypeOffer::Buy && typeOffer == 1) {
-            b4 = true;
-        } else if (item.type == TypeOffer::Sell && typeOffer == 2) {
-            b4 = true;
-        } else if (typeOffer == 0) {
-            b4 = true;
-        }
-
-        if (b1 && b2 && b3 && b4) {
-            offersView << item;
-        }
-    }
-
-    Q_EMIT layoutChanged();
-}
-
 QString OfferModelEditor::status(const StatusOffer &s) const
 {
     QString str;

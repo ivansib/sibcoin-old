@@ -7,7 +7,7 @@ OfferDetailsView::OfferDetailsView(DexDB *db, QDialog *parent) : QDialog(parent)
 {
     ui->setupUi(this);
 
-    connect(ui->btnClose, &QPushButton::clicked, this, &OfferDetailsView::close);
+    connect(ui->btnClose, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 OfferDetailsView::~OfferDetailsView()

@@ -3,8 +3,8 @@ AC_PREREQ([2.60])
 define(_CLIENT_VERSION_MAJOR, 0)
 
 define(_CLIENT_VERSION_MINOR, 16)
-define(_CLIENT_VERSION_REVISION, 1)
-define(_CLIENT_VERSION_BUILD, 2)
+define(_CLIENT_VERSION_REVISION, 2)
+define(_CLIENT_VERSION_BUILD, 0)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2017)
 AC_INIT([Sibcoin Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[info@sibcoin.net],[sibcoin])
@@ -39,7 +39,6 @@ else
   CXXFLAGS_overridden=no
 fi
 AC_PROG_CXX
-m4_ifdef([AC_PROG_OBJCXX],[AC_PROG_OBJCXX])
 
 dnl By default, libtool for mingw refuses to link static libs into a dll for
 dnl fear of mixing pic/non-pic objects, and import/export complications. Since
@@ -49,6 +48,18 @@ case $host in
      lt_cv_deplibs_check_method="pass_all"
   ;;
 esac
+dnl Require C++11 compiler (no GNU extensions)
+AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory], [nodefault])
+
+dnl Unless the user specified OBJCXX, force it to be the same as CXX. This ensures
+dnl that we get the same -std flags for both.
+m4_ifdef([AC_PROG_OBJCXX],[
+if test "x${OBJCXX+set}" = "x"; then
+  OBJCXX="${CXX}"
+fi
+AC_PROG_OBJCXX
+])
+
 dnl Libtool init checks.
 LT_INIT([pic-only])
 
@@ -156,6 +167,12 @@ AC_ARG_ENABLE([glibc-back-compat],
   [use_glibc_compat=$enableval],
   [use_glibc_compat=no])
 
+AC_ARG_WITH([system-univalue],
+  [AS_HELP_STRING([--with-system-univalue],
+  [Build with system UniValue (default is no)])],
+  [system_univalue=$withval],
+  [system_univalue=no]
+)
 AC_ARG_ENABLE([zmq],
   [AS_HELP_STRING([--disable-zmq],
   [disable ZMQ notifications])],
@@ -227,6 +244,13 @@ AC_ARG_WITH([dex],
   [enable Decentralized EXchange (default=yes)])],
   [enable_dex=$withval],
   [enable_dex=yes])
+
+AC_ARG_WITH([printsupport],
+  [AS_HELP_STRING([--with-printsupport],
+  [enable print support for Qt (default=yes)])],
+  [enable_printsupport=$withval],
+  [enable_printsupport=yes])
+
 
 use_pkgconfig=yes
 case $host in
@@ -669,6 +693,42 @@ if test x$use_boost = xyes; then
 
 BOOST_LIBS="$BOOST_LDFLAGS $BOOST_SYSTEM_LIB $BOOST_FILESYSTEM_LIB $BOOST_PROGRAM_OPTIONS_LIB $BOOST_THREAD_LIB $BOOST_CHRONO_LIB"
 
+
+dnl If boost (prior to 1.57) was built without c++11, it emulated scoped enums
+dnl using c++98 constructs. Unfortunately, this implementation detail leaked into
+dnl the abi. This was fixed in 1.57.
+
+dnl When building against that installed version using c++11, the headers pick up
+dnl on the native c++11 scoped enum support and enable it, however it will fail to
+dnl link. This can be worked around by disabling c++11 scoped enums if linking will
+dnl fail.
+dnl BOOST_NO_SCOPED_ENUMS was changed to BOOST_NO_CXX11_SCOPED_ENUMS in 1.51.
+
+TEMP_LIBS="$LIBS"
+LIBS="$BOOST_LIBS $LIBS"
+TEMP_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
+AC_MSG_CHECKING([for mismatched boost c++11 scoped enums])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+  #include "boost/config.hpp"
+  #include "boost/version.hpp"
+  #if !defined(BOOST_NO_SCOPED_ENUMS) && !defined(BOOST_NO_CXX11_SCOPED_ENUMS) && BOOST_VERSION < 105700
+  #define BOOST_NO_SCOPED_ENUMS
+  #define BOOST_NO_CXX11_SCOPED_ENUMS
+  #define CHECK
+  #endif
+  #include "boost/filesystem.hpp"
+  ]],[[
+  #if defined(CHECK)
+    boost::filesystem::copy_file("foo", "bar");
+  #else
+    choke;
+  #endif
+  ]])],
+  [AC_MSG_RESULT(mismatched); BOOST_CPPFLAGS="$BOOST_CPPFLAGS -DBOOST_NO_SCOPED_ENUMS -DBOOST_NO_CXX11_SCOPED_ENUMS"], [AC_MSG_RESULT(ok)])
+LIBS="$TEMP_LIBS"
+CPPFLAGS="$TEMP_CPPFLAGS"
+
 dnl Boost >= 1.50 uses sleep_for rather than the now-deprecated sleep, however
 dnl it was broken from 1.50 to 1.52 when backed by nanosleep. Use sleep_for if
 dnl a working version is available, else fall back to sleep. sleep was removed
@@ -791,6 +851,44 @@ else
     BITCOIN_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
   fi
 fi
+
+dnl univalue check
+
+if test x$system_univalue != xno ; then
+  found_univalue=no
+  if test x$use_pkgconfig = xyes; then
+    : #NOP
+    m4_ifdef(
+      [PKG_CHECK_MODULES],
+      [
+        PKG_CHECK_MODULES([UNIVALUE],[libunivalue],[found_univalue=yes],[true])
+      ]
+    )
+  else
+    AC_CHECK_HEADER([univalue.h],[
+      AC_CHECK_LIB([univalue],  [main],[
+        UNIVALUE_LIBS=-lunivalue
+        found_univalue=yes
+      ],[true])
+    ],[true])
+  fi
+
+  if test x$found_univalue = xyes ; then
+    system_univalue=yes
+  elif test x$system_univalue = xyes ; then
+    AC_MSG_ERROR([univalue not found])
+  else
+    system_univalue=no
+  fi
+fi
+
+if test x$system_univalue = xno ; then
+  UNIVALUE_CFLAGS='-I$(srcdir)/univalue/include'
+  UNIVALUE_LIBS='univalue/libunivalue.la'
+fi
+AM_CONDITIONAL([EMBEDDED_UNIVALUE],[test x$system_univalue = xno])
+AC_SUBST(UNIVALUE_CFLAGS)
+AC_SUBST(UNIVALUE_LIBS)
 
 CXXFLAGS_TEMP="$CXXFLAGS"
 LIBS_TEMP="$LIBS"
@@ -948,6 +1046,16 @@ else
   AC_MSG_RESULT(no)
 fi
 
+dnl enable printsupport
+AC_MSG_CHECKING([if printsupport should be enabled])
+if test x$enable_printsupport != xno; then
+  AC_MSG_RESULT(yes)
+  AC_DEFINE_UNQUOTED([ENABLE_PRINTSUPPORT],[1],[Define to 1 to enable printsupport])
+else
+  AC_MSG_RESULT(no)
+fi
+
+
 AM_CONDITIONAL([TARGET_DARWIN], [test x$TARGET_OS = xdarwin])
 AM_CONDITIONAL([BUILD_DARWIN], [test x$BUILD_OS = xdarwin])
 AM_CONDITIONAL([TARGET_WINDOWS], [test x$TARGET_OS = xwindows])
@@ -963,6 +1071,7 @@ AM_CONDITIONAL([USE_COMPARISON_TOOL_REORG_TESTS],[test x$use_comparison_tool_reo
 AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([ENABLE_DEX],[test x$enable_dex = xyes])
+AM_CONDITIONAL([ENABLE_PRINTSUPPORT],[test x$enable_printsupport = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])
@@ -1020,8 +1129,12 @@ PKGCONFIG_LIBDIR_TEMP="$PKG_CONFIG_LIBDIR"
 unset PKG_CONFIG_LIBDIR
 PKG_CONFIG_LIBDIR="$PKGCONFIG_LIBDIR_TEMP"
 
+if test x$system_univalue = xno; then
+  AC_CONFIG_SUBDIRS([src/univalue])
+fi
+
 ac_configure_args="${ac_configure_args} --disable-shared --with-pic --with-bignum=no --enable-module-recovery"
-AC_CONFIG_SUBDIRS([src/secp256k1 src/univalue])
+AC_CONFIG_SUBDIRS([src/secp256k1])
 
 AC_OUTPUT
 

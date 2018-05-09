@@ -7,17 +7,19 @@
 #include "db/currencyiso.h"
 #include "db/paymentmethodtype.h"
 #include "utilstrencodings.h"
+#include "parserjsonoffer.h"
 #include <univalue.h>
 #include <string.h>
 
+namespace dex {
 
 const char * OFFER_TYPE_BUY  =  "buy";
 const char * OFFER_TYPE_SELL = "sell";
 
 
-dex::CurrencyIso  defaultCurrencyIso;
-dex::CountryIso   defaultCountryIso;
-dex::PaymentMethodType defaultPaymentMethod;
+CurrencyIso  defaultCurrencyIso;
+CountryIso   defaultCountryIso;
+PaymentMethodType defaultPaymentMethod;
 
 
 CDexOffer::CDexOffer()
@@ -362,11 +364,11 @@ bool CDexOffer::Check(bool fullcheck)
             LogPrint("dex", "DexOffer::Check(%s) error:  wrong currencyIso size\n", hash.GetHex().c_str());
             break;
         }
-        if (shortInfo.size() > DEX_SHORT_INFO_LENGTH) {
+        if (numberSings(shortInfo) > DEX_SHORT_INFO_LENGTH) {
             LogPrint("dex", "DexOffer::Check(%s) error: shortinfo string too long\n", hash.GetHex().c_str());
             break;
         }
-        if (details.size() > DEX_DETAILS_LENGTH) {
+        if (numberSings(details) > DEX_DETAILS_LENGTH) {
             LogPrint("dex", "DexOffer::Check(%s) error: details string too long\n", hash.GetHex().c_str());
             break;
         }
@@ -463,4 +465,4 @@ bool CDexOffer::CheckEditSign()
     return false;
 }
 
-
+}

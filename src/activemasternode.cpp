@@ -188,7 +188,7 @@ void CActiveMasternode::ManageStateInitial()
 
     LogPrintf("CActiveMasternode::ManageStateInitial -- Checking inbound connection to '%s'\n", service.ToString());
 
-    if(!ConnectNode((CAddress)service, NULL, true)) {
+    if(!ConnectNode(CAddress(service, NODE_NETWORK), NULL, true)) {
         nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
         strNotCapableReason = "Could not connect to " + service.ToString();
         LogPrintf("CActiveMasternode::ManageStateInitial -- %s: %s\n", GetStateString(), strNotCapableReason);
@@ -229,9 +229,9 @@ void CActiveMasternode::ManageStateInitial()
 void CActiveMasternode::ManageStateRemote()
 {
     LogPrint("masternode", "CActiveMasternode::ManageStateRemote -- Start status = %s, type = %s, pinger enabled = %d, pubKeyMasternode.GetID() = %s\n", 
-             GetStatus(), fPingerEnabled, GetTypeString(), pubKeyMasternode.GetID().ToString());
+             GetStatus(), GetTypeString(), fPingerEnabled, pubKeyMasternode.GetID().ToString());
 
-    mnodeman.CheckMasternode(pubKeyMasternode);
+    mnodeman.CheckMasternode(pubKeyMasternode, true);
     masternode_info_t infoMn = mnodeman.GetMasternodeInfo(pubKeyMasternode);
     if(infoMn.fInfoValid) {
         if(infoMn.nProtocolVersion != PROTOCOL_VERSION) {

@@ -2,15 +2,23 @@
 #include "dexsync.h"
 #include "dexmanager.h"
 #include "masternode-sync.h"
+#include "masternodeman.h"
 #include "init.h"
 #include "ui_interface.h"
 #include "pubkey.h"
 #include "wallet.h"
 
+namespace dex {
+
 CDexSync dexsync;
+
+const int MIN_NUMBER_DEX_NODE = 4;
+const int MIN_NUMBER_DEX_NODE_TESTNET = 2;
 
 CDexSync::CDexSync()
 {
+    status = NoStarted;
+    statusPercent = 0;
     db = nullptr;
 }
 
@@ -32,17 +40,44 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
     } else if (strCommand == NetMsgType::DEXSYNCGETOFFER) {
         sendOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCOFFER) {
-        getOfferAndSaveInDb(vRecv);
+        getOfferAndSaveInDb(pfrom, vRecv);
     }
 }
 
 void CDexSync::startSyncDex()
 {
-    LogPrint(NULL, "startSyncDex -- start synchronization offers\n");
+    if (status == NoStarted || status == NoRestarted ) {
+        uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent);
+    }
+
+    if (!canStart() || !(status == NoStarted || status == NoRestarted)) {
+        return;
+    }
+
+    if (statusPercent > 0) {
+        status = Restarted;
+    } else {
+        status = Started;
+    }
+
+    prevMaxOffersNeedDownload = 0;
+    prevOffersNeedDownloadSize = 0;
+
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent + 0.01);
+
+    LogPrint("dex", "CDexSync -- start synchronization offers\n");
     maxOffersNeedDownload = 0;
-    std::vector<CNode*> vNodesCopy = CopyNodeVector();
+    auto vNodesCopy = CopyNodeVector();
 
     for (auto node : vNodesCopy) {
+        if (node->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
+        if (!mnodeman.isExist(node)) {
+            continue;
+        }
+
         if(node->fMasternode || (fMasterNode && node->fInbound)) {
             continue;
         }
@@ -51,15 +86,19 @@ void CDexSync::startSyncDex()
     }
 
     status = Initial;
-    uiInterface.NotifyAdditionalDataSyncProgressChanged(0);
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent + 0.1);
 
-    Timer timer(30000, FinishSyncDex);
+    ReleaseNodeVector(vNodesCopy);
+
+    startTimer();
 }
 
 void CDexSync::finishSyncDex()
 {
+    LogPrint("dex", "CDexSync -- finish sync\n");
     status = Finished;
     uiInterface.NotifyAdditionalDataSyncProgressChanged(1);
+    syncFinished();
 }
 
 bool CDexSync::isSynced() const
@@ -71,6 +110,14 @@ std::string CDexSync::getSyncStatus() const
 {
     std::string str;
     switch (status) {
+    case NoStarted:
+        str = _("Synchronization offers doesn't start...");
+        break;
+    case Started:
+        str = _("Synchronization offers started...");
+        break;
+    case NoRestarted:
+    case Restarted:
     case Initial:
         str = _("Synchronization offers pending...");
         break;
@@ -90,6 +137,62 @@ std::string CDexSync::getSyncStatus() const
 CDexSync::Status CDexSync::statusSync()
 {
     return status;
+}
+
+int CDexSync::minNumDexNode() const
+{
+    int minNumDexNode = MIN_NUMBER_DEX_NODE;
+    if (Params().NetworkIDString() == CBaseChainParams::TESTNET) {
+        minNumDexNode = MIN_NUMBER_DEX_NODE_TESTNET;
+    }
+
+    return minNumDexNode;
+}
+
+bool CDexSync::reset()
+{
+    if (status != Finished && status != NoStarted && status != NoRestarted) {
+        return false;
+    } else {
+        statusPercent = 0;
+        status = NoStarted;
+        startSyncDex();
+    }
+    
+    return true;
+}
+
+void CDexSync::restart()
+{
+    LogPrint("dex", "CDexSync -- restart sync\n");
+    statusPercent = 1 - (0.9 - statusPercent) * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    status = NoRestarted;
+    startSyncDex();
+}
+
+void CDexSync::updatePrevData()
+{
+    prevOffersNeedDownloadSize = offersNeedDownload.size();
+    prevMaxOffersNeedDownload = maxOffersNeedDownload;
+}
+
+bool CDexSync::checkSyncData()
+{
+    if (prevOffersNeedDownloadSize == offersNeedDownload.size() && prevMaxOffersNeedDownload == maxOffersNeedDownload) {
+        return false;
+    }
+
+    return true;
+}
+
+void CDexSync::startTimer()
+{
+    Timer timer(30000, FinishSyncDex);
+}
+
+int CDexSync::offersNeedDownloadSize() const
+{
+    return offersNeedDownload.size();
 }
 
 void CDexSync::initDB()
@@ -114,7 +217,7 @@ void CDexSync::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRe
 {
     LogPrint("dex", "DEXSYNCALLHASH -- get list hashes from %s\n", pfrom->addr.ToString());
 
-    std::list<std::pair<uint256, int>>  nodeHvs;
+    std::list<std::pair<uint256, int>> nodeHvs;
     vRecv >> nodeHvs;
     auto hvs = dexman.availableOfferHashAndVersion();
 
@@ -148,13 +251,16 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 
     auto offer = dexman.getOfferInfo(hash);
 
-    if (offer.Check(true)) {
+    if (!offer.IsNull()) {
         LogPrint("dex", "DEXSYNCGETOFFER -- send offer info with hash = %s\n", hash.GetHex().c_str());
         pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
+    } else {
+        LogPrint("dex", "DEXSYNCGETOFFER -- offer with hash = %s not found\n", hash.GetHex().c_str());
+        Misbehaving(pfrom->GetId(), 1);
     }
 }
 
-void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
+void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 {
     status = Sync;
     CDexOffer offer;
@@ -170,24 +276,20 @@ void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
                 if (db->isExistOfferBuy(offer.idTransaction)) {
                     OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferBuy(offer);
+                        db->editOfferBuy(offer, false);
                     }
                 } else {
-                    db->addOfferBuy(offer);
+                    db->addOfferBuy(offer, false);
                 }
-
-                eraseItemFromOffersNeedDownload(offer.hash);
             } else if (offer.isSell())  {
                 if (db->isExistOfferSell(offer.idTransaction)) {
                     OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferSell(offer);
+                        db->editOfferSell(offer, false);
                     }
                 } else {
-                    db->addOfferSell(offer);
+                    db->addOfferSell(offer, false);
                 }
-
-                eraseItemFromOffersNeedDownload(offer.hash);
             }
         } else {
             if (dexman.getUncOffers()->isExistOffer(offer.hash)) {
@@ -199,19 +301,27 @@ void CDexSync::getOfferAndSaveInDb(CDataStream &vRecv)
             } else {
                 dexman.getUncOffers()->setOffer(offer);
             }
-
-            eraseItemFromOffersNeedDownload(offer.hash);
         }
+
         if (DexDB::bOffersRescan && !db->isExistMyOffer(offer.idTransaction)) {
             CPubKey kPubKeyObj = offer.getPubKeyObject();
             if (kPubKeyObj.IsValid()) {
                 if (pwalletMain->HaveKey(kPubKeyObj.GetID())) {
                     MyOfferInfo mOfferInfo = offer;
-                    db->addMyOffer(mOfferInfo);
+
+                    if (dex.CheckOfferTx(error)) {
+                        mOfferInfo.status = Active;
+                        db->addMyOffer(mOfferInfo, false);
+                    }
                 }
             }
         }
+    } else {
+        LogPrint("dex", "DEXSYNCOFFER -- offer check fail\n");
+        Misbehaving(pfrom->GetId(), 20);
     }
+
+    eraseItemFromOffersNeedDownload(offer.hash);
 }
 
 void CDexSync::insertItemFromOffersNeedDownload(const uint256 &hash)
@@ -231,7 +341,7 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
         offersNeedDownload.erase(it);
     }
 
-    float percent = 1 - static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    float percent = 1 - (0.9 - statusPercent) * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
 
     if (offersNeedDownload.size() == 0) {
         finishSyncDex();
@@ -240,15 +350,47 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
     }
 }
 
+bool CDexSync::canStart()
+{
+    auto vNodesCopy = CopyNodeVector();
+    int nDex = 0;
+    for (auto pNode : vNodesCopy) {
+        if (!pNode->fInbound && !pNode->fMasternode) {
+            if (pNode->nVersion >= MIN_DEX_VERSION && mnodeman.isExist(pNode)) {
+                nDex++;
+            }
+        }
+    }
+
+    ReleaseNodeVector(vNodesCopy);
+
+    if (nDex >= minNumDexNode()) {
+        return true;
+    }
+
+    return false;
+}
+
 void DexConnectSignals()
 {
     masternodeSync.syncFinished.connect(boost::bind(&CDexSync::startSyncDex, &dexsync));
+    dexman.startSyncDex.connect(boost::bind(&CDexSync::startSyncDex, &dexsync));
 }
 
 
 void FinishSyncDex()
 {
-    if (dexsync.statusSync() == CDexSync::Initial) {
+    if (dexsync.statusSync() == CDexSync::Initial && dexsync.offersNeedDownloadSize() == 0) {
         dexsync.finishSyncDex();
+    } else {
+        if (!dexsync.checkSyncData()) {
+            dexsync.restart();
+        } else if (!dexsync.isSynced()) {
+            LogPrint("dex", "CDexSync -- restart timer\n");
+            dexsync.updatePrevData();
+            dexsync.startTimer();
+        }
     }
+}
+
 }

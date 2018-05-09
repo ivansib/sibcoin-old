@@ -165,7 +165,7 @@ void checkCountry(DexDB *db)
     BOOST_CHECK(size == 245);
 
     auto front = cList.front();
-    cList.pop_back();
+    cList.pop_front();
     cList.push_back(front);
 
     db->editCountries(cList);
@@ -194,7 +194,7 @@ void checkCurrency(DexDB *db)
     BOOST_CHECK(size == 145);
 
     auto front = cList.front();
-    cList.pop_back();
+    cList.pop_front();
     cList.push_back(front);
 
     db->editCurrencies(cList);
@@ -314,6 +314,14 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(!db->isExistOfferSell(GetRandHash()));
     BOOST_CHECK(!db->isExistOfferBuyByHash(GetRandHash()));
     BOOST_CHECK(!db->isExistOfferSellByHash(GetRandHash()));
+
+    BOOST_CHECK(db->countOffersBuy() == iList.size());
+    BOOST_CHECK(db->countOffersSell() == iList.size());
+
+    BOOST_CHECK(db->countOffersBuy("RU", "RUB", 1) == 1);
+    BOOST_CHECK(db->countOffersSell("RU", "RUB", 1) == 1);
+    BOOST_CHECK(db->countOffersBuy("US", "RUB", 1) == 0);
+    BOOST_CHECK(db->countOffersSell("US", "RUB", 1) == 0);
 
     db->deleteOfferSell(iList.front().idTransaction);
     db->deleteOfferBuy(iList.back().idTransaction);
@@ -595,6 +603,10 @@ void checkMyOffers(DexDB *db)
     BOOST_CHECK(!db->isExistMyOffer(GetRandHash()));
     BOOST_CHECK(!db->isExistMyOfferByHash(GetRandHash()));
     BOOST_CHECK(!db->isExistMyOfferByHash(GetRandHash()));
+
+    BOOST_CHECK(db->countMyOffers() == iList.size());
+    BOOST_CHECK(db->countMyOffers("RU", "RUB", 1, Buy, Active) == 1);
+    BOOST_CHECK(db->countMyOffers("RU", "RUB", 1, Buy, Draft) == 0);
 
     db->deleteMyOffer(iList.front().idTransaction);
 

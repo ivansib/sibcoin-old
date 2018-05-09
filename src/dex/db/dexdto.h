@@ -7,6 +7,11 @@
 namespace dex {
 
 const int numberOfDecimalsForPrice = 8;
+static const int DEX_SHORT_INFO_LENGTH = 140;
+static const int DEX_DETAILS_LENGTH = 768;
+
+static const std::string DEX_CONFIG = "dex.conf";
+static const int DEX_MAX_ROWS_OUTPUT = 200;
 
 struct CountryInfo {
     std::string iso;

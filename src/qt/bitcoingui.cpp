@@ -459,9 +459,11 @@ void BitcoinGUI::createActions()
     usedReceivingAddressesAction = new QAction(QIcon(":/icons/" + theme + "/address-book"), tr("&Receiving addresses..."), this);
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 
+#ifdef ENABLE_PRINTSUPPORT
     genAndPrintAddressesAction = new QAction(QIcon(":/icons/cash_icon"), tr("&Print sibcoins..."), this);
     genAndPrintAddressesAction->setIconVisibleInMenu(true);
     genAndPrintAddressesAction->setStatusTip(tr("Generate address and print"));
+#endif
 
     loadFromPaperAction = new QAction(QIcon(":/icons/import"), tr("&Load sibcoins..."), this);
     loadFromPaperAction->setIconVisibleInMenu(true);
@@ -521,7 +523,9 @@ void BitcoinGUI::createActions()
         connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
         connect(usedSendingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedSendingAddresses()));
         connect(usedReceivingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingAddresses()));
-        connect(genAndPrintAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(genAndPrintAddresses()));
+        #ifdef ENABLE_PRINTSUPPORT
+            connect(genAndPrintAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(genAndPrintAddresses()));
+        #endif
         connect(loadFromPaperAction, SIGNAL(triggered()), walletFrame, SLOT(loadFromPaper()));
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
     }
@@ -556,7 +560,9 @@ void BitcoinGUI::createMenuBar()
         file->addAction(usedSendingAddressesAction);
         file->addAction(usedReceivingAddressesAction);
         file->addSeparator();
-        file->addAction(genAndPrintAddressesAction);
+        #ifdef ENABLE_PRINTSUPPORT
+            file->addAction(genAndPrintAddressesAction);
+        #endif
         file->addAction(loadFromPaperAction);
     }
     file->addAction(quitAction);
@@ -664,8 +670,8 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
         setNumConnections(clientModel->getNumConnections());
         connect(clientModel, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
 
-        setNumBlocks(clientModel->getNumBlocks(), clientModel->getLastBlockDate(), clientModel->getVerificationProgress(NULL));
-        connect(clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double)), this, SLOT(setNumBlocks(int,QDateTime,double)));
+        setNumBlocks(clientModel->getNumBlocks(), clientModel->getLastBlockDate(), clientModel->getVerificationProgress(NULL), false);
+        connect(clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(setNumBlocks(int,QDateTime,double,bool)));
 
         connect(clientModel, SIGNAL(additionalDataSyncProgressChanged(double)), this, SLOT(setAdditionalDataSyncProgress(double)));
 
@@ -754,7 +760,9 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     verifyMessageAction->setEnabled(enabled);
     usedSendingAddressesAction->setEnabled(enabled);
     usedReceivingAddressesAction->setEnabled(enabled);
-    genAndPrintAddressesAction->setEnabled(enabled);
+    #ifdef ENABLE_PRINTSUPPORT
+        genAndPrintAddressesAction->setEnabled(enabled);
+    #endif
     loadFromPaperAction->setEnabled(enabled);
     openAction->setEnabled(enabled);
 }
@@ -984,7 +992,7 @@ void BitcoinGUI::setNumConnections(int count)
     labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Sibcoin network", "", count));
 }
 
-void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress)
+void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header)
 {
     if(!clientModel)
         return;
@@ -996,15 +1004,25 @@ void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVer
     enum BlockSource blockSource = clientModel->getBlockSource();
     switch (blockSource) {
         case BLOCK_SOURCE_NETWORK:
+            if (header) {
+                return;
+            }
             progressBarLabel->setText(tr("Synchronizing with network..."));
             break;
         case BLOCK_SOURCE_DISK:
-            progressBarLabel->setText(tr("Importing blocks from disk..."));
+            if (header) {
+                progressBarLabel->setText(tr("Indexing blocks on disk..."));
+            } else {
+                progressBarLabel->setText(tr("Processing blocks on disk..."));
+            }
             break;
         case BLOCK_SOURCE_REINDEX:
             progressBarLabel->setText(tr("Reindexing blocks on disk..."));
             break;
         case BLOCK_SOURCE_NONE:
+            if (header) {
+                return;
+            }
             // Case: not Importing, not Reindexing and no network connection
             progressBarLabel->setText(tr("No block source available..."));
             break;
@@ -1065,7 +1083,9 @@ void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVer
 
 #ifdef ENABLE_WALLET
         if(walletFrame)
+        {
             walletFrame->showOutOfSyncWarning(true);
+        }
 #endif // ENABLE_WALLET
 
         tooltip += QString("<br>");
@@ -1087,54 +1107,60 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
     if(!clientModel)
         return;
 
+    // No additional data sync should be happening while blockchain is not synced, nothing to update
+    if(!masternodeSync.IsBlockchainSynced())
+        return;
+
     // Prevent orphan statusbar messages (e.g. hover Quit in main menu, wait until chain-sync starts -> garbelled text)
     statusBar()->clearMessage();
+
+    if (!progressBar->isVisible()) {
+        progressBarLabel->setVisible(true);
+        progressBar->setVisible(true);
+    }
 
     QString tooltip;
 
     // Set icon state: spinning if catching up, tick otherwise
     QString theme = GUIUtil::getThemeName();
 
-    if(masternodeSync.IsBlockchainSynced())
-    {
-        QString strSyncStatus;
-        tooltip = tr("Up to date") + QString(".<br>") + tooltip;
+    QString strSyncStatus;
+    tooltip = tr("Up to date") + QString(".<br>") + tooltip;
 
-        bool isSynced = masternodeSync.IsSynced();
-
+    bool finishProgress = masternodeSync.IsSynced();
 #ifdef ENABLE_DEX
-        isSynced = masternodeSync.IsSynced() && dexsync.isSynced();
+    finishProgress = (masternodeSync.IsSynced() && dex::dexsync.isSynced());
 #endif
-        if(isSynced) {
-            progressBarLabel->setVisible(false);
-            progressBar->setVisible(false);
-            labelBlocksIcon->setPixmap(QIcon(":/icons/" + theme + "/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
-        } else {
 
-            labelBlocksIcon->setPixmap(platformStyle->SingleColorIcon(QString(
-                ":/movies/spinner-%1").arg(spinnerFrame, 3, 10, QChar('0')))
-                .pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
-            spinnerFrame = (spinnerFrame + 1) % SPINNER_FRAMES;
+    if(finishProgress) {
+        progressBarLabel->setVisible(false);
+        progressBar->setVisible(false);
+        labelBlocksIcon->setPixmap(QIcon(":/icons/" + theme + "/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
+    } else {
+
+        labelBlocksIcon->setPixmap(platformStyle->SingleColorIcon(QString(
+            ":/movies/spinner-%1").arg(spinnerFrame, 3, 10, QChar('0')))
+            .pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
+        spinnerFrame = (spinnerFrame + 1) % SPINNER_FRAMES;
 
 #ifdef ENABLE_WALLET
-            if(walletFrame)
-                walletFrame->showOutOfSyncWarning(false);
+        if(walletFrame)
+            walletFrame->showOutOfSyncWarning(false);
 #endif // ENABLE_WALLET
 
-            progressBar->setFormat(tr("Synchronizing additional data: %p%"));
-            progressBar->setMaximum(1000000000);
-            progressBar->setValue(nSyncProgress * 1000000000.0 + 0.5);
-        }
-
-        strSyncStatus = QString(masternodeSync.GetSyncStatus().c_str());
-#ifdef ENABLE_DEX
-        if (masternodeSync.IsSynced() && !dexsync.isSynced()) {
-            strSyncStatus = QString(dexsync.getSyncStatus().c_str());
-        }
-#endif
-        progressBarLabel->setText(strSyncStatus);
-        tooltip = strSyncStatus + QString("<br>") + tooltip;
+        progressBar->setFormat(tr("Synchronizing additional data: %p%"));
+        progressBar->setMaximum(1000000000);
+        progressBar->setValue(nSyncProgress * 1000000000.0 + 0.5);
     }
+
+    strSyncStatus = QString(masternodeSync.GetSyncStatus().c_str());
+#ifdef ENABLE_DEX
+    if (masternodeSync.IsSynced() && !dex::dexsync.isSynced()) {
+        strSyncStatus = QString(dex::dexsync.getSyncStatus().c_str());
+    }
+#endif
+    progressBarLabel->setText(strSyncStatus);
+    tooltip = strSyncStatus + QString("<br>") + tooltip;
 
     // Don't word-wrap this (fixed-width) tooltip
     tooltip = QString("<nobr>") + tooltip + QString("</nobr>");
@@ -1484,7 +1510,7 @@ void UnitDisplayStatusBarControl::mousePressEvent(QMouseEvent *event)
 /** Creates context menu, its actions, and wires up all the relevant signals for mouse events. */
 void UnitDisplayStatusBarControl::createContextMenu()
 {
-    menu = new QMenu();
+    menu = new QMenu(this);
     Q_FOREACH(BitcoinUnits::Unit u, BitcoinUnits::availableUnits())
     {
         QAction *menuAction = new QAction(QString(BitcoinUnits::name(u)), this);

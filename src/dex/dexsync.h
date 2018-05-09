@@ -6,10 +6,10 @@
 #include "net.h"
 #include "dex/db/dexdb.h"
 
+namespace dex {
+
 class CDexSync;
 extern CDexSync dexsync;
-
-using namespace dex;
 
 class  Timer {
 private:
@@ -41,6 +41,10 @@ class CDexSync
 {
 public:
     enum Status {
+        NoStarted,
+        NoRestarted,
+        Started,
+        Restarted,
         Initial,
         Sync,
         Finished
@@ -57,6 +61,15 @@ public:
     bool isSynced() const;
     std::string getSyncStatus() const;
     Status statusSync();
+    int minNumDexNode() const;
+    bool reset();
+    void restart();
+    void updatePrevData();
+    bool checkSyncData();
+    void startTimer();
+    int offersNeedDownloadSize() const;
+
+    boost::signals2::signal<void()> syncFinished;
 
 private:
     DexDB *db;
@@ -65,17 +78,23 @@ private:
     void sendHashOffers(CNode* pfrom) const;
     void getHashsAndSendRequestForGetOffers(CNode* pfrom, CDataStream& vRecv);
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
-    void getOfferAndSaveInDb(CDataStream& vRecv);
+    void getOfferAndSaveInDb(CNode* pfrom, CDataStream& vRecv);
     void insertItemFromOffersNeedDownload(const uint256 &hash);
     void eraseItemFromOffersNeedDownload(const uint256 &hash);
-    void test();
+    bool canStart();
 
     std::set<uint256> offersNeedDownload;
-    int maxOffersNeedDownload;
+    size_t maxOffersNeedDownload;
+    size_t prevOffersNeedDownloadSize;
+    size_t prevMaxOffersNeedDownload;
+    float statusPercent;
+
     Status status;
 };
 
 void DexConnectSignals();
 void FinishSyncDex();
+
+}
 
 #endif //DEXSYNC_H
