@@ -14,7 +14,7 @@ struct UnconfirmedOffersComparator {
         return a.timeCreate < b.timeCreate || a.hash < b.hash || a.editingVersion < b.editingVersion;
     }
 
-}
+};
 
 class UnconfirmedOffers {
 public:
@@ -36,6 +36,8 @@ private:
 
     std::map<CDexOffer,std::time_t,dex::UnconfirmedOffersComparator> offers;
     boost::shared_mutex smOfferMutex;
+};
+
 }
 
 #endif
