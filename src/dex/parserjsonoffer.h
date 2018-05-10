@@ -2,6 +2,7 @@
 #define PARSERJSONOFFER_H
 
 #include "dex/db/dexdto.h"
+#include <boost/filesystem.hpp>
 
 namespace dex {
 
@@ -11,6 +12,8 @@ int numberSings(const std::string &str);
 
 int maxOutput();
 void changedMaxOutput(const int &max);
+
+void createFileIfNotExist(const boost::filesystem::path &path);
 
 }
 

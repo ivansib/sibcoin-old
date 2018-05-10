@@ -139,6 +139,9 @@ int numberSings(const std::string &str)
 int maxOutput()
 {
     boost::filesystem::path pathSettings = GetDataDir() / DEX_CONFIG;
+
+    createFileIfNotExist(pathSettings);
+
     boost::property_tree::ptree pt;
     boost::property_tree::ini_parser::read_ini(pathSettings.string(), pt);
     bool show = pt.get<bool>("default.showMaxRowsTables", false);
@@ -154,6 +157,9 @@ int maxOutput()
 void changedMaxOutput(const int &max)
 {
     boost::filesystem::path pathSettings = GetDataDir() / DEX_CONFIG;
+
+    createFileIfNotExist(pathSettings);
+
     boost::property_tree::ptree pt;
     boost::property_tree::ini_parser::read_ini(pathSettings.string(), pt);
 
@@ -165,6 +171,14 @@ void changedMaxOutput(const int &max)
     }
 
     boost::property_tree::ini_parser::write_ini(pathSettings.string(), pt);
+}
+
+void createFileIfNotExist(const boost::filesystem::path &path)
+{
+    if (!exists(path)) {
+        std::ofstream file(path.string().c_str());
+        file.close();
+    }
 }
 
 }
