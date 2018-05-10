@@ -3,11 +3,15 @@
 
 #include <QAbstractTableModel>
 #include <QStringList>
+#include <QMetaType>
 #include "commonsettingsforoffers.h"
 #include "dto.h"
 
 Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
+
+#if QT_VERSION > 0x050000
 Q_DECLARE_METATYPE(QAbstractItemModel::LayoutChangeHint)
+#endif
 
 template <class Offer>
 class OfferModel : public QAbstractTableModel

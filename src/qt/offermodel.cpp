@@ -5,7 +5,10 @@ template <class Offer>
 OfferModel<Offer>::OfferModel(QObject *parent) : QAbstractTableModel(parent)
 {
     qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
+
+#if QT_VERSION > 0x050000
     qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
+#endif
 
     settings = CommonSettingsForOffers::instance();
 }
