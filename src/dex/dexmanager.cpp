@@ -185,15 +185,8 @@ void CDexManager::checkUncOffers()
 
 void CDexManager::setStatusExpiredForMyOffers()
 {
-    auto offers = db->getMyOffers();
-
-    uint64_t currentTime = static_cast<uint64_t>(time(NULL));
-
-    for (auto item : offers) {
-        if (item.timeToExpiration < currentTime) {
-            item.status = dex::Expired;
-            db->editMyOffer(item, false);
-        }
+    if (db->setStatusExpiredForMyOffers() != 0) {
+        LogPrint("dex", "setStatusExpiredForMyOffers() DB error: %s\n", db->getErrMsg().c_str());
     }
 }
 

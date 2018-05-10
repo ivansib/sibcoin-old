@@ -33,6 +33,8 @@ public:
     CallBackDB *getCallBack() const;
     void removeCallBack(CallBackDB *callBack);
 
+    std::string getErrMsg();
+
     void addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
     void editCountries(const std::list<CountryInfo> &list);
     void deleteCountry(const std::string &iso);
@@ -91,6 +93,7 @@ public:
     MyOfferInfo getMyOfferByHash(const uint256 &hash);
     int countMyOffers();
     int countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer);
+    int setStatusExpiredForMyOffers();
 
     void addFilter(const std::string &filter);
     void deleteFilter(const std::string &filter);

@@ -72,6 +72,16 @@ DexDB *DexDB::self()
     return pSingleton;
 }
 
+std::string DexDB::getErrMsg()
+{
+    std::string result;
+    char const* err = db.error_msg();
+    if (err != 0) {
+        result = err;
+    }
+    return result;
+}
+
 
 void DexDB::addCallBack(CallBackDB *callBack)
 {
@@ -823,6 +833,20 @@ MyOfferInfo DexDB::getMyOffer(sqlite3pp::query::iterator &it)
     info.editsign = editsign;
     return info;
 }
+
+
+int DexDB::setStatusExpiredForMyOffers()
+{
+    std::string query = "UPDATE myOffers SET status = :status WHERE timeToExpiration < :currentTime";
+    sqlite3pp::command cmd(db, query.c_str());
+
+    uint64_t currentTime = static_cast<uint64_t>(time(NULL));
+    cmd.bind(":currentTime", static_cast<long long int>(currentTime));
+    cmd.bind(":status", StatusOffer::Expired);
+
+    return cmd.execute();
+}
+
 
 void DexDB::addFilter(const std::string &filter)
 {
