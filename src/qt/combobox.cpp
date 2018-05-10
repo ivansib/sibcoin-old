@@ -6,9 +6,16 @@ ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
 
 }
 
-void ComboBox::setCurrentData(const QString &data) {
+bool ComboBox::setCurrentData(const QString &data) {
     int index = findData(data);
-    setCurrentIndex(index);
+
+    if (index >= 0) {
+        setCurrentIndex(index);
+
+        return true;
+    }
+
+    return false;
 }
 
 #if QT_VERSION < 0x050200
@@ -93,4 +100,21 @@ void ComboBox::addData(const std::list<CurrencyInfo> &data, const ComboType &typ
         }
         ++it;
     }
+}
+
+void ComboBox::addData(const CountryInfo &data)
+{
+    QString name = ConvertData::toTr(data.name.c_str());
+    QString iso = toString(data.iso);
+
+    addItem(name, iso);
+}
+
+void ComboBox::addData(const CurrencyInfo &data)
+{
+    QString viewStr = toString(data.symbol) + " " + toString(data.iso);
+    QString key = toString(data.iso);
+    QString toolTip = ConvertData::toTr(data.name.c_str());
+    addItem(viewStr, key);
+    setItemData(count() - 1, toolTip, Qt::ToolTipRole);
 }

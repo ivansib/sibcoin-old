@@ -46,8 +46,19 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 
     int indexOffer = cBoxOffer->findText(offerType(info.type));
     cBoxOffer->setCurrentIndex(indexOffer);
-    cBoxCountry->setCurrentData(info.countryIso);
-    cBoxCurrency->setCurrentData(info.currencyIso);
+
+    if (!cBoxCountry->setCurrentData(info.countryIso)) {
+        auto country = db->getCountryInfo(ConvertData::fromQString(info.countryIso));
+        cBoxCountry->addData(country);
+        cBoxCountry->setCurrentData(info.countryIso);
+    }
+
+    if (!cBoxCurrency->setCurrentData(info.currencyIso)) {
+        auto currency = db->getCurrencyInfo(ConvertData::fromQString(info.currencyIso));
+        cBoxCurrency->addData(currency);
+        cBoxCurrency->setCurrentData(info.currencyIso);
+    }
+
     cBoxPayment->setCurrentData(QString::number(info.paymentMethod));
     sBoxPrice->setValue(info.price);
     sBoxMinAmount->setValue(info.minAmount);
