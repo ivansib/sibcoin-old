@@ -7,57 +7,52 @@ UnconfirmedOffers::UnconfirmedOffers()
 
 }
 
-void UnconfirmedOffers::setOffer(const CDexOffer &offer)
+/**
+ * 
+ * @param CDexOffer
+ * @return bool true if entry was inserted and false otherwise
+ */
+bool UnconfirmedOffers::putOffer(const CDexOffer &offer)
 {
-    boost::unique_lock<boost::shared_mutex> lock(smOfferMutex);
-    offers.insert(std::make_pair(offer, std::time(NULL)));
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    auto result = offers.insert(std::make_pair(offer, std::time(NULL)));
+    return result.second;
 }
 
-std::list<uint256> UnconfirmedOffers::hashs()
+
+bool UnconfirmedOffers::hasOfferWithHash(const uint256 &hash)
 {
-    std::list<uint256> h;
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    CDexOffer offer = findByHash(hash);
 
-    boost::shared_lock<boost::shared_mutex> lock(smOfferMutex);
-    for (std::map<CDexOffer, std::time_t>::const_iterator it = offers.begin(); it != offers.end(); ++it)
-    {
-        CDexOffer offer = it->first;
-        h.push_back(offer.hash);
-    }
-
-    return h;
+    return !offer.IsNull();
 }
 
-bool UnconfirmedOffers::isExistOffer(const uint256 &hash)
+
+bool UnconfirmedOffers::hasOffer(const CDexOffer &offer)
 {
-    boost::shared_lock<boost::shared_mutex> lock(smOfferMutex);
-    for (std::map<CDexOffer,std::time_t>::const_iterator it = offers.begin(); it != offers.end(); ++it)
-    {
-        CDexOffer offer = it->first;
-        if(offer.hash == hash)
-            return true;
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    
+    if ( offers.find(offer) != offers.end() ) {
+        return true;
     }
 
     return false;
 }
 
-CDexOffer UnconfirmedOffers::getOffer(const uint256 &hash)
-{
-    boost::shared_lock<boost::shared_mutex> lock(smOfferMutex);
-    for (std::map<CDexOffer,std::time_t>::const_iterator it = offers.begin(); it != offers.end(); ++it)
-    {
-        CDexOffer offer = it->first;
-        if(offer.hash == hash)
-            return offer;
-    }
 
-    return CDexOffer();
+
+CDexOffer UnconfirmedOffers::getOfferByHash(const uint256 &hash)
+{
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    return findByHash(hash);
 }
 
-std::list<CDexOffer> UnconfirmedOffers::getOffers()
+std::list<CDexOffer> UnconfirmedOffers::getAllOffers()
 {
     std::list<CDexOffer> off;
 
-    boost::shared_lock<boost::shared_mutex> lock(smOfferMutex);
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
     for (std::map<CDexOffer,std::time_t>::const_iterator it = offers.begin(); it != offers.end(); ++it)
     {
         CDexOffer offer = it->first;
@@ -70,7 +65,7 @@ std::list<CDexOffer> UnconfirmedOffers::getOffers()
 void UnconfirmedOffers::deleteOldOffers()
 {
     std::time_t currentTime = time(NULL);
-    boost::unique_lock<boost::shared_mutex> lock(smOfferMutex);
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
 
     std::map<CDexOffer,std::time_t>::const_iterator it = offers.begin();
     for (; it != offers.end();)
@@ -82,19 +77,74 @@ void UnconfirmedOffers::deleteOldOffers()
     }
 }
 
-void UnconfirmedOffers::deleteOffer(const uint256 &hash)
+bool UnconfirmedOffers::removeOffer(const CDexOffer &offer)
 {
-    boost::unique_lock<boost::shared_mutex> lock(smOfferMutex);
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    return offers.erase(offer) > 0;
+}
 
-    std::map<CDexOffer,std::time_t>::const_iterator it = offers.begin();
-    for (; it != offers.end();)
+
+size_t UnconfirmedOffers::getSize() 
+{
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    return offers.size();
+}
+
+
+std::list<CDexOffer> UnconfirmedOffers::getLastOffers(size_t number) 
+{
+    std::list<CDexOffer> off;
+
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    for (std::map<CDexOffer,std::time_t>::const_reverse_iterator it = offers.crbegin(); it != offers.crend(); ++it)
     {
         CDexOffer offer = it->first;
-        if( offer.hash == hash )
-            offers.erase(it++);    
-        else
-            ++it;
+        off.push_back(offer);
     }
+
+    return off;
+
 }
+
+
+/**
+ * 
+ * @param CDexOffer offer
+ * @return bool true if offer was updated
+ */
+bool UnconfirmedOffers::updateOffer(const CDexOffer& offer) {
+
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+
+    // we already have it, no update needed
+    if ( offers.find(offer) != offers.end() ) {
+        return false;
+    }    
+    
+    CDexOffer foundOffer = findByHash(offer.hash);
+    
+    // previous version found
+    if (!foundOffer.IsNull() && (offer.editingVersion > foundOffer.editingVersion) ) {
+        offers.erase(foundOffer);
+    } 
+    
+    offers.insert(std::make_pair(offer, std::time(NULL)));
+    return true;
+}
+
+
+CDexOffer UnconfirmedOffers::findByHash(const uint256& hash) 
+{
+    for (std::map<CDexOffer,std::time_t>::const_iterator it = offers.begin(); it != offers.end(); ++it)
+    {
+        CDexOffer offer = it->first;
+        if(offer.hash == hash)
+            return offer;
+    }
+    
+    return CDexOffer();
+}
+
+
 
 }

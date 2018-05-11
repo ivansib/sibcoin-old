@@ -20,22 +20,31 @@ class UnconfirmedOffers {
 public:
     UnconfirmedOffers();
 
-    void setOffer(const CDexOffer &offer);
-    std::list<uint256> hashs();
-    bool isExistOffer(const uint256 &hash); 
-    CDexOffer getOffer(const uint256 &hash);
-    std::list<CDexOffer> getOffers();
+    bool putOffer(const CDexOffer &offer);
+    CDexOffer getOfferByHash(const uint256 &hash);
+
+    bool updateOffer(const CDexOffer &offer);
+    
+    bool hasOffer(const CDexOffer &offer);
+    bool hasOfferWithHash(const uint256 &hash); 
+
+    std::list<CDexOffer> getAllOffers();
+
+    bool removeOffer(const CDexOffer &offer);    
+    
     void deleteOldOffers();
-    void deleteOffer(const uint256 &hash);
+    
+    size_t getSize();
+    std::list<CDexOffer> getLastOffers(size_t number);
+    std::list<CDexOffer> getOffersPriorTo(const CDexOffer &offer);
 
 private:
-    struct OfferTime {
-        CDexOffer offer;
-        std::time_t timeArr;
-    };
-
+    
+    CDexOffer findByHash(const uint256 &hash);
+    
     std::map<CDexOffer,std::time_t,dex::UnconfirmedOffersComparator> offers;
-    boost::shared_mutex smOfferMutex;
+
+    boost::mutex mOfferMutex;
 };
 
 }

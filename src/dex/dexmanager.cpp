@@ -160,7 +160,7 @@ void CDexManager::sendEditedOffer(const CDexOffer &offer)
 
 void CDexManager::checkUncOffers()
 {
-    auto list = uncOffers->getOffers();
+    auto list = uncOffers->getAllOffers();
 
     for (auto offer : list) {
         CDex dex(offer);
@@ -178,7 +178,7 @@ void CDexManager::checkUncOffers()
                 }
             }
 
-            uncOffers->deleteOffer(offer.hash);
+            uncOffers->removeOffer(offer);
         }
     }
 }
@@ -251,8 +251,7 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
             }
             LogPrint("dex", "DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
         } else {
-            if (!uncOffers->isExistOffer(offer.hash)) {
-                uncOffers->setOffer(offer);
+            if (uncOffers->putOffer(offer)) {
 
                 auto vNodesCopy = CopyNodeVector();
                 for (auto pNode : vNodesCopy) {
@@ -305,10 +304,7 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
                 }
             }
             if (!bFound) {
-                if (uncOffers->isExistOffer(offer.hash)) {
-                    bFound = true;
-                    uncOffers->deleteOffer(offer.hash);
-                }
+                bFound = uncOffers->removeOffer(offer);
 
             }
 
@@ -380,17 +376,7 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
                 }
                 LogPrint("dex", "DEXOFFEDIT --\n%s\nactual %d\n", offer.dump().c_str(), isActual);
             } else {
-                if (uncOffers->isExistOffer(offer.hash)) {
-                    OfferInfo existOffer = uncOffers->getOffer(offer.hash);
-                    if (offer.editingVersion > existOffer.editingVersion) {
-                        uncOffers->deleteOffer(offer.hash);
-                        uncOffers->setOffer(offer);
-                        isActual = true;
-                    }
-                } else {
-                    uncOffers->setOffer(offer);
-                    isActual = true;
-                }
+                isActual = uncOffers->updateOffer(offer);
                 LogPrint("dex", "DEXOFFEDIT --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
             if (isActual) {
@@ -429,7 +415,7 @@ std::list<std::pair<uint256, int>> CDexManager::availableOfferHashAndVersion() c
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
-    for (auto offer : uncOffers->getOffers()) {
+    for (auto offer : uncOffers->getAllOffers()) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
@@ -446,8 +432,9 @@ CDexOffer CDexManager::getOfferInfo(const uint256 &hash) const
         return CDexOffer(db->getOfferBuyByHash(hash), Buy);
     }
 
-    if (uncOffers->isExistOffer(hash)) {
-        return uncOffers->getOffer(hash);
+    CDexOffer uncOffer = uncOffers->getOfferByHash(hash);
+    if (!uncOffer.IsNull()) {
+        return uncOffer;
     }
 
     return CDexOffer();

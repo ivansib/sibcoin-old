@@ -292,15 +292,7 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
                 }
             }
         } else {
-            if (dexman.getUncOffers()->isExistOffer(offer.hash)) {
-                OfferInfo existOffer = dexman.getUncOffers()->getOffer(offer.hash);
-                if (offer.editingVersion > existOffer.editingVersion) {
-                    dexman.getUncOffers()->deleteOffer(offer.hash);
-                    dexman.getUncOffers()->setOffer(offer);
-                }
-            } else {
-                dexman.getUncOffers()->setOffer(offer);
-            }
+            dexman.getUncOffers()->updateOffer(offer);
         }
 
         if (DexDB::bOffersRescan && !db->isExistMyOffer(offer.idTransaction)) {
