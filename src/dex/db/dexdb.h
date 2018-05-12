@@ -7,6 +7,10 @@
 #include <map>
 #include "dexdto.h"
 
+// default options
+#define DEFAULT_DEX_VACUUM_ON_STARTUP   1
+#define DEFAULT_DEX_BACKUPS             10
+
 namespace dex {
 
 // Please update this DB version number if you change DB schema
@@ -28,10 +32,13 @@ public:
     static void freeInstance();
     static DexDB *self();
     static bool bOffersRescan;
+    static bool AutoBackup (DexDB *db, int nBackups, std::string& strBackupWarning, std::string& strBackupError);
 
     void addCallBack(CallBackDB *callback);
     CallBackDB *getCallBack() const;
     void removeCallBack(CallBackDB *callBack);
+    int backup(sqlite3pp::database &destdb);
+    int vacuum();
 
     std::string getErrMsg();
 

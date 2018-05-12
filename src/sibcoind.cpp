@@ -146,14 +146,7 @@ bool AppInit(int argc, char* argv[])
                 }
             }
             strDexDbFile = dexdbpath.string();
-
-            try {
-                dex::DexDB::instance();
-            } catch (sqlite3pp::database_error e) {
-                fprintf(stderr, "Sibcoin DEX: Can`t open dex database: %s\n",strDexDbFile.c_str());
-                return EXIT_FAILURE;
-            }
-        }
+       }
 #endif
 
         // Command-line RPC

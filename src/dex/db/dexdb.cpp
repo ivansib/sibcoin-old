@@ -1,8 +1,10 @@
 #include <ctime>
 #include <thread>
+#include <utility>
 #include "dexdb.h"
 #include "defaultdatafordb.h"
 #include <boost/thread/thread.hpp>
+#include <boost/filesystem.hpp>
 
 #include "base58.h"
 #include "random.h"
@@ -1711,5 +1713,115 @@ void DexDB::createTestOffers()
     addMyOffer(myInfo);
     getMyOffers();
 }
+
+
+int DexDB::backup(sqlite3pp::database &destdb)
+{
+    return db.backup(destdb);
+}
+
+int DexDB::vacuum()
+{
+    return db.execute("VACUUM");
+}
+
+
+bool DexDB::AutoBackup (DexDB *db, int nBackups, std::string& strBackupWarning, std::string& strBackupError)
+{
+    namespace fs = boost::filesystem;
+
+    strBackupWarning = strBackupError = "";
+
+    if(nBackups > 0)
+    {
+        fs::path backupsDir = GetBackupsDir();
+        fs::path dexdbpath = strDexDbFile;
+
+        if (!fs::exists(backupsDir))
+        {
+            strBackupError = strprintf(_("Backup folder %s not found!"), backupsDir.string());
+            return false;
+        }
+
+        std::string dateTimeStr = DateTimeStrFormat(".%Y-%m-%d-%H-%M", GetTime());
+        if (db)
+        {
+            fs::path backupFile = backupsDir / (dexdbpath.filename().string() + dateTimeStr);
+            sqlite3pp::database destdb(backupFile.string().c_str());
+            if (db->backup(destdb) != SQLITE_DONE) {
+                strBackupWarning = strprintf(_("Failed to create backup %s!"), backupFile.string().c_str());
+                LogPrintf("%s\n", strBackupWarning);
+                return false;
+            }
+        } else {
+            fs::path sourceFile = dexdbpath;
+            fs::path backupFile = backupsDir / (dexdbpath.filename().string() + dateTimeStr);
+            sourceFile.make_preferred();
+            backupFile.make_preferred();
+            if (fs::exists(backupFile))
+            {
+                strBackupWarning = _("Failed to create backup, file already exists! This could happen if you restarted in less than 60 seconds. You can continue if you are ok with this.");
+                LogPrintf("%s\n", strBackupWarning);
+                return false;
+            }
+            if(fs::exists(sourceFile)) {
+                try {
+                    fs::copy_file(sourceFile, backupFile);
+                    LogPrintf("Creating backup of %s -> %s\n", sourceFile.string(), backupFile.string());
+                } catch(fs::filesystem_error &error) {
+                    strBackupWarning = strprintf(_("Failed to create backup, error: %s"), error.what());
+                    LogPrintf("%s\n", strBackupWarning);
+                    return false;
+                }
+            }
+        }
+
+        // Keep only the last 10 backups, including the new one of course
+        typedef std::multimap<std::time_t, fs::path> folder_set_t;
+        folder_set_t folder_set;
+        fs::directory_iterator end_iter;
+        backupsDir.make_preferred();
+        // Build map of backup files for current(!) wallet sorted by last write time
+        fs::path currentFile;
+        for (fs::directory_iterator dir_iter(backupsDir); dir_iter != end_iter; ++dir_iter)
+        {
+            // Only check regular files
+            if ( fs::is_regular_file(dir_iter->status()))
+            {
+                currentFile = dir_iter->path().filename();
+                // Only add the backups for the current dexdb, e.g. dexdb.dat.*
+                if(dir_iter->path().stem().string() == dexdbpath.filename())
+                {
+                    folder_set.insert(folder_set_t::value_type(fs::last_write_time(dir_iter->path()), *dir_iter));
+                }
+            }
+        }
+
+        // Loop backward through backup files and keep the N newest ones (1 <= N <= 10)
+        int counter = 0;
+        for (auto rit = folder_set.crbegin(); rit != folder_set.crend(); ++rit)
+        {
+            counter++;
+            if (counter > nBackups)
+            {
+                // More than nWalletBackups backups: delete oldest one(s)
+                try {
+                    fs::remove(rit->second);
+                    LogPrintf("Old backup deleted: %s\n", rit->second);
+                } catch(fs::filesystem_error &error) {
+                    strBackupWarning = strprintf(_("Failed to delete backup, error: %s"), error.what());
+                    LogPrintf("%s\n", strBackupWarning);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    LogPrintf("Automatic dex DB backups are disabled!\n");
+    return false;
+}
+
+
 
 }

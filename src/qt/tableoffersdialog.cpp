@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include "tableoffersdialog.h"
 
 template<class Offer>

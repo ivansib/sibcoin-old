@@ -403,9 +403,6 @@ std::string HelpMessage(HelpMessageMode mode)
     }
     strUsage += HelpMessageOpt("-datadir=<dir>", _("Specify data directory"));
     strUsage += HelpMessageOpt("-dbcache=<n>", strprintf(_("Set database cache size in megabytes (%d to %d, default: %d)"), nMinDbCache, nMaxDbCache, nDefaultDbCache));
-#ifdef ENABLE_DEX
-    strUsage += HelpMessageOpt("-dexdb=<file>", strprintf(_("Specify p2p database filename (default %s)"), DEX_DB_FILENAME));
-#endif
 
     strUsage += HelpMessageOpt("-loadblock=<file>", _("Imports blocks from external blk000??.dat file on startup"));
     strUsage += HelpMessageOpt("-maxorphantx=<n>", strprintf(_("Keep at most <n> unconnectable transactions in memory (default: %u)"), DEFAULT_MAX_ORPHAN_TRANSACTIONS));
@@ -613,6 +610,13 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-blockprioritysize=<n>", strprintf(_("Set maximum size of high-priority/low-fee transactions in bytes (default: %d)"), DEFAULT_BLOCK_PRIORITY_SIZE));
     if (showDebug)
         strUsage += HelpMessageOpt("-blockversion=<n>", "Override block version to test forking scenarios");
+
+#ifdef ENABLE_DEX
+    strUsage += HelpMessageGroup(_("DEX options:"));
+    strUsage += HelpMessageOpt("-dexdb=<file>", strprintf(_("Specify p2p database filename (default %s)"), DEX_DB_FILENAME));
+    strUsage += HelpMessageOpt("-dex_vacuum_on_startup=<n>", strprintf(_("Enable(1) or disable(0) vacuum dex db on startup (default %d)"), DEFAULT_DEX_VACUUM_ON_STARTUP));
+    strUsage += HelpMessageOpt("-createdexbackups=<n>", strprintf(_("Number of automatic DEX backups (default: %u)"), DEFAULT_DEX_BACKUPS));
+#endif
 
     strUsage += HelpMessageGroup(_("RPC server options:"));
     strUsage += HelpMessageOpt("-server", _("Accept command line and JSON-RPC commands"));
@@ -1317,6 +1321,43 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     } // (!fDisableWallet)
 #endif // ENABLE_WALLET
+
+
+    // ********************************************************* Step 5.1: Backup and vacuum DEX db
+#ifdef ENABLE_DEX
+    {
+        std::string strWarning;
+        std::string strError;
+
+        int nDexBackups = GetArg("-createdexbackups", DEFAULT_DEX_BACKUPS);
+        nDexBackups = std::max(0, std::min(10, DEFAULT_DEX_BACKUPS));
+
+        if(dex::DexDB::AutoBackup(NULL, nDexBackups, strWarning, strError)) {
+            if (!strWarning.empty())
+                InitWarning(strWarning);
+            if (!strError.empty())
+                return InitError(strError);
+        }
+
+        LogPrintf("Using dex DB %s\n", strDexDbFile.c_str());
+        uiInterface.InitMessage(_("Verifying dex DB..."));
+
+        try {
+            dex::DexDB::instance();
+        } catch (sqlite3pp::database_error e) {
+            fprintf(stderr, "Sibcoin DEX: Can`t open dex database: %s\n",strDexDbFile.c_str());
+            return EXIT_FAILURE;
+        }
+        int nAutoVacuum = GetArg("-dex_vacuum_on_startup", DEFAULT_DEX_VACUUM_ON_STARTUP);
+        if (nAutoVacuum != 0) {
+            uiInterface.InitMessage(_("Vacuum dex DB..."));
+            if (dex::DexDB::self()->vacuum() != 0) {
+                LogPrintf("Can`t vacuum dex database: %s\n", dex::DexDB::self()->getErrMsg().c_str());
+            }
+        }
+    }
+#endif // ENABLE_DEX
+
     // ********************************************************* Step 6: network initialization
 
     RegisterNodeSignals(GetNodeSignals());
