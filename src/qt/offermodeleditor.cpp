@@ -3,7 +3,7 @@
 
 OfferModelEditor::OfferModelEditor(QObject *parent) : OfferModel(parent)
 {
-    listHead << tr("Status") << tr("Price") << tr("Short Info") << tr("Min Amount") << tr("Edit");
+    listHead << tr("Status") << tr("Price") << tr("Short Info") << tr("Min Amount") << tr("Edit") << tr("Delete");
 }
 
 QVariant OfferModelEditor::data(const QModelIndex &index, int role) const
@@ -28,6 +28,8 @@ QVariant OfferModelEditor::data(const QModelIndex &index, int role) const
             return ConvertData::toUiPrice(offersView[index.row()].minAmount);
         case 4:
             return tr("Edit");
+        case 5:
+            return tr("Delete");
         default:
             break;
         }
@@ -42,7 +44,7 @@ Qt::ItemFlags OfferModelEditor::flags(const QModelIndex &index) const
         return Qt::ItemIsEnabled;
     }
 
-    if (index.column() == 4) {
+    if (index.column() == 4 || index.column() == 5) {
         return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
     } else {
         return QAbstractItemModel::flags(index);

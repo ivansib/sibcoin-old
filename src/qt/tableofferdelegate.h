@@ -9,16 +9,10 @@ class TableOfferDelegate : public QItemDelegate
     Q_OBJECT
 
 public:
-    TableOfferDelegate(const int &columnBtn, QObject *parent = nullptr);
+    TableOfferDelegate(QObject *parent = nullptr);
 
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
-private:
-    int columnBtn;
-
-Q_SIGNALS:
-    void clicked(const int &) const;
+protected:
+    void buttonStyle(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 };
 
 class Button : public QPushButton

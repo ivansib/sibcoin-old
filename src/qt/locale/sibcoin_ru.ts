@@ -1973,6 +1973,10 @@ p, li { white-space: pre-wrap; }
         <translation>Редактировать</translation>
     </message>
     <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
         <source>Active</source>
         <translation>Активен</translation>
     </message>
@@ -5675,6 +5679,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Create</source>
         <translation>Создать</translation>
+    </message>
+</context>
+<context>
+    <name>TableOffersEditor</name>
+    <message>
+        <source>Delete offer</source>
+        <translation>Удалить предложение</translation>
+    </message>
+    <message>
+        <source>Confirm delete offer?</source>
+        <translation>Удалить предложение?</translation>
     </message>
 </context>
 <context>

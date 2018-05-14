@@ -4,6 +4,7 @@
 #include "net.h"
 #include "dex/dex.h"
 #include "dex/dexmanager.h"
+#include "dex/dexsync.h"
 
 TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     : TableOffersDialog(db, new OfferModelEditor(), 4, CommonSettingsForOffers::MyOffer, parent)
@@ -11,7 +12,13 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     editor = new OfferDetailsEditor(db, this);
     creator = new OfferDetailsCreator(db, this);
 
+    pDelegate = new TableOfferEditorDelegate();
+    tableView->setItemDelegate(pDelegate);
+
     updateData();
+
+    connect(pDelegate, SIGNAL(clickedEdit(int)), this, SLOT(clickedButtonEdit(int)));
+    connect(pDelegate, SIGNAL(clickedDelete(int)), this, SLOT(clickedButtonDelete(int)));
 
     connect(editor, SIGNAL(dataSave(QtMyOfferInfo)), this, SLOT(addOrEditDraftMyOffer(QtMyOfferInfo)));
     connect(editor, SIGNAL(dataSend(QtMyOfferInfo)), this, SLOT(sendMyOffer(QtMyOfferInfo)));
@@ -30,14 +37,15 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     tableView->setColumnWidth(1, 150);
     tableView->setColumnWidth(3, 150);
     tableView->setColumnWidth(4, 150);
+    tableView->setColumnWidth(5, 100);
 
-    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 2);
+    columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 100, 150, 2);
     connect(pModel, SIGNAL(layoutChanged()), this, SLOT(resizeTable()));
 }
 
 TableOffersEditor::~TableOffersEditor()
 {
-
+    delete pDelegate;
 }
 
 void TableOffersEditor::setModel(WalletModel *model)
@@ -76,11 +84,29 @@ int TableOffersEditor::countOffers() const
     return db->countMyOffers(countryIso, currencyIso, paymentMethod, offerType, 0);
 }
 
-void TableOffersEditor::clickedButton(const int &index)
+void TableOffersEditor::clickedButtonEdit(const int &index)
 {
     QtMyOfferInfo info = pModel->offerInfo(index);
     editor->setOfferInfo(info);
     editor->show();
+}
+
+void TableOffersEditor::clickedButtonDelete(const int &index)
+{
+    indexDeleteOffer = index;
+    if (dex::dexsync.isSynced()) {
+        QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Delete offer"),
+                                                                   tr("Confirm delete offer?"),
+                                                                   QMessageBox::Yes | QMessageBox::Cancel,
+                                                                   QMessageBox::Cancel);
+
+        if(retval == QMessageBox::Yes) {
+            auto info = ConvertData::fromQtMyOfferInfo(pModel->offerInfo(indexDeleteOffer));
+            db->deleteMyOfferByHash(info.hash);
+        }
+    } else {
+        editor->messageSyncDexNotFinished();
+    }
 }
 
 void TableOffersEditor::openCreatorOffer()
@@ -123,6 +149,7 @@ void TableOffersEditor::resizeTable()
     tableView->setColumnWidth(1, 150);
     tableView->setColumnWidth(3, 150);
     tableView->setColumnWidth(4, 150);
+    tableView->setColumnWidth(5, 100);
 }
 
 void TableOffersEditor::updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)

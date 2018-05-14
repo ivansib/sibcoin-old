@@ -5,7 +5,7 @@
 #include <QComboBox>
 #include "guiutil.h"
 #include "dex/db/dexdb.h"
-#include "tableofferdelegate.h"
+//#include "tableofferviewdelegate.h"
 #include "callbackdbforgui.h"
 #include "commonsettingsforoffers.h"
 #include "ui_tableoffersdialog.h"
@@ -23,7 +23,6 @@ public:
     void updateNavigationData();
 
 protected:
-    TableOfferDelegate *pDelegate;
     DexDB *db;
     CallBackDbForGui *callBack;
     GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
@@ -43,7 +42,6 @@ protected:
 
 protected Q_SLOTS:
     virtual void openCreatorOffer();
-    virtual void clickedButton(const int &index) = 0;
     virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status);
 
     virtual void changedFilterCountryIso(const int &) = 0;

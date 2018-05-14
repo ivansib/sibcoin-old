@@ -42,6 +42,8 @@ public:
 
     void addLEditTransactionPrice(QLabel *label);
 
+    void messageSyncDexNotFinished();
+
 protected:
     DexDB *db;
     WalletModel *model;
@@ -49,7 +51,6 @@ protected:
 
     QStringList typeOffers() const;
     bool confirmationSend();
-    void messageSyncDexNotFinished();
 
 private:
     QComboBox *boxOffer;

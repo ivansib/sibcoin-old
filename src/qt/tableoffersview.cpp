@@ -7,6 +7,9 @@ TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, const CommonS
 {
     details = new OfferDetailsView(db, this);
 
+    pDelegate = new TableOfferViewDelegate();
+    tableView->setItemDelegate(pDelegate);
+
     updateData();
     init();
 
@@ -15,11 +18,14 @@ TableOffersView::TableOffersView(DexDB *db, const TypeOffer &type, const CommonS
     tableView->setColumnWidth(3, 150);
 
     columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, 150, 150, 1);
+
+    connect(pDelegate, SIGNAL(clicked(int)), this, SLOT(clickedButton(int)));
     connect(pModel, SIGNAL(layoutChanged()), this, SLOT(resizeTable()));
 }
 
 TableOffersView::~TableOffersView()
 {
+    delete pDelegate;
 }
 
 void TableOffersView::resizeEvent(QResizeEvent *event)

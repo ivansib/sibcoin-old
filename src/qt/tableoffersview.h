@@ -3,6 +3,7 @@
 
 #include "tableoffersdialog.h"
 #include "offerdetailsview.h"
+#include "tableofferviewdelegate.h"
 
 class TableOffersView : public TableOffersDialog<QtOfferInfo>
 {
@@ -23,13 +24,15 @@ protected:
 
 private:
     OfferDetailsView *details;
+    TableOfferViewDelegate *pDelegate;
     const TypeOffer type;
 
 protected Q_SLOTS:
-    virtual void clickedButton(const int &index) override;
     virtual void updateTables(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status) override;
     virtual void updateData() override;
     virtual void resizeTable() override;
+
+    void clickedButton(const int &index);
 };
 
 #endif

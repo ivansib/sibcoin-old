@@ -15,12 +15,10 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, cons
             this, SLOT(updateTables(TypeTable, TypeTableOperation, StatusTableOperation)));
 
     settings = CommonSettingsForOffers::instance();
-    pDelegate = new TableOfferDelegate(columnBtn);
 
     tableView->setSortingEnabled(true);
     tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    tableView->setItemDelegate(pDelegate);
     tableView->setAlternatingRowColors(true);
     tableView->verticalHeader()->hide();
     tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -37,8 +35,6 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, cons
     connect(btnNextPage, SIGNAL(clicked()), this, SLOT(nextPage()));
     connect(btnLastPage, SIGNAL(clicked()), this, SLOT(lastPage()));
 
-    connect(pDelegate, SIGNAL(clicked(int)), this, SLOT(clickedButton(int)));
-
     useMyOfferMode(false);
 
     dex::dexsync.syncFinished.connect(boost::bind(&TableOffersSubDialog::updateTable, this));
@@ -46,7 +42,6 @@ TableOffersSubDialog::TableOffersSubDialog(DexDB *db, const int &columnBtn, cons
 
 TableOffersSubDialog::~TableOffersSubDialog()
 {
-    delete pDelegate;
     settings->freeInstance();
     db->removeCallBack(callBack);
     callBack->freeInstance();

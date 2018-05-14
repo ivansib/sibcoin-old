@@ -471,6 +471,8 @@ QT_MOC_CPP += \
   qt/moc_filteritemeditor.cpp \
   qt/moc_callbackdbforgui.cpp \
   qt/moc_tableofferdelegate.cpp \
+  qt/moc_tableofferviewdelegate.cpp \
+  qt/moc_tableoffereditordelegate.cpp \
   qt/moc_commonsettingsforofferswidget.cpp \
   qt/moc_commonsettingsforoffers.cpp
 
@@ -502,6 +504,8 @@ BITCOIN_QT_H += \
   qt/filteritemeditor.h \
   qt/callbackdbforgui.h \
   qt/tableofferdelegate.h \
+  qt/tableofferviewdelegate.h \
+  qt/tableoffereditordelegate.h \
   qt/commonsettingsforofferswidget.h \
   qt/commonsettingsforoffers.h
 
@@ -532,6 +536,8 @@ BITCOIN_QT_CPP += \
   qt/filteritemeditor.cpp \
   qt/callbackdbforgui.cpp \
   qt/tableofferdelegate.cpp \
+  qt/tableofferviewdelegate.cpp \
+  qt/tableoffereditordelegate.cpp \
   qt/commonsettingsforofferswidget.cpp \
   qt/commonsettingsforoffers.cpp
 endif
