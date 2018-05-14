@@ -28,6 +28,11 @@
 #include "masternode-sync.h"
 #include "masternodeman.h"
 
+#ifdef ENABLE_DEX
+#include "dex/dexmanager.h"
+#include "dex/dexsync.h"
+#endif
+
 #ifdef WIN32
 #include <string.h>
 #else
@@ -2182,6 +2187,12 @@ void StartNode(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // Process messages
     threadGroup.create_thread(boost::bind(&TraceThread<void (*)()>, "msghand", &ThreadMessageHandler));
+
+#ifdef ENABLE_DEX
+   threadGroup.create_thread(boost::bind(&TraceThread<void (*)()>, "dexmanager", &ThreadDexManager));
+   threadGroup.create_thread(boost::bind(&TraceThread<void (*)()>, "dexuncmanager", &ThreadDexUncManager));
+   dex::DexConnectSignals();
+#endif
 
     // Dump network addresses
     scheduler.scheduleEvery(&DumpData, DUMP_ADDRESSES_INTERVAL);
