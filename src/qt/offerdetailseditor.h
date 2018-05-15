@@ -2,6 +2,7 @@
 #define OFFERDETAILSEDITOR_H
 
 #include <QDialog>
+#include <QMessageBox>
 #include "offerdetails.h"
 #include "ui_offerdetailseditor.h"
 
@@ -15,6 +16,7 @@ public:
     OfferDetailsEditor(DexDB *db, QDialog *parent = nullptr);
 
     void setOfferInfo(const QtMyOfferInfo &info);
+    QMessageBox::StandardButton isDeleteOffer(const StatusOffer &status);
 
 private:
     QString status(const StatusOffer &s) const;
@@ -22,6 +24,7 @@ private:
 
     void enabledHashEditLines(const bool &b);
     void turnLines(const StatusOffer &status);
+    void turnButtons(const StatusOffer &status);
 
     void updateMyOffer();
     void isApproximateExpiration(const bool &b);
@@ -32,10 +35,10 @@ protected Q_SLOTS:
     virtual void saveData();
     virtual void sendData();
 
-    void deleteDraftData();
+    void deleteData();
 
 Q_SIGNALS:
-    void draftDataDelete(QtMyOfferInfo);
+    void offerDelete(QtMyOfferInfo);
 };
 
 #endif

@@ -1883,12 +1883,20 @@ p, li { white-space: pre-wrap; }
         <translation>Редактирований осталось:</translation>
     </message>
     <message>
-        <source>Delete draft</source>
-        <translation>Удалить черновик</translation>
+        <source>Delete</source>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Confirm delete draft?</source>
         <translation>Удалить черновик?</translation>
+    </message>
+    <message>
+        <source>Confirm delete offer?</source>
+        <translation>Удалить предложение?</translation>
+    </message>
+    <message>
+        <source>Confirm delete active offer?</source>
+        <translation>Удалить активное предложение?</translation>
     </message>
 </context>
 <context>
@@ -5679,17 +5687,6 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <source>Create</source>
         <translation>Создать</translation>
-    </message>
-</context>
-<context>
-    <name>TableOffersEditor</name>
-    <message>
-        <source>Delete offer</source>
-        <translation>Удалить предложение</translation>
-    </message>
-    <message>
-        <source>Confirm delete offer?</source>
-        <translation>Удалить предложение?</translation>
     </message>
 </context>
 <context>

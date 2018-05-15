@@ -22,7 +22,7 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
 
     connect(editor, SIGNAL(dataSave(QtMyOfferInfo)), this, SLOT(addOrEditDraftMyOffer(QtMyOfferInfo)));
     connect(editor, SIGNAL(dataSend(QtMyOfferInfo)), this, SLOT(sendMyOffer(QtMyOfferInfo)));
-    connect(editor, SIGNAL(draftDataDelete(QtMyOfferInfo)), this, SLOT(deleteDraftData(QtMyOfferInfo)));
+    connect(editor, SIGNAL(offerDelete(QtMyOfferInfo)), this, SLOT(deleteOffer(QtMyOfferInfo)));
 
     connect(creator, SIGNAL(dataSave(QtMyOfferInfo)), this, SLOT(addOrEditDraftMyOffer(QtMyOfferInfo)));
     connect(creator, SIGNAL(dataSend(QtMyOfferInfo)), this, SLOT(sendMyOffer(QtMyOfferInfo)));
@@ -93,15 +93,11 @@ void TableOffersEditor::clickedButtonEdit(const int &index)
 
 void TableOffersEditor::clickedButtonDelete(const int &index)
 {
-    indexDeleteOffer = index;
+    auto info = ConvertData::fromQtMyOfferInfo(pModel->offerInfo(index));
     if (dex::dexsync.isSynced()) {
-        QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Delete offer"),
-                                                                   tr("Confirm delete offer?"),
-                                                                   QMessageBox::Yes | QMessageBox::Cancel,
-                                                                   QMessageBox::Cancel);
+        QMessageBox::StandardButton retval = editor->isDeleteOffer(info.status);
 
         if(retval == QMessageBox::Yes) {
-            auto info = ConvertData::fromQtMyOfferInfo(pModel->offerInfo(indexDeleteOffer));
             db->deleteMyOfferByHash(info.hash);
         }
     } else {
@@ -132,13 +128,11 @@ void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
     }
 }
 
-void TableOffersEditor::deleteDraftData(const QtMyOfferInfo &info)
+void TableOffersEditor::deleteOffer(const QtMyOfferInfo &info)
 {
     MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
 
-    if (myOffer.status == Draft) {
-        db->deleteMyOfferByHash(myOffer.hash);
-    }
+    db->deleteMyOfferByHash(myOffer.hash);
 }
 
 void TableOffersEditor::resizeTable()

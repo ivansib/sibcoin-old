@@ -27,7 +27,6 @@ private:
     CallBackDbForGui *callBack;
     WalletModel *model;
     TableOfferEditorDelegate *pDelegate;
-    int indexDeleteOffer;
 
     void saveMyOffer(const MyOfferInfo &info);
 
@@ -43,7 +42,7 @@ protected Q_SLOTS:
 private Q_SLOTS:
     void addOrEditDraftMyOffer(const QtMyOfferInfo &info);
     void sendMyOffer(const QtMyOfferInfo &info);
-    void deleteDraftData(const QtMyOfferInfo &info);
+    void deleteOffer(const QtMyOfferInfo &info);
 };
 
 #endif

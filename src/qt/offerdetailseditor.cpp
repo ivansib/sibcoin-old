@@ -1,4 +1,3 @@
-#include <QMessageBox>
 #include "offerdetailseditor.h"
 #include "dex/dexsync.h"
 
@@ -26,16 +25,16 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
     addLEditTransactionPrice(lEditTransactionPrice);
 
-    connect(btnDeleteDraft, SIGNAL(clicked()), this, SLOT(deleteDraftData()));
+    connect(btnDelete, SIGNAL(clicked()), this, SLOT(deleteData()));
 
     updateNavigationData();
 }
 
 void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
-    btnDeleteDraft->setVisible(true);
-    btnSaveDraft->setVisible(true);
-    btnSend->setVisible(true);
+//    btnDeleteDraft->setVisible(true);
+//    btnSaveDraft->setVisible(true);
+//    btnSend->setVisible(true);
 
     offerInfo = info;
 
@@ -63,12 +62,14 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
     sBoxPrice->setValue(info.price);
     sBoxMinAmount->setValue(info.minAmount);
 
+    turnButtons(info.status);
+
     if (info.status == Active) {
         isApproximateExpiration(false);
         enabledHashEditLines(false);
 
-        btnDeleteDraft->setVisible(false);
-        btnSaveDraft->setVisible(false);
+//        btnDeleteDraft->setVisible(false);
+//        btnSaveDraft->setVisible(false);
 
         lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeToExpiration).toString("dd.MM.yyyy hh:mm"));
@@ -100,6 +101,25 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 
     tEditShortInfo->setText(info.shortInfo);
     tEditDetails->setText(info.details);
+}
+
+QMessageBox::StandardButton OfferDetailsEditor::isDeleteOffer(const StatusOffer &status)
+{
+    QString info;
+    if (status == Active) {
+        info = tr("Confirm delete active offer?");
+    } else if (status == Draft) {
+        info = tr("Confirm delete draft?");
+    } else {
+        info = tr("Confirm delete offer?");
+    }
+
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Delete"),
+        info,
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel);
+
+    return retval;
 }
 
 QString OfferDetailsEditor::status(const StatusOffer &s) const
@@ -175,6 +195,23 @@ void OfferDetailsEditor::turnLines(const StatusOffer &status)
     }
 }
 
+void OfferDetailsEditor::turnButtons(const StatusOffer &status)
+{
+    btnDelete->setText(tr("Delete"));
+
+    if (status == Active) {
+        btnSaveDraft->setVisible(false);
+        btnSend->setVisible(true);
+    } else if (status == Draft) {
+        btnSaveDraft->setVisible(true);
+        btnSend->setVisible(true);
+        btnDelete->setText(tr("Delete draft"));
+    } else {
+        btnSaveDraft->setVisible(false);
+        btnSend->setVisible(false);
+    }
+}
+
 void OfferDetailsEditor::updateMyOffer()
 {
     if (offerInfo.status == Active) {
@@ -224,15 +261,11 @@ void OfferDetailsEditor::sendData()
     }
 }
 
-void OfferDetailsEditor::deleteDraftData()
+void OfferDetailsEditor::deleteData()
 {
-    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Delete draft"),
-        tr("Confirm delete draft?"),
-        QMessageBox::Yes | QMessageBox::Cancel,
-        QMessageBox::Cancel);
-
+    QMessageBox::StandardButton retval = isDeleteOffer(offerInfo.status);
     if(retval == QMessageBox::Yes) {
-        Q_EMIT draftDataDelete(offerInfo);
+        Q_EMIT offerDelete(offerInfo);
         close();
     }
 }
