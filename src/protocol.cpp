@@ -68,7 +68,7 @@ const char *MNVERIFY="mnv";
 const char *DEXOFFBCST="dexoffbcst";
 const char *DEXOFFEDIT="dexoffedit";
 const char *DEXSYNCGETALLHASH = "dxsgethashs";
-const char *DEXSYNCALLHASH = "dxshashs";
+const char *DEXSYNCPARTHASH = "dxsparthashs";
 const char *DEXSYNCGETOFFER = "dxsgetoffer";
 const char *DEXSYNCOFFER = "dxsoffer";
 const char *DEXDELOFFER = "dexdeloffer";
@@ -156,7 +156,7 @@ const static std::string allNetMessageTypes[] = {
     NetMsgType::DEXOFFBCST,
     NetMsgType::DEXOFFEDIT,
     NetMsgType::DEXSYNCGETALLHASH,
-    NetMsgType::DEXSYNCALLHASH,
+    NetMsgType::DEXSYNCPARTHASH,
     NetMsgType::DEXSYNCGETOFFER,
     NetMsgType::DEXSYNCOFFER,
     NetMsgType::DEXDELOFFER

@@ -1,4 +1,5 @@
 #include <set>
+#include <cmath>
 #include "dexsync.h"
 #include "dexmanager.h"
 #include "masternode-sync.h"
@@ -14,6 +15,7 @@ CDexSync dexsync;
 
 const int MIN_NUMBER_DEX_NODE = 4;
 const int MIN_NUMBER_DEX_NODE_TESTNET = 2;
+const int PART_SIZE = 100;
 
 CDexSync::CDexSync()
 {
@@ -35,8 +37,8 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
 
     if (strCommand == NetMsgType::DEXSYNCGETALLHASH) {
         sendHashOffers(pfrom);
-    } else if (strCommand == NetMsgType::DEXSYNCALLHASH) {
-        getHashsAndSendRequestForGetOffers(pfrom, vRecv);
+    } else if (strCommand == NetMsgType::DEXSYNCPARTHASH) {
+        getHashs(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCGETOFFER) {
         sendOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCOFFER) {
@@ -46,19 +48,15 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
 
 void CDexSync::startSyncDex()
 {
-    if (status == NoStarted || status == NoRestarted ) {
+    if (status == NoStarted) {
         uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent);
     }
 
-    if (!canStart() || !(status == NoStarted || status == NoRestarted)) {
+    if (!canStart() || status != NoStarted) {
         return;
     }
 
-    if (statusPercent > 0) {
-        status = Restarted;
-    } else {
-        status = Started;
-    }
+    status = Started;
 
     prevMaxOffersNeedDownload = 0;
     prevOffersNeedDownloadSize = 0;
@@ -116,12 +114,11 @@ std::string CDexSync::getSyncStatus() const
     case Started:
         str = _("Synchronization offers started...");
         break;
-    case NoRestarted:
-    case Restarted:
     case Initial:
         str = _("Synchronization offers pending...");
         break;
-    case Sync:
+    case SyncStepOne:
+    case SyncStepSecond:
         str = _("Synchronization offers...");
         break;
     case Finished:
@@ -151,7 +148,7 @@ int CDexSync::minNumDexNode() const
 
 bool CDexSync::reset()
 {
-    if (status != Finished && status != NoStarted && status != NoRestarted) {
+    if (status != Finished && status != NoStarted) {
         return false;
     } else {
         statusPercent = 0;
@@ -160,14 +157,6 @@ bool CDexSync::reset()
     }
     
     return true;
-}
-
-void CDexSync::restart()
-{
-    LogPrint("dex", "CDexSync -- restart sync\n");
-    statusPercent = 1 - (0.9 - statusPercent) * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
-    status = NoRestarted;
-    startSyncDex();
 }
 
 void CDexSync::updatePrevData()
@@ -185,7 +174,7 @@ bool CDexSync::checkSyncData()
     return true;
 }
 
-void CDexSync::startTimer()
+void CDexSync::startTimer() const
 {
     Timer timer(30000, FinishSyncDex);
 }
@@ -207,38 +196,68 @@ void CDexSync::sendHashOffers(CNode *pfrom) const
     LogPrint("dex", "DEXSYNCGETALLHASH -- receive request on send list pairs hashe and version from %s\n", pfrom->addr.ToString());
     auto hvs = dexman.availableOfferHashAndVersion();
 
-    if (hvs.size() > 0) {
+    int maxPart = std::ceil(static_cast<float>(hvs.size())/PART_SIZE);
+    int cPart = 1;
+
+    while (hvs.size() > 0) {
+        std::list<std::pair<uint256, int>> subHvs;
+        auto end = hvs.begin();
+
+        if (hvs.size() > PART_SIZE) {
+            std::advance(end, PART_SIZE);
+        } else {
+            end = hvs.end();
+        }
+
+        if (cPart +1 == maxPart) {
+            int f = 0;
+        }
+
+        subHvs.splice(subHvs.begin(), hvs, hvs.begin(), end);
+
         LogPrint("dex", "DEXSYNCGETALLHASH -- send list pairs hashe and version\n");
-        pfrom->PushMessage(NetMsgType::DEXSYNCALLHASH, hvs);
+        pfrom->PushMessage(NetMsgType::DEXSYNCPARTHASH, subHvs, cPart, maxPart);
+        cPart++;
     }
 }
 
-void CDexSync::getHashsAndSendRequestForGetOffers(CNode *pfrom, CDataStream &vRecv)
+void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
 {
-    LogPrint("dex", "DEXSYNCALLHASH -- get list hashes from %s\n", pfrom->addr.ToString());
-
+    if (status == Initial) {
+        status = SyncStepOne;
+    }
     std::list<std::pair<uint256, int>> nodeHvs;
+    int cPart;
+    int maxPart;
     vRecv >> nodeHvs;
+    vRecv >> cPart;
+    vRecv >> maxPart;
     auto hvs = dexman.availableOfferHashAndVersion();
 
     for (auto h : nodeHvs) {
         auto found = std::find_if(hvs.begin(), hvs.end(), [h](std::pair<uint256, int> item){ return item.first == h.first; });
 
-        auto isSend = false;
+        auto isFound = false;
 
         if (found != hvs.end()) {
             if (h.second > found->second) {
-                isSend = true;
+                isFound = true;
             }
         } else {
-            isSend = true;
+            isFound = true;
         }
 
-        if (isSend) {
-            insertItemFromOffersNeedDownload(h.first);
-            LogPrint("dex", "DEXSYNCALLHASH -- send a request for get offer info with hash = %s\n", h.first.GetHex().c_str());
-            pfrom->PushMessage(NetMsgType::DEXSYNCGETOFFER, h);
+        if (!isFound) {
+            continue;
         }
+
+        offersNeedDownload.insert(h.first);
+    }
+
+    if (cPart == maxPart) {
+        maxOffersNeedDownload = offersNeedDownload.size();
+        status = SyncStepSecond;
+        sendRequestForGetOffers();
     }
 }
 
@@ -262,7 +281,6 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 
 void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 {
-    status = Sync;
     CDexOffer offer;
     vRecv >> offer;
 
@@ -316,15 +334,6 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
     eraseItemFromOffersNeedDownload(offer.hash);
 }
 
-void CDexSync::insertItemFromOffersNeedDownload(const uint256 &hash)
-{
-    auto pair = offersNeedDownload.insert(hash);
-
-    if (pair.second) {
-        maxOffersNeedDownload++;
-    }
-}
-
 void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
 {
     auto it = offersNeedDownload.find(hash);
@@ -333,7 +342,8 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
         offersNeedDownload.erase(it);
     }
 
-    float percent = 1 - (0.9 - statusPercent) * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    float p = static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    float percent = 1 - 0.9 * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
 
     if (offersNeedDownload.size() == 0) {
         finishSyncDex();
@@ -363,6 +373,45 @@ bool CDexSync::canStart()
     return false;
 }
 
+void CDexSync::sendRequestForGetOffers() const
+{
+    auto vNodesCopy = CopyNodeVector();
+
+    int iNode = 0;
+    int i = 0;
+    bool isSend = true;
+
+    auto it = offersNeedDownload.begin();
+    while (it != offersNeedDownload.end()) {
+        auto node = vNodesCopy[iNode];
+
+        if (iNode == vNodesCopy.size() - 1) {
+            iNode = 0;
+        } else {
+            iNode++;
+        }
+
+        if (node->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
+        if (!mnodeman.isExist(node)) {
+            continue;
+        }
+
+        if(node->fMasternode || (fMasterNode && node->fInbound)) {
+            continue;
+        }
+
+         auto i = *it;
+         node->PushMessage(NetMsgType::DEXSYNCGETOFFER, *it);
+         ++it;
+    }
+
+    ReleaseNodeVector(vNodesCopy);
+    startTimer();
+}
+
 void DexConnectSignals()
 {
     masternodeSync.syncFinished.connect(boost::bind(&CDexSync::startSyncDex, &dexsync));
@@ -373,10 +422,12 @@ void DexConnectSignals()
 void FinishSyncDex()
 {
     if (dexsync.statusSync() == CDexSync::Initial && dexsync.offersNeedDownloadSize() == 0) {
-        dexsync.finishSyncDex();
+        dexsync.reset();
+    } else if (dexsync.statusSync() == CDexSync::SyncStepOne) {
+        dexsync.startTimer();
     } else {
         if (!dexsync.checkSyncData()) {
-            dexsync.restart();
+            dexsync.sendRequestForGetOffers();
         } else if (!dexsync.isSynced()) {
             LogPrint("dex", "CDexSync -- restart timer\n");
             dexsync.updatePrevData();

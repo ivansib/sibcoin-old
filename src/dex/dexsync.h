@@ -42,11 +42,10 @@ class CDexSync
 public:
     enum Status {
         NoStarted,
-        NoRestarted,
         Started,
-        Restarted,
         Initial,
-        Sync,
+        SyncStepOne,
+        SyncStepSecond,
         Finished
     };
 
@@ -63,11 +62,11 @@ public:
     Status statusSync();
     int minNumDexNode() const;
     bool reset();
-    void restart();
     void updatePrevData();
     bool checkSyncData();
-    void startTimer();
+    void startTimer() const;
     int offersNeedDownloadSize() const;
+    void sendRequestForGetOffers() const;
 
     boost::signals2::signal<void()> syncFinished;
 
@@ -76,10 +75,9 @@ private:
 
     void initDB();
     void sendHashOffers(CNode* pfrom) const;
-    void getHashsAndSendRequestForGetOffers(CNode* pfrom, CDataStream& vRecv);
+    void getHashs(CNode* pfrom, CDataStream& vRecv);
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
     void getOfferAndSaveInDb(CNode* pfrom, CDataStream& vRecv);
-    void insertItemFromOffersNeedDownload(const uint256 &hash);
     void eraseItemFromOffersNeedDownload(const uint256 &hash);
     bool canStart();
 
