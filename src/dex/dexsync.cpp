@@ -291,8 +291,8 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
         std::string error;
         if (dex.CheckOfferTx(error)) {
             if (offer.isBuy()) {
-                if (db->isExistOfferBuy(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferBuy(offer.idTransaction);
+                if (db->isExistOfferBuyByHash(offer.hash)) {
+                    OfferInfo existOffer = db->getOfferBuyByHash(offer.hash);
                     if (offer.editingVersion > existOffer.editingVersion) {
                         db->editOfferBuy(offer, false);
                     }
@@ -300,8 +300,8 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
                     db->addOfferBuy(offer, false);
                 }
             } else if (offer.isSell())  {
-                if (db->isExistOfferSell(offer.idTransaction)) {
-                    OfferInfo existOffer = db->getOfferSell(offer.idTransaction);
+                if (db->isExistOfferSellByHash(offer.hash)) {
+                    OfferInfo existOffer = db->getOfferSellByHash(offer.hash);
                     if (offer.editingVersion > existOffer.editingVersion) {
                         db->editOfferSell(offer, false);
                     }
@@ -313,7 +313,7 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
             dexman.getUncOffers()->updateOffer(offer);
         }
 
-        if (DexDB::bOffersRescan && !db->isExistMyOffer(offer.idTransaction)) {
+        if (DexDB::bOffersRescan && !db->isExistMyOfferByHash(offer.hash)) {
             CPubKey kPubKeyObj = offer.getPubKeyObject();
             if (kPubKeyObj.IsValid()) {
                 if (pwalletMain->HaveKey(kPubKeyObj.GetID())) {

@@ -14,7 +14,7 @@
 namespace dex {
 
 // Please update this DB version number if you change DB schema
-const unsigned int uiDexDBversionInCode = 1004;
+const unsigned int uiDexDBversionInCode = 1005;
 
 typedef std::map<CallBackDB*, int> CallBack;
 
@@ -39,6 +39,7 @@ public:
     void removeCallBack(CallBackDB *callBack);
     int backup(sqlite3pp::database &destdb);
     int vacuum();
+    sqlite3pp::database *getDB();
 
     std::string getErrMsg();
 
@@ -62,6 +63,7 @@ public:
     void addOfferSell(const OfferInfo &offer, bool usethread = true);
     void editOfferSell(const OfferInfo &offer, bool usethread = true);
     void deleteOfferSell(const uint256 &idTransaction, bool usethread = true);
+    void deleteOfferSellByHash(const uint256 &hash, bool usethread = true);
     void deleteOldOffersSell(bool usethread = true);
     std::list<OfferInfo> getOffersSell();
     std::list<OfferInfo> getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
@@ -76,6 +78,7 @@ public:
     void addOfferBuy(const OfferInfo &offer, bool usethread = true);
     void editOfferBuy(const OfferInfo &offer, bool usethread = true);
     void deleteOfferBuy(const uint256 &idTransaction, bool usethread = true);
+    void deleteOfferBuyByHash(const uint256 &hash, bool usethread = true);
     void deleteOldOffersBuy(bool usethread = true);
     std::list<OfferInfo> getOffersBuy();
     std::list<OfferInfo> getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
@@ -166,6 +169,11 @@ private:
     void addDbVersion(const int& uiDexDbVersion);
     bool isDexDbOutdated();
     void dropTables();
+    void dropOldTables();
+    void renameTables();
+    void createIndexes();
+    void dropIndexes();
+    void moveTablesData();
 
     void createTestOffers(); // NOTE: for test
 };

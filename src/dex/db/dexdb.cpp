@@ -35,9 +35,16 @@ DexDB::DexDB()
     addDefaultData();
 
     if (isDexDbOutdated()) {
+        sqlite3pp::transaction tx(db);
+        dropIndexes();
+        renameTables();
         dropTables();
         createTables();
+        moveTablesData();
+        createIndexes();
+        dropOldTables();
         addDefaultData();
+        tx.commit();
     }
 }
 
@@ -104,6 +111,11 @@ void DexDB::removeCallBack(CallBackDB *callBack)
     }
 }
 
+sqlite3pp::database * DexDB::getDB()
+{
+  return &db;
+}
+
 bool DexDB::isDexDbOutdated()
 {
     sqlite3pp::query qry(db, "SELECT version FROM dbversion");
@@ -128,6 +140,45 @@ void DexDB::dropTables()
     db.execute("DROP TABLE IF EXISTS offersSell");
     db.execute("DROP TABLE IF EXISTS offersBuy");
 }
+
+void DexDB::dropOldTables()
+{
+    db.execute("DROP TABLE IF EXISTS countries_old");
+    db.execute("DROP TABLE IF EXISTS currencies_old");
+    db.execute("DROP TABLE IF EXISTS paymentMethods_old");
+    db.execute("DROP TABLE IF EXISTS myOffers_old");
+    db.execute("DROP TABLE IF EXISTS offersSell_old");
+    db.execute("DROP TABLE IF EXISTS offersBuy_old");
+}
+
+void DexDB::moveTablesData()
+{
+    db.execute("INSERT INTO countries      SELECT * FROM countries_old");
+    db.execute("INSERT INTO currencies     SELECT * FROM currencies_old");
+    db.execute("INSERT INTO paymentMethods SELECT * FROM paymentMethods_old");
+    db.execute("INSERT INTO myOffers       SELECT * FROM myOffers_old");
+    db.execute("INSERT INTO offersSell     SELECT * FROM offersSell_old");
+    db.execute("INSERT INTO offersBuy      SELECT * FROM offersBuy_old");
+}
+
+void DexDB::dropIndexes()
+{
+    db.execute("DROP INDEX IF EXISTS idx_offersSell_timeexp");
+    db.execute("DROP INDEX IF EXISTS idx_offersBuy_timeexp");
+    db.execute("DROP INDEX IF EXISTS idx_offersMy_timeexp");
+}
+
+
+void DexDB::renameTables()
+{
+    db.execute("ALTER TABLE countries RENAME TO countries_old");
+    db.execute("ALTER TABLE currencies RENAME TO currencies_old");
+    db.execute("ALTER TABLE paymentMethods RENAME TO paymentMethods_old");
+    db.execute("ALTER TABLE myOffers RENAME TO myOffers_old");
+    db.execute("ALTER TABLE offersSell RENAME TO offersSell_old");
+    db.execute("ALTER TABLE offersBuy RENAME TO offersBuy_old");
+}
+
 
 void DexDB::addCountry(const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder)
 {
@@ -392,6 +443,15 @@ void DexDB::deleteOfferSell(const uint256 &idTransaction, bool usethread)
     }
 }
 
+void DexDB::deleteOfferSellByHash(const uint256 &hash, bool usethread)
+{
+    if (usethread) {
+        boost::thread thr(deleteOfferByHash, boost::ref(db), boost::ref(callBack), "offersSell", hash);
+        thr.detach();
+    } else {
+       deleteOfferByHash(db, callBack, "offersSell", hash);
+    }
+}
 
 void DexDB::deleteOldOffersSell(bool usethread)
 {
@@ -490,6 +550,16 @@ void DexDB::deleteOfferBuy(const uint256 &idTransaction, bool usethread)
         thr.detach();
     } else {
         deleteOffer(db, callBack, "offersBuy", idTransaction);
+    }
+}
+
+void DexDB::deleteOfferBuyByHash(const uint256 &hash, bool usethread)
+{
+    if (usethread) {
+        boost::thread thr(deleteOfferByHash, boost::ref(db), boost::ref(callBack), "offersBuy", hash);
+        thr.detach();
+    } else {
+        deleteOfferByHash(db, callBack, "offersBuy", hash);
     }
 }
 
@@ -903,7 +973,7 @@ void DexDB::editOffer(sqlite3pp::database &db, const CallBack &callBack, const s
     std::string query = "UPDATE " + tableName + " SET hash = :hash, pubKey = :pubKey, countryIso = :countryIso, currencyIso = :currencyIso, "
                                                 "paymentMethod = :paymentMethod, price = :price, minAmount = :minAmount, "
                                                 "timeCreate = :timeCreate, timeToExpiration = :timeToExpiration, "
-                                                "shortInfo = :shortInfo, details = :details, editingVersion = :editingVersion, editsign = :editsign WHERE idTransaction = :idTransaction";
+                                                "shortInfo = :shortInfo, details = :details, editingVersion = :editingVersion, editsign = :editsign WHERE hash = :hash";
 
     int status = addOrEditOffer(db, query, offer);
 
@@ -982,6 +1052,8 @@ void DexDB::bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer)
     cmd.bind(":editingVersion", offer.editingVersion);
     cmd.bind(":editsign", offer.editsign, sqlite3pp::copy);
 }
+
+
 
 void DexDB::deleteOffer(sqlite3pp::database &db, const CallBack &callBack, const std::string &tableName, const uint256 &idTransaction)
 {
@@ -1541,7 +1613,16 @@ void DexDB::createTables()
                "shortInfo VARCHAR(140), details TEXT, type INT, status INT, editingVersion INT, editsign VARCHAR(150))");
 
     db.execute("CREATE TABLE IF NOT EXISTS filterList (filter VARCHAR(100) NOT NULL PRIMARY KEY)");
+
     bOffersRescan = true;
+}
+
+
+void DexDB::createIndexes()
+{
+    db.execute("CREATE INDEX IF NOT EXISTS idx_offersSell_timeexp ON offersSell(timeToExpiration)");
+    db.execute("CREATE INDEX IF NOT EXISTS idx_offersBuy_timeexp ON offersBuy(timeToExpiration)");
+    db.execute("CREATE INDEX IF NOT EXISTS idx_offersMy_timeexp ON myOffers(timeToExpiration)");
 }
 
 void DexDB::addDefaultData()
@@ -1628,8 +1709,8 @@ int DexDB::tableCount(const std::string &tableName)
 
 std::string DexDB::templateOffersTable(const std::string &tableName) const
 {
-    std::string query = "CREATE TABLE IF NOT EXISTS " + tableName + " (idTransaction TEXT NOT NULL PRIMARY KEY, "
-                        "hash TEXT, pubKey TEXT, countryIso VARCHAR(2), "
+    std::string query = "CREATE TABLE IF NOT EXISTS " + tableName + " (idTransaction TEXT NOT NULL, "
+                        "hash TEXT NOT NULL PRIMARY KEY, pubKey TEXT, countryIso VARCHAR(2), "
                         "currencyIso VARCHAR(3), paymentMethod TINYINT, price UNSIGNED BIG INT, "
                         "minAmount UNSIGNED BIG INT, timeCreate UNSIGNED BIG INT, timeToExpiration UNSIGNED BIG INT, "
                         "shortInfo VARCHAR(140), details TEXT, editingVersion INT, editsign VARCHAR(150))";

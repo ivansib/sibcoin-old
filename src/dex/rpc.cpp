@@ -471,9 +471,9 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
     }
 
     if (sended > 1 || offer.status == dex::Draft || offer.status == dex::Indefined) {
-        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuy(offer.idTransaction, false);
-        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSell(offer.idTransaction, false);
-        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOffer(offer.idTransaction, false);
+        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuyByHash(offer.hash, false);
+        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSellByHash(offer.hash, false);
+        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOfferByHash(offer.hash, false);
     }
 
     throw runtime_error("\nsuccess\n");
