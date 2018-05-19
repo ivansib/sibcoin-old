@@ -30,8 +30,9 @@ public:
 
     std::list<CDexOffer> getAllOffers();
 
-    bool removeOffer(const CDexOffer &offer);    
-    
+    bool removeOffer(const CDexOffer &offer);
+    void removeOffers(std::vector<CDexOffer> &voffers);
+
     void deleteOldOffers();
     
     size_t getSize();

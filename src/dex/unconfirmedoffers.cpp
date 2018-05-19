@@ -83,6 +83,15 @@ bool UnconfirmedOffers::removeOffer(const CDexOffer &offer)
     return offers.erase(offer) > 0;
 }
 
+void UnconfirmedOffers::removeOffers(std::vector<CDexOffer> &voffers)
+{
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    for (auto offer : voffers) {
+        offers.erase(offer);
+    }
+}
+
+
 
 size_t UnconfirmedOffers::getSize() 
 {

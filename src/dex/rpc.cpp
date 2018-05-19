@@ -852,3 +852,34 @@ UniValue dexsettings(const UniValue& params, bool fHelp)
     return result;
 }
 
+
+
+UniValue getdexinfo(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+
+    if (fHelp)
+        throw runtime_error(
+            "getdexinfo\n"
+            "Return short info about offers count in DB."
+        );
+
+
+    UniValue result(UniValue::VOBJ);
+    result.push_back(Pair("offersSell", dex::DexDB::self()->countOffersSell()));
+    result.push_back(Pair("offersBuy", dex::DexDB::self()->countOffersBuy()));
+    result.push_back(Pair("myOffers", dex::DexDB::self()->countMyOffers()));
+    result.push_back(Pair("uncOffers", dexman.getUncOffers()->getSize()));
+    return result;
+}
+

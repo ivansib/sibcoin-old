@@ -424,6 +424,7 @@ static const CRPCCommand vRPCCommands[] =
     { "dex",                "senddexoffer",           &senddexoffer,           true  },
     { "dex",                "dexsync",                &dexsync,                true  },
     { "dex",                "dexsettings",            &dexsettings,            true  },
+    { "dex",                "getdexinfo",             &getdexinfo,             true  },
 #endif // ENABLE_DEX
 
 };
