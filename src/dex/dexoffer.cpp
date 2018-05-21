@@ -60,6 +60,7 @@ CDexOffer::CDexOffer(const dex::OfferInfo &info, dex::TypeOffer offertype)
     minAmount        = info.minAmount;
     timeCreate       = info.timeCreate;
     timeExpiration   = info.timeToExpiration;
+    timeModification = info.timeModification;
     shortInfo        = info.shortInfo;
     details          = info.details;
     editingVersion   = info.editingVersion;
@@ -83,6 +84,7 @@ CDexOffer::CDexOffer(const dex::MyOfferInfo &info)
     minAmount        = info.minAmount;
     timeCreate       = info.timeCreate;
     timeExpiration   = info.timeToExpiration;
+    timeModification = info.timeModification;
     shortInfo        = info.shortInfo;
     details          = info.details;
     editingVersion   = info.editingVersion;
@@ -163,20 +165,21 @@ bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::str
 
 bool CDexOffer::Create(const dex::OfferInfo &info, dex::TypeOffer offertype)
 {
-    status          = dex::Draft;
-    idTransaction   = info.idTransaction;
-    pubKey          = info.pubKey;
-    paymentMethod   = info.paymentMethod;
-    currencyIso     = info.currencyIso;
-    countryIso      = info.countryIso;
-    price           = info.price;
-    minAmount       = info.minAmount;
-    timeCreate      = info.timeCreate;
-    timeExpiration  = info.timeToExpiration;
-    shortInfo       = info.shortInfo;
-    details         = info.details;
-    editingVersion  = info.editingVersion;
-    editsign        = info.editsign;
+    status           = dex::Draft;
+    idTransaction    = info.idTransaction;
+    pubKey           = info.pubKey;
+    paymentMethod    = info.paymentMethod;
+    currencyIso      = info.currencyIso;
+    countryIso       = info.countryIso;
+    price            = info.price;
+    minAmount        = info.minAmount;
+    timeCreate       = info.timeCreate;
+    timeExpiration   = info.timeToExpiration;
+    timeModification = info.timeModification;
+    shortInfo        = info.shortInfo;
+    details          = info.details;
+    editingVersion   = info.editingVersion;
+    editsign         = info.editsign;
     switch (offertype) {
         case  dex::Buy: type = OFFER_TYPE_BUY;  break;
         case dex::Sell: type = OFFER_TYPE_SELL; break;
@@ -219,6 +222,7 @@ CDexOffer::operator dex::OfferInfo() const
     info.minAmount        = minAmount;
     info.timeCreate       = timeCreate;
     info.timeToExpiration = timeExpiration;
+    info.timeModification = timeModification;
     info.shortInfo        = shortInfo;
     info.details          = details;
     info.editingVersion   = editingVersion;
@@ -239,6 +243,7 @@ CDexOffer::operator dex::MyOfferInfo() const
     info.minAmount        = minAmount;
     info.timeCreate       = timeCreate;
     info.timeToExpiration = timeExpiration;
+    info.timeModification = timeModification;
     info.shortInfo        = shortInfo;
     info.details          = details;
     info.editingVersion   = editingVersion;

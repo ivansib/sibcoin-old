@@ -249,6 +249,7 @@ void checkOffers(DexDB *db)
     info.paymentMethod = 1;
     info.timeCreate = currentTime - secInDay * 10;
     info.timeToExpiration = info.timeCreate + secInDay;
+    info.timeModification = info.timeCreate;
     info.editingVersion = 0;
 
     std::list<OfferInfo> iList;
@@ -267,6 +268,7 @@ void checkOffers(DexDB *db)
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 20;
     info.timeToExpiration = info.timeCreate + secInDay * 5;
+    info.timeModification = info.timeCreate;
     info.editingVersion = 2;
 
     iList.push_back(info);
@@ -284,6 +286,7 @@ void checkOffers(DexDB *db)
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 13;
     info.timeToExpiration = info.timeCreate + secInDay * 4;
+    info.timeModification = info.timeCreate;
     info.editingVersion = 3;
 
     iList.push_back(info);
@@ -353,6 +356,7 @@ void checkOffers(DexDB *db)
     info1.paymentMethod = 200;
     info1.timeCreate = currentTime - secInDay * 33;
     info1.timeToExpiration = info1.timeCreate + secInDay * 20;
+    info1.timeModification = currentTime - secInDay * 20;
     info1.editingVersion = 4;
 
     db->editOfferSell(info1);
@@ -366,6 +370,7 @@ void checkOffers(DexDB *db)
     info2.paymentMethod = 150;
     info2.timeCreate = currentTime - secInDay * 7;
     info2.timeToExpiration = info2.timeCreate + secInDay * 2;
+    info2.timeModification = currentTime - secInDay * 3;
     info2.editingVersion = 6;
 
     db->editOfferBuy(info2);
@@ -398,6 +403,7 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(sell.paymentMethod == info1.paymentMethod);
     BOOST_CHECK(sell.timeCreate == info1.timeCreate);
     BOOST_CHECK(sell.timeToExpiration == info1.timeToExpiration);
+    BOOST_CHECK(sell.timeModification == info1.timeModification);
     BOOST_CHECK(sell.editingVersion == info1.editingVersion);
 
     sell = db->getOfferSellByHash(info1.hash);
@@ -413,6 +419,7 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(sell.paymentMethod == info1.paymentMethod);
     BOOST_CHECK(sell.timeCreate == info1.timeCreate);
     BOOST_CHECK(sell.timeToExpiration == info1.timeToExpiration);
+    BOOST_CHECK(sell.timeModification == info1.timeModification);
     BOOST_CHECK(sell.editingVersion == info1.editingVersion);
 
     OfferInfo buy = db->getOfferBuy(info2.idTransaction);
@@ -428,6 +435,7 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(buy.paymentMethod == info2.paymentMethod);
     BOOST_CHECK(buy.timeCreate == info2.timeCreate);
     BOOST_CHECK(buy.timeToExpiration == info2.timeToExpiration);
+    BOOST_CHECK(buy.timeModification == info2.timeModification);
     BOOST_CHECK(buy.editingVersion == info2.editingVersion);
 
     buy = db->getOfferBuyByHash(info2.hash);
@@ -443,6 +451,7 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(buy.paymentMethod == info2.paymentMethod);
     BOOST_CHECK(buy.timeCreate == info2.timeCreate);
     BOOST_CHECK(buy.timeToExpiration == info2.timeToExpiration);
+    BOOST_CHECK(buy.timeModification == info2.timeModification);
     BOOST_CHECK(buy.editingVersion == info2.editingVersion);
 
     auto list = db->getOffersSell();
@@ -461,6 +470,7 @@ void checkOffers(DexDB *db)
         BOOST_CHECK(sell.paymentMethod == item.paymentMethod);
         BOOST_CHECK(sell.timeCreate == item.timeCreate);
         BOOST_CHECK(sell.timeToExpiration == item.timeToExpiration);
+        BOOST_CHECK(sell.timeModification == item.timeModification);
         BOOST_CHECK(sell.editingVersion == item.editingVersion);
     }
 
@@ -480,6 +490,7 @@ void checkOffers(DexDB *db)
         BOOST_CHECK(buy.paymentMethod == item.paymentMethod);
         BOOST_CHECK(buy.timeCreate == item.timeCreate);
         BOOST_CHECK(buy.timeToExpiration == item.timeToExpiration);
+        BOOST_CHECK(buy.timeModification == item.timeModification);
         BOOST_CHECK(buy.editingVersion == item.editingVersion);
     }
 
@@ -537,6 +548,7 @@ void checkMyOffers(DexDB *db)
     info.paymentMethod = 1;
     info.timeCreate = currentTime - secInDay * 15;
     info.timeToExpiration = info.timeCreate + secInDay * 5;
+    info.timeModification = info.timeCreate;
     info.editingVersion = 0;
 
     std::list<MyOfferInfo> iList;
@@ -556,6 +568,7 @@ void checkMyOffers(DexDB *db)
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 33;
     info.timeToExpiration = info.timeCreate + secInDay * 18;
+    info.timeModification = info.timeCreate;
     info.editingVersion = 4;
 
     iList.push_back(info);
@@ -574,6 +587,7 @@ void checkMyOffers(DexDB *db)
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 17;
     info.timeToExpiration = info.timeCreate + secInDay * 8;
+    info.timeModification = info.timeCreate;
     info.editingVersion = 6;
 
     iList.push_back(info);
@@ -638,6 +652,7 @@ void checkMyOffers(DexDB *db)
     info1.paymentMethod = 77;
     info1.timeCreate = currentTime - secInDay * 7;
     info1.timeToExpiration = info1.timeCreate + secInDay * 2;
+    info1.timeModification = currentTime - secInDay * 3;
     info1.editingVersion = 7;
 
     db->editMyOffer(info1);
@@ -672,6 +687,7 @@ void checkMyOffers(DexDB *db)
     BOOST_CHECK(offer.paymentMethod == info1.paymentMethod);
     BOOST_CHECK(offer.timeCreate == info1.timeCreate);
     BOOST_CHECK(offer.timeToExpiration == info1.timeToExpiration);
+    BOOST_CHECK(offer.timeModification == info1.timeModification);
     BOOST_CHECK(offer.editingVersion == info1.editingVersion);
 
     offer = db->getMyOfferByHash(info1.hash);
@@ -689,6 +705,7 @@ void checkMyOffers(DexDB *db)
     BOOST_CHECK(offer.paymentMethod == info1.paymentMethod);
     BOOST_CHECK(offer.timeCreate == info1.timeCreate);
     BOOST_CHECK(offer.timeToExpiration == info1.timeToExpiration);
+    BOOST_CHECK(offer.timeModification == info1.timeModification);
     BOOST_CHECK(offer.editingVersion == info1.editingVersion);
 
     auto list = db->getMyOffers();
@@ -707,6 +724,7 @@ void checkMyOffers(DexDB *db)
         BOOST_CHECK(offer.paymentMethod == item.paymentMethod);
         BOOST_CHECK(offer.timeCreate == item.timeCreate);
         BOOST_CHECK(offer.timeToExpiration == item.timeToExpiration);
+        BOOST_CHECK(offer.timeModification == item.timeModification);
         BOOST_CHECK(offer.editingVersion == item.editingVersion);
     }
 

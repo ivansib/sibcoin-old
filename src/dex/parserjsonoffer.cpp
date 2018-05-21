@@ -73,6 +73,7 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
     }
 
     offer.timeToExpiration = offer.timeCreate + timeTo * 86400;
+    offer.timeModification = offer.timeCreate;
 
     offer.shortInfo = uv["shortInfo"].get_str();
     if (numberSings(offer.shortInfo) > DEX_SHORT_INFO_LENGTH) {

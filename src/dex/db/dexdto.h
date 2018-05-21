@@ -43,6 +43,7 @@ struct OfferInfo {
     uint64_t minAmount;
     uint64_t timeCreate;
     uint64_t timeToExpiration;
+    uint64_t timeModification;
     std::string shortInfo;
     std::string details;
     int editingVersion;
@@ -141,6 +142,7 @@ struct MyOfferInfo : OfferInfo {
         info.minAmount = minAmount;
         info.timeCreate = timeCreate;
         info.timeToExpiration = timeToExpiration;
+        info.timeModification = timeModification;
         info.shortInfo = shortInfo;
         info.details = details;
         info.editingVersion = editingVersion;
@@ -160,6 +162,7 @@ struct MyOfferInfo : OfferInfo {
         minAmount = info.minAmount;
         timeCreate = info.timeCreate;
         timeToExpiration = info.timeToExpiration;
+        timeModification = info.timeModification;
         shortInfo = info.shortInfo;
         details = info.details;
         editingVersion = info.editingVersion;

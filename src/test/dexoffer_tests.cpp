@@ -23,6 +23,7 @@ void checkConvert()
     myOffer.paymentMethod = 1;
     myOffer.timeCreate = 1025668989;
     myOffer.timeToExpiration = 1027778989;
+    myOffer.timeModification = 1027770000;
     myOffer.editingVersion = 5;
 
     OfferInfo offer = myOffer.getOfferInfo();
@@ -45,6 +46,7 @@ void checkConvert()
     BOOST_CHECK(myOffer.paymentMethod == nMyOffer.paymentMethod);
     BOOST_CHECK(myOffer.timeCreate == nMyOffer.timeCreate);
     BOOST_CHECK(myOffer.timeToExpiration == nMyOffer.timeToExpiration);
+    BOOST_CHECK(myOffer.timeModification == nMyOffer.timeModification);
     BOOST_CHECK(myOffer.editingVersion == nMyOffer.editingVersion);
 
     BOOST_CHECK(offer.pubKey == nOffer.pubKey);
@@ -58,6 +60,7 @@ void checkConvert()
     BOOST_CHECK(offer.paymentMethod == nOffer.paymentMethod);
     BOOST_CHECK(offer.timeCreate == nOffer.timeCreate);
     BOOST_CHECK(offer.timeToExpiration == nOffer.timeToExpiration);
+    BOOST_CHECK(offer.timeModification == nOffer.timeModification);
     BOOST_CHECK(offer.editingVersion == nOffer.editingVersion);
 }
 

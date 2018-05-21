@@ -14,7 +14,7 @@
 namespace dex {
 
 // Please update this DB version number if you change DB schema
-const unsigned int uiDexDBversionInCode = 1005;
+const unsigned int uiDexDBversionInCode = 1006;
 
 typedef std::map<CallBackDB*, int> CallBack;
 

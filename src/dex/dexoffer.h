@@ -31,6 +31,7 @@ public:
     uint64_t minAmount;
     uint64_t timeCreate;
     uint64_t timeExpiration;
+    uint64_t timeModification;
     std::string shortInfo;
     std::string details;
     int editingVersion;

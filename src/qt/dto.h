@@ -30,6 +30,7 @@ struct QtOfferInfo {
     quint64 minAmount;
     quint64 timeCreate;
     quint64 timeToExpiration;
+    quint64 timeModification;
     QString shortInfo;
     QString details;
     int editingVersion;
@@ -52,6 +53,7 @@ struct QtMyOfferInfo : QtOfferInfo {
         info.minAmount = minAmount;
         info.timeCreate = timeCreate;
         info.timeToExpiration = timeToExpiration;
+        info.timeModification = timeModification;
         info.shortInfo = shortInfo;
         info.details = details;
         info.editingVersion = editingVersion;
@@ -70,6 +72,7 @@ struct QtMyOfferInfo : QtOfferInfo {
         minAmount = info.minAmount;
         timeCreate = info.timeCreate;
         timeToExpiration = info.timeToExpiration;
+        timeModification = info.timeModification;
         shortInfo = info.shortInfo;
         details = info.details;
         editingVersion = info.editingVersion;
