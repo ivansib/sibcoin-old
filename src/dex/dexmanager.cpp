@@ -161,39 +161,41 @@ void CDexManager::sendEditedOffer(const CDexOffer &offer)
 void CDexManager::checkUncOffers()
 {
     auto list = uncOffers->getAllOffers();
-    std::vector<std::list<CDexOffer>::const_iterator> offersBuy;
-    std::vector<std::list<CDexOffer>::const_iterator> offersSell;
-    std::vector<CDexOffer> offersRemove;
 
-    for (auto it = list.cbegin(); it != list.cend(); it++) {
-        CDex dex((*it));
-        std::string error;
-        if (dex.CheckOfferTx(error)) {
-            if ((*it).isBuy())  {
-                if (!db->isExistOfferBuyByHash((*it).hash)) {
-                  offersBuy.push_back(it);
+    for (auto it = list.cbegin(); it != list.cend(); ) {
+        std::vector<std::list<CDexOffer>::const_iterator> offersBuy;
+        std::vector<std::list<CDexOffer>::const_iterator> offersSell;
+        std::vector<CDexOffer> offersRemove;
+        for (int cnt = 0; it != list.cend() && cnt < 100; cnt++, it++)  {
+            CDex dex((*it));
+            std::string error;
+            if (dex.CheckOfferTx(error)) {
+                if ((*it).isBuy())  {
+                    if (!db->isExistOfferBuyByHash((*it).hash)) {
+                      offersBuy.push_back(it);
+                    }
                 }
-            }
 
-            if ((*it).isSell())  {
-                if (!db->isExistOfferSellByHash((*it).hash)) {
-                  offersSell.push_back(it);
+                if ((*it).isSell())  {
+                    if (!db->isExistOfferSellByHash((*it).hash)) {
+                      offersSell.push_back(it);
+                    }
                 }
-            }
 
-            offersRemove.push_back(*it);;
+                offersRemove.push_back(*it);;
+            }
         }
+        sqlite3pp::transaction tx(*(db->getDB()));
+        for (auto offer : offersBuy) {
+            db->addOfferBuy(*offer, false);
+        }
+        for (auto offer : offersSell) {
+            db->addOfferSell(*offer, false);
+        }
+        tx.commit();
+        uncOffers->removeOffers(offersRemove);
     }
 
-    sqlite3pp::transaction tx(*(db->getDB()));
-    for (auto offer : offersBuy) {
-        db->addOfferBuy(*offer, false);
-    }
-    for (auto offer : offersSell) {
-        db->addOfferSell(*offer, false);
-    }
-    tx.commit();
-    uncOffers->removeOffers(offersRemove);
 }
 
 void CDexManager::setStatusExpiredForMyOffers()
