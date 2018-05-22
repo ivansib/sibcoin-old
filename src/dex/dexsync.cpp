@@ -43,6 +43,10 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
         sendOffer(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCOFFER) {
         getOfferAndSaveInDb(pfrom, vRecv);
+    } else if (strCommand == NetMsgType::DEXSYNCNOOFFERS) {
+        noOffersList(pfrom);
+    } else if (strCommand == NetMsgType::DEXSYNCNOHASH) {
+        noHash(pfrom, vRecv);
     }
 }
 
@@ -67,6 +71,8 @@ void CDexSync::startSyncDex()
     maxOffersNeedDownload = 0;
     auto vNodesCopy = CopyNodeVector();
 
+    initSetWaitAnswerFromNodes(vNodesCopy);
+
     for (auto node : vNodesCopy) {
         if (node->nVersion < MIN_DEX_VERSION) {
             continue;
@@ -89,6 +95,7 @@ void CDexSync::startSyncDex()
     ReleaseNodeVector(vNodesCopy);
 
     startTimer();
+    startTimerForAnswer();
 }
 
 void CDexSync::finishSyncDex()
@@ -179,6 +186,11 @@ void CDexSync::startTimer() const
     Timer timer(30000, FinishSyncDex);
 }
 
+void CDexSync::startTimerForAnswer() const
+{
+    Timer timer(30000, StopTimerForAnswer);
+}
+
 int CDexSync::offersNeedDownloadSize() const
 {
     return offersNeedDownload.size();
@@ -198,6 +210,11 @@ void CDexSync::sendHashOffers(CNode *pfrom) const
 
     int maxPart = std::ceil(static_cast<float>(hvs.size())/PART_SIZE);
     int cPart = 1;
+
+    if (hvs.size() == 0) {
+        LogPrint("dex", "DEXSYNCGETALLHASH -- offers not found\n");
+        pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS);
+    }
 
     while (hvs.size() > 0) {
         std::list<std::pair<uint256, int>> subHvs;
@@ -223,6 +240,8 @@ void CDexSync::sendHashOffers(CNode *pfrom) const
 
 void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
 {
+    addAddrToGoodNode(pfrom->addr, true);
+
     if (status == Initial) {
         status = SyncStepOne;
     }
@@ -275,12 +294,14 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
         pfrom->PushMessage(NetMsgType::DEXSYNCOFFER, offer);
     } else {
         LogPrint("dex", "DEXSYNCGETOFFER -- offer with hash = %s not found\n", hash.GetHex().c_str());
-        Misbehaving(pfrom->GetId(), 1);
+        pfrom->PushMessage(NetMsgType::DEXSYNCNOHASH, hash);
     }
 }
 
 void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 {
+    addAddrToGoodNode(pfrom->addr, true);
+
     CDexOffer offer;
     vRecv >> offer;
 
@@ -335,6 +356,16 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
     eraseItemFromOffersNeedDownload(offer.hash);
 }
 
+void CDexSync::noOffersList(CNode *pfrom)
+{
+    addAddrToGoodNode(pfrom->addr, false);
+}
+
+void CDexSync::noHash(CNode *pfrom, CDataStream &vRecv)
+{
+    addAddrToGoodNode(pfrom->addr, true);
+}
+
 void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
 {
     auto it = offersNeedDownload.find(hash);
@@ -372,6 +403,36 @@ bool CDexSync::canStart()
     }
 
     return false;
+}
+
+void CDexSync::initSetWaitAnswerFromNodes(const std::vector<CNode *> &nodes)
+{
+    waitAnswerFromNodes.clear();
+
+    for (auto node : nodes) {
+        waitAnswerFromNodes.insert(node->addr);
+    }
+}
+
+void CDexSync::addAddrToGoodNode(const CAddress &addr, bool type)
+{
+    auto it = waitAnswerFromNodes.find(addr);
+
+    if (it != waitAnswerFromNodes.end()) {
+        waitAnswerFromNodes.erase(it);
+    }
+
+    goodNodes[addr] = type;
+}
+
+std::set<uint256> CDexSync::getOffersNeedDownload() const
+{
+    return offersNeedDownload;
+}
+
+void CDexSync::setOffersNeedDownload(const std::set<uint256> &value)
+{
+    offersNeedDownload = value;
 }
 
 void CDexSync::sendRequestForGetOffers() const
@@ -413,6 +474,16 @@ void CDexSync::sendRequestForGetOffers() const
     startTimer();
 }
 
+void CDexSync::addToListBadNodes()
+{
+    auto it = waitAnswerFromNodes.begin();
+    while (it != waitAnswerFromNodes.end()) {
+        goodNodes[*it] = false;
+    }
+
+    waitAnswerFromNodes.clear();
+}
+
 void DexConnectSignals()
 {
     masternodeSync.syncFinished.connect(boost::bind(&CDexSync::startSyncDex, &dexsync));
@@ -435,6 +506,11 @@ void FinishSyncDex()
             dexsync.startTimer();
         }
     }
+}
+
+void StopTimerForAnswer()
+{
+    dexsync.addToListBadNodes();
 }
 
 }

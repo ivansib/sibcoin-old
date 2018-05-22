@@ -65,10 +65,15 @@ public:
     void updatePrevData();
     bool checkSyncData();
     void startTimer() const;
+    void startTimerForAnswer() const;
     int offersNeedDownloadSize() const;
     void sendRequestForGetOffers() const;
+    void addToListBadNodes();
 
     boost::signals2::signal<void()> syncFinished;
+
+    std::set<uint256> getOffersNeedDownload() const;
+    void setOffersNeedDownload(const std::set<uint256> &value);
 
 private:
     DexDB *db;
@@ -78,9 +83,16 @@ private:
     void getHashs(CNode* pfrom, CDataStream& vRecv);
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
     void getOfferAndSaveInDb(CNode* pfrom, CDataStream& vRecv);
+    void noOffersList(CNode* pfrom);
+    void noHash(CNode* pfrom, CDataStream& vRecv);
+
     void eraseItemFromOffersNeedDownload(const uint256 &hash);
     bool canStart();
+    void initSetWaitAnswerFromNodes(const std::vector<CNode*> &nodes);
+    void addAddrToGoodNode(const CAddress &addr, bool type);
 
+    std::set<CAddress> waitAnswerFromNodes;
+    std::map<CAddress, bool> goodNodes;
     std::set<uint256> offersNeedDownload;
     size_t maxOffersNeedDownload;
     size_t prevOffersNeedDownloadSize;
@@ -91,7 +103,8 @@ private:
 };
 
 void DexConnectSignals();
-void FinishSyncDex();
+void FinishSyncDex(); // NODE: rename
+void StopTimerForAnswer();
 
 }
 
