@@ -218,6 +218,7 @@ void OfferDetailsEditor::updateMyOffer()
         offerInfo.price = sBoxPrice->value();
         offerInfo.shortInfo = tEditShortInfo->toPlainText();
         offerInfo.details = tEditDetails->toPlainText();
+        offerInfo.timeModification = QDateTime::currentDateTime().toTime_t();
     } else {
         offerInfo.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
         offerInfo.countryIso = cBoxCountry->currentData().toString();
@@ -227,6 +228,7 @@ void OfferDetailsEditor::updateMyOffer()
         offerInfo.minAmount = sBoxMinAmount->value();
         offerInfo.timeCreate = QDateTime::currentDateTime().toTime_t();
         offerInfo.timeToExpiration = QDateTime::currentDateTime().addDays(cBoxExpiration->currentText().toInt()).toTime_t();
+        offerInfo.timeModification = offerInfo.timeCreate;
         offerInfo.shortInfo = tEditShortInfo->toPlainText();
         offerInfo.details = tEditDetails->toPlainText();
     }

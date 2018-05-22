@@ -112,6 +112,7 @@ public:
             READWRITE(shortInfo);
             READWRITE(details);
             READWRITE(editingVersion);
+            READWRITE(timeModification);
         }
     }
 
@@ -122,6 +123,7 @@ public:
     std::string dump() const;
 
     bool Check(bool fullcheck);
+    bool Check(bool fullcheck, int &fine);
 
     UniValue getUniValue();
 

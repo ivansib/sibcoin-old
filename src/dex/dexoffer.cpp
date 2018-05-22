@@ -39,6 +39,7 @@ CDexOffer::CDexOffer(const CDexOffer &off)
     minAmount        = off.minAmount;
     timeCreate       = off.timeCreate;
     timeExpiration   = off.timeExpiration;
+    timeModification = off.timeModification;
     shortInfo        = off.shortInfo;
     details          = off.details;
     editingVersion   = off.editingVersion;
@@ -112,6 +113,7 @@ void CDexOffer::SetNull()
     minAmount = 0;
     timeCreate = 0;
     timeExpiration = 0;
+    timeModification = 0;
     shortInfo.clear();
     details.clear();
     editingVersion = 0;
@@ -135,19 +137,20 @@ bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::str
            uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, time_t timeExpiration_,
            const std::string &shortInfo_, const std::string &details_, const int &editingVersion_)
 {
-    status          = dex::Draft;
-    idTransaction   = idTransaction_;
-    pubKey          = pubKey_;
-    paymentMethod   = paymentMethod_;
-    currencyIso     = currencyIso_;
-    countryIso      = countryIso_;
-    price           = price_;
-    minAmount       = minAmount_;
-    timeCreate      = GetTime();
-    timeExpiration  = timeExpiration_;
-    shortInfo       = shortInfo_;
-    details         = details_;
-    editingVersion  = editingVersion_;
+    status           = dex::Draft;
+    idTransaction    = idTransaction_;
+    pubKey           = pubKey_;
+    paymentMethod    = paymentMethod_;
+    currencyIso      = currencyIso_;
+    countryIso       = countryIso_;
+    price            = price_;
+    minAmount        = minAmount_;
+    timeCreate       = GetTime();
+    timeExpiration   = timeExpiration_;
+    timeModification = timeCreate;
+    shortInfo        = shortInfo_;
+    details          = details_;
+    editingVersion   = editingVersion_;
     switch (type_) {
         case  BUY: type = OFFER_TYPE_BUY;  break;
         case SELL: type = OFFER_TYPE_SELL; break;
@@ -267,6 +270,7 @@ CDexOffer& CDexOffer::operator=(const CDexOffer& off)
     minAmount        = off.minAmount;
     timeCreate       = off.timeCreate;
     timeExpiration   = off.timeExpiration;
+    timeModification = off.timeModification;
     shortInfo        = off.shortInfo;
     details          = off.details;
     editingVersion   = off.editingVersion;
@@ -324,6 +328,7 @@ std::string CDexOffer::dump() const
         "\tminAmount\t%lld\n"
         "\ttimeCreate\t%lld\n"
         "\ttimeExpiration\t%lld\n"
+        "\ttimeModification\t%lld\n"
         "\tshortInfo\t%s\n"
         "\tdetails\t\t%s\n"
         "\teditingVersion\t\t%d\n"
@@ -331,9 +336,8 @@ std::string CDexOffer::dump() const
         "\tstatus\t\t%d\n",
         type.c_str(), idTransaction.GetHex().c_str(), hash.GetHex().c_str(), pubKey.c_str(),
         countryIso.c_str(), currencyIso.c_str(), paymentMethod, price, minAmount, timeCreate,
-        timeExpiration, shortInfo.c_str(), details.c_str(), editingVersion, editsign.c_str(), status);
+                     timeExpiration, timeModification, shortInfo.c_str(), details.c_str(), editingVersion, editsign.c_str(), status);
 }
-
 
 CPubKey CDexOffer::getPubKeyObject() const
 {
@@ -342,9 +346,15 @@ CPubKey CDexOffer::getPubKeyObject() const
     return key;
 }
 
-
 bool CDexOffer::Check(bool fullcheck)
 {
+    int fine = 0;
+    return Check(fullcheck, fine);
+}
+
+bool CDexOffer::Check(bool fullcheck, int &fine)
+{
+    fine = 20;
     do {
         if (fullcheck && idTransaction.IsNull()) {
             LogPrint("dex", "DexOffer::Check error: idTransaction is empty\n");
@@ -397,6 +407,17 @@ bool CDexOffer::Check(bool fullcheck)
             LogPrint("dex", "DexOffer::Check(%s) error: offer expiration time out\n", hash.GetHex().c_str());
             break;
         }
+        if (editingVersion == 0 && timeCreate != timeModification) {
+            fine = 5;
+            LogPrint("dex", "DexOffer::Check(%s) error: wrong modification time\n", hash.GetHex().c_str());
+            break;
+        }
+        if (editingVersion > 0 && (timeModification > GetAdjustedTime() + 3600 || timeModification < GetAdjustedTime() - 3600)) {
+            fine = 5;
+            LogPrint("dex", "DexOffer::Check(%s) error: wrong modification time\n", hash.GetHex().c_str());
+            break;
+        }
+        fine = 0;
         return true;
     } while (false);
     SetNull();
@@ -418,6 +439,7 @@ UniValue CDexOffer::getUniValue()
     result.push_back(Pair("minAmount", minAmount));
     result.push_back(Pair("timeCreate", timeCreate));
     result.push_back(Pair("timeExpiration", timeExpiration));
+    result.push_back(Pair("timeModification", timeModification));
     result.push_back(Pair("shortInfo", shortInfo));
     result.push_back(Pair("details", details));
     result.push_back(Pair("editingVersion", editingVersion));
@@ -435,6 +457,7 @@ uint256 CDexOffer::MakeEditHash()
     ss << shortInfo;
     ss << details;
     ss << editingVersion;
+    ss << timeModification;
     return ss.GetHash();
 }
 

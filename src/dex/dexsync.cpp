@@ -286,7 +286,8 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 
     LogPrint("dex", "DEXSYNCOFFER -- get offer info with hash = %s\n", offer.hash.GetHex().c_str());
 
-    if (offer.Check(true)) {
+    int fine = 0;
+    if (offer.Check(true, fine)) {
         CDex dex(offer);
         std::string error;
         if (dex.CheckOfferTx(error)) {
@@ -328,7 +329,7 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
         }
     } else {
         LogPrint("dex", "DEXSYNCOFFER -- offer check fail\n");
-        Misbehaving(pfrom->GetId(), 20);
+        Misbehaving(pfrom->GetId(), fine);
     }
 
     eraseItemFromOffersNeedDownload(offer.hash);

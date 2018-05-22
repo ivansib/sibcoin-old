@@ -227,7 +227,8 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
 
     CDexOffer offer;
     vRecv >> offer;
-    if (offer.Check(true)) {
+    int fine = 0;
+    if (offer.Check(true, fine)) {
         CDex dex(offer);
         std::string error;
         if (dex.CheckOfferTx(error)) {
@@ -284,7 +285,7 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
         }
     } else {
         LogPrint("dex", "DEXOFFBCST -- offer check fail\n");
-        Misbehaving(pfrom->GetId(), 20);
+        Misbehaving(pfrom->GetId(), fine);
     }
 }
 
@@ -298,7 +299,8 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
     vRecv >> offer;
     vRecv >> vchSign;
 
-    if (offer.Check(true)) {
+    int fine = 0;
+    if (offer.Check(true, fine)) {
         CDex dex(offer);
         std::string error;
         if (dex.CheckOfferSign(vchSign, error)) {
@@ -341,7 +343,7 @@ void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
         }
     } else {
         LogPrint("dex", "DEXDELOFFER -- offer check fail\n");
-        Misbehaving(pfrom->GetId(), 20);
+        Misbehaving(pfrom->GetId(), fine);
     }
 }
 
@@ -356,7 +358,9 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     vRecv >> offer;
     vRecv >> vchSign;
     offer.editsign = HexStr(vchSign);
-    if (offer.Check(true)) {
+
+    int fine = 0;
+    if (offer.Check(true, fine)) {
         if (offer.CheckEditSign()) {
             CDex dex(offer);
             std::string error;
@@ -412,7 +416,7 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
         }
     } else {
         LogPrint("dex", "DEXOFFEDIT -- offer check fail\n");
-        Misbehaving(pfrom->GetId(), 20);
+        Misbehaving(pfrom->GetId(), fine);
     }
 }
 
