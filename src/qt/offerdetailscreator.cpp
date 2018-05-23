@@ -49,7 +49,7 @@ void OfferDetailsCreator::initData()
     tEditShortInfo->setText("");
     tEditDetails->setText("");
 
-    lEditTimeCreate->setText(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
+    lEditTimeCreate->setText(QDateTime::fromTime_t(GetAdjustedTime()).toString("dd.MM.yyyy hh:mm"));
     changedTimeToExpiration(0);
 }
 
@@ -74,7 +74,7 @@ QtMyOfferInfo OfferDetailsCreator::getMyOffer(bool &isError) const
     info.paymentMethod = cBoxPayment->currentData().toInt();
     info.price = sBoxPrice->value();
     info.minAmount = sBoxMinAmount->value();
-    info.timeCreate = QDateTime::currentDateTime().toTime_t();
+    info.timeCreate = GetAdjustedTime();
     info.timeToExpiration = QDateTime::currentDateTime().addDays(cBoxExpiration->currentText().toInt()).toTime_t();
     info.timeModification = info.timeCreate;
     info.shortInfo = tEditShortInfo->toPlainText();

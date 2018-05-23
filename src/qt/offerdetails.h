@@ -13,6 +13,7 @@
 #include "dto.h"
 #include "amount.h"
 #include "walletmodel.h"
+#include "timedata.h"
 
 using namespace dex;
 

@@ -128,7 +128,7 @@ CAmount OfferDetails::transactionPrice(const int &coef) const
 
 void OfferDetails::changedTimeToExpiration(const int &i)
 {
-    QDateTime timeCreate = QDateTime::currentDateTime();
+    QDateTime timeCreate = QDateTime::fromTime_t(GetAdjustedTime());
     QDateTime timeExpiration = timeCreate.addDays(expirations[i]);
 
     editTimeExpiration->setText(timeExpiration.toString("dd.MM.yyyy hh:mm"));

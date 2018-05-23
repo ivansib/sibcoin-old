@@ -3,6 +3,7 @@
 #include "parserjsonoffer.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
+#include "timedata.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 
@@ -65,7 +66,7 @@ MyOfferInfo jsonToMyOfferInfo(const std::string &json, std::string &error)
 
     offer.minAmount = minAmount.first;
 
-    offer.timeCreate = GetTime();
+    offer.timeCreate = GetAdjustedTime();
     int timeTo = uv["timeToExpiration"].get_int();
     if (timeTo != 10 && timeTo != 20 && timeTo != 30) {
         error = "invalid timeExpiration";

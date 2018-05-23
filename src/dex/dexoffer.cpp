@@ -145,7 +145,7 @@ bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::str
     countryIso       = countryIso_;
     price            = price_;
     minAmount        = minAmount_;
-    timeCreate       = GetTime();
+    timeCreate       = GetAdjustedTime();
     timeExpiration   = timeExpiration_;
     timeModification = timeCreate;
     shortInfo        = shortInfo_;
@@ -176,9 +176,9 @@ bool CDexOffer::Create(const dex::OfferInfo &info, dex::TypeOffer offertype)
     countryIso       = info.countryIso;
     price            = info.price;
     minAmount        = info.minAmount;
-    timeCreate       = info.timeCreate;
+    timeCreate       = GetAdjustedTime();
     timeExpiration   = info.timeToExpiration;
-    timeModification = info.timeModification;
+    timeModification = timeCreate;
     shortInfo        = info.shortInfo;
     details          = info.details;
     editingVersion   = info.editingVersion;

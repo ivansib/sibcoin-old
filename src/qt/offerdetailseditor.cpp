@@ -32,10 +32,6 @@ OfferDetailsEditor::OfferDetailsEditor(DexDB *db, QDialog *parent) : OfferDetail
 
 void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
 {
-//    btnDeleteDraft->setVisible(true);
-//    btnSaveDraft->setVisible(true);
-//    btnSend->setVisible(true);
-
     offerInfo = info;
 
     lPubKeyView->setText(info.pubKey);
@@ -68,9 +64,6 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         isApproximateExpiration(false);
         enabledHashEditLines(false);
 
-//        btnDeleteDraft->setVisible(false);
-//        btnSaveDraft->setVisible(false);
-
         lEditTimeCreate->setText(QDateTime::fromTime_t(info.timeCreate).toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeToExpiration).toString("dd.MM.yyyy hh:mm"));
 
@@ -85,7 +78,7 @@ void OfferDetailsEditor::setOfferInfo(const QtMyOfferInfo &info)
         isApproximateExpiration(true);
         enabledHashEditLines(true);
 
-        lEditTimeCreate->setText(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
+        lEditTimeCreate->setText(QDateTime::fromTime_t(GetAdjustedTime()).toString("dd.MM.yyyy hh:mm"));
         lEditTimeExpiration->setText(QDateTime::fromTime_t(info.timeToExpiration).toString("dd.MM.yyyy hh:mm"));
     }
 
@@ -218,7 +211,7 @@ void OfferDetailsEditor::updateMyOffer()
         offerInfo.price = sBoxPrice->value();
         offerInfo.shortInfo = tEditShortInfo->toPlainText();
         offerInfo.details = tEditDetails->toPlainText();
-        offerInfo.timeModification = QDateTime::currentDateTime().toTime_t();
+        offerInfo.timeModification = GetAdjustedTime();
     } else {
         offerInfo.type = static_cast<TypeOffer>(cBoxOffer->currentIndex());
         offerInfo.countryIso = cBoxCountry->currentData().toString();
@@ -226,7 +219,7 @@ void OfferDetailsEditor::updateMyOffer()
         offerInfo.paymentMethod = cBoxPayment->currentData().toInt();
         offerInfo.price = sBoxPrice->value();
         offerInfo.minAmount = sBoxMinAmount->value();
-        offerInfo.timeCreate = QDateTime::currentDateTime().toTime_t();
+        offerInfo.timeCreate = GetAdjustedTime();
         offerInfo.timeToExpiration = QDateTime::currentDateTime().addDays(cBoxExpiration->currentText().toInt()).toTime_t();
         offerInfo.timeModification = offerInfo.timeCreate;
         offerInfo.shortInfo = tEditShortInfo->toPlainText();
