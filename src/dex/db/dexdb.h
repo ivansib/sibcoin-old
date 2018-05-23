@@ -74,6 +74,7 @@ public:
     std::list<uint256> getSellHashs();
     int countOffersSell();
     int countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
+    uint64_t lastModificationOffersSell();
 
     void addOfferBuy(const OfferInfo &offer, bool usethread = true);
     void editOfferBuy(const OfferInfo &offer, bool usethread = true);
@@ -89,6 +90,7 @@ public:
     std::list<uint256> getBuyHashs();
     int countOffersBuy();
     int countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
+    uint64_t lastModificationOffersBuy();
 
     void addMyOffer(const MyOfferInfo &offer, bool usethread = true);
     void editMyOffer(const MyOfferInfo &offer, bool usethread = true);
@@ -156,6 +158,7 @@ private:
     std::list<uint256> getHashs(const std::string &tableName);
     int countOffers(const std::string &tableName, int &status);
     int countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status);
+    uint64_t lastModificationOffers(const std::string &tableName, int &status);
 
     sqlite3pp::database db;
     static std::map<CallBackDB*, int> callBack; 

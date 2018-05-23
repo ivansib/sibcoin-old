@@ -530,6 +530,17 @@ int DexDB::countOffersSell(const std::string &countryIso, const std::string &cur
     return count;
 }
 
+uint64_t DexDB::lastModificationOffersSell()
+{
+    std::string tableName = "offersSell";
+
+    int status;
+    uint64_t time = lastModificationOffers(tableName, status);
+    finishTableOperation(callBack, OffersBuy, Read, status);
+
+    return time;
+}
+
 void DexDB::addOfferBuy(const OfferInfo &offer, bool usethread)
 {
     if (usethread) {
@@ -638,6 +649,17 @@ int DexDB::countOffersBuy(const std::string &countryIso, const std::string &curr
     finishTableOperation(callBack, OffersBuy, Read, status);
 
     return count;
+}
+
+uint64_t DexDB::lastModificationOffersBuy()
+{
+    std::string tableName = "offersBuy";
+
+    int status;
+    uint64_t time = lastModificationOffers(tableName, status);
+    finishTableOperation(callBack, OffersBuy, Read, status);
+
+    return time;
 }
 
 void DexDB::addMyOffer(const MyOfferInfo &offer, bool usethread)
@@ -1437,6 +1459,19 @@ int DexDB::countOffers(const std::string &tableName, const std::string &countryI
     }
 
     sqlite3pp::query qry(db, strQuery.c_str());
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+    status = qry.finish();
+
+    return count;
+}
+
+uint64_t DexDB::lastModificationOffers(const std::string &tableName, int &status)
+{
+    long long int count;
+    std::string query = "SELECT MAX(timeModification) FROM " + tableName;
+    sqlite3pp::query qry(db, query.c_str());
+
     sqlite3pp::query::iterator it = qry.begin();
     (*it).getter() >> count;
     status = qry.finish();
