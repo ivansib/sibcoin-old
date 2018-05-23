@@ -236,6 +236,7 @@ void checkOffers(DexDB *db)
 
     long int currentTime = static_cast<long int>(time(NULL));
     int secInDay = 86400;
+    long int lastMod = currentTime + secInDay;
 
     OfferInfo info;
     info.pubKey = GetRandHash().GetHex();
@@ -249,7 +250,7 @@ void checkOffers(DexDB *db)
     info.paymentMethod = 1;
     info.timeCreate = currentTime - secInDay * 10;
     info.timeToExpiration = info.timeCreate + secInDay;
-    info.timeModification = info.timeCreate;
+    info.timeModification = lastMod;
     info.editingVersion = 0;
 
     std::list<OfferInfo> iList;
@@ -268,7 +269,7 @@ void checkOffers(DexDB *db)
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 20;
     info.timeToExpiration = info.timeCreate + secInDay * 5;
-    info.timeModification = info.timeCreate;
+    info.timeModification = lastMod - secInDay * 3;
     info.editingVersion = 2;
 
     iList.push_back(info);
@@ -286,7 +287,7 @@ void checkOffers(DexDB *db)
     info.paymentMethod = 128;
     info.timeCreate = currentTime - secInDay * 13;
     info.timeToExpiration = info.timeCreate + secInDay * 4;
-    info.timeModification = info.timeCreate;
+    info.timeModification = lastMod - secInDay * 4;
     info.editingVersion = 3;
 
     iList.push_back(info);
@@ -326,6 +327,14 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(db->countOffersBuy("US", "RUB", 1) == 0);
     BOOST_CHECK(db->countOffersSell("US", "RUB", 1) == 0);
 
+    BOOST_CHECK(db->lastModificationOffersBuy() == lastMod);
+    BOOST_CHECK(db->lastModificationOffersSell() == lastMod);
+
+    BOOST_CHECK(db->getOffersBuy(lastMod - 1).size() == 1);
+    BOOST_CHECK(db->getOffersSell(lastMod - 1).size() == 1);
+    BOOST_CHECK(db->getOffersBuy(lastMod + 1).size() == 0);
+    BOOST_CHECK(db->getOffersSell(lastMod + 1).size() == 0);
+
     db->deleteOfferSell(iList.front().idTransaction);
     db->deleteOfferBuy(iList.back().idTransaction);
 
@@ -356,7 +365,7 @@ void checkOffers(DexDB *db)
     info1.paymentMethod = 200;
     info1.timeCreate = currentTime - secInDay * 33;
     info1.timeToExpiration = info1.timeCreate + secInDay * 20;
-    info1.timeModification = currentTime - secInDay * 20;
+    info1.timeModification = lastMod - secInDay * 20;
     info1.editingVersion = 4;
 
     db->editOfferSell(info1);
@@ -370,7 +379,7 @@ void checkOffers(DexDB *db)
     info2.paymentMethod = 150;
     info2.timeCreate = currentTime - secInDay * 7;
     info2.timeToExpiration = info2.timeCreate + secInDay * 2;
-    info2.timeModification = currentTime - secInDay * 3;
+    info2.timeModification = lastMod - secInDay * 3;
     info2.editingVersion = 6;
 
     db->editOfferBuy(info2);
@@ -762,9 +771,9 @@ BOOST_AUTO_TEST_CASE(dexdb_test1)
     remove(strDexDbFile.c_str());
     DexDB *db = DexDB::instance();
 
-    checkCountry(db);
-    checkCurrency(db);
-    checkPaymentMethod(db);
+//    checkCountry(db);
+//    checkCurrency(db);
+//    checkPaymentMethod(db);
     checkOffers(db);
     checkMyOffers(db);
 

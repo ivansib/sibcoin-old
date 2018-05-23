@@ -477,6 +477,11 @@ std::list<OfferInfo> DexDB::getOffersSell()
     return getOffers("offersSell");
 }
 
+std::list<OfferInfo> DexDB::getOffersSell(const long long &timeMod)
+{
+    return getOffers("offersSell", timeMod);
+}
+
 std::list<OfferInfo> DexDB::getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset)
 {
     return getOffers("offersSell", countryIso, currencyIso, payment, limit, offset);
@@ -596,6 +601,11 @@ void DexDB::deleteOldOffersBuy(bool usethread)
 std::list<OfferInfo> DexDB::getOffersBuy()
 {
     return getOffers("offersBuy");
+}
+
+std::list<OfferInfo> DexDB::getOffersBuy(const long long &timeMod)
+{
+    return getOffers("offersBuy", timeMod);
 }
 
 std::list<OfferInfo> DexDB::getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset)
@@ -1153,6 +1163,33 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
                       "paymentMethod, price, minAmount, timeCreate, timeToExpiration, timeModification, shortInfo, details, editingVersion, editsign FROM " + tableName;
 
     sqlite3pp::query qry(db, str.c_str());
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        OfferInfo info = getOffer(i);
+        offers.push_back(info);
+    }
+
+    TypeTable tTable = OffersBuy;
+    if (tableName == "offersSell") {
+        tTable = OffersSell;
+    }
+
+    int status = qry.finish();
+    finishTableOperation(callBack, tTable, Read, status);
+
+    return offers;
+}
+
+std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const long long &timeMod)
+{
+    std::list<OfferInfo> offers;
+
+    std::string str = "SELECT idTransaction, hash, pubKey, countryIso, currencyIso, "
+                      "paymentMethod, price, minAmount, timeCreate, timeToExpiration, "
+                      "timeModification, shortInfo, details, editingVersion, editsign FROM " + tableName + " WHERE timeModification > :timeMod";
+
+    sqlite3pp::query qry(db, str.c_str());
+    qry.bind(":timeMod", timeMod);
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         OfferInfo info = getOffer(i);
