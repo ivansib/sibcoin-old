@@ -422,15 +422,15 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     }
 }
 
-std::list<std::pair<uint256, int>> CDexManager::availableOfferHashAndVersion() const
+std::list<std::pair<uint256, int>> CDexManager::availableOfferHashAndVersion(const uint64_t &lastTimeMod) const
 {
     std::list<std::pair<uint256, int>> list;
 
-    for (auto offer : db->getOffersSell()) {
+    for (auto offer : db->getOffersSell(lastTimeMod)) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
-    for (auto offer : db->getOffersBuy()) {
+    for (auto offer : db->getOffersBuy(lastTimeMod)) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
@@ -487,7 +487,7 @@ void ThreadDexManager()
     while (true) {
         MilliSleep(minPeriod);
 
-        if (masternodeSync.IsSynced() && dexsync.statusSync() == CDexSync::NoStarted) {
+        if (masternodeSync.IsSynced() && dexsync.statusSync() == CDexSync::Status::NoStarted) {
             CheckDexMasternode();
             dexman.startSyncDex();
         }

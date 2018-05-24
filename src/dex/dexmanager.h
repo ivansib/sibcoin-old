@@ -36,7 +36,7 @@ public:
     void deleteOldUncOffers();
     void deleteOldOffers();
 
-    std::list<std::pair<uint256, int> > availableOfferHashAndVersion() const;
+    std::list<std::pair<uint256, int> > availableOfferHashAndVersion(const uint64_t &lastTimeMod = 0) const;
     CDexOffer getOfferInfo(const uint256 &hash) const;
     UnconfirmedOffers *getUncOffers() const;
 

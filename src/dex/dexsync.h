@@ -37,16 +37,69 @@ public:
     ~Timer() {}
 };
 
+struct DexSyncInfo
+{
+    int checkSum;
+    int count;
+    uint64_t lastTimeMod;
+
+    DexSyncInfo() {
+        checkSum = 0;
+        count = 0;
+        lastTimeMod = 0;
+    }
+
+    ADD_SERIALIZE_METHODS;
+
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+        READWRITE(checkSum);
+        READWRITE(count);
+        READWRITE(lastTimeMod);
+    }
+
+    friend bool operator==(const DexSyncInfo &a, const DexSyncInfo &b) {
+        if (a.checkSum != b.checkSum) {
+            return false;
+        }
+
+        if (a.count != b.count) {
+            return false;
+        }
+
+        if (a.lastTimeMod != b.lastTimeMod) {
+            return false;
+        }
+
+        return true;
+    }
+
+    friend bool operator!=(const DexSyncInfo &a, const DexSyncInfo &b) {
+        return !(a == b);
+    }
+};
+
 class CDexSync
 {
 public:
-    enum Status {
+    enum class Status {
         NoStarted,
         Started,
         Initial,
         SyncStepOne,
         SyncStepSecond,
         Finished
+    };
+
+    enum class StatusOffers {
+        Empty,
+        Actual
+    };
+
+    enum class StatusNode {
+        Bad,
+        Process,
+        Actual
     };
 
     CDexSync();
@@ -68,7 +121,7 @@ public:
     void startTimerForAnswer() const;
     int offersNeedDownloadSize() const;
     void sendRequestForGetOffers() const;
-    void addToListBadNodes();
+    void checkNodes();
 
     boost::signals2::signal<void()> syncFinished;
 
@@ -79,20 +132,21 @@ private:
     DexDB *db;
 
     void initDB();
-    void sendHashOffers(CNode* pfrom) const;
+    void sendHashOffers(CNode* pfrom, CDataStream& vRecv) const;
     void getHashs(CNode* pfrom, CDataStream& vRecv);
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
     void getOfferAndSaveInDb(CNode* pfrom, CDataStream& vRecv);
-    void noOffersList(CNode* pfrom);
+    void noOffersList(CNode* pfrom, CDataStream& vRecv);
     void noHash(CNode* pfrom, CDataStream& vRecv);
 
     void eraseItemFromOffersNeedDownload(const uint256 &hash);
     bool canStart();
     void initSetWaitAnswerFromNodes(const std::vector<CNode*> &nodes);
-    void addAddrToGoodNode(const CAddress &addr, bool type);
+    void addAddrToStatusNode(const CAddress &addr, StatusNode status);
+    DexSyncInfo dexSyncInfo() const;
 
     std::set<CAddress> waitAnswerFromNodes;
-    std::map<CAddress, bool> goodNodes;
+    std::map<CAddress, StatusNode> statusNodes;
     std::set<uint256> offersNeedDownload;
     size_t maxOffersNeedDownload;
     size_t prevOffersNeedDownloadSize;
