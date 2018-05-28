@@ -23,6 +23,10 @@ public:
     CDexCrc(const MyOfferInfo &info);
     CDexCrc(const CDexCrc &crc);
     CDexCrc(const uint256 &hsum, const uint256 &hxor, const uint32_t &evsum);
+    CDexCrc(const std::list<std::pair<uint256, uint32_t> > &hashlist);
+    CDexCrc(const std::list<OfferInfo> &offlist);
+    CDexCrc(const std::list<MyOfferInfo> &offlist);
+    CDexCrc(const std::list<CDexOffer> &offlist);
 
     CDexCrc& operator=(const CDexCrc&);
     CDexCrc& operator=(const CDexOffer &off);
@@ -33,10 +37,22 @@ public:
     bool operator!=(const CDexCrc&) const;
 
     CDexCrc operator+(const CDexCrc&) const;
+    CDexCrc operator+(const CDexOffer &off) const;
+    CDexCrc operator+(const OfferInfo &info) const;
+    CDexCrc operator+(const MyOfferInfo &info) const;
+    CDexCrc operator+(const std::list<std::pair<uint256, uint32_t> > &hashlist) const;
+    CDexCrc operator+(const std::list<OfferInfo> &offlist) const;
+    CDexCrc operator+(const std::list<MyOfferInfo> &offlist) const;
+    CDexCrc operator+(const std::list<CDexOffer> &offlist) const;
+
     CDexCrc& operator+=(const CDexCrc&);
     CDexCrc& operator+=(const CDexOffer &off);
     CDexCrc& operator+=(const OfferInfo &info);
     CDexCrc& operator+=(const MyOfferInfo &info);
+    CDexCrc& operator+=(const std::list<std::pair<uint256, uint32_t> > &hashlist);
+    CDexCrc& operator+=(const std::list<OfferInfo> &offlist);
+    CDexCrc& operator+=(const std::list<MyOfferInfo> &offlist);
+    CDexCrc& operator+=(const std::list<CDexOffer> &offlist);
 
     ADD_SERIALIZE_METHODS;
     template <typename Stream, typename Operation>

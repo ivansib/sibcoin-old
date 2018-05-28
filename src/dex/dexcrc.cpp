@@ -50,6 +50,32 @@ CDexCrc::CDexCrc(const uint256 &hsum, const uint256 &hxor, const uint32_t &evsum
 }
 
 
+CDexCrc::CDexCrc(const std::list<std::pair<uint256, uint32_t> > &hashlist)
+{
+    editingVersionSum = 0;
+    *this += hashlist;
+}
+
+
+CDexCrc::CDexCrc(const std::list<OfferInfo> &offlist)
+{
+    editingVersionSum = 0;
+    *this += offlist;
+}
+
+CDexCrc::CDexCrc(const std::list<MyOfferInfo> &offlist)
+{
+    editingVersionSum = 0;
+    *this += offlist;
+}
+
+CDexCrc::CDexCrc(const std::list<CDexOffer> &offlist)
+{
+    editingVersionSum = 0;
+    *this += offlist;
+}
+
+
 CDexCrc& CDexCrc::operator=(const CDexCrc& crc)
 {
     hashsum = crc.hashsum;
@@ -87,12 +113,66 @@ CDexCrc& CDexCrc::operator=(const MyOfferInfo &info)
 
 CDexCrc CDexCrc::operator+(const CDexCrc& crc) const
 {
-    CDexCrc result;
-    add256(hashsum, crc.hashsum, result.hashsum);
-    xor256(hashxor, crc.hashxor, result.hashxor);
-    result.editingVersionSum = editingVersionSum + crc.editingVersionSum;
+    CDexCrc result(*this);
+    result += crc;
     return result;
 }
+
+CDexCrc CDexCrc::operator+(const CDexOffer &off) const
+{
+    CDexCrc result(*this);
+    result += off;
+    return result;
+}
+
+
+CDexCrc CDexCrc::operator+(const OfferInfo &info) const
+{
+    CDexCrc result(*this);
+    result += info;
+    return result;
+}
+
+
+CDexCrc CDexCrc::operator+(const MyOfferInfo &info) const
+{
+    CDexCrc result(*this);
+    result += info;
+    return result;
+}
+
+
+CDexCrc CDexCrc::operator+(const std::list<std::pair<uint256, uint32_t> > &hashlist) const
+{
+    CDexCrc result(*this);
+    result += hashlist;
+    return result;
+}
+
+
+CDexCrc CDexCrc::operator+(const std::list<OfferInfo> &offlist) const
+{
+    CDexCrc result(*this);
+    result += offlist;
+    return result;
+}
+
+
+CDexCrc CDexCrc::operator+(const std::list<MyOfferInfo> &offlist) const
+{
+    CDexCrc result(*this);
+    result += offlist;
+    return result;
+}
+
+
+CDexCrc CDexCrc::operator+(const std::list<CDexOffer> &offlist) const
+{
+    CDexCrc result(*this);
+    result += offlist;
+    return result;
+}
+
 
 CDexCrc& CDexCrc::operator+=(const CDexCrc& crc)
 {
@@ -127,7 +207,48 @@ CDexCrc& CDexCrc::operator+=(const MyOfferInfo &info)
     return *this;
 }
 
+CDexCrc& CDexCrc::operator+=(const std::list<std::pair<uint256, uint32_t> > &hashlist)
+{
+    for (auto v : hashlist) {
+        add256(hashsum, v.first, hashsum);
+        xor256(hashxor, v.first, hashxor);
+        editingVersionSum += v.second;
+    }
+    return *this;
+}
 
+
+CDexCrc& CDexCrc::operator+=(const std::list<OfferInfo> &offlist)
+{
+    for (auto v : offlist) {
+        add256(hashsum, v.hash, hashsum);
+        xor256(hashxor, v.hash, hashxor);
+        editingVersionSum += v.editingVersion;
+    }
+    return *this;
+}
+
+
+CDexCrc& CDexCrc::operator+=(const std::list<MyOfferInfo> &offlist)
+{
+    for (auto v : offlist) {
+        add256(hashsum, v.hash, hashsum);
+        xor256(hashxor, v.hash, hashxor);
+        editingVersionSum += v.editingVersion;
+    }
+    return *this;
+}
+
+
+CDexCrc& CDexCrc::operator+=(const std::list<CDexOffer> &offlist)
+{
+    for (auto v : offlist) {
+        add256(hashsum, v.hash, hashsum);
+        xor256(hashxor, v.hash, hashxor);
+        editingVersionSum += v.editingVersion;
+    }
+    return *this;
+}
 
 
 bool CDexCrc::operator==(const CDexCrc& crc) const

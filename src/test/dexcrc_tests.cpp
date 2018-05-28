@@ -12,7 +12,7 @@ using namespace dex;
 BOOST_FIXTURE_TEST_SUITE(dexcrc, BasicTestingSetup)
 
 
-void test_operation()
+void dexcrc_test_operation()
 {
     OfferInfo offer;
     offer.hash.SetHex("0xff");
@@ -39,11 +39,9 @@ void test_operation()
 }
 
 
-void test_cumulative_add()
+void dexcrc_test_cumulative_add()
 {
-    OfferInfo offers[10];
     CDexCrc crc, crc1, crc2;
-
     for (int i = 0; i < 10; i++) {
         OfferInfo offer;
         offer.hash = GetRandHash();
@@ -55,15 +53,35 @@ void test_cumulative_add()
             crc2 += offer;
         }
     }
-
-    BOOST_CHECK(crc == crc1 + crc2);
+    BOOST_CHECK(crc == (crc1 + crc2));
 }
 
 
+void dexcrc_test_listadd()
+{
+    CDexCrc crc1;
+    std::list<OfferInfo> olist;
+    for (int i = 0; i < 100000; i++) {
+        OfferInfo offer;
+        offer.hash = GetRandHash();
+        offer.editingVersion = static_cast<uint32_t>(GetRand(10));
+        crc1 += offer;
+        olist.push_back(offer);
+    }
+    CDexCrc crc2(olist);
+
+    BOOST_CHECK(crc1 == crc2);
+}
+
 BOOST_AUTO_TEST_CASE(dexcrc)
 {
-    test_operation();
-    test_cumulative_add();
+    dexcrc_test_operation();
+    dexcrc_test_cumulative_add();
+}
+
+BOOST_AUTO_TEST_CASE(dexcrc_listadd) // for speed test
+{
+    dexcrc_test_listadd();
 }
 
 BOOST_AUTO_TEST_SUITE_END()
