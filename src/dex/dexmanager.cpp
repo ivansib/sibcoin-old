@@ -362,7 +362,7 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     offer.editsign = HexStr(vchSign);
 
     int fine = 0;
-    if (offer.Check(true, fine)) {
+    if (offer.Check(true, fine) && offer.CheckModTimeOnEdit()) {
         if (offer.CheckEditSign()) {
             CDex dex(offer);
             std::string error;
@@ -413,11 +413,11 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
                 ReleaseNodeVector(vNodesCopy);
             }
         } else {
-            LogPrint("dex", "DEXOFFEDIT -- reach the limit for editing a offer\n");
+            LogPrint("DEXOFFEDIT -- invalid signature, hash: %s \n", offer.hash.GetHex().c_str());
             Misbehaving(pfrom->GetId(), 5);
         }
     } else {
-        LogPrint("dex", "DEXOFFEDIT -- offer check fail\n");
+        LogPrint("DEXOFFEDIT -- offer check fail: %s\n", offer.hash.GetHex().c_str());
         Misbehaving(pfrom->GetId(), fine);
     }
 }

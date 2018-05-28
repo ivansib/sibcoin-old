@@ -412,11 +412,6 @@ bool CDexOffer::Check(bool fullcheck, int &fine)
             LogPrint("dex", "DexOffer::Check(%s) error: wrong modification time\n", hash.GetHex().c_str());
             break;
         }
-        if (editingVersion > 0 && (timeModification > GetAdjustedTime() + 3600 || timeModification < GetAdjustedTime() - 3600)) {
-            fine = 5;
-            LogPrint("dex", "DexOffer::Check(%s) error: wrong modification time\n", hash.GetHex().c_str());
-            break;
-        }
         fine = 0;
         return true;
     } while (false);
@@ -424,6 +419,13 @@ bool CDexOffer::Check(bool fullcheck, int &fine)
     return false;
 }
 
+bool CDexOffer::CheckModTimeOnEdit(){
+    if (timeModification > GetAdjustedTime() + 3600 || timeModification < GetAdjustedTime() - 3600) {
+        LogPrint("dex", "DexOffer::CheckModTimeOnEdit(%s) error: wrong modification time\n", hash.GetHex().c_str());
+        return false;
+    }   
+    return true;
+}
 
 UniValue CDexOffer::getUniValue()
 {

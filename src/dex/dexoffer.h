@@ -124,6 +124,7 @@ public:
 
     bool Check(bool fullcheck);
     bool Check(bool fullcheck, int &fine);
+    bool CheckModTimeOnEdit();
 
     UniValue getUniValue();
 
