@@ -422,9 +422,9 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     }
 }
 
-std::list<std::pair<uint256, int>> CDexManager::availableOfferHashAndVersion(const uint64_t &lastTimeMod) const
+std::list<std::pair<uint256, uint32_t>> CDexManager::availableOfferHashAndVersion(const uint64_t &lastTimeMod) const
 {
-    std::list<std::pair<uint256, int>> list;
+    std::list<std::pair<uint256, uint32_t>> list;
 
     for (auto offer : db->getOffersSell(lastTimeMod)) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));

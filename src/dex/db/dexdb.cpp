@@ -944,7 +944,7 @@ MyOfferInfo DexDB::getMyOffer(sqlite3pp::query::iterator &it)
     info.details = details;
     info.type = static_cast<TypeOffer>(type);
     info.status = static_cast<StatusOffer>(status);
-    info.editingVersion = editingVersion;
+    info.editingVersion = static_cast<uint32_t>(editingVersion);
     info.editsign = editsign;
     return info;
 }
@@ -1093,7 +1093,7 @@ void DexDB::bindOfferData(sqlite3pp::command &cmd, const OfferInfo &offer)
     cmd.bind(":timeModification", static_cast<long long int>(offer.timeModification));
     cmd.bind(":shortInfo", offer.shortInfo, sqlite3pp::copy);
     cmd.bind(":details", offer.details, sqlite3pp::copy);
-    cmd.bind(":editingVersion", offer.editingVersion);
+    cmd.bind(":editingVersion", static_cast<int>(offer.editingVersion));
     cmd.bind(":editsign", offer.editsign, sqlite3pp::copy);
 }
 
@@ -1351,7 +1351,7 @@ OfferInfo DexDB::getOffer(sqlite3pp::query::iterator &it)
     info.timeToExpiration = timeToExpiration;
     info.timeModification = timeModification;
     info.details = details;
-    info.editingVersion = editingVersion;
+    info.editingVersion = static_cast<uint32_t>(editingVersion);
     info.editsign = editsign;
 
     return info;
@@ -1799,7 +1799,7 @@ std::string DexDB::templateOffersTable(const std::string &tableName) const
                         "hash TEXT NOT NULL PRIMARY KEY, pubKey TEXT, countryIso VARCHAR(2), "
                         "currencyIso VARCHAR(3), paymentMethod TINYINT, price UNSIGNED BIG INT, "
                         "minAmount UNSIGNED BIG INT, timeCreate UNSIGNED BIG INT, timeToExpiration UNSIGNED BIG INT, "
-                        "timeModification UNSIGNED BIG INT, shortInfo VARCHAR(140), details TEXT, editingVersion INT, "
+                        "timeModification UNSIGNED BIG INT, shortInfo VARCHAR(140), details TEXT, editingVersion UNSIGNED INT, "
                         "editsign VARCHAR(150))";
     return query;
 }

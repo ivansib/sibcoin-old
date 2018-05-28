@@ -125,7 +125,7 @@ void CDexOffer::SetNull()
 
 bool CDexOffer::Create(Type type_, const std::string &pubKey_, const std::string &countryIso_, const std::string &currencyIso_,
            uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, time_t timeExpiration_,
-           const std::string &shortInfo_, const std::string &details_, const int &editingVersion_)
+           const std::string &shortInfo_, const std::string &details_, const uint32_t &editingVersion_)
 {
     uint256 txid;
     return Create(txid, type_, pubKey_, countryIso_, currencyIso_, paymentMethod_, price_, minAmount_, timeExpiration_, shortInfo_, details_, editingVersion_);
@@ -135,7 +135,7 @@ bool CDexOffer::Create(Type type_, const std::string &pubKey_, const std::string
 
 bool CDexOffer::Create(const uint256 &idTransaction_, Type type_, const std::string &pubKey_, const std::string &countryIso_, const std::string &currencyIso_,
            uint8_t paymentMethod_, uint64_t price_, uint64_t minAmount_, time_t timeExpiration_,
-           const std::string &shortInfo_, const std::string &details_, const int &editingVersion_)
+           const std::string &shortInfo_, const std::string &details_, const uint32_t &editingVersion_)
 {
     status           = dex::Draft;
     idTransaction    = idTransaction_;
@@ -444,7 +444,7 @@ UniValue CDexOffer::getUniValue()
     result.push_back(Pair("timeModification", timeModification));
     result.push_back(Pair("shortInfo", shortInfo));
     result.push_back(Pair("details", details));
-    result.push_back(Pair("editingVersion", editingVersion));
+    result.push_back(Pair("editingVersion", static_cast<uint64_t>(editingVersion)));
     result.push_back(Pair("editSign", editsign));
     return result;
 }

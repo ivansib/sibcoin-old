@@ -33,7 +33,7 @@ struct QtOfferInfo {
     quint64 timeModification;
     QString shortInfo;
     QString details;
-    int editingVersion;
+    uint32_t editingVersion;
 };
 
 struct QtMyOfferInfo : QtOfferInfo {

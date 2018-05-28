@@ -220,7 +220,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
         return;
     }
 
-    std::list<std::pair<uint256, int>> hvs;
+    std::list<std::pair<uint256, uint32_t>> hvs;
 
     if (dsInfoOther == DexSyncInfo()) {
         hvs = dexman.availableOfferHashAndVersion();
@@ -237,7 +237,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
     }
 
     while (hvs.size() > 0) {
-        std::list<std::pair<uint256, int>> subHvs;
+        std::list<std::pair<uint256, uint32_t>> subHvs;
         auto end = hvs.begin();
 
         if (hvs.size() > PART_SIZE) {
@@ -265,7 +265,7 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
     if (status == Status::Initial) {
         status = Status::SyncStepOne;
     }
-    std::list<std::pair<uint256, int>> nodeHvs;
+    std::list<std::pair<uint256, uint32_t>> nodeHvs;
     int cPart;
     int maxPart;
     vRecv >> nodeHvs;
@@ -274,7 +274,7 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
     auto hvs = dexman.availableOfferHashAndVersion();
 
     for (auto h : nodeHvs) {
-        auto found = std::find_if(hvs.begin(), hvs.end(), [h](std::pair<uint256, int> item){ return item.first == h.first; });
+        auto found = std::find_if(hvs.begin(), hvs.end(), [h](std::pair<uint256, uint32_t> item){ return item.first == h.first; });
 
         auto isFound = false;
 
