@@ -98,6 +98,7 @@ public:
 
     enum class StatusNode {
         Bad,
+        Good,
         Process,
         Actual
     };
@@ -117,16 +118,17 @@ public:
     bool reset();
     void updatePrevData();
     bool checkSyncData();
-    void startTimer() const;
+    void startTimer();
+    void setRunTimer(const bool b);
     void startTimerForAnswer() const;
     int offersNeedDownloadSize() const;
-    void sendRequestForGetOffers() const;
+    void sendRequestForGetOffers();
     void checkNodes();
+    bool actualSync() const;
 
     boost::signals2::signal<void()> syncFinished;
 
     std::set<uint256> getOffersNeedDownload() const;
-    void setOffersNeedDownload(const std::set<uint256> &value);
 
 private:
     DexDB *db;
@@ -154,6 +156,7 @@ private:
     float statusPercent;
 
     Status status;
+    bool isRunTimer;
 };
 
 void DexConnectSignals();

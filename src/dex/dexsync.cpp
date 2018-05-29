@@ -14,7 +14,7 @@ namespace dex {
 CDexSync dexsync;
 
 const int MIN_NUMBER_DEX_NODE = 4;
-const int MIN_NUMBER_DEX_NODE_TESTNET = 1;//2;
+const int MIN_NUMBER_DEX_NODE_TESTNET = 2;
 const int PART_SIZE = 100;
 
 CDexSync::CDexSync()
@@ -22,6 +22,7 @@ CDexSync::CDexSync()
     status = Status::NoStarted;
     statusPercent = 0;
     db = nullptr;
+    isRunTimer = false;
 }
 
 CDexSync::~CDexSync()
@@ -47,6 +48,8 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
         noOffersList(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCNOHASH) {
         noHash(pfrom, vRecv);
+    } else if (strCommand == NetMsgType::DEXSYNCNEEDSYNC) {
+        reset();
     }
 }
 
@@ -64,11 +67,15 @@ void CDexSync::startSyncDex()
 
     prevMaxOffersNeedDownload = 0;
     prevOffersNeedDownloadSize = 0;
+    maxOffersNeedDownload = 0;
+
+    statusNodes.clear();
+    waitAnswerFromNodes.clear();
+
+    LogPrint("dex", "CDexSync -- start synchronization offers\n");
 
     uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent + 0.01);
 
-    LogPrint("dex", "CDexSync -- start synchronization offers\n");
-    maxOffersNeedDownload = 0;
     auto vNodesCopy = CopyNodeVector();
 
     initSetWaitAnswerFromNodes(vNodesCopy);
@@ -102,10 +109,22 @@ void CDexSync::startSyncDex()
 
 void CDexSync::finishSyncDex()
 {
-    LogPrint("dex", "CDexSync -- finish sync\n");
-    status = Status::Finished;
-    uiInterface.NotifyAdditionalDataSyncProgressChanged(1);
-    syncFinished();
+    if (actualSync()) {
+        prevMaxOffersNeedDownload = 0;
+        prevOffersNeedDownloadSize = 0;
+        maxOffersNeedDownload = 0;
+
+        statusNodes.clear();
+        waitAnswerFromNodes.clear();
+
+        LogPrint("dex", "CDexSync -- finish sync\n");
+        status = Status::Finished;
+        uiInterface.NotifyAdditionalDataSyncProgressChanged(1);
+        syncFinished();
+    } else {
+        status = Status::NoStarted;
+        reset();
+    }
 }
 
 bool CDexSync::isSynced() const
@@ -183,9 +202,17 @@ bool CDexSync::checkSyncData()
     return true;
 }
 
-void CDexSync::startTimer() const
+void CDexSync::startTimer()
 {
-    Timer timer(30000, FinishSyncDex);
+    if (!isRunTimer) {
+        Timer timer(30000, FinishSyncDex);
+        isRunTimer = true;
+    }
+}
+
+void CDexSync::setRunTimer(const bool b)
+{
+    isRunTimer = b;
 }
 
 void CDexSync::startTimerForAnswer() const
@@ -228,6 +255,10 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
         hvs = dexman.availableOfferHashAndVersion(dsInfoOther.lastTimeMod);
     }
 
+    if (hvs.size() == 0) {
+        hvs = dexman.availableOfferHashAndVersion();
+    }
+
     int maxPart = std::ceil(static_cast<float>(hvs.size())/PART_SIZE);
     int cPart = 1;
 
@@ -260,7 +291,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
 
 void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
 {
-    addAddrToStatusNode(pfrom->addr, StatusNode::Process);
+    addAddrToStatusNode(pfrom->addr, StatusNode::Good);
 
     if (status == Status::Initial) {
         status = Status::SyncStepOne;
@@ -291,9 +322,15 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
         }
 
         offersNeedDownload.insert(h.first);
+        addAddrToStatusNode(pfrom->addr, StatusNode::Process);
     }
 
     if (cPart == maxPart) {
+        if (statusNodes[pfrom->addr] == StatusNode::Good) {
+            LogPrint("dex", "DEXSYNCPARTHASH -- send message about node with addres %s need sync\n", pfrom->addr.ToString());
+            pfrom->PushMessage(NetMsgType::DEXSYNCNEEDSYNC);
+        }
+
         maxOffersNeedDownload = offersNeedDownload.size();
         status = Status::SyncStepSecond;
         sendRequestForGetOffers();
@@ -320,7 +357,7 @@ void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 
 void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 {
-    addAddrToStatusNode(pfrom->addr, StatusNode::Process);
+    addAddrToStatusNode(pfrom->addr, StatusNode::Good);
 
     CDexOffer offer;
     vRecv >> offer;
@@ -391,7 +428,7 @@ void CDexSync::noOffersList(CNode *pfrom, CDataStream &vRecv)
 
 void CDexSync::noHash(CNode *pfrom, CDataStream &vRecv)
 {
-    addAddrToStatusNode(pfrom->addr, StatusNode::Process);
+    addAddrToStatusNode(pfrom->addr, StatusNode::Good);
 }
 
 void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
@@ -470,23 +507,48 @@ DexSyncInfo CDexSync::dexSyncInfo() const
     return ds;
 }
 
+bool CDexSync::actualSync() const
+{
+    int numActual = 0;
+    int numProcess = 0;
+
+    auto it = statusNodes.begin();
+
+    while (it != statusNodes.end()) {
+        if (it->second == StatusNode::Actual) {
+            numActual++;
+        } else if (it->second == StatusNode::Good || it->second == StatusNode::Process) {
+            numProcess++;
+        }
+
+        ++it;
+    }
+
+    if (numActual > 0 && numProcess == 0) {
+        return true;
+    }
+
+    return false;
+}
+
 std::set<uint256> CDexSync::getOffersNeedDownload() const
 {
     return offersNeedDownload;
 }
 
-void CDexSync::setOffersNeedDownload(const std::set<uint256> &value)
-{
-    offersNeedDownload = value;
-}
-
-void CDexSync::sendRequestForGetOffers() const
+void CDexSync::sendRequestForGetOffers()
 {
     auto vNodesCopy = CopyNodeVector();
 
     int iNode = 0;
     int i = 0;
     bool isSend = true;
+
+    bool interviewAll = false;
+
+    if (offersNeedDownload.size() < vNodesCopy.size() * 2) {
+        interviewAll = true;
+    }
 
     auto it = offersNeedDownload.begin();
     while (it != offersNeedDownload.end()) {
@@ -498,7 +560,8 @@ void CDexSync::sendRequestForGetOffers() const
             iNode++;
         }
 
-        if (statusNodes.at(node->addr) == StatusNode::Bad || statusNodes.at(node->addr) == StatusNode::Actual) {
+        auto sn = statusNodes.find(node->addr);
+        if (sn != statusNodes.end() && (sn->second == StatusNode::Bad || sn->second == StatusNode::Actual)) {
             continue;
         }
 
@@ -511,12 +574,18 @@ void CDexSync::sendRequestForGetOffers() const
         }
 
         if(node->fMasternode || (fMasterNode && node->fInbound)) {
-            ++it;
             continue;
         }
 
         node->PushMessage(NetMsgType::DEXSYNCGETOFFER, *it);
-        ++it;
+
+        if (interviewAll) {
+            if (iNode == 0) {
+                ++it;
+            }
+        } else {
+            ++it;
+        }
     }
 
     ReleaseNodeVector(vNodesCopy);
@@ -525,22 +594,7 @@ void CDexSync::sendRequestForGetOffers() const
 
 void CDexSync::checkNodes()
 {
-    int numActual = 0;
-    int numProcess = 0;
-
-    auto it = statusNodes.begin();
-
-    while (it != statusNodes.end()) {
-        if (it->second == StatusNode::Actual) {
-            numActual++;
-        } else if (it->second == StatusNode::Process) {
-            numProcess++;
-        }
-
-        ++it;
-    }
-
-    if (numActual > 0 && numProcess == 0) {
+    if (actualSync()) {
         finishSyncDex();
         statusNodes.clear();
     } else {
@@ -563,7 +617,10 @@ void DexConnectSignals()
 
 void FinishSyncDex()
 {
-    if (dexsync.statusSync() == CDexSync::Status::Initial && dexsync.offersNeedDownloadSize() == 0) {
+    dexsync.setRunTimer(false);
+    if (dexsync.actualSync()) {
+        dexsync.finishSyncDex();
+    } else if (dexsync.statusSync() == CDexSync::Status::Initial && dexsync.offersNeedDownloadSize() == 0) {
         dexsync.reset();
     } else if (dexsync.statusSync() == CDexSync::Status::SyncStepOne) {
         dexsync.startTimer();
