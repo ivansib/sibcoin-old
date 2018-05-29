@@ -247,7 +247,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
         return;
     }
 
-    std::list<std::pair<uint256, int>> hvs;
+    std::list<std::pair<uint256, uint32_t>> hvs;
 
     if (dsInfoOther == DexSyncInfo()) {
         hvs = dexman.availableOfferHashAndVersion();
@@ -268,7 +268,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
     }
 
     while (hvs.size() > 0) {
-        std::list<std::pair<uint256, int>> subHvs;
+        std::list<std::pair<uint256, uint32_t>> subHvs;
         auto end = hvs.begin();
 
         if (hvs.size() > PART_SIZE) {
@@ -283,7 +283,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
 
         subHvs.splice(subHvs.begin(), hvs, hvs.begin(), end);
 
-        LogPrint("dex", "DEXSYNCGETALLHASH -- send list pairs hashe and version\n");
+        LogPrint("dex", "DEXSYNCGETALLHASH -- send list pairs of hash and version\n");
         pfrom->PushMessage(NetMsgType::DEXSYNCPARTHASH, subHvs, cPart, maxPart);
         cPart++;
     }
@@ -296,7 +296,7 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
     if (status == Status::Initial) {
         status = Status::SyncStepOne;
     }
-    std::list<std::pair<uint256, int>> nodeHvs;
+    std::list<std::pair<uint256, uint32_t>> nodeHvs;
     int cPart;
     int maxPart;
     vRecv >> nodeHvs;
@@ -305,7 +305,7 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
     auto hvs = dexman.availableOfferHashAndVersion();
 
     for (auto h : nodeHvs) {
-        auto found = std::find_if(hvs.begin(), hvs.end(), [h](std::pair<uint256, int> item){ return item.first == h.first; });
+        auto found = std::find_if(hvs.begin(), hvs.end(), [h](std::pair<uint256, uint32_t> item){ return item.first == h.first; });
 
         auto isFound = false;
 
@@ -406,7 +406,7 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
             }
         }
     } else {
-        LogPrint("dex", "DEXSYNCOFFER -- offer check fail\n");
+        LogPrint("DEXSYNCOFFER -- offer check fail, hash: %s\n", offer.hash.GetHex().c_str());
         Misbehaving(pfrom->GetId(), fine);
     }
 

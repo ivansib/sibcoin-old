@@ -34,7 +34,7 @@ public:
     uint64_t timeModification;
     std::string shortInfo;
     std::string details;
-    int editingVersion;
+    uint32_t editingVersion;
     std::string editsign;
 
     bool myoffer_;
@@ -56,11 +56,11 @@ public:
 
     bool Create(Type type, const std::string &pubKey, const std::string &countryIso, const std::string &currencyIso,
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, time_t timeExpiration,
-           const std::string &shortInfo, const std::string &details, const int &editingVersion = 1);
+           const std::string &shortInfo, const std::string &details, const uint32_t &editingVersion = 1);
 
     bool Create(const uint256 &idTransaction, Type type, const std::string &pubKey, const std::string &countryIso, const std::string &currencyIso,
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, time_t timeExpiration,
-           const std::string &shortInfo, const std::string &details, const int &editingVersion = 1);
+           const std::string &shortInfo, const std::string &details, const uint32_t &editingVersion = 1);
 
     bool Create(const dex::OfferInfo &info, dex::TypeOffer offertype);
 
@@ -124,6 +124,7 @@ public:
 
     bool Check(bool fullcheck);
     bool Check(bool fullcheck, int &fine);
+    bool CheckModTimeOnEdit();
 
     UniValue getUniValue();
 

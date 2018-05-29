@@ -16,7 +16,7 @@
 #endif
 
 
-#define CHECK(A,B,...) { if (!(A)) { std::string str = strprintf(std::string("%s\n") + (B), "",  ##__VA_ARGS__); LogPrint("dex", "%s\n", str.c_str()); sError += str; break; } }
+#define CHECK(A,B,C) { if (!(A)) { std::string str = strprintf(std::string("%s") + (B) + ("; TransactionID=%s"), "",(C)); LogPrint("dex", "%s\n", str.c_str()); sError += str; break; } }
 
 namespace dex {
 
@@ -33,7 +33,7 @@ CDex::CDex(const CDexOffer &dexoffer)
 
 bool CDex::CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const std::string &pubKey, const std::string &countryIso, const std::string &currencyIso,
            uint8_t paymentMethod, uint64_t price, uint64_t minAmount, time_t timeExpiration,
-           const std::string &shortInfo, const std::string &details, const int &editingVersion)
+           const std::string &shortInfo, const std::string &details, const uint32_t &editingVersion)
 {
     return offer.Create(idTransaction, type, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount, timeExpiration, shortInfo, details, editingVersion);
 }
@@ -41,7 +41,7 @@ bool CDex::CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const
 
 bool CDex::CreateOffer(CDexOffer::Type type, const std::string &pubKey, const std::string &countryIso, const std::string &currencyIso,
                         uint8_t paymentMethod, uint64_t price, uint64_t minAmount, time_t timeExpiration,
-                        const std::string &shortInfo, const std::string &details, const int &editingVersion)
+                        const std::string &shortInfo, const std::string &details, const uint32_t &editingVersion)
 {
     return offer.Create(type, pubKey, countryIso, currencyIso, paymentMethod, price, minAmount, timeExpiration, shortInfo, details, editingVersion);
 }
@@ -56,10 +56,10 @@ bool CDex::CreateOffer(const dex::MyOfferInfo &info)
 bool CDex::PayForOffer(uint256 &txid, std::string &sError)
 {
     do {
-        CHECK(!offer.IsNull(), "Offer is empty");
-        CHECK(offer.idTransaction.IsNull(), "The offer has already been paid");
+        CHECK(!offer.IsNull(), "Offer is empty", offer.idTransaction.ToString());
+        CHECK(offer.idTransaction.IsNull(), "The offer has already been paid", offer.idTransaction.ToString());
 
-        CHECK(CreatePayOfferTransaction(offer, payTx, sError), "");
+        CHECK(CreatePayOfferTransaction(offer, payTx, sError), "", offer.idTransaction.ToString());
         offer.idTransaction = payTx.GetHash();
         txid = offer.idTransaction;
         return true;
@@ -71,8 +71,8 @@ bool CDex::PayForOffer(uint256 &txid, std::string &sError)
 bool CDex::CheckOfferTx(std::string &sError)
 {
     do {
-        CHECK(!offer.IsNull(), "offer is NULL");
-        CHECK(offer.Check(true), "offer check fail");
+        CHECK(!offer.IsNull(), "offer is NULL", offer.idTransaction.ToString());
+        CHECK(offer.Check(true), "offer check fail", offer.idTransaction.ToString());
 
         int days = ((offer.timeExpiration - offer.timeCreate - 1) / 86400) + 1;
         int coef = ((days - 1) / 10) + 1;
@@ -80,13 +80,13 @@ bool CDex::CheckOfferTx(std::string &sError)
 
         CTransaction tx;
         uint256 hashBlock;
-        CHECK (GetTransaction(offer.idTransaction, tx, Params().GetConsensus(), hashBlock, true), "Transaction not found");
-        CHECK(tx.vin.size() > 0, "vin empty");
-        CHECK(tx.vout.size() > 0, "vout empty");
-        CHECK(tx.vout[0].nValue == PAYOFFER_RETURN_FEE, "bad op_return fee");
-        CHECK(tx.vout[0].scriptPubKey.IsUnspendable(), "not op_return");
+        CHECK (GetTransaction(offer.idTransaction, tx, Params().GetConsensus(), hashBlock, true), "Transaction not found", offer.idTransaction.ToString());
+        CHECK(tx.vin.size() > 0, "vin empty", offer.idTransaction.ToString());
+        CHECK(tx.vout.size() > 0, "vout empty", offer.idTransaction.ToString());
+        CHECK(tx.vout[0].nValue == PAYOFFER_RETURN_FEE, "bad op_return fee", offer.idTransaction.ToString());
+        CHECK(tx.vout[0].scriptPubKey.IsUnspendable(), "not op_return", offer.idTransaction.ToString());
 
-        CHECK(!hashBlock.IsNull(), "transaction in mempool, not in block");
+        CHECK(!hashBlock.IsNull(), "transaction in mempool, not in block", offer.idTransaction.ToString());
         int confirmations = -1;
         {
             BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
@@ -97,7 +97,7 @@ bool CDex::CheckOfferTx(std::string &sError)
                 }
             }
         }
-        CHECK(confirmations >= PAYOFFER_MIN_TX_HEIGHT, "not enough transaction confirmations");
+        CHECK(confirmations >= PAYOFFER_MIN_TX_HEIGHT, "not enough transaction confirmations", offer.idTransaction.ToString());
 
         {
             uint256 hash;
@@ -105,10 +105,10 @@ bool CDex::CheckOfferTx(std::string &sError)
             std::vector<unsigned char> vch;
             CScript::const_iterator pc = tx.vout[0].scriptPubKey.begin();
             while (pc < tx.vout[0].scriptPubKey.end()) {
-                CHECK(tx.vout[0].scriptPubKey.GetOp(pc, opcode, vch), "fail to getop from script");
+                CHECK(tx.vout[0].scriptPubKey.GetOp(pc, opcode, vch), "fail to getop from script", offer.idTransaction.ToString());
                 if (0 <= opcode && opcode <= OP_PUSHDATA4) hash.SetHex(HexStr(vch));
             }
-            CHECK(offer.hash == hash, "offer hash not equal");
+            CHECK(offer.hash == hash, "offer hash not equal", offer.idTransaction.ToString());
         }
 
         CAmount credit = 0;
@@ -120,11 +120,11 @@ bool CDex::CheckOfferTx(std::string &sError)
         for (auto i : tx.vin) {
             CTransaction prevtx;
             uint256 hashBlock;
-            CHECK (GetTransaction(i.prevout.hash, prevtx, Params().GetConsensus(), hashBlock, true), "vin tx not found");
-            CHECK (prevtx.vout.size() > i.prevout.n, "prev tx out error");
+            CHECK (GetTransaction(i.prevout.hash, prevtx, Params().GetConsensus(), hashBlock, true), "vin tx not found", offer.idTransaction.ToString());
+            CHECK (prevtx.vout.size() > i.prevout.n, "prev tx out error", offer.idTransaction.ToString());
             debit += prevtx.vout[i.prevout.n].nValue;
         }
-        CHECK((debit - credit) >= PAYOFFER_TX_FEE * coef, "payoffer tx fee error");
+        CHECK((debit - credit) >= PAYOFFER_TX_FEE * coef, "payoffer tx fee error", offer.idTransaction.ToString());
         return true;
     } while(false);
     return false;
@@ -134,11 +134,11 @@ bool CDex::CheckOfferTx(std::string &sError)
 bool CDex::CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError)
 {
     do {
-        CHECK(!offer.IsNull(), "Offer is empty");
-        CHECK(!vchSign.empty(), "Offer sign is empty");
+        CHECK(!offer.IsNull(), "Offer is empty", offer.idTransaction.ToString());
+        CHECK(!vchSign.empty(), "Offer sign is empty", offer.idTransaction.ToString());
         CPubKey pkey = offer.getPubKeyObject();
-        CHECK(pkey.IsFullyValid(), "Invalid public key");
-        CHECK(pkey.Verify(offer.hash, vchSign), "Invalid offer sign");
+        CHECK(pkey.IsFullyValid(), "Invalid public key", offer.idTransaction.ToString());
+        CHECK(pkey.Verify(offer.hash, vchSign), "Invalid offer sign", offer.idTransaction.ToString());
         return true;
     } while (false);
     return false;
@@ -153,10 +153,10 @@ bool CDex::FindKey(CKey &key, std::string &sError)
     return false;
 #else
     do {
-        CHECK(!offer.IsNull(), "Offer is empty");
+        CHECK(!offer.IsNull(), "Offer is empty", offer.idTransaction.ToString());
         CPubKey pkey = offer.getPubKeyObject();
-        CHECK(pkey.IsFullyValid(), "Invalid public key");
-        CHECK(pwalletMain->GetKey(pkey.GetID(), key), "Private key not found in wallet");
+        CHECK(pkey.IsFullyValid(), "Invalid public key", offer.idTransaction.ToString());
+        CHECK(pwalletMain->GetKey(pkey.GetID(), key), "Private key not found in wallet", offer.idTransaction.ToString());
         return true;
     } while (false);
     return false;
@@ -173,8 +173,8 @@ bool CDex::SignOffer(const CKey &key, std::vector<unsigned char> &vchSign, std::
     return false;
 #else
     do {
-        CHECK(!offer.IsNull(), "Offer is empty");
-        CHECK(key.Sign(offer.hash, vchSign), "Sign operation error");
+        CHECK(!offer.IsNull(), "Offer is empty", offer.idTransaction.ToString());
+        CHECK(key.Sign(offer.hash, vchSign), "Sign operation error", offer.idTransaction.ToString());
         return true;
     } while (false);
     return false;
@@ -197,9 +197,9 @@ bool CDex::MakeEditSign(const CKey &key, std::string &sError)
 #else
     std::vector<unsigned char> vchSign;
     do {
-        CHECK(!offer.IsNull(), "Offer is empty");
+        CHECK(!offer.IsNull(), "Offer is empty", offer.idTransaction.ToString());
         uint256 edithash = offer.MakeEditHash();
-        CHECK(key.Sign(edithash, vchSign), "Sign operation error");
+        CHECK(key.Sign(edithash, vchSign), "Sign operation error", offer.idTransaction.ToString());
         offer.editsign = HexStr(vchSign);
         return true;
     } while (false);

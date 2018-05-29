@@ -33,11 +33,11 @@ public:
 
     bool CreateOffer(CDexOffer::Type type, const uint256 &idTransaction, const std::string &pubKey, const std::string &countryIso,
                      const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
-                     uint64_t minAmount, time_t timeExpiration, const std::string &shortInfo, const std::string &details, const int &editingVersion);
+                     uint64_t minAmount, time_t timeExpiration, const std::string &shortInfo, const std::string &details, const uint32_t &editingVersion);
 
     bool CreateOffer(CDexOffer::Type type, const std::string &pubKey, const std::string &countryIso,
                      const std::string &currencyIso, uint8_t paymentMethod, uint64_t price,
-                     uint64_t minAmount, time_t timeExpiration, const std::string &shortInfo, const std::string &details, const int &editingVersion);
+                     uint64_t minAmount, time_t timeExpiration, const std::string &shortInfo, const std::string &details, const uint32_t &editingVersion);
 
     bool CreateOffer(const dex::MyOfferInfo &info);
 

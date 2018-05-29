@@ -46,7 +46,7 @@ struct OfferInfo {
     uint64_t timeModification;
     std::string shortInfo;
     std::string details;
-    int editingVersion;
+    uint32_t editingVersion;
     std::string editsign;
 };
 
