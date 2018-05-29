@@ -240,7 +240,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
     DexSyncInfo dsInfoOther;
     vRecv >> dsInfoOther;
 
-    if (dsInfoOther == dsInfo && dsInfo != DexSyncInfo()) {
+    if (dsInfoOther == dsInfo && !dsInfo.isNull()) {
         LogPrint("dex", "DEXSYNCGETALLHASH -- offers actual\n");
         pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
 
@@ -249,7 +249,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
 
     std::list<std::pair<uint256, uint32_t>> hvs;
 
-    if (dsInfoOther == DexSyncInfo()) {
+    if (dsInfoOther.isNull()) {
         hvs = dexman.availableOfferHashAndVersion();
     } else {
         hvs = dexman.availableOfferHashAndVersion(dsInfoOther.lastTimeMod);

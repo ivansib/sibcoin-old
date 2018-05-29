@@ -26,6 +26,22 @@ struct DexSyncInfo
         READWRITE(lastTimeMod);
     }
 
+    bool isNull() {
+        if (checkSum != 0) {
+            return false;
+        }
+
+        if (count != 0) {
+            return false;
+        }
+
+        if (lastTimeMod != 0) {
+            return false;
+        }
+
+        return true;
+    }
+
     friend bool operator==(const DexSyncInfo &a, const DexSyncInfo &b) {
         if (a.checkSum != b.checkSum) {
             return false;
