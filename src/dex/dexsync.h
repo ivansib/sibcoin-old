@@ -1,8 +1,8 @@
 #ifndef DEXSYNC_H
 #define DEXSYNC_H
 
-#include <boost/thread/thread.hpp>
-#include <boost/shared_ptr.hpp>
+#include "timer.h"
+#include "dexsyncinfo.h"
 #include "net.h"
 #include "dex/db/dexdb.h"
 
@@ -10,74 +10,6 @@ namespace dex {
 
 class CDexSync;
 extern CDexSync dexsync;
-
-class  Timer {
-private:
-    boost::shared_ptr<boost::thread> thr;
-
-    template <typename Callable>
-    class func {
-        unsigned int dur;
-        Callable& cb;
-
-    public:
-        func (long long dur, const Callable& cb): dur (dur), cb((Callable&)cb) {}
-        void operator() () {
-            boost::this_thread::sleep(boost::posix_time::milliseconds(dur));
-            cb();
-        }
-    };
-
-public:
-    template <typename Callable> Timer (long long dur, const  Callable& cb)  {
-        func<Callable> ff (dur, cb);
-        thr.reset(new boost::thread(ff));
-    }
-
-    ~Timer() {}
-};
-
-struct DexSyncInfo
-{
-    int checkSum;
-    int count;
-    uint64_t lastTimeMod;
-
-    DexSyncInfo() {
-        checkSum = 0;
-        count = 0;
-        lastTimeMod = 0;
-    }
-
-    ADD_SERIALIZE_METHODS;
-
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
-        READWRITE(checkSum);
-        READWRITE(count);
-        READWRITE(lastTimeMod);
-    }
-
-    friend bool operator==(const DexSyncInfo &a, const DexSyncInfo &b) {
-        if (a.checkSum != b.checkSum) {
-            return false;
-        }
-
-        if (a.count != b.count) {
-            return false;
-        }
-
-        if (a.lastTimeMod != b.lastTimeMod) {
-            return false;
-        }
-
-        return true;
-    }
-
-    friend bool operator!=(const DexSyncInfo &a, const DexSyncInfo &b) {
-        return !(a == b);
-    }
-};
 
 class CDexSync
 {
