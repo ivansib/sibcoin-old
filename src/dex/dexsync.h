@@ -59,6 +59,7 @@ public:
     bool actualSync() const;
 
     boost::signals2::signal<void()> syncFinished;
+    mutable CCriticalSection cs;
 
     std::set<uint256> getOffersNeedDownload() const;
 
@@ -76,7 +77,7 @@ private:
     void eraseItemFromOffersNeedDownload(const uint256 &hash);
     bool canStart();
     void initSetWaitAnswerFromNodes(const std::vector<CNode*> &nodes);
-    void addAddrToStatusNode(const CAddress &addr, StatusNode status);
+    void addAddrToStatusNode(const CAddress &addr, StatusNode status, const bool isLock = true);
     DexSyncInfo dexSyncInfo() const;
 
     std::set<CAddress> waitAnswerFromNodes;
