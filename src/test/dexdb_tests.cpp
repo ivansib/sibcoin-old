@@ -330,10 +330,25 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(db->lastModificationOffersBuy() == lastMod);
     BOOST_CHECK(db->lastModificationOffersSell() == lastMod);
 
-    BOOST_CHECK(db->getOffersBuy(lastMod - 1).size() == 1);
-    BOOST_CHECK(db->getOffersSell(lastMod - 1).size() == 1);
-    BOOST_CHECK(db->getOffersBuy(lastMod + 1).size() == 0);
-    BOOST_CHECK(db->getOffersSell(lastMod + 1).size() == 0);
+    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30).size() == 0);
+    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30).size() == 0);
+    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod).size() == 2);
+    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod).size() == 2);
+
+    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod).size() == 1);
+    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod).size() == 1);
+    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1).size() == 0);
+    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1).size() == 0);
+
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30) == 0);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30) == 0);
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod) == 2);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod) == 2);
+
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod) == 1);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod) == 1);
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1) == 0);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1) == 0);
 
     db->deleteOfferSell(iList.front().idTransaction);
     db->deleteOfferBuy(iList.back().idTransaction);
@@ -765,20 +780,22 @@ void checkMyOffers(DexDB *db)
 
 BOOST_FIXTURE_TEST_SUITE(dexdb_tests, BasicTestingSetup)
 
-BOOST_AUTO_TEST_CASE(dexdb_test1)
+BOOST_AUTO_TEST_CASE(dexdb_test)
 {
     strDexDbFile = "test.db";
     remove(strDexDbFile.c_str());
     DexDB *db = DexDB::instance();
 
-//    checkCountry(db);
-//    checkCurrency(db);
-//    checkPaymentMethod(db);
+    checkCountry(db);
+    checkCurrency(db);
+    checkPaymentMethod(db);
+
     checkOffers(db);
     checkMyOffers(db);
 
     db->freeInstance();
 //    remove(dbName.c_str());
 }
+
 
 BOOST_AUTO_TEST_SUITE_END()

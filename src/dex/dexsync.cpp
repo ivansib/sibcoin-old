@@ -254,7 +254,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
     if (dsInfoOther.isNull()) {
         hvs = dexman.availableOfferHashAndVersion();
     } else {
-        hvs = dexman.availableOfferHashAndVersion(dsInfoOther.lastTimeMod);
+        hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::YoungTimeMod, dsInfoOther.lastTimeMod);
     }
 
     if (hvs.size() == 0) {

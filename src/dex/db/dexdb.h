@@ -24,10 +24,15 @@ class DexDB {
     DexDB(const DexDB &) {}
     DexDB &operator =(const DexDB &) {return *this;}
 
-     static DexDB *pSingleton;
-     static int nCounter;
+    static DexDB *pSingleton;
+    static int nCounter;
 
 public:
+    enum class OffersPeriod {
+        OldTimeMod,
+        YoungTimeMod
+    };
+
     static DexDB *instance();
     static void freeInstance();
     static DexDB *self();
@@ -66,7 +71,7 @@ public:
     void deleteOfferSellByHash(const uint256 &hash, bool usethread = true);
     void deleteOldOffersSell(bool usethread = true);
     std::list<OfferInfo> getOffersSell();
-    std::list<OfferInfo> getOffersSell(const long long &timeMod);
+    std::list<OfferInfo> getOffersSell(const OffersPeriod &from, const long long &timeMod);
     std::list<OfferInfo> getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
     OfferInfo getOfferSell(const uint256 &idTransaction);
     OfferInfo getOfferSellByHash(const uint256 &hash);
@@ -74,6 +79,7 @@ public:
     bool isExistOfferSellByHash(const uint256 &hash);
     std::list<uint256> getSellHashs();
     int countOffersSell();
+    int countOffersSell(const OffersPeriod &from, const long long int &timeMod);
     int countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
     uint64_t lastModificationOffersSell();
 
@@ -83,7 +89,7 @@ public:
     void deleteOfferBuyByHash(const uint256 &hash, bool usethread = true);
     void deleteOldOffersBuy(bool usethread = true);
     std::list<OfferInfo> getOffersBuy();
-    std::list<OfferInfo> getOffersBuy(const long long &timeMod);
+    std::list<OfferInfo> getOffersBuy(const OffersPeriod &from, const long long &timeMod);
     std::list<OfferInfo> getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
     OfferInfo getOfferBuy(const uint256 &idTransaction);
     OfferInfo getOfferBuyByHash(const uint256 &hash);
@@ -91,6 +97,7 @@ public:
     bool isExistOfferBuyByHash(const uint256 &hash);
     std::list<uint256> getBuyHashs();
     int countOffersBuy();
+    int countOffersBuy(const OffersPeriod &from, const long long int &timeMod);
     int countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
     uint64_t lastModificationOffersBuy();
 
@@ -146,7 +153,7 @@ private:
     static void deleteOfferByHash(sqlite3pp::database &db, const CallBack &callBack, const std::string &tableName, const uint256 &hash);
     static void deleteOldOffers(sqlite3pp::database &db, const CallBack &callBack, const std::string &tableName);
     std::list<OfferInfo> getOffers(const std::string &tableName);
-    std::list<OfferInfo> getOffers(const std::string &tableName, const long long int &timeMod);
+    std::list<OfferInfo> getOffers(const std::string &tableName, const OffersPeriod &from, const long long int &timeMod);
     std::list<OfferInfo> getOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, int const &limit, int const &offset);
     OfferInfo getOffer(const std::string &tableName, const uint256 &idTransaction);
     OfferInfo getOfferByHash(const std::string &tableName, const uint256 &hash);
@@ -160,11 +167,12 @@ private:
     bool isExistOfferByHash(const std::string &tableName, const uint256 &hash);
     std::list<uint256> getHashs(const std::string &tableName);
     int countOffers(const std::string &tableName, int &status);
+    int countOffers(const std::string &tableName, const OffersPeriod &from, const long long int &timeMod, int &status);
     int countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status);
     uint64_t lastModificationOffers(const std::string &tableName, int &status);
 
     sqlite3pp::database db;
-    static std::map<CallBackDB*, int> callBack; 
+    static std::map<CallBackDB*, int> callBack;
 
     std::list<CountryInfo> countries;
     std::list<CurrencyInfo> currencies;

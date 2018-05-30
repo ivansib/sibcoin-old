@@ -422,19 +422,34 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     }
 }
 
-std::list<std::pair<uint256, uint32_t>> CDexManager::availableOfferHashAndVersion(const uint64_t &lastTimeMod) const
+std::list<std::pair<uint256, uint32_t>> CDexManager::availableOfferHashAndVersion() const
 {
     std::list<std::pair<uint256, uint32_t>> list;
 
-    for (auto offer : db->getOffersSell(lastTimeMod)) {
+    for (auto offer : db->getOffersSell()) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
-    for (auto offer : db->getOffersBuy(lastTimeMod)) {
+    for (auto offer : db->getOffersBuy()) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 
     for (auto offer : uncOffers->getAllOffers()) {
+        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
+    }
+
+    return list;
+}
+
+std::list<std::pair<uint256, uint32_t> > CDexManager::availableOfferHashAndVersion(const DexDB::OffersPeriod &from, const uint64_t &timeMod) const
+{
+    std::list<std::pair<uint256, uint32_t>> list;
+
+    for (auto offer : db->getOffersSell(from, timeMod)) {
+        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
+    }
+
+    for (auto offer : db->getOffersBuy(from, timeMod)) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
     }
 

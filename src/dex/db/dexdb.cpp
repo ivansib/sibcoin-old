@@ -477,9 +477,9 @@ std::list<OfferInfo> DexDB::getOffersSell()
     return getOffers("offersSell");
 }
 
-std::list<OfferInfo> DexDB::getOffersSell(const long long &timeMod)
+std::list<OfferInfo> DexDB::getOffersSell(const OffersPeriod &from, const long long &timeMod)
 {
-    return getOffers("offersSell", timeMod);
+    return getOffers("offersSell", from, timeMod);
 }
 
 std::list<OfferInfo> DexDB::getOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset)
@@ -519,6 +519,17 @@ int DexDB::countOffersSell()
 
     int status;
     int count = countOffers(tableName, status);
+    finishTableOperation(callBack, OffersSell, Read, status);
+
+    return count;
+}
+
+int DexDB::countOffersSell(const DexDB::OffersPeriod &from, const long long &timeMod)
+{
+    std::string tableName = "offersSell";
+
+    int status;
+    int count = countOffers(tableName, from, timeMod, status);
     finishTableOperation(callBack, OffersSell, Read, status);
 
     return count;
@@ -603,9 +614,9 @@ std::list<OfferInfo> DexDB::getOffersBuy()
     return getOffers("offersBuy");
 }
 
-std::list<OfferInfo> DexDB::getOffersBuy(const long long &timeMod)
+std::list<OfferInfo> DexDB::getOffersBuy(const OffersPeriod &from, const long long &timeMod)
 {
-    return getOffers("offersBuy", timeMod);
+    return getOffers("offersBuy", from, timeMod);
 }
 
 std::list<OfferInfo> DexDB::getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset)
@@ -645,6 +656,17 @@ int DexDB::countOffersBuy()
 
     int status;
     int count = countOffers(tableName, status);
+    finishTableOperation(callBack, OffersBuy, Read, status);
+
+    return count;
+}
+
+int DexDB::countOffersBuy(const DexDB::OffersPeriod &from, const long long &timeMod)
+{
+    std::string tableName = "offersBuy";
+
+    int status;
+    int count = countOffers(tableName, from, timeMod, status);
     finishTableOperation(callBack, OffersBuy, Read, status);
 
     return count;
@@ -1180,13 +1202,19 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     return offers;
 }
 
-std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const long long &timeMod)
+std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const OffersPeriod &from, const long long &timeMod)
 {
     std::list<OfferInfo> offers;
 
     std::string str = "SELECT idTransaction, hash, pubKey, countryIso, currencyIso, "
                       "paymentMethod, price, minAmount, timeCreate, timeToExpiration, "
-                      "timeModification, shortInfo, details, editingVersion, editsign FROM " + tableName + " WHERE timeModification > :timeMod";
+                      "timeModification, shortInfo, details, editingVersion, editsign FROM " + tableName;
+
+    if (OffersPeriod::OldTimeMod == from) {
+        str += " WHERE timeModification < :timeMod";
+    } else if (OffersPeriod::YoungTimeMod == from) {
+        str += " WHERE timeModification >= :timeMod";
+    }
 
     sqlite3pp::query qry(db, str.c_str());
     qry.bind(":timeMod", timeMod);
@@ -1439,6 +1467,27 @@ int DexDB::countOffers(const std::string &tableName, int &status)
     int count;
     std::string query = "SELECT count(*) FROM " + tableName;
     sqlite3pp::query qry(db, query.c_str());
+
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+    status = qry.finish();
+
+    return count;
+}
+
+int DexDB::countOffers(const std::string &tableName, const DexDB::OffersPeriod &from, const long long &timeMod, int &status)
+{
+    int count;
+    std::string query = "SELECT count(*) FROM " + tableName;
+
+    if (OffersPeriod::OldTimeMod == from) {
+        query += " WHERE timeModification < :timeMod";
+    } else if (OffersPeriod::YoungTimeMod == from) {
+        query += " WHERE timeModification >= :timeMod";
+    }
+
+    sqlite3pp::query qry(db, query.c_str());
+    qry.bind(":timeMod", timeMod);
 
     sqlite3pp::query::iterator it = qry.begin();
     (*it).getter() >> count;
