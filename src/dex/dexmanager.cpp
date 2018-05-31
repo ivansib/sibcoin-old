@@ -422,17 +422,16 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
     }
 }
 
-std::list<std::pair<uint256, uint32_t>> CDexManager::availableOfferHashAndVersion() const
+std::list<std::pair<uint256, uint32_t>> CDexManager::availableOfferHashAndVersion(const uint64_t &lastTimeMod) const
 {
     std::list<std::pair<uint256, uint32_t>> list;
 
-    for (auto offer : db->getOffersSell()) {
-        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
-    }
-
-    for (auto offer : db->getOffersBuy()) {
-        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
-    }
+    list = db->getHashsAndEditingVersions("offersSell", lastTimeMod);
+    std::list<std::pair<uint256, uint32_t>> OffersBuylist;
+    OffersBuylist = db->getHashsAndEditingVersions("offersBuy", lastTimeMod);
+    list.sort();
+    OffersBuylist.sort();
+    list.merge(OffersBuylist);
 
     for (auto offer : uncOffers->getAllOffers()) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
@@ -505,6 +504,10 @@ void ThreadDexManager()
         if (masternodeSync.IsSynced() && dexsync.statusSync() == CDexSync::Status::NoStarted) {
             CheckDexMasternode();
             dexman.startSyncDex();
+        }
+
+        if (!dexsync.isSynced() && step != 0) {
+            continue;
         }
 
         CheckDexMasternode();

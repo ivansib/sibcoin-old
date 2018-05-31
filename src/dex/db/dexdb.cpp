@@ -175,6 +175,8 @@ void DexDB::dropIndexes()
     db.execute("DROP INDEX IF EXISTS idx_offersSell_timeexp");
     db.execute("DROP INDEX IF EXISTS idx_offersBuy_timeexp");
     db.execute("DROP INDEX IF EXISTS idx_offersMy_timeexp");
+    db.execute("DROP INDEX IF EXISTS hash_editing_version_buy");
+    db.execute("DROP INDEX IF EXISTS hash_editing_version_sell");
 }
 
 
@@ -1435,6 +1437,36 @@ bool DexDB::isExistOfferByHash(const std::string &tableName, const uint256 &hash
     return false;
 }
 
+std::list<std::pair<uint256, uint32_t>> DexDB::getHashsAndEditingVersions(const std::string &tableName, const long long &timeMod)
+{
+    std::list<std::pair<uint256, uint32_t>> vHashesAndEditingVersions;
+
+    std::string str = "SELECT DISTINCT hash, editingVersion FROM " + tableName + " WHERE timeModification > :timeMod";
+
+    sqlite3pp::query qry(db, str.c_str());
+    qry.bind(":timeMod", timeMod);
+
+    for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
+        std::string sHash;
+        int iEditingVersion;
+        std::tie(sHash, iEditingVersion) = (*i).get_columns<std::string, int>(0, 1);
+        uint256 uiHash;
+        uiHash.SetHex(sHash);
+        std::pair<uint256,int> pHashAndEditingVersion = std::make_pair(uiHash, iEditingVersion);
+        vHashesAndEditingVersions.push_back(pHashAndEditingVersion);
+    }
+
+    TypeTable tTable = OffersBuy;
+    if (tableName == "offersSell") {
+        tTable = OffersSell;
+    }
+
+    int status = qry.finish();
+    finishTableOperation(callBack, tTable, Read, status);
+
+    return vHashesAndEditingVersions;
+}
+
 std::list<uint256> DexDB::getHashs(const std::string &tableName)
 {
     std::list<uint256> ids;
@@ -1758,6 +1790,8 @@ void DexDB::createIndexes()
     db.execute("CREATE INDEX IF NOT EXISTS idx_offersSell_timeexp ON offersSell(timeToExpiration)");
     db.execute("CREATE INDEX IF NOT EXISTS idx_offersBuy_timeexp ON offersBuy(timeToExpiration)");
     db.execute("CREATE INDEX IF NOT EXISTS idx_offersMy_timeexp ON myOffers(timeToExpiration)");
+    db.execute("CREATE UNIQUE INDEX IF NOT EXISTS hash_editing_version_buy on offersBuy (hash, editingVersion)");
+    db.execute("CREATE UNIQUE INDEX IF NOT EXISTS hash_editing_version_sell on offersSell (hash, editingVersion)");
 }
 
 void DexDB::addDefaultData()
