@@ -112,6 +112,7 @@ public:
     void addFilter(const std::string &filter);
     void deleteFilter(const std::string &filter);
     std::list<std::string> getFilters();
+    std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersions(const std::string &tableName, const long long &timeMod);
 
 private:
     static void addCountryInThread(sqlite3pp::database &db, const CallBack &callBack, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
