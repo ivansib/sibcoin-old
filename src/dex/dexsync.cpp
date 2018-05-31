@@ -2,6 +2,7 @@
 #include <cmath>
 #include "dexsync.h"
 #include "dexmanager.h"
+#include "dexcrc.h"
 #include "masternode-sync.h"
 #include "masternodeman.h"
 #include "init.h"
@@ -23,6 +24,7 @@ CDexSync::CDexSync()
     statusPercent = 0;
     db = nullptr;
     isRunTimer = false;
+    numUnanswerRequests = 0;
 }
 
 CDexSync::~CDexSync()
@@ -37,7 +39,7 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
     initDB();
 
     if (strCommand == NetMsgType::DEXSYNCGETALLHASH) {
-        sendHashOffers(pfrom, vRecv);
+        sendHashOffers(pfrom, vRecv, false);
     } else if (strCommand == NetMsgType::DEXSYNCPARTHASH) {
         getHashs(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCGETOFFER) {
@@ -50,11 +52,15 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
         noHash(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCNEEDSYNC) {
         reset();
+    } else if (strCommand == NetMsgType::DEXSYNCCHECK) {
+         sendHashOffers(pfrom, vRecv, true);
     }
 }
 
 void CDexSync::startSyncDex()
 {
+    initDB();
+
     if (status == Status::NoStarted) {
         uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent);
     }
@@ -68,11 +74,13 @@ void CDexSync::startSyncDex()
     prevMaxOffersNeedDownload = 0;
     prevOffersNeedDownloadSize = 0;
     maxOffersNeedDownload = 0;
+    numUnanswerRequests = 0;
 
     LOCK2(cs_main, cs);
 
     statusNodes.clear();
     waitAnswerFromNodes.clear();
+    offersNeedDownload.clear();
 
     LogPrint("dex", "CDexSync -- start synchronization offers\n");
 
@@ -82,7 +90,7 @@ void CDexSync::startSyncDex()
 
     initSetWaitAnswerFromNodes(vNodesCopy);
 
-    DexSyncInfo dsInfo = dexSyncInfo();
+    DexSyncInfo dsInfo = dexSyncInfo(lastModOffers - 3600);
 
     for (auto node : vNodesCopy) {
         if (node->nVersion < MIN_DEX_VERSION) {
@@ -178,7 +186,9 @@ int CDexSync::minNumDexNode() const
 
 bool CDexSync::reset()
 {
-    if (status == Status::SyncStepOne || status == Status::SyncStepSecond) {
+    bool b = (status == Status::SyncStepOne || status == Status::SyncStepSecond);
+    bool b1 = (dexsync.numberUnanswerRequests() < 3);
+    if (b && b1) {
         return false;
     } else {
         statusPercent = 0;
@@ -191,6 +201,7 @@ bool CDexSync::reset()
 
 void CDexSync::updatePrevData()
 {
+    numUnanswerRequests = 0;
     prevOffersNeedDownloadSize = offersNeedDownload.size();
     prevMaxOffersNeedDownload = maxOffersNeedDownload;
 }
@@ -198,6 +209,7 @@ void CDexSync::updatePrevData()
 bool CDexSync::checkSyncData()
 {
     if (prevOffersNeedDownloadSize == offersNeedDownload.size() && prevMaxOffersNeedDownload == maxOffersNeedDownload) {
+        numUnanswerRequests++;
         return false;
     }
 
@@ -231,42 +243,61 @@ void CDexSync::initDB()
 {
     if (db == nullptr) {
         db = DexDB::instance();
+        lastModOffers = lastTimeModOffers();
+        timeStart = GetAdjustedTime();
     }
 }
 
-void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
+void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv, bool isCheck) const
 {
-    LogPrint("dex", "DEXSYNCGETALLHASH -- receive request on send list pairs hashe and version from %s\n", pfrom->addr.ToString());
+    std::string tag = "DEXSYNCGETALLHASH";
+    if (isCheck) {
+        tag = "DEXSYNCCHECK";
+    }
+    LogPrint("dex", "%s -- receive request on send list pairs hashe and version from %s\n", tag, pfrom->addr.ToString());
 
-    DexSyncInfo dsInfo = dexSyncInfo();
     DexSyncInfo dsInfoOther;
     vRecv >> dsInfoOther;
-
-    if (dsInfoOther == dsInfo && !dsInfo.isNull()) {
-        LogPrint("dex", "DEXSYNCGETALLHASH -- offers actual\n");
-        pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
-
-        return;
-    }
 
     std::list<std::pair<uint256, uint32_t>> hvs;
 
     if (dsInfoOther.isNull()) {
         hvs = dexman.availableOfferHashAndVersion();
     } else {
-        hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::YoungTimeMod, dsInfoOther.lastTimeMod);
-    }
+        DexSyncInfo dsInfo = dexSyncInfo(dsInfoOther.lastTimeMod);
 
-    if (hvs.size() == 0) {
-        hvs = dexman.availableOfferHashAndVersion();
+        if (isCheck) {
+            if (dsInfoOther == dsInfo) {
+                LogPrint("dex", "%s -- offers actual\n", tag);
+                pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
+                return;
+            }
+        } else {
+        if (dsInfoOther == dsInfo) {
+            hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::YoungTimeMod, dsInfoOther.lastTimeMod);
+            if (hvs.size() == 0) {
+                LogPrint("dex", "%s -- offers actual\n", tag);
+                pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
+                return;
+            }
+        } else {
+            hvs = dexman.availableOfferHashAndVersion();
+        }
+        }
     }
 
     int maxPart = std::ceil(static_cast<float>(hvs.size())/PART_SIZE);
     int cPart = 1;
 
     if (hvs.size() == 0) {
-        LogPrint("dex", "DEXSYNCGETALLHASH -- offers not found\n");
+        if (isCheck) {
+            LogPrint("dex", "%s -- offers actual\n", tag);
+            pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
+            return;
+        } else {
+        LogPrint("dex", "%s -- offers not found\n", tag);
         pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Empty));
+        }
     }
 
     while (hvs.size() > 0) {
@@ -285,7 +316,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv) const
 
         subHvs.splice(subHvs.begin(), hvs, hvs.begin(), end);
 
-        LogPrint("dex", "DEXSYNCGETALLHASH -- send list pairs of hash and version\n");
+        LogPrint("dex", "%s -- send list pairs of hash and version\n", tag);
         pfrom->PushMessage(NetMsgType::DEXSYNCPARTHASH, subHvs, cPart, maxPart);
         cPart++;
     }
@@ -330,14 +361,14 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
     }
 
     if (cPart == maxPart) {
-        if (statusNodes[pfrom->addr] == StatusNode::Good) {
+        if (statusNodes[pfrom->addr] == StatusNode::Good) { // WARNING: edit it (sends messages to nodes that are already synchronized)
             LogPrint("dex", "DEXSYNCPARTHASH -- send message about node with addres %s need sync\n", pfrom->addr.ToString());
             pfrom->PushMessage(NetMsgType::DEXSYNCNEEDSYNC);
         }
 
         maxOffersNeedDownload = offersNeedDownload.size();
         status = Status::SyncStepSecond;
-        sendRequestForGetOffers();
+        sendRequestNodes();
     }
 }
 
@@ -369,6 +400,7 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
     LogPrint("dex", "DEXSYNCOFFER -- get offer info with hash = %s\n", offer.hash.GetHex().c_str());
 
     int fine = 0;
+    auto hash = offer.hash;
     if (offer.Check(true, fine)) {
         CDex dex(offer);
         std::string error;
@@ -410,11 +442,11 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
             }
         }
     } else {
-        LogPrint("DEXSYNCOFFER -- offer check fail, hash: %s\n", offer.hash.GetHex().c_str());
+        LogPrint("DEXSYNCOFFER -- offer check fail, hash: %s\n", hash.GetHex().c_str());
         Misbehaving(pfrom->GetId(), fine);
     }
 
-    eraseItemFromOffersNeedDownload(offer.hash);
+    eraseItemFromOffersNeedDownload(hash);
 }
 
 void CDexSync::noOffersList(CNode *pfrom, CDataStream &vRecv)
@@ -497,24 +529,118 @@ void CDexSync::addAddrToStatusNode(const CAddress &addr, StatusNode status, cons
         waitAnswerFromNodes.erase(it);
     }
 
-    statusNodes[addr] = status;
+    if (!(statusNodes[addr] == StatusNode::Process && status == StatusNode::Good)) {
+        statusNodes[addr] = status;
+    }
 }
 
-DexSyncInfo CDexSync::dexSyncInfo() const
+DexSyncInfo CDexSync::dexSyncInfo(const uint64_t &lastMod) const
 {
     DexSyncInfo ds;
-    ds.checkSum = 0;
-    ds.count = db->countOffersSell() + db->countOffersBuy();
 
-    uint64_t lastModSell = db->lastModificationOffersSell();
-    uint64_t lastModBuy = db->lastModificationOffersBuy();
-    if (lastModBuy > lastModSell) {
-        ds.lastTimeMod = lastModBuy;
-    } else {
-        ds.lastTimeMod = lastModSell;
-    }
+    auto buyOffers = db->getOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod);
+    auto sellOffers = db->getOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod);
+
+    CDexCrc crc(buyOffers);
+    crc += sellOffers;
+
+    ds.checkSum = crc;
+    ds.count = buyOffers.size() + sellOffers.size();
+    ds.lastTimeMod = lastMod;
 
     return ds;
+}
+
+uint64_t CDexSync::lastTimeModOffers() const
+{
+    uint64_t time;
+    auto lastModSell = db->lastModificationOffersSell();
+    auto lastModBuy = db->lastModificationOffersBuy();
+    if (lastModBuy > lastModSell) {
+        time = lastModBuy;
+    } else {
+        time = lastModSell;
+    }
+
+    return time;
+}
+
+void CDexSync::sendCheckNodes() const
+{
+    auto vNodesCopy = CopyNodeVector();
+
+    DexSyncInfo dsInfo = dexSyncInfo(timeStart);
+    for (auto node : vNodesCopy) {
+        auto sn = statusNodes.find(node->addr);
+        if (sn != statusNodes.end()) {
+            if (sn->second == StatusNode::Good) {
+                node->PushMessage(NetMsgType::DEXSYNCCHECK, dsInfo);
+            }
+        }
+    }
+
+    ReleaseNodeVector(vNodesCopy);
+}
+
+void CDexSync::sendRequestFoGetOffers() const
+{
+    auto vNodesCopy = CopyNodeVector();
+
+    int iNode = 0;
+    int i = 0;
+    bool isSend = true;
+
+    bool interviewAll = false;
+
+    if (offersNeedDownload.size() < vNodesCopy.size() * 2) {
+        interviewAll = true;
+    }
+    auto it = offersNeedDownload.begin();
+    while (it != offersNeedDownload.end()) {
+        auto node = vNodesCopy[iNode];
+
+        if (iNode == vNodesCopy.size() - 1) {
+            iNode = 0;
+        } else {
+            iNode++;
+        }
+
+        auto hash = *it;
+
+        if (interviewAll) {
+            if (iNode == 0) {
+                ++it;
+            }
+        } else {
+            ++it;
+        }
+
+        auto sn = statusNodes.find(node->addr);
+        if (sn != statusNodes.end()) {
+            if (sn->second == StatusNode::Bad || sn->second == StatusNode::Actual) {
+                continue;
+            }
+        } else {
+            DexSyncInfo dsInfo = dexSyncInfo(lastModOffers - 3600);
+            node->PushMessage(NetMsgType::DEXSYNCGETALLHASH, dsInfo);
+        }
+
+        if (node->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
+        if (!mnodeman.isExist(node)) {
+            continue;
+        }
+
+        if(node->fMasternode || (fMasterNode && node->fInbound)) {
+            continue;
+        }
+
+        node->PushMessage(NetMsgType::DEXSYNCGETOFFER, hash);
+    }
+
+    ReleaseNodeVector(vNodesCopy);
 }
 
 bool CDexSync::actualSync() const
@@ -541,62 +667,24 @@ bool CDexSync::actualSync() const
     return false;
 }
 
+int CDexSync::numberUnanswerRequests() const
+{
+    return numUnanswerRequests;
+}
+
 std::set<uint256> CDexSync::getOffersNeedDownload() const
 {
     return offersNeedDownload;
 }
 
-void CDexSync::sendRequestForGetOffers()
+void CDexSync::sendRequestNodes()
 {
-    auto vNodesCopy = CopyNodeVector();
-
-    int iNode = 0;
-    int i = 0;
-    bool isSend = true;
-
-    bool interviewAll = false;
-
-    if (offersNeedDownload.size() < vNodesCopy.size() * 2) {
-        interviewAll = true;
-    }
-    auto it = offersNeedDownload.begin();
-    while (it != offersNeedDownload.end()) {
-        auto node = vNodesCopy[iNode];
-
-        if (iNode == vNodesCopy.size() - 1) {
-            iNode = 0;
-        } else {
-            iNode++;
-        }
-        auto sn = statusNodes.find(node->addr);
-        if (sn != statusNodes.end() && (sn->second == StatusNode::Bad || sn->second == StatusNode::Actual)) {
-            continue;
-        }
-
-        if (node->nVersion < MIN_DEX_VERSION) {
-            continue;
-        }
-
-        if (!mnodeman.isExist(node)) {
-            continue;
-        }
-
-        if(node->fMasternode || (fMasterNode && node->fInbound)) {
-            continue;
-        }
-
-        node->PushMessage(NetMsgType::DEXSYNCGETOFFER, *it);
-
-        if (interviewAll) {
-            if (iNode == 0) {
-                ++it;
-            }
-        } else {
-            ++it;
-        }
+    if (offersNeedDownload.size() == 0 && !actualSync()) {
+        sendCheckNodes();
+    } else {
+        sendRequestFoGetOffers();
     }
 
-    ReleaseNodeVector(vNodesCopy);
     startTimer();
 }
 
@@ -629,7 +717,9 @@ void FinishSyncDex()
 {
     dexsync.setRunTimer(false);
 
-    if (dexsync.statusSync() == CDexSync::Status::Initial && dexsync.offersNeedDownloadSize() == 0) {
+    bool b = (dexsync.statusSync() == CDexSync::Status::Initial && dexsync.offersNeedDownloadSize() == 0);
+    bool b1 = (dexsync.numberUnanswerRequests() >= 3);
+    if (b || b1) {
         dexsync.reset();
     } else {
         LOCK2(cs_main, dexsync.cs);
@@ -640,7 +730,7 @@ void FinishSyncDex()
             dexsync.startTimer();
         } else {
             if (!dexsync.checkSyncData()) {
-                dexsync.sendRequestForGetOffers();
+                dexsync.sendRequestNodes();
             } else if (!dexsync.isSynced()) {
                 LogPrint("dex", "CDexSync -- restart timer\n");
                 dexsync.updatePrevData();

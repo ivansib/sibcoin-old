@@ -255,6 +255,7 @@ extern const char *DEXSYNCOFFER;
 extern const char *DEXSYNCNOOFFERS;
 extern const char *DEXSYNCNOHASH;
 extern const char *DEXSYNCNEEDSYNC;
+extern const char *DEXSYNCCHECK;
 extern const char *DEXDELOFFER;
 
 };

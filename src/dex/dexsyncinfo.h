@@ -2,17 +2,18 @@
 #define DEXSYNCINFO_H
 
 #include "net.h"
+#include "dexcrc.h"
 
 namespace dex {
 
 struct DexSyncInfo
 {
-    int checkSum;
+    CDexCrc checkSum;
     int count;
     uint64_t lastTimeMod;
 
     DexSyncInfo() {
-        checkSum = 0;
+        checkSum = CDexCrc();
         count = 0;
         lastTimeMod = 0;
     }
@@ -27,9 +28,9 @@ struct DexSyncInfo
     }
 
     bool isNull() {
-        if (checkSum != 0) {
-            return false;
-        }
+//        if (checkSum != 0) {
+//            return false;
+//        }
 
         if (count != 0) {
             return false;

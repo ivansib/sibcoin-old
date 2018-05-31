@@ -54,9 +54,10 @@ public:
     void setRunTimer(const bool b);
     void startTimerForAnswer() const;
     int offersNeedDownloadSize() const;
-    void sendRequestForGetOffers();
+    void sendRequestNodes();
     void checkNodes();
     bool actualSync() const;
+    int numberUnanswerRequests() const;
 
     boost::signals2::signal<void()> syncFinished;
     mutable CCriticalSection cs;
@@ -67,7 +68,7 @@ private:
     DexDB *db;
 
     void initDB();
-    void sendHashOffers(CNode* pfrom, CDataStream& vRecv) const;
+    void sendHashOffers(CNode* pfrom, CDataStream& vRecv, bool isCheck) const;
     void getHashs(CNode* pfrom, CDataStream& vRecv);
     void sendOffer(CNode* pfrom, CDataStream& vRecv) const;
     void getOfferAndSaveInDb(CNode* pfrom, CDataStream& vRecv);
@@ -78,7 +79,10 @@ private:
     bool canStart();
     void initSetWaitAnswerFromNodes(const std::vector<CNode*> &nodes);
     void addAddrToStatusNode(const CAddress &addr, StatusNode status, const bool isLock = true);
-    DexSyncInfo dexSyncInfo() const;
+    DexSyncInfo dexSyncInfo(const uint64_t &lastMod) const;
+    uint64_t lastTimeModOffers() const;
+    void sendCheckNodes() const;
+    void sendRequestFoGetOffers() const;
 
     std::set<CAddress> waitAnswerFromNodes;
     std::map<CAddress, StatusNode> statusNodes;
@@ -87,6 +91,9 @@ private:
     size_t prevOffersNeedDownloadSize;
     size_t prevMaxOffersNeedDownload;
     float statusPercent;
+    uint64_t lastModOffers;
+    uint64_t timeStart;
+    int numUnanswerRequests;
 
     Status status;
     bool isRunTimer;

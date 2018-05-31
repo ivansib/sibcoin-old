@@ -403,7 +403,7 @@ bool CDexOffer::Check(bool fullcheck, int &fine)
             LogPrint("dex", "DexOffer::Check(%s) error: wrong payment method\n", hash.GetHex().c_str());
             break;
         }
-        if ((timeExpiration) < static_cast<uint64_t>(GetTime())) {
+        if ((timeExpiration) < static_cast<uint64_t>(GetAdjustedTime())) {
             LogPrint("dex", "DexOffer::Check(%s) error: offer expiration time out\n", hash.GetHex().c_str());
             break;
         }
