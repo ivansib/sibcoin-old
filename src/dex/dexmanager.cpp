@@ -426,13 +426,12 @@ std::list<std::pair<uint256, uint32_t>> CDexManager::availableOfferHashAndVersio
 {
     std::list<std::pair<uint256, uint32_t>> list;
 
-    for (auto offer : db->getOffersSell(lastTimeMod)) {
-        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
-    }
-
-    for (auto offer : db->getOffersBuy(lastTimeMod)) {
-        list.push_back(std::make_pair(offer.hash, offer.editingVersion));
-    }
+    list = db->getHashsAndEditingVersions("offersSell", lastTimeMod);
+    std::list<std::pair<uint256, uint32_t>> OffersBuylist;
+    OffersBuylist = db->getHashsAndEditingVersions("offersBuy", lastTimeMod);
+    list.sort();
+    OffersBuylist.sort();
+    list.merge(OffersBuylist);
 
     for (auto offer : uncOffers->getAllOffers()) {
         list.push_back(std::make_pair(offer.hash, offer.editingVersion));
