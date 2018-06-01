@@ -499,11 +499,15 @@ void ThreadDexManager()
             dexman.startSyncDex();
         }
 
-        if (!dexsync.isSynced() && step != 0) {
-            continue;
-        }
+//        if (!dexsync.isSynced() && step != 0) {
+//            continue;
+//        }
 
         CheckDexMasternode();
+
+        if (dexsync.statusSync() == CDexSync::Status::Failed) {
+            dexsync.resetAfterFailed();
+        }
 
         if (step % stepDeleteOld == 0) {
             LogPrint("dex", "ThreadDexManager -- delete old offers\n");

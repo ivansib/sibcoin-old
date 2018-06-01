@@ -18,13 +18,20 @@ const int MIN_NUMBER_DEX_NODE = 4;
 const int MIN_NUMBER_DEX_NODE_TESTNET = 2;
 const int PART_SIZE = 100;
 
+const int MAX_STEP_WAIT_AFTER_FAILED = 30;
+const int MAX_NUM_ATTEMPT_START = 10;
+const int MAX_NUM_AUTO_RESET = 5;
+
 CDexSync::CDexSync()
 {
     status = Status::NoStarted;
     statusPercent = 0;
     db = nullptr;
     isRunTimer = false;
+
     numUnanswerRequests = 0;
+    stepWaitAfterFailed = 0;
+    numAttemptStart = 0;
 }
 
 CDexSync::~CDexSync()
@@ -66,9 +73,17 @@ void CDexSync::startSyncDex()
     }
 
     if (!canStart() || status != Status::NoStarted) {
+        numAttemptStart++;
+
+        if (numAttemptStart >= MAX_NUM_ATTEMPT_START) {
+            status = Status::Failed;
+            stepWaitAfterFailed = 0;
+        }
+
         return;
     }
 
+    numAttemptStart = 0;
     status = Status::Started;
 
     prevMaxOffersNeedDownload = 0;
@@ -133,7 +148,7 @@ void CDexSync::finishSyncDex()
         syncFinished();
     } else {
         status = Status::NoStarted;
-        reset();
+        reset(true);
     }
 }
 
@@ -162,6 +177,9 @@ std::string CDexSync::getSyncStatus() const
     case Status::Finished:
         str = _("Synchronization offers finished");
         break;
+    case Status::Failed:
+        str = _("Synchronization offers failed");
+        break;
     default:
         break;
     }
@@ -184,19 +202,51 @@ int CDexSync::minNumDexNode() const
     return minNumDexNode;
 }
 
-bool CDexSync::reset()
+bool CDexSync::reset(const bool isAuto)
 {
+    if (isAuto) {
+        numAutoReset++;
+
+        if (numAutoReset > MAX_NUM_AUTO_RESET) {
+            status = Status::Failed;
+            numAutoReset = 0;
+            numUnanswerRequests = 0;
+            stepWaitAfterFailed = 0;
+
+            return false;
+        }
+    }
+
     bool b = (status == Status::SyncStepOne || status == Status::SyncStepSecond);
-    bool b1 = (dexsync.numberUnanswerRequests() < 3);
+    bool b1 = (numUnanswerRequests < 3);
+
     if (b && b1) {
         return false;
-    } else {
+    } else {        
         statusPercent = 0;
+        numUnanswerRequests = 0;
         status = Status::NoStarted;
         startSyncDex();
     }
     
     return true;
+}
+
+bool CDexSync::resetAfterFailed()
+{
+    if (status == Status::Failed) {
+        stepWaitAfterFailed++;
+
+        if (stepWaitAfterFailed >= MAX_STEP_WAIT_AFTER_FAILED) {
+            statusPercent = 0;
+            status = Status::NoStarted;
+            startSyncDex();
+
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void CDexSync::updatePrevData()
@@ -738,7 +788,7 @@ void FinishSyncDex()
     bool b = (dexsync.statusSync() == CDexSync::Status::Initial && dexsync.offersNeedDownloadSize() == 0);
     bool b1 = (dexsync.numberUnanswerRequests() >= 3);
     if (b || b1) {
-        dexsync.reset();
+        dexsync.reset(true);
     } else {
         LOCK2(cs_main, dexsync.cs);
 

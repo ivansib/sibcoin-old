@@ -20,7 +20,8 @@ public:
         Initial,
         SyncStepOne,
         SyncStepSecond,
-        Finished
+        Finished,
+        Failed
     };
 
     enum class StatusOffers {
@@ -48,7 +49,8 @@ public:
     std::string getSyncStatus() const;
     Status statusSync();
     int minNumDexNode() const;
-    bool reset();
+    bool reset(const bool isAuto = false);
+    bool resetAfterFailed();
     void updatePrevData();
     bool checkSyncData();
     void startTimer();
@@ -94,7 +96,11 @@ private:
     float statusPercent;
     uint64_t lastModOffers;
     uint64_t timeStart;
+
     int numUnanswerRequests;
+    int stepWaitAfterFailed;
+    int numAttemptStart;
+    int numAutoReset;
 
     Status status;
     bool isRunTimer;
