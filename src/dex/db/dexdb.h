@@ -14,7 +14,7 @@
 namespace dex {
 
 // Please update this DB version number if you change DB schema
-const unsigned int uiDexDBversionInCode = 1006;
+const unsigned int uiDexDBversionInCode = 1007;
 
 typedef std::map<CallBackDB*, int> CallBack;
 
@@ -51,6 +51,9 @@ public:
     void removeCallBack(CallBackDB *callBack);
     int backup(sqlite3pp::database &destdb);
     int vacuum();
+    int begin();
+    int commit();
+    int rollback();
     sqlite3pp::database *getDB();
 
     std::string getErrMsg();

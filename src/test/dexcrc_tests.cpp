@@ -54,6 +54,7 @@ void dexcrc_test_cumulative_add()
         }
     }
     BOOST_CHECK(crc == (crc1 + crc2));
+    BOOST_CHECK(crc == (crc2 + crc1));
 }
 
 

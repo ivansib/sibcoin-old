@@ -177,6 +177,8 @@ void DexDB::dropIndexes()
     db.execute("DROP INDEX IF EXISTS idx_offersMy_timeexp");
     db.execute("DROP INDEX IF EXISTS hash_editing_version_buy");
     db.execute("DROP INDEX IF EXISTS hash_editing_version_sell");
+    db.execute("DROP INDEX IF EXISTS idx_offersSell_timemod");
+    db.execute("DROP INDEX IF EXISTS idx_offersBuy_timemod");
 }
 
 
@@ -1453,6 +1455,7 @@ std::list<std::pair<uint256, uint32_t>> DexDB::getHashsAndEditingVersions(const 
     return vHashesAndEditingVersions;
 }
 
+
 std::list<uint256> DexDB::getHashs(const std::string &tableName)
 {
     std::list<uint256> ids;
@@ -1778,6 +1781,8 @@ void DexDB::createIndexes()
     db.execute("CREATE INDEX IF NOT EXISTS idx_offersMy_timeexp ON myOffers(timeToExpiration)");
     db.execute("CREATE UNIQUE INDEX IF NOT EXISTS hash_editing_version_buy on offersBuy (hash, editingVersion)");
     db.execute("CREATE UNIQUE INDEX IF NOT EXISTS hash_editing_version_sell on offersSell (hash, editingVersion)");
+    db.execute("CREATE INDEX IF NOT EXISTS idx_offersSell_timemod ON offersSell(timeModification)");
+    db.execute("CREATE INDEX IF NOT EXISTS idx_offersBuy_timemod ON offersBuy(timeModification)");
 }
 
 void DexDB::addDefaultData()
@@ -1873,6 +1878,7 @@ std::string DexDB::templateOffersTable(const std::string &tableName) const
     return query;
 }
 
+
 void DexDB::createTestOffers()
 {
     OfferInfo info;
@@ -1957,9 +1963,27 @@ int DexDB::backup(sqlite3pp::database &destdb)
     return db.backup(destdb);
 }
 
+
 int DexDB::vacuum()
 {
     return db.execute("VACUUM");
+}
+
+int DexDB::begin()
+{
+    return db.execute("BEGIN");
+}
+
+
+int DexDB::commit()
+{
+    return db.execute("COMMIT");
+}
+
+
+int DexDB::rollback()
+{
+    return db.execute("ROLLBACK");
 }
 
 
@@ -2041,7 +2065,6 @@ bool DexDB::AutoBackup (DexDB *db, int nBackups, std::string& strBackupWarning, 
             counter++;
             if (counter > nBackups)
             {
-                // More than nWalletBackups backups: delete oldest one(s)
                 try {
                     fs::remove(rit->second);
                     LogPrintf("Old backup deleted: %s\n", rit->second);

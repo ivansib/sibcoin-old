@@ -538,8 +538,10 @@ DexSyncInfo CDexSync::dexSyncInfo(const uint64_t &lastMod) const
 {
     DexSyncInfo ds;
 
+    db->begin();
     auto buyOffers = db->getHashsAndEditingVersionsBuy(DexDB::OffersPeriod::Before, lastMod);
     auto sellOffers = db->getHashsAndEditingVersionsSell(DexDB::OffersPeriod::Before, lastMod);
+    db->commit();
 
     CDexCrc crc(buyOffers);
     crc += sellOffers;
@@ -554,8 +556,12 @@ DexSyncInfo CDexSync::dexSyncInfo(const uint64_t &lastMod) const
 uint64_t CDexSync::lastTimeModOffers() const
 {
     uint64_t time;
+
+    db->begin();
     auto lastModSell = db->lastModificationOffersSell();
     auto lastModBuy = db->lastModificationOffersBuy();
+    db->commit();
+
     if (lastModBuy > lastModSell) {
         time = lastModBuy;
     } else {
