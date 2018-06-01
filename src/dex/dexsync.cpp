@@ -517,10 +517,10 @@ void CDexSync::noOffersList(CNode *pfrom, CDataStream &vRecv)
     int s;
     vRecv >> s;
     status = static_cast<StatusOffers>(s);
-    if (status == StatusOffers::Actual) {
-        addAddrToStatusNode(pfrom->addr, StatusNode::Actual);
-    } else {
+    if (status == StatusOffers::NoSync) {
         addAddrToStatusNode(pfrom->addr, StatusNode::Bad);
+    } else {
+        addAddrToStatusNode(pfrom->addr, StatusNode::Actual);
     }
 }
 
