@@ -256,6 +256,12 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv, bool isCheck) co
     }
     LogPrint("dex", "%s -- receive request on send list pairs hashe and version from %s\n", tag, pfrom->addr.ToString());
 
+    if (!isSynced()) {
+        LogPrint("dex", "%s -- offers no synchonized\n", tag);
+        pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::NoSync));
+        return;
+    }
+
     DexSyncInfo dsInfoOther;
     vRecv >> dsInfoOther;
 
@@ -375,6 +381,12 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
 void CDexSync::sendOffer(CNode *pfrom, CDataStream &vRecv) const
 {
     LogPrint("dex", "DEXSYNCGETOFFER -- receive request on send offer from %s\n", pfrom->addr.ToString());
+
+    if (!isSynced()) {
+        LogPrint("dex", "DEXSYNCGETOFFER -- offers no synchonized\n");
+        pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::NoSync));
+        return;
+    }
 
     uint256 hash;
     vRecv >> hash;

@@ -25,6 +25,7 @@ public:
 
     enum class StatusOffers {
         Empty,
+        NoSync,
         Actual
     };
 
