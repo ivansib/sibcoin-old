@@ -330,25 +330,28 @@ void checkOffers(DexDB *db)
     BOOST_CHECK(db->lastModificationOffersBuy() == lastMod);
     BOOST_CHECK(db->lastModificationOffersSell() == lastMod);
 
-    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30).size() == 0);
-    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30).size() == 0);
-    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod).size() == 2);
-    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod).size() == 2);
+    BOOST_CHECK(db->getHashsAndEditingVersionsBuy().size() == 3);
+    BOOST_CHECK(db->getHashsAndEditingVersionsSell().size() == 3);
 
-    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod).size() == 1);
-    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod).size() == 1);
-    BOOST_CHECK(db->getOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1).size() == 0);
-    BOOST_CHECK(db->getOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1).size() == 0);
+    BOOST_CHECK(db->getHashsAndEditingVersionsBuy(DexDB::OffersPeriod::Before, lastMod - secInDay * 30).size() == 0);
+    BOOST_CHECK(db->getHashsAndEditingVersionsSell(DexDB::OffersPeriod::Before, lastMod - secInDay * 30).size() == 0);
+    BOOST_CHECK(db->getHashsAndEditingVersionsBuy(DexDB::OffersPeriod::Before, lastMod).size() == 2);
+    BOOST_CHECK(db->getHashsAndEditingVersionsSell(DexDB::OffersPeriod::Before, lastMod).size() == 2);
 
-    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30) == 0);
-    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod - secInDay * 30) == 0);
-    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod) == 2);
-    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod) == 2);
+    BOOST_CHECK(db->getHashsAndEditingVersionsBuy(DexDB::OffersPeriod::After, lastMod).size() == 1);
+    BOOST_CHECK(db->getHashsAndEditingVersionsSell(DexDB::OffersPeriod::After, lastMod).size() == 1);
+    BOOST_CHECK(db->getHashsAndEditingVersionsBuy(DexDB::OffersPeriod::After, lastMod + 1).size() == 0);
+    BOOST_CHECK(db->getHashsAndEditingVersionsSell(DexDB::OffersPeriod::After, lastMod + 1).size() == 0);
 
-    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod) == 1);
-    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod) == 1);
-    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1) == 0);
-    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::YoungTimeMod, lastMod + 1) == 0);
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::Before, lastMod - secInDay * 30) == 0);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::Before, lastMod - secInDay * 30) == 0);
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::Before, lastMod) == 2);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::Before, lastMod) == 2);
+
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::After, lastMod) == 1);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::After, lastMod) == 1);
+    BOOST_CHECK(db->countOffersBuy(DexDB::OffersPeriod::After, lastMod + 1) == 0);
+    BOOST_CHECK(db->countOffersSell(DexDB::OffersPeriod::After, lastMod + 1) == 0);
 
     db->deleteOfferSell(iList.front().idTransaction);
     db->deleteOfferBuy(iList.back().idTransaction);

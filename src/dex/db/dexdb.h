@@ -18,6 +18,12 @@ const unsigned int uiDexDBversionInCode = 1006;
 
 typedef std::map<CallBackDB*, int> CallBack;
 
+namespace TableName {
+    const std::string offersSell = "offersSell";
+    const std::string offersBuy = "offersBuy";
+    const std::string myOffers = "myOffers";
+}
+
 class DexDB {
     DexDB();
     ~DexDB();
@@ -29,8 +35,9 @@ class DexDB {
 
 public:
     enum class OffersPeriod {
-        OldTimeMod,
-        YoungTimeMod
+        All,
+        Before,
+        After
     };
 
     static DexDB *instance();
@@ -82,6 +89,8 @@ public:
     int countOffersSell(const OffersPeriod &from, const long long int &timeMod);
     int countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
     uint64_t lastModificationOffersSell();
+    std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsSell();
+    std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsSell(const OffersPeriod &from, const long long &timeMod);
 
     void addOfferBuy(const OfferInfo &offer, bool usethread = true);
     void editOfferBuy(const OfferInfo &offer, bool usethread = true);
@@ -100,6 +109,8 @@ public:
     int countOffersBuy(const OffersPeriod &from, const long long int &timeMod);
     int countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
     uint64_t lastModificationOffersBuy();
+    std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsBuy();
+    std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsBuy(const OffersPeriod &from, const long long &timeMod);
 
     void addMyOffer(const MyOfferInfo &offer, bool usethread = true);
     void editMyOffer(const MyOfferInfo &offer, bool usethread = true);
@@ -119,7 +130,6 @@ public:
     void addFilter(const std::string &filter);
     void deleteFilter(const std::string &filter);
     std::list<std::string> getFilters();
-    std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersions(const std::string &tableName, const long long &timeMod);
 
 private:
     static void addCountryInThread(sqlite3pp::database &db, const CallBack &callBack, const std::string &iso, const std::string &name, const std::string &currency, const bool &enabled, const int &sortOrder);
@@ -171,6 +181,7 @@ private:
     int countOffers(const std::string &tableName, const OffersPeriod &from, const long long int &timeMod, int &status);
     int countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status);
     uint64_t lastModificationOffers(const std::string &tableName, int &status);
+    std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersions(const std::string &tableName, const OffersPeriod &from, const long long &timeMod);
 
     sqlite3pp::database db;
     static std::map<CallBackDB*, int> callBack;

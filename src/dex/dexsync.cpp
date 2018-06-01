@@ -274,7 +274,7 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv, bool isCheck) co
             }
         } else {
         if (dsInfoOther == dsInfo) {
-            hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::YoungTimeMod, dsInfoOther.lastTimeMod);
+            hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::After, dsInfoOther.lastTimeMod);
             if (hvs.size() == 0) {
                 LogPrint("dex", "%s -- offers actual\n", tag);
                 pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
@@ -538,8 +538,8 @@ DexSyncInfo CDexSync::dexSyncInfo(const uint64_t &lastMod) const
 {
     DexSyncInfo ds;
 
-    auto buyOffers = db->getOffersBuy(DexDB::OffersPeriod::OldTimeMod, lastMod);
-    auto sellOffers = db->getOffersSell(DexDB::OffersPeriod::OldTimeMod, lastMod);
+    auto buyOffers = db->getHashsAndEditingVersionsBuy(DexDB::OffersPeriod::Before, lastMod);
+    auto sellOffers = db->getHashsAndEditingVersionsSell(DexDB::OffersPeriod::Before, lastMod);
 
     CDexCrc crc(buyOffers);
     crc += sellOffers;

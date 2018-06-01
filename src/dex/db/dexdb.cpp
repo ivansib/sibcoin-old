@@ -559,6 +559,16 @@ uint64_t DexDB::lastModificationOffersSell()
     return time;
 }
 
+std::list<std::pair<uint256, uint32_t> > DexDB::getHashsAndEditingVersionsSell()
+{
+    return getHashsAndEditingVersions(TableName::offersSell, OffersPeriod::All, 0);
+}
+
+std::list<std::pair<uint256, uint32_t> > DexDB::getHashsAndEditingVersionsSell(const DexDB::OffersPeriod &from, const long long &timeMod)
+{
+    return getHashsAndEditingVersions(TableName::offersSell, from, timeMod);
+}
+
 void DexDB::addOfferBuy(const OfferInfo &offer, bool usethread)
 {
     if (usethread) {
@@ -694,6 +704,16 @@ uint64_t DexDB::lastModificationOffersBuy()
     finishTableOperation(callBack, OffersBuy, Read, status);
 
     return time;
+}
+
+std::list<std::pair<uint256, uint32_t> > DexDB::getHashsAndEditingVersionsBuy()
+{
+    return getHashsAndEditingVersions(TableName::offersBuy, OffersPeriod::All, 0);
+}
+
+std::list<std::pair<uint256, uint32_t> > DexDB::getHashsAndEditingVersionsBuy(const OffersPeriod &from, const long long &timeMod)
+{
+    return getHashsAndEditingVersions(TableName::offersBuy, from, timeMod);
 }
 
 void DexDB::addMyOffer(const MyOfferInfo &offer, bool usethread)
@@ -1212,9 +1232,9 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const Offers
                       "paymentMethod, price, minAmount, timeCreate, timeToExpiration, "
                       "timeModification, shortInfo, details, editingVersion, editsign FROM " + tableName;
 
-    if (OffersPeriod::OldTimeMod == from) {
+    if (OffersPeriod::Before == from) {
         str += " WHERE timeModification < :timeMod";
-    } else if (OffersPeriod::YoungTimeMod == from) {
+    } else if (OffersPeriod::After == from) {
         str += " WHERE timeModification >= :timeMod";
     }
 
@@ -1437,14 +1457,23 @@ bool DexDB::isExistOfferByHash(const std::string &tableName, const uint256 &hash
     return false;
 }
 
-std::list<std::pair<uint256, uint32_t>> DexDB::getHashsAndEditingVersions(const std::string &tableName, const long long &timeMod)
+std::list<std::pair<uint256, uint32_t>> DexDB::getHashsAndEditingVersions(const std::string &tableName, const OffersPeriod &from, const long long &timeMod)
 {
     std::list<std::pair<uint256, uint32_t>> vHashesAndEditingVersions;
 
-    std::string str = "SELECT DISTINCT hash, editingVersion FROM " + tableName + " WHERE timeModification > :timeMod";
+    std::string str = "SELECT DISTINCT hash, editingVersion FROM " + tableName;
+
+    if (OffersPeriod::Before == from) {
+        str += " WHERE timeModification < :timeMod";
+    } else if (OffersPeriod::After == from) {
+        str += " WHERE timeModification >= :timeMod";
+    }
 
     sqlite3pp::query qry(db, str.c_str());
-    qry.bind(":timeMod", timeMod);
+
+    if (OffersPeriod::All != from) {
+        qry.bind(":timeMod", timeMod);
+    }
 
     for (sqlite3pp::query::iterator i = qry.begin(); i != qry.end(); ++i) {
         std::string sHash;
@@ -1512,9 +1541,9 @@ int DexDB::countOffers(const std::string &tableName, const DexDB::OffersPeriod &
     int count;
     std::string query = "SELECT count(*) FROM " + tableName;
 
-    if (OffersPeriod::OldTimeMod == from) {
+    if (OffersPeriod::Before == from) {
         query += " WHERE timeModification < :timeMod";
-    } else if (OffersPeriod::YoungTimeMod == from) {
+    } else if (OffersPeriod::After == from) {
         query += " WHERE timeModification >= :timeMod";
     }
 
