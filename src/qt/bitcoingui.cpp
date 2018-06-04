@@ -89,6 +89,9 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *platformStyle, const NetworkStyle *n
     labelEncryptionIcon(0),
     labelConnectionsIcon(0),
     labelBlocksIcon(0),
+#ifdef ENABLE_DEX
+    labelOffersIcon(0),
+#endif
     progressBarLabel(0),
     progressBar(0),
     progressDialog(0),
@@ -231,6 +234,11 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *platformStyle, const NetworkStyle *n
     frameBlocksLayout->addWidget(labelBlocksIcon);
     frameBlocksLayout->addStretch();
 
+#ifdef ENABLE_DEX
+    labelOffersIcon = new QLabel();
+    frameBlocksLayout->addWidget(labelOffersIcon);
+    frameBlocksLayout->addStretch();
+#endif
     // Progress bar and label for blocks download
     progressBarLabel = new QLabel();
     progressBarLabel->setVisible(true);
@@ -1119,22 +1127,20 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
         progressBar->setVisible(true);
     }
 
-    QString tooltip;
+    QString tooltipMasternode;
 
     // Set icon state: spinning if catching up, tick otherwise
     QString theme = GUIUtil::getThemeName();
 
-    QString strSyncStatus;
-    tooltip = tr("Up to date") + QString(".<br>") + tooltip;
+    QString strSyncMasternodeStatus;
+    QString strSyncOffersStatus;
+    tooltipMasternode = tr("Up to date") + QString(".<br>") + tooltipMasternode;
 
     bool finishProgress = masternodeSync.IsSynced();
-#ifdef ENABLE_DEX
-    finishProgress = (masternodeSync.IsSynced() && dex::dexsync.isSynced());
-#endif
+    bool showProgressBar = true;
 
     if(finishProgress) {
-        progressBarLabel->setVisible(false);
-        progressBar->setVisible(false);
+        showProgressBar = false;
         labelBlocksIcon->setPixmap(QIcon(":/icons/" + theme + "/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
     } else {
 
@@ -1142,7 +1148,36 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
             ":/movies/spinner-%1").arg(spinnerFrame, 3, 10, QChar('0')))
             .pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
         spinnerFrame = (spinnerFrame + 1) % SPINNER_FRAMES;
+    }
 
+    strSyncMasternodeStatus = QString(masternodeSync.GetSyncStatus().c_str());
+#ifdef ENABLE_DEX
+    bool finishProgressDex = (finishProgress && dex::dexsync.isSynced());
+
+    if(finishProgressDex) {
+        showProgressBar = false;
+        labelOffersIcon->setPixmap(QIcon(":/icons/" + theme + "/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
+    } else {
+        if (dex::dexsync.statusSync() == dex::CDexSync::Status::Failed) {
+            showProgressBar = false;
+            labelOffersIcon->setPixmap(QIcon(":/icons/" + theme + "/transaction_conflicted").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
+        } else {
+            showProgressBar = true;
+            labelOffersIcon->setPixmap(platformStyle->SingleColorIcon(QString(
+                                                                          ":/movies/spinner-%1").arg(spinnerFrame, 3, 10, QChar('0')))
+                                       .pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
+            if (finishProgress) {
+                spinnerFrame = (spinnerFrame + 1) % SPINNER_FRAMES;
+            }
+        }
+    }
+
+    strSyncOffersStatus = QString(dex::dexsync.getSyncStatus().c_str());
+#endif
+    progressBarLabel->setVisible(showProgressBar);
+    progressBar->setVisible(showProgressBar);
+
+    if (showProgressBar) {
 #ifdef ENABLE_WALLET
         if(walletFrame)
             walletFrame->showOutOfSyncWarning(false);
@@ -1153,21 +1188,36 @@ void BitcoinGUI::setAdditionalDataSyncProgress(double nSyncProgress)
         progressBar->setValue(nSyncProgress * 1000000000.0 + 0.5);
     }
 
-    strSyncStatus = QString(masternodeSync.GetSyncStatus().c_str());
+    QString strSyncStatus = strSyncMasternodeStatus;
+
 #ifdef ENABLE_DEX
-    if (masternodeSync.IsSynced() && !dex::dexsync.isSynced()) {
-        strSyncStatus = QString(dex::dexsync.getSyncStatus().c_str());
+    if (finishProgress && !finishProgressDex) {
+        strSyncStatus = strSyncOffersStatus;
     }
 #endif
+
     progressBarLabel->setText(strSyncStatus);
-    tooltip = strSyncStatus + QString("<br>") + tooltip;
+    tooltipMasternode = strSyncMasternodeStatus + QString("<br>") + tooltipMasternode;
 
     // Don't word-wrap this (fixed-width) tooltip
-    tooltip = QString("<nobr>") + tooltip + QString("</nobr>");
+    tooltipMasternode = QString("<nobr>") + tooltipMasternode + QString("</nobr>");
 
-    labelBlocksIcon->setToolTip(tooltip);
+    labelBlocksIcon->setToolTip(tooltipMasternode);
+
+    QString tooltip = tooltipMasternode;
+
+#ifdef ENABLE_DEX
+    if (finishProgress && !finishProgressDex) {
+        tooltip = strSyncOffersStatus;
+    }
+#endif
+
     progressBarLabel->setToolTip(tooltip);
     progressBar->setToolTip(tooltip);
+
+#ifdef ENABLE_DEX
+    labelOffersIcon->setToolTip(strSyncOffersStatus);
+#endif
 }
 
 void BitcoinGUI::message(const QString &title, const QString &message, unsigned int style, bool *ret)

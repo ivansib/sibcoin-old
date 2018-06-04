@@ -78,6 +78,7 @@ void CDexSync::startSyncDex()
         if (numAttemptStart >= MAX_NUM_ATTEMPT_START) {
             status = Status::Failed;
             stepWaitAfterFailed = 0;
+            uiInterface.NotifyAdditionalDataSyncProgressChanged(0);
         }
 
         return;
@@ -203,6 +204,8 @@ bool CDexSync::reset(const bool isAuto)
             numAutoReset = 0;
             numUnanswerRequests = 0;
             stepWaitAfterFailed = 0;
+
+            uiInterface.NotifyAdditionalDataSyncProgressChanged(0);
 
             return false;
         }
@@ -382,6 +385,7 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
 
     if (status == Status::Initial) {
         status = Status::SyncStepOne;
+        uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent);
     }
     std::list<std::pair<uint256, uint32_t>> nodeHvs;
     int cPart;
@@ -422,6 +426,7 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
 
         maxOffersNeedDownload = offersNeedDownload.size();
         status = Status::SyncStepSecond;
+        uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent);
         sendRequestNodes();
     }
 }
@@ -537,8 +542,8 @@ void CDexSync::eraseItemFromOffersNeedDownload(const uint256 &hash)
         offersNeedDownload.erase(it);
     }
 
-    float p = static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
     float percent = 1 - 0.9 * static_cast<float>(offersNeedDownload.size()) / maxOffersNeedDownload;
+    statusPercent = percent;
 
     if (offersNeedDownload.size() == 0) {
         finishSyncDex();
