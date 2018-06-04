@@ -86,16 +86,7 @@ void CDexSync::startSyncDex()
     numAttemptStart = 0;
     status = Status::Started;
 
-    prevMaxOffersNeedDownload = 0;
-    prevOffersNeedDownloadSize = 0;
-    maxOffersNeedDownload = 0;
-    numUnanswerRequests = 0;
-
-    LOCK2(cs_main, cs);
-
-    statusNodes.clear();
-    waitAnswerFromNodes.clear();
-    offersNeedDownload.clear();
+    clearData();
 
     LogPrint("dex", "CDexSync -- start synchronization offers\n");
 
@@ -247,6 +238,13 @@ bool CDexSync::resetAfterFailed()
     }
 
     return false;
+}
+
+void CDexSync::forceSynced()
+{
+    status = Status::Finished;
+    uiInterface.NotifyAdditionalDataSyncProgressChanged(1);
+    clearData();
 }
 
 void CDexSync::updatePrevData()
@@ -740,6 +738,20 @@ int CDexSync::numberUnanswerRequests() const
     return numUnanswerRequests;
 }
 
+void CDexSync::clearData()
+{
+    prevMaxOffersNeedDownload = 0;
+    prevOffersNeedDownloadSize = 0;
+    maxOffersNeedDownload = 0;
+    numUnanswerRequests = 0;
+
+    LOCK2(cs_main, cs);
+
+    statusNodes.clear();
+    waitAnswerFromNodes.clear();
+    offersNeedDownload.clear();
+}
+
 std::set<uint256> CDexSync::getOffersNeedDownload() const
 {
     return offersNeedDownload;
@@ -784,6 +796,11 @@ void DexConnectSignals()
 void FinishSyncDex()
 {
     dexsync.setRunTimer(false);
+
+    if (dexsync.statusSync() == CDexSync::Status::Finished) {
+        dexsync.clearData();
+        return;
+    }
 
     bool b = (dexsync.statusSync() == CDexSync::Status::Initial && dexsync.offersNeedDownloadSize() == 0);
     bool b1 = (dexsync.numberUnanswerRequests() >= 3);

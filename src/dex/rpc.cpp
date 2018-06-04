@@ -797,6 +797,9 @@ UniValue dexsync(const UniValue& params, bool fHelp)
         } else {
            result.push_back(Pair("status", "reset is not available now"));
         }
+    } else if (key == "force-synced") {
+        dex::dexsync.forceSynced();
+        result.push_back(Pair("status", "force synced"));
     } else {
         throw runtime_error("\nwrong parameter " + key + "\n");
     }

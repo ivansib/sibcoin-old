@@ -51,6 +51,7 @@ public:
     int minNumDexNode() const;
     bool reset(const bool isAuto = false);
     bool resetAfterFailed();
+    void forceSynced();
     void updatePrevData();
     bool checkSyncData();
     void startTimer();
@@ -61,6 +62,7 @@ public:
     void checkNodes();
     bool actualSync() const;
     int numberUnanswerRequests() const;
+    void clearData();
 
     boost::signals2::signal<void()> syncFinished;
     mutable CCriticalSection cs;
