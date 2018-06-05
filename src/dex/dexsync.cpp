@@ -57,7 +57,7 @@ void CDexSync::ProcessMessage(CNode *pfrom, std::string &strCommand, CDataStream
         noOffersList(pfrom, vRecv);
     } else if (strCommand == NetMsgType::DEXSYNCNOHASH) {
         noHash(pfrom, vRecv);
-    } else if (strCommand == NetMsgType::DEXSYNCNEEDSYNC) {
+    } else if (strCommand == NetMsgType::DEXSYNCNEEDSYNC) { // NODE: delete it if it won't use
         reset();
     } else if (strCommand == NetMsgType::DEXSYNCCHECK) {
          sendHashOffers(pfrom, vRecv, true);
@@ -330,16 +330,16 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv, bool isCheck) co
                 return;
             }
         } else {
-        if (dsInfoOther == dsInfo) {
-            hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::After, dsInfoOther.lastTimeMod);
-            if (hvs.size() == 0) {
-                LogPrint("dex", "%s -- offers actual\n", tag);
-                pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
-                return;
+            if (dsInfoOther == dsInfo) {
+                hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::After, dsInfoOther.lastTimeMod);
+                if (hvs.size() == 0) {
+                    LogPrint("dex", "%s -- offers actual\n", tag);
+                    pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
+                    return;
+                }
+            } else {
+                hvs = dexman.availableOfferHashAndVersion();
             }
-        } else {
-            hvs = dexman.availableOfferHashAndVersion();
-        }
         }
     }
 
@@ -352,8 +352,8 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv, bool isCheck) co
             pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
             return;
         } else {
-        LogPrint("dex", "%s -- offers not found\n", tag);
-        pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Empty));
+            LogPrint("dex", "%s -- offers not found\n", tag);
+            pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Empty));
         }
     }
 
@@ -419,9 +419,9 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
     }
 
     if (cPart == maxPart) {
-        if (statusNodes[pfrom->addr] == StatusNode::Good) { // WARNING: edit it (sends messages to nodes that are already synchronized)
-            LogPrint("dex", "DEXSYNCPARTHASH -- send message about node with addres %s need sync\n", pfrom->addr.ToString());
-            pfrom->PushMessage(NetMsgType::DEXSYNCNEEDSYNC);
+        if (statusNodes[pfrom->addr] == StatusNode::Good) {
+            DexSyncInfo dsInfo = dexSyncInfo(timeStart);
+            pfrom->PushMessage(NetMsgType::DEXSYNCCHECK, dsInfo);
         }
 
         maxOffersNeedDownload = offersNeedDownload.size();
