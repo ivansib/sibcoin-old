@@ -36,8 +36,9 @@ public:
     void deleteOldUncOffers();
     void deleteOldOffers();
 
-    std::list<std::pair<uint256, uint32_t> > availableOfferHashAndVersion(const uint64_t &lastTimeMod = 0) const;
-    std::list<std::pair<uint256, uint32_t> > availableOfferHashAndVersion(const DexDB::OffersPeriod &from, const uint64_t &timeMod) const;
+    std::list<std::pair<uint256, uint32_t> > availableOfferHashAndVersion() const;
+    std::list<std::pair<uint256, uint32_t> > availableOfferHashAndVersionFromBD(const DexDB::OffersPeriod &from, const uint64_t &timeMod) const;
+    std::list<std::pair<uint256, uint32_t> > availableOfferHashAndVersionFromUnc() const;
     CDexOffer getOfferInfo(const uint256 &hash) const;
     UnconfirmedOffers *getUncOffers() const;
 

@@ -247,6 +247,7 @@ void CDexSync::forceSynced()
 {
     status = Status::Finished;
     uiInterface.NotifyAdditionalDataSyncProgressChanged(1);
+    syncFinished();
     clearData();
 }
 
@@ -331,7 +332,10 @@ void CDexSync::sendHashOffers(CNode *pfrom, CDataStream &vRecv, bool isCheck) co
             }
         } else {
             if (dsInfoOther == dsInfo) {
-                hvs = dexman.availableOfferHashAndVersion(DexDB::OffersPeriod::After, dsInfoOther.lastTimeMod);
+                hvs = dexman.availableOfferHashAndVersionFromBD(DexDB::OffersPeriod::After, dsInfoOther.lastTimeMod);
+                auto hvsUnc = dexman.availableOfferHashAndVersionFromUnc();
+                hvs.insert(hvs.end(), hvsUnc.begin(), hvsUnc.end());
+
                 if (hvs.size() == 0) {
                     LogPrint("dex", "%s -- offers actual\n", tag);
                     pfrom->PushMessage(NetMsgType::DEXSYNCNOOFFERS, static_cast<int>(StatusOffers::Actual));
