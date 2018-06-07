@@ -87,9 +87,9 @@ public:
     bool isExistOfferSell(const uint256 &idTransaction);
     bool isExistOfferSellByHash(const uint256 &hash);
     std::list<uint256> getSellHashs();
-    int countOffersSell();
-    int countOffersSell(const OffersPeriod &from, const long long int &timeMod);
-    int countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
+    size_t countOffersSell();
+    size_t countOffersSell(const OffersPeriod &from, const long long int &timeMod);
+    size_t countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
     uint64_t lastModificationOffersSell();
     std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsSell();
     std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsSell(const OffersPeriod &from, const long long &timeMod);
@@ -106,9 +106,9 @@ public:
     bool isExistOfferBuy(const uint256 &idTransaction);
     bool isExistOfferBuyByHash(const uint256 &hash);
     std::list<uint256> getBuyHashs();
-    int countOffersBuy();
-    int countOffersBuy(const OffersPeriod &from, const long long int &timeMod);
-    int countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
+    size_t countOffersBuy();
+    size_t countOffersBuy(const OffersPeriod &from, const long long int &timeMod);
+    size_t countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment);
     uint64_t lastModificationOffersBuy();
     std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsBuy();
     std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersionsBuy(const OffersPeriod &from, const long long &timeMod);
@@ -124,8 +124,8 @@ public:
     std::list<MyOfferInfo> getMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, const int &limit, const int &offset);
     MyOfferInfo getMyOffer(const uint256 &idTransaction);
     MyOfferInfo getMyOfferByHash(const uint256 &hash);
-    int countMyOffers();
-    int countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer);
+    size_t countMyOffers();
+    size_t countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer);
     int setStatusExpiredForMyOffers();
 
     void addFilter(const std::string &filter);
@@ -177,9 +177,9 @@ private:
     bool isExistOffer(const std::string &tableName, const uint256 &idTransaction);
     bool isExistOfferByHash(const std::string &tableName, const uint256 &hash);
     std::list<uint256> getHashs(const std::string &tableName);
-    int countOffers(const std::string &tableName, int &status);
-    int countOffers(const std::string &tableName, const OffersPeriod &from, const long long int &timeMod, int &status);
-    int countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status);
+    size_t countOffers(const std::string &tableName, int &status);
+    size_t countOffers(const std::string &tableName, const OffersPeriod &from, const long long int &timeMod, int &status);
+    size_t countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status);
     uint64_t lastModificationOffers(const std::string &tableName, int &status);
     std::list<std::pair<uint256, uint32_t>> getHashsAndEditingVersions(const std::string &tableName, const OffersPeriod &from, const long long &timeMod);
 

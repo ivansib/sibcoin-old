@@ -512,34 +512,34 @@ std::list<uint256> DexDB::getSellHashs()
 }
 
 
-int DexDB::countOffersSell()
+size_t DexDB::countOffersSell()
 {
     std::string tableName = "offersSell";
 
     int status;
-    int count = countOffers(tableName, status);
+    auto count = countOffers(tableName, status);
     finishTableOperation(callBack, OffersSell, Read, status);
 
     return count;
 }
 
-int DexDB::countOffersSell(const DexDB::OffersPeriod &from, const long long &timeMod)
+size_t DexDB::countOffersSell(const DexDB::OffersPeriod &from, const long long &timeMod)
 {
     std::string tableName = "offersSell";
 
     int status;
-    int count = countOffers(tableName, from, timeMod, status);
+    auto count = countOffers(tableName, from, timeMod, status);
     finishTableOperation(callBack, OffersSell, Read, status);
 
     return count;
 }
 
-int DexDB::countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment)
+size_t DexDB::countOffersSell(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment)
 {
     std::string tableName = "offersSell";
 
     int status;
-    int count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
+    auto count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
     finishTableOperation(callBack, OffersSell, Read, status);
 
     return count;
@@ -654,34 +654,34 @@ std::list<uint256> DexDB::getBuyHashs()
 }
 
 
-int DexDB::countOffersBuy()
+size_t DexDB::countOffersBuy()
 {
     std::string tableName = "offersBuy";
 
     int status;
-    int count = countOffers(tableName, status);
+    auto count = countOffers(tableName, status);
     finishTableOperation(callBack, OffersBuy, Read, status);
 
     return count;
 }
 
-int DexDB::countOffersBuy(const DexDB::OffersPeriod &from, const long long &timeMod)
+size_t DexDB::countOffersBuy(const DexDB::OffersPeriod &from, const long long &timeMod)
 {
     std::string tableName = "offersBuy";
 
     int status;
-    int count = countOffers(tableName, from, timeMod, status);
+    auto count = countOffers(tableName, from, timeMod, status);
     finishTableOperation(callBack, OffersBuy, Read, status);
 
     return count;
 }
 
-int DexDB::countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment)
+size_t DexDB::countOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment)
 {
     std::string tableName = "offersBuy";
 
     int status;
-    int count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
+    auto count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
     finishTableOperation(callBack, OffersBuy, Read, status);
 
     return count;
@@ -917,23 +917,23 @@ MyOfferInfo DexDB::getMyOfferByHash(const uint256 &hash)
     return info;
 }
 
-int DexDB::countMyOffers()
+size_t DexDB::countMyOffers()
 {
     std::string tableName = "myOffers";
 
     int status;
-    int count = countOffers(tableName, status);
+    auto count = countOffers(tableName, status);
     finishTableOperation(callBack, MyOffers, Read, status);
 
     return count;
 }
 
-int DexDB::countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer)
+size_t DexDB::countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer)
 {
     std::string tableName = "myOffers";
 
     int status;
-    int count = countOffers(tableName, countryIso, currencyIso, payment, type, statusOffer, status);
+    auto count = countOffers(tableName, countryIso, currencyIso, payment, type, statusOffer, status);
     finishTableOperation(callBack, MyOffers, Read, status);
 
     return count;
@@ -1483,9 +1483,9 @@ std::list<uint256> DexDB::getHashs(const std::string &tableName)
     return ids;
 }
 
-int DexDB::countOffers(const std::string &tableName, int &status)
+size_t DexDB::countOffers(const std::string &tableName, int &status)
 {
-    int count;
+    long long int count;
     std::string query = "SELECT count(*) FROM " + tableName;
     sqlite3pp::query qry(db, query.c_str());
 
@@ -1496,9 +1496,9 @@ int DexDB::countOffers(const std::string &tableName, int &status)
     return count;
 }
 
-int DexDB::countOffers(const std::string &tableName, const DexDB::OffersPeriod &from, const long long &timeMod, int &status)
+size_t DexDB::countOffers(const std::string &tableName, const DexDB::OffersPeriod &from, const long long &timeMod, int &status)
 {
-    int count;
+    long long int count;
     std::string query = "SELECT count(*) FROM " + tableName;
 
     if (OffersPeriod::Before == from) {
@@ -1517,9 +1517,9 @@ int DexDB::countOffers(const std::string &tableName, const DexDB::OffersPeriod &
     return count;
 }
 
-int DexDB::countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status)
+size_t DexDB::countOffers(const std::string &tableName, const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, int &status)
 {
-    int count;
+    long long int count;
     std::list<MyOfferInfo> offers;
 
     std::string strQuery = "SELECT count(*) FROM " + tableName;
