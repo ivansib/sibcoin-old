@@ -662,9 +662,6 @@ void CDexSync::sendRequestFoGetOffers() const
     auto vNodesCopy = CopyNodeVector();
 
     int iNode = 0;
-    int i = 0;
-    bool isSend = true;
-
     bool interviewAll = false;
 
     if (offersNeedDownload.size() < vNodesCopy.size() * 2) {
