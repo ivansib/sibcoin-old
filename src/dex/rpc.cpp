@@ -918,3 +918,75 @@ UniValue dexunconfirmed(const UniValue& params, bool fHelp)
 
     return result;
 }
+
+UniValue getdexoffer(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+
+    if (fHelp)
+        throw runtime_error(
+            "getdexoffer <hash>\n"
+            "Return detail info about offer.\n"
+
+            "nResult (for example):\n"
+            "[\n"
+            "   {\n"
+            "     \"type\"          : \"sell\",   offer type, buy or sell\n"
+            "     \"idTransaction\" : \"<id>\",   transaction with offer fee\n"
+            "     \"hash\"          : \"<hash>\", offer hash\n"
+            "     \"pubKey\"        : \"<key>\",  offer public key\n"
+            "     \"countryIso\"    : \"RU\",     country (ISO 3166-1 alpha-2)\n"
+            "     \"currencyIso\"   : \"RUB\",    currency (ISO 4217)\n"
+            "     \"paymentMethod\" : 1,        payment method code (default 1 - cash, 128 - online)\n"
+            "     \"price\"         : 10000,\n"
+            "     \"minAmount\"     : 1000,\n"
+            "     \"timeCreate\"    : 947...9344,\n"
+            "     \"timeExpiration\": 947...5344, offer expiration\n"
+            "     \"shortInfo\"     : \"...\",    offer short info (max 140 bytes)\n"
+            "     \"details\"       : \"...\"     offer details (max 1024 bytes)\n"
+            "   },\n"
+            "   ...\n"
+            "]\n"
+
+            "\nExamples:\n"
+            + HelpExampleCli("getdexoffer", "AABB...CCDD")
+        );
+
+    std::string strOfferHash = params[0].get_str();
+    if (strOfferHash.empty()) {
+        throw runtime_error("\nERROR: offer hash is empty");
+    }
+
+    uint256 hash = uint256S(strOfferHash);
+    if (hash.IsNull()) {
+        throw runtime_error("\nERROR: offer hash error\n");
+    }
+
+    CDexOffer offer;
+    if (dex::DexDB::self()->isExistOfferSellByHash(hash)) {
+        auto info = dex::DexDB::self()->getOfferSellByHash(hash);
+        offer = CDexOffer(info, dex::TypeOffer::Sell);
+    } else if (dex::DexDB::self()->isExistOfferBuyByHash(hash)) {
+        auto info = dex::DexDB::self()->getOfferBuyByHash(hash);
+        offer = CDexOffer(info, dex::TypeOffer::Buy);
+    } else {
+        offer = dexman.getUncOffers()->getOfferByHash(hash);
+    }
+
+    if (offer.IsNull()) {
+        UniValue result(UniValue::VOBJ);
+        return result;
+    } else {
+        return offer.getUniValue();
+    }
+}
