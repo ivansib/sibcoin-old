@@ -886,3 +886,35 @@ UniValue getdexinfo(const UniValue& params, bool fHelp)
     return result;
 }
 
+UniValue dexunconfirmed(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+
+    if (fHelp)
+        throw runtime_error(
+            "dexunconfirmed\n"
+            "Return list pair{hash, idTransaction} unconfirmed offers.\n"
+        );
+
+    UniValue result(UniValue::VARR);
+
+    auto unc = dexman.getUncOffers()->getAllOffers();
+    for (auto i : unc) {
+        UniValue v(UniValue::VOBJ);
+        v.push_back(Pair("hash", i.hash.GetHex()));
+        v.push_back(Pair("txid", i.idTransaction.GetHex()));
+        result.push_back(v);
+    }
+
+    return result;
+}
