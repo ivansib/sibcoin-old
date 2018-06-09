@@ -10,11 +10,11 @@
 // default options
 #define DEFAULT_DEX_VACUUM_ON_STARTUP   1
 #define DEFAULT_DEX_BACKUPS             10
-
+#define DEFAULT_DEX_BUSY_TIMEOUT        2000
 namespace dex {
 
 // Please update this DB version number if you change DB schema
-const unsigned int uiDexDBversionInCode = 1007;
+const unsigned int uiDexDBversionInCode = 1008;
 
 typedef std::map<CallBackDB*, int> CallBack;
 
@@ -152,8 +152,6 @@ private:
 
     static void finishTableOperation(const CallBack &callBack, const TypeTable & tables, const TypeTableOperation &operation, const int &status);
 
-    void createTables();
-    void addDefaultData();
     int tableCount(const std::string &tableName);
     std::string templateOffersTable(const std::string &tableName) const;
 
@@ -192,14 +190,21 @@ private:
     bool isGetCountriesDataFromDB;
     bool isGetCurrenciesDataFromDB;
     bool isGetPaymentsDataFromDB;
+
+    void createTables(sqlite3pp::database &db);
+    void addDefaultData();
     void addDbVersion(const int& uiDexDbVersion);
     bool isDexDbOutdated();
+    bool isDexDbEmpty();
+    void checkDexDbSchema();
+    void checkDexDbIntegrity();
     void dropTables();
     void dropOldTables();
     void renameTables();
-    void createIndexes();
+    void createIndexes(sqlite3pp::database &db);
     void dropIndexes();
     void moveTablesData();
+    std::map<std::string,std::string> getDbSchema(sqlite3pp::database &db);
 
     void createTestOffers(); // NOTE: for test
 };

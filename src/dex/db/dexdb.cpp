@@ -20,31 +20,38 @@ bool DexDB::bOffersRescan = false;
 
 DexDB::DexDB()
 {
-
     db = sqlite3pp::database(strDexDbFile.c_str(),
             SQLITE_OPEN_READWRITE |
             SQLITE_OPEN_CREATE |
             SQLITE_OPEN_FULLMUTEX |
             SQLITE_OPEN_SHAREDCACHE);
 
+    db.set_busy_timeout(DEFAULT_DEX_BUSY_TIMEOUT);
+
     isGetCountriesDataFromDB = true;
     isGetCurrenciesDataFromDB = true;
     isGetPaymentsDataFromDB = true;
 
-    createTables();
-    addDefaultData();
+    if (isDexDbEmpty()) {
+        createTables(db);
+        addDefaultData();
+    }
+
+    checkDexDbIntegrity();
 
     if (isDexDbOutdated()) {
         sqlite3pp::transaction tx(db);
         dropIndexes();
         renameTables();
         dropTables();
-        createTables();
+        createTables(db);
         moveTablesData();
-        createIndexes();
+        createIndexes(db);
         dropOldTables();
         addDefaultData();
         tx.commit();
+    } else {
+        checkDexDbSchema();
     }
 }
 
@@ -129,6 +136,66 @@ bool DexDB::isDexDbOutdated()
     else
        return false;
 }
+
+
+bool DexDB::isDexDbEmpty()
+{
+    int count = 0;
+    sqlite3pp::query qry(db, "SELECT count(*) FROM sqlite_master");
+    sqlite3pp::query::iterator it = qry.begin();
+    (*it).getter() >> count;
+    return count == 0;
+}
+
+
+void DexDB::checkDexDbSchema()
+{
+    sqlite3pp::database dbm = sqlite3pp::database(":memory:");
+    createTables(dbm);
+    createIndexes(dbm);
+
+    std::map<std::string,std::string> schema1 = getDbSchema(db);
+    std::map<std::string,std::string> schema2 = getDbSchema(dbm);
+
+    if(schema1.size() != schema2.size()) {
+        throw sqlite3pp::database_error("DEX db schema is incorrect");
+    }
+
+    for(auto i = schema1.begin(), j = schema2.begin(); i != schema1.end(); ++i, ++j) {
+        if(*i != *j) throw sqlite3pp::database_error("DEX db schema is incorrect");
+    }
+}
+
+
+std::map<std::string,std::string> DexDB::getDbSchema(sqlite3pp::database &db)
+{
+    std::map<std::string,std::string> result;
+    sqlite3pp::query qry(db, "SELECT name, sql FROM sqlite_master WHERE sql NOT NULL");
+
+    for (sqlite3pp::query::iterator it = qry.begin(); it != qry.end(); ++it) {
+        std::string name, sql;
+        std::tie(name, sql) = (*it).get_columns<std::string, std::string>(0, 1);
+        result[name] = sql;
+    }
+    return result;
+}
+
+
+void DexDB::checkDexDbIntegrity()
+{
+    std::string result;
+    sqlite3pp::query qry(db, "PRAGMA integrity_check");
+
+    for (auto it : qry) {
+        std::string str;
+        it.getter() >> str;
+        result += str;
+    }
+    if (result != "ok") {
+        throw sqlite3pp::database_error(result.c_str());
+    }
+}
+
 
 void DexDB::dropTables()
 {
@@ -1753,7 +1820,7 @@ void DexDB::finishTableOperation(const CallBack &callBack, const dex::TypeTable 
     }
 }
 
-void DexDB::createTables()
+void DexDB::createTables(sqlite3pp::database &db)
 {
     db.execute("CREATE TABLE IF NOT EXISTS dbversion (version BIG INT)");
     db.execute("CREATE TABLE IF NOT EXISTS countries (iso VARCHAR(2) NOT NULL PRIMARY KEY, name VARCHAR(100), enabled BOOLEAN, currencyId INT, sortOrder INT)");
@@ -1774,7 +1841,7 @@ void DexDB::createTables()
 }
 
 
-void DexDB::createIndexes()
+void DexDB::createIndexes(sqlite3pp::database &db)
 {
     db.execute("CREATE INDEX IF NOT EXISTS idx_offersSell_timeexp ON offersSell(timeToExpiration)");
     db.execute("CREATE INDEX IF NOT EXISTS idx_offersBuy_timeexp ON offersBuy(timeToExpiration)");
