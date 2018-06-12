@@ -34,6 +34,7 @@ DexDB::DexDB()
 
     if (isDexDbEmpty()) {
         createTables(db);
+        createIndexes(db);
         addDefaultData();
     }
 
