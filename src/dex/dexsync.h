@@ -87,7 +87,7 @@ private:
     DexSyncInfo dexSyncInfo(const uint64_t &lastMod) const;
     uint64_t lastTimeModOffers() const;
     void sendCheckNodes() const;
-    void sendRequestFoGetOffers() const;
+    void sendRequestForGetOffers() const;
 
     std::set<CAddress> waitAnswerFromNodes;
     std::map<CAddress, StatusNode> statusNodes;

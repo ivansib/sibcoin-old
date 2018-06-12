@@ -657,9 +657,37 @@ void CDexSync::sendCheckNodes() const
     ReleaseNodeVector(vNodesCopy);
 }
 
-void CDexSync::sendRequestFoGetOffers() const
+void CDexSync::sendRequestForGetOffers() const
 {
     auto vNodesCopy = CopyNodeVector();
+
+    std::vector<CNode*> useNodes;
+
+    for (auto node : vNodesCopy) {
+        if (node->nVersion < MIN_DEX_VERSION) {
+            continue;
+        }
+
+        if (!mnodeman.isExist(node)) {
+            continue;
+        }
+
+        if(node->fMasternode || (fMasterNode && node->fInbound)) {
+            continue;
+        }
+
+        auto sn = statusNodes.find(node->addr);
+        if (sn != statusNodes.end()) {
+            if (sn->second == StatusNode::Good || sn->second == StatusNode::Process) {
+                if (sn->second == StatusNode::Good) {
+                    DexSyncInfo dsInfo = dexSyncInfo(lastModOffers - 3600);
+                    node->PushMessage(NetMsgType::DEXSYNCGETALLHASH, dsInfo);
+                }
+
+                useNodes.push_back(node);
+            }
+        }
+    }
 
     int iNode = 0;
     bool interviewAll = false;
@@ -669,9 +697,9 @@ void CDexSync::sendRequestFoGetOffers() const
     }
     auto it = offersNeedDownload.begin();
     while (it != offersNeedDownload.end()) {
-        auto node = vNodesCopy[iNode];
+        auto node = useNodes[iNode];
 
-        if (iNode == vNodesCopy.size() - 1) {
+        if (iNode == useNodes.size() - 1) {
             iNode = 0;
         } else {
             iNode++;
@@ -685,28 +713,6 @@ void CDexSync::sendRequestFoGetOffers() const
             }
         } else {
             ++it;
-        }
-
-        auto sn = statusNodes.find(node->addr);
-        if (sn != statusNodes.end()) {
-            if (sn->second == StatusNode::Bad || sn->second == StatusNode::Actual) {
-                continue;
-            }
-        } else {
-            DexSyncInfo dsInfo = dexSyncInfo(lastModOffers - 3600);
-            node->PushMessage(NetMsgType::DEXSYNCGETALLHASH, dsInfo);
-        }
-
-        if (node->nVersion < MIN_DEX_VERSION) {
-            continue;
-        }
-
-        if (!mnodeman.isExist(node)) {
-            continue;
-        }
-
-        if(node->fMasternode || (fMasterNode && node->fInbound)) {
-            continue;
         }
 
         node->PushMessage(NetMsgType::DEXSYNCGETOFFER, hash);
@@ -768,7 +774,7 @@ void CDexSync::sendRequestNodes()
     if (offersNeedDownload.size() == 0 && !actualSync()) {
         sendCheckNodes();
     } else {
-        sendRequestFoGetOffers();
+        sendRequestForGetOffers();
     }
 
     startTimer();
