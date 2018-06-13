@@ -216,7 +216,7 @@ bool CDexSync::reset(const bool isAuto)
 
     if (b && b1) {
         return false;
-    } else {        
+    } else {
         statusPercent = 0;
         numUnanswerRequests = 0;
         status = Status::NoStarted;
@@ -419,6 +419,11 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
         }
 
         offersNeedDownload.insert(h.first);
+
+        if (offersNeedDownload.size() > maxOffersNeedDownload) {
+            maxOffersNeedDownload = offersNeedDownload.size();
+        }
+
         addAddrToStatusNode(pfrom->addr, StatusNode::Process, false);
     }
 
@@ -428,7 +433,6 @@ void CDexSync::getHashs(CNode *pfrom, CDataStream &vRecv)
             pfrom->PushMessage(NetMsgType::DEXSYNCCHECK, dsInfo);
         }
 
-        maxOffersNeedDownload = offersNeedDownload.size();
         status = Status::SyncStepSecond;
         uiInterface.NotifyAdditionalDataSyncProgressChanged(statusPercent);
         sendRequestNodes();
