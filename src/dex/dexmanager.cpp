@@ -182,18 +182,22 @@ void CDexManager::checkUncOffers()
                     }
                 }
 
-                offersRemove.push_back(*it);;
+                offersRemove.push_back(*it);
             }
         }
-        sqlite3pp::transaction tx(*(db->getDB()));
+
+        db->begin();
+
         for (auto offer : offersBuy) {
             db->addOfferBuy(*offer, false);
         }
         for (auto offer : offersSell) {
             db->addOfferSell(*offer, false);
         }
-        tx.commit();
-        uncOffers->removeOffers(offersRemove);
+
+        if (db->commit() == 0) {
+            uncOffers->removeOffers(offersRemove);
+        }
     }
 
 }
@@ -545,9 +549,9 @@ void ThreadDexUncManager()
     while (true) {
         MilliSleep(minPeriod);
 
-        if (!dexsync.isSynced()) {
-            continue;
-        }
+//        if (!dexsync.isSynced()) {
+//            continue;
+//        }
 
         if (step % stepCheckUnc == 0) {
             LogPrint("dex", "ThreadDexManager -- check unconfirmed offers\n");
