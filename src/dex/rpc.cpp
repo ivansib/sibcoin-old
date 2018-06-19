@@ -879,9 +879,9 @@ UniValue getdexinfo(const UniValue& params, bool fHelp)
 
 
     UniValue result(UniValue::VOBJ);
-    result.push_back(Pair("offersSell", dex::DexDB::self()->countOffersSell()));
-    result.push_back(Pair("offersBuy", dex::DexDB::self()->countOffersBuy()));
-    result.push_back(Pair("myOffers", dex::DexDB::self()->countMyOffers()));
+    result.push_back(Pair("offersSell", static_cast<uint64_t>(dex::DexDB::self()->countOffersSell())));
+    result.push_back(Pair("offersBuy", static_cast<uint64_t>(dex::DexDB::self()->countOffersBuy())));
+    result.push_back(Pair("myOffers", static_cast<uint64_t>(dex::DexDB::self()->countMyOffers())));
     result.push_back(Pair("uncOffers", static_cast<uint64_t>(dexman.getUncOffers()->getSize())));
     return result;
 }
