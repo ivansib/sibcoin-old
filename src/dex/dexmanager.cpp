@@ -513,10 +513,6 @@ void ThreadDexManager()
             dexman.startSyncDex();
         }
 
-//        if (!dexsync.isSynced() && step != 0) {
-//            continue;
-//        }
-
         CheckDexMasternode();
 
         if (dexsync.statusSync() == CDexSync::Status::Failed) {
@@ -548,10 +544,6 @@ void ThreadDexUncManager()
 
     while (true) {
         MilliSleep(minPeriod);
-
-//        if (!dexsync.isSynced()) {
-//            continue;
-//        }
 
         if (step % stepCheckUnc == 0) {
             LogPrint("dex", "ThreadDexManager -- check unconfirmed offers\n");

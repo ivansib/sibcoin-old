@@ -233,6 +233,9 @@ bool CDexSync::resetAfterFailed()
 
         if (stepWaitAfterFailed >= MAX_STEP_WAIT_AFTER_FAILED) {
             statusPercent = 0;
+            numAutoReset = 0;
+            numAttemptStart = 0;
+            stepWaitAfterFailed = 0;
             status = Status::NoStarted;
             startSyncDex();
 
@@ -693,33 +696,35 @@ void CDexSync::sendRequestForGetOffers() const
         }
     }
 
-    int iNode = 0;
-    bool interviewAll = false;
+    if (!useNodes.empty()) {
+        int iNode = 0;
+        bool interviewAll = false;
 
-    if (offersNeedDownload.size() < vNodesCopy.size() * 2) {
-        interviewAll = true;
-    }
-    auto it = offersNeedDownload.begin();
-    while (it != offersNeedDownload.end()) {
-        auto node = useNodes[iNode];
-
-        if (iNode == useNodes.size() - 1) {
-            iNode = 0;
-        } else {
-            iNode++;
+        if (offersNeedDownload.size() < vNodesCopy.size() * 2) {
+            interviewAll = true;
         }
+        auto it = offersNeedDownload.begin();
+        while (it != offersNeedDownload.end()) {
+            auto node = useNodes[iNode];
 
-        auto hash = *it;
+            if (iNode == useNodes.size() - 1) {
+                iNode = 0;
+            } else {
+                iNode++;
+            }
 
-        if (interviewAll) {
-            if (iNode == 0) {
+            auto hash = *it;
+
+            if (interviewAll) {
+                if (iNode == 0) {
+                    ++it;
+                }
+            } else {
                 ++it;
             }
-        } else {
-            ++it;
-        }
 
-        node->PushMessage(NetMsgType::DEXSYNCGETOFFER, hash);
+            node->PushMessage(NetMsgType::DEXSYNCGETOFFER, hash);
+        }
     }
 
     ReleaseNodeVector(vNodesCopy);
