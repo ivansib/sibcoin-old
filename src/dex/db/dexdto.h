@@ -88,7 +88,7 @@ public:
     std::string status2str(const StatusOffer status)  const { return statuses_[status]; };
     StatusOffer str2status(const std::string &strstatus) const {
         for (size_t i = 0; i < statuses_.size(); i++) {
-            if (std::equal(strstatus.begin(), strstatus.end(), statuses_[i].begin(), isequal) == 0) {
+            if (std::equal(strstatus.begin(), strstatus.end(), statuses_[i].begin(), isequal) == true) {
                 return static_cast<StatusOffer>(i);
             }
         }

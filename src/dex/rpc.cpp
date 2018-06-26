@@ -394,7 +394,226 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
     return result;
 }
 
+UniValue dexofferscount(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
 
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+
+    if (fHelp || params.size() < 1 || params.size() > 8)
+        throw runtime_error(
+            "dexofferscount [buy|sell|all] [country] [currency] [payment_method]\n"
+            "Get DEX offers count.\n"
+
+            "\nArguments:\n"
+            "NOTE: Any of the parameters may be skipped.You must specify at least one parameter.\n"
+            "\tcountry         (string, optional) two-letter country code (ISO 3166-1 alpha-2 code).\n"
+            "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
+            "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
+
+            "\nResult offers count\n"
+
+            "\nExamples:\n"
+            + HelpExampleCli("dexofferscount", "all USD")
+            + HelpExampleCli("dexofferscount", "RU RUB cash")
+            + HelpExampleCli("dexofferscount", "all USD online")
+        );
+
+    std::string typefilter, countryfilter, currencyfilter;
+    std::string methodfilter;
+    unsigned char methodfiltertype = 0;
+    std::list<std::string> words {"buy", "sell", "all"};
+    dex::CountryIso  countryiso;
+    dex::CurrencyIso currencyiso;
+
+    for (size_t i = 0; i < params.size(); i++) {
+        if (i == 0 && typefilter.empty()) {
+            if (std::find(words.begin(), words.end(), params[0].get_str()) != words.end()) {
+                typefilter = params[0].get_str();
+                continue;
+            } else {
+                typefilter = "all";
+            }
+        }
+        if (i < 2 && countryfilter.empty()) {
+            if (countryiso.isValid(params[i].get_str())) {
+                countryfilter = params[i].get_str();
+                continue;
+            }
+        }
+        if (i < 3 && currencyfilter.empty()) {
+            if (currencyiso.isValid(params[i].get_str())) {
+                currencyfilter = params[i].get_str();
+                continue;
+            }
+        }
+        {
+            methodfilter.clear();
+            std::string methodname = boost::algorithm::to_lower_copy(params[i].get_str());
+            std::list<dex::PaymentMethodInfo> pms = dex::DexDB::self()->getPaymentMethodsInfo();
+            for (auto j : pms) {
+                std::string name = boost::algorithm::to_lower_copy(j.name);
+                if (name == methodname) {
+                    methodfilter = j.name;
+                    methodfiltertype = j.type;
+                }
+            }
+
+            if (methodfilter.empty()) {
+                throw runtime_error("\nwrong parameter: " + params[i].get_str() + "\n");
+            }
+        }
+    }
+
+    if (typefilter.empty()) {
+        throw runtime_error("\nwrong parameters\n");
+    }
+
+    if (countryfilter != "") {
+        dex::CountryInfo  countryinfo = dex::DexDB::self()->getCountryInfo(countryfilter);
+        if (!countryinfo.enabled) {
+            throw runtime_error("\nERROR: this country is disabled in DB\n");
+        }
+    }
+    if (currencyfilter != "") {
+        dex::CurrencyInfo  currencyinfo = dex::DexDB::self()->getCurrencyInfo(currencyfilter);
+        if (!currencyinfo.enabled) {
+            throw runtime_error("\nERROR: this currency is disabled in DB\n");
+        }
+    }
+
+    size_t count = 0;
+    if (typefilter == "buy") {
+        count = dex::DexDB::self()->countOffersBuy(countryfilter, currencyfilter, methodfiltertype);
+    } else if (typefilter == "sell") {
+        count = dex::DexDB::self()->countOffersSell(countryfilter, currencyfilter, methodfiltertype);
+    } else {
+        count = dex::DexDB::self()->countOffersBuy(countryfilter, currencyfilter, methodfiltertype);
+        count += dex::DexDB::self()->countOffersSell(countryfilter, currencyfilter, methodfiltertype);
+    }
+
+    UniValue result(UniValue::VOBJ);
+    result.push_back(Pair("count", static_cast<uint64_t>(count)));
+
+    return result;
+}
+
+UniValue dexmyofferscount(const UniValue& params, bool fHelp)
+{
+    if (!fTxIndex) {
+        throw runtime_error(
+            "To use this feture please enable -txindex and make -reindex.\n"
+        );
+    }
+    if (dex::DexDB::self() == nullptr) {
+        throw runtime_error(
+            "DexDB is not initialized.\n"
+        );
+    }
+    if (fHelp || params.size() < 1 || params.size() > 9)
+        throw runtime_error(
+            "dexmyoffers [buy|sell|all] [country] [currency] [payment_method] [status] [limit N] [offset N]\n"
+            "Return count DEX own offers.\n"
+
+            "\nArguments:\n"
+            "NOTE: Any of the parameters may be skipped.You must specify at least one parameter.\n"
+            "\tcountry         (string, optional) two-letter country code (ISO 3166-1 alpha-2 code).\n"
+            "\tcurrency        (string, optional) three-letter currency code (ISO 4217).\n"
+            "\tpayment_method  (string, optional, case insensitive) payment method name.\n"
+            "\tstatus          (string, optional, case insensitive) offer status (Active,Draft,Expired,Cancelled,Suspended,Unconfirmed).\n"
+
+            "\nResult offers count\n"
+
+            "\nExamples:\n"
+            + HelpExampleCli("dexmyofferscount", "all USD")
+            + HelpExampleCli("dexmyofferscount", "RU RUB cash")
+            + HelpExampleCli("dexmyofferscount", "all USD online")
+        );
+
+
+    std::string typefilter, countryfilter, currencyfilter, methodfilter;
+    int statusfilter = dex::Indefined;
+    dex::CStatusOffer status;
+    unsigned char methodfiltertype = 0;
+    std::map<std::string, int> words;
+    words["buy"] = 0;
+    words["sell"] = 1;
+    words["all"] = -1;
+    dex::CountryIso  countryiso;
+    dex::CurrencyIso currencyiso;
+
+    for (size_t i = 0; i < params.size(); i++) {
+        if (typefilter.empty()) {
+            std::string key = boost::algorithm::to_lower_copy(params[i].get_str());
+            if (words.find(key) != words.end()) {
+                typefilter = key;
+                continue;
+            }
+        }
+        if (countryfilter.empty()) {
+            if (countryiso.isValid(params[i].get_str())) {
+                countryfilter = params[i].get_str();
+                continue;
+            }
+        }
+        if (currencyfilter.empty()) {
+            if (currencyiso.isValid(params[i].get_str())) {
+                currencyfilter = params[i].get_str();
+                continue;
+            }
+        }
+        if (methodfilter.empty()) {
+            std::string methodname = boost::algorithm::to_lower_copy(params[i].get_str());
+            std::list<dex::PaymentMethodInfo> pms = dex::DexDB::self()->getPaymentMethodsInfo();
+            for (auto j : pms) {
+                std::string name = boost::algorithm::to_lower_copy(j.name);
+                if (name == methodname) {
+                    methodfilter = j.name;
+                    methodfiltertype = j.type;
+                    continue;
+                }
+            }
+        }
+        if (statusfilter == dex::Indefined) {
+            status.set(params[i].get_str());
+            if (status != dex::Indefined) {
+                statusfilter = status;
+            }
+        }
+    }
+
+    if (typefilter.empty()) {
+        typefilter = "all";
+    }
+
+    if (countryfilter != "") {
+        dex::CountryInfo  countryinfo = dex::DexDB::self()->getCountryInfo(countryfilter);
+        if (!countryinfo.enabled) {
+            throw runtime_error("\nERROR: this country is disabled in DB\n");
+        }
+    }
+    if (currencyfilter != "") {
+        dex::CurrencyInfo  currencyinfo = dex::DexDB::self()->getCurrencyInfo(currencyfilter);
+        if (!currencyinfo.enabled) {
+            throw runtime_error("\nERROR: this currency is disabled in DB\n");
+        }
+    }
+
+    auto count = dex::DexDB::self()->countMyOffers(countryfilter, currencyfilter, methodfiltertype, words[typefilter], status);
+
+    UniValue result(UniValue::VOBJ);
+    result.push_back(Pair("count", static_cast<uint64_t>(count)));
+
+    return result;
+}
 
 
 UniValue deldexoffer(const UniValue& params, bool fHelp)

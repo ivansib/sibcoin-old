@@ -300,6 +300,8 @@ extern UniValue getspentinfo(const UniValue& params, bool fHelp);
 #ifdef ENABLE_DEX
 extern UniValue dexoffers(const UniValue& params, bool fHelp);
 extern UniValue dexmyoffers(const UniValue& params, bool fHelp);
+extern UniValue dexofferscount(const UniValue& params, bool fHelp);
+extern UniValue dexmyofferscount(const UniValue& params, bool fHelp);
 extern UniValue deldexoffer(const UniValue& params, bool fHelp);
 extern UniValue adddexoffer(const UniValue& params, bool fHelp);
 extern UniValue editdexoffer(const UniValue& params, bool fHelp);
