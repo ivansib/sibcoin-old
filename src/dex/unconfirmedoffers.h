@@ -8,6 +8,8 @@
 
 namespace dex {
 
+static const int UNCONFIRMED_OFFER_LIFETIME = 21600;    
+    
 struct UnconfirmedOffersComparator {
 
     bool operator()(const CDexOffer& a, const CDexOffer& b) const {

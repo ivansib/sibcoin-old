@@ -70,7 +70,7 @@ void UnconfirmedOffers::deleteOldOffers()
     std::map<CDexOffer,std::time_t>::const_iterator it = offers.begin();
     for (; it != offers.end();)
     {
-        if(difftime(it->second, currentTime) >= 21600)
+        if(difftime(currentTime, it->second) >= UNCONFIRMED_OFFER_LIFETIME)
             offers.erase(it++);
         else
             ++it;
