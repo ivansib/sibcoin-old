@@ -94,12 +94,20 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
     CDex dex(dexOffer);
 
     CKey key;
-    if (!dex.FindKey(key, error)) return;
-    if (!dex.MakeEditSign(key, error)) return;
+    if (!dex.FindKey(key, error)) {
+        return;
+    }
+    if (!dex.MakeEditSign(key, error)) {
+        return;
+    }
 
     uint256 tx;
 
     if (!dexOffer.idTransaction.IsNull()) {
+        if (!dex.CheckOfferTx(error)) {
+            return;
+        }
+
         dexman.sendEditedOffer(dex.offer);
 
         if (dex.offer.isBuy()) {
@@ -113,11 +121,9 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
 
         myOffer.setOfferInfo(dex.offer);
         myOffer.status = Active;
-        if (dex.offer.isBuy()) {
-            db->addOfferBuy(dex.offer, usethread);
-        }
-        if (dex.offer.isSell()) {
-            db->addOfferSell(dex.offer, usethread);
+        if (!uncOffers->putOffer(dex.offer)) {
+            error = "Don't add in unconfirmed offers";
+            return;
         }
     }
 
