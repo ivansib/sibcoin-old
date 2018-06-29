@@ -237,42 +237,21 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
     if (offer.Check(true, fine)) {
         CDex dex(offer);
         std::string error;
-        if (dex.CheckOfferTx(error)) {
-            bool bFound = false;
-            if (offer.isBuy())  {
-                if (db->isExistOfferBuyByHash(offer.hash)) {
-                  bFound = true;
-                } else {
-                    db->addOfferBuy(offer, false);
-                }
-            }
 
-            if (offer.isSell())  {
-                if (db->isExistOfferSellByHash(offer.hash)) {
-                  bFound = true;
-                } else {
-                    db->addOfferSell(offer, false);
-                }
-            }
-
-            if (!bFound) { // need to save and relay
-                auto vNodesCopy = CopyNodeVector();
-                for (auto pNode : vNodesCopy) {
-                    if (pNode->nVersion < MIN_DEX_VERSION) {
-                        continue;
-                    }
-
-                    if (pNode->addr != pfrom->addr) {
-                        pNode->PushMessage(NetMsgType::DEXOFFBCST, offer);
-                    }
-                }
-
-                ReleaseNodeVector(vNodesCopy);
-            }
-            LogPrint("dex", "DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
+        if (uncOffers->hasOffer(offer)) {
+            LogPrint("dex", "DEXOFFBCST -- uncOffers arleady has offer: %s\n", offer.hash.GetHex().c_str());
         } else {
-            if (uncOffers->putOffer(offer)) {
+            bool bFound = false;
+            if (offer.isBuy() && db->isExistOfferBuyByHash(offer.hash)) {
+                bFound = true;
+            }
+            if (offer.isSell() && db->isExistOfferSellByHash(offer.hash)) {
+                bFound = true;
+            }
 
+            LogPrint("dex", "DEXOFFBCST --\n%s\nfound %d\n", offer.dump().c_str(), bFound);
+            if (!bFound && uncOffers->putOffer(offer)) {
+                LogPrint("dex", "DEXOFFBCST -- added in uncOffes and send a offer: %s\n", offer.hash.GetHex().c_str());
                 auto vNodesCopy = CopyNodeVector();
                 for (auto pNode : vNodesCopy) {
                     if (pNode->nVersion < MIN_DEX_VERSION) {
@@ -285,8 +264,6 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
                 }
 
                 ReleaseNodeVector(vNodesCopy);
-
-                LogPrint("dex", "DEXOFFBCST --check offer tx fail(%s)\n", offer.idTransaction.GetHex().c_str());
             }
         }
     } else {
@@ -294,7 +271,6 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
         Misbehaving(pfrom->GetId(), fine);
     }
 }
-
 
 void CDexManager::getAndDelOffer(CNode *pfrom, CDataStream &vRecv)
 {
