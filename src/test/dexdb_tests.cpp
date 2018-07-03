@@ -13,141 +13,30 @@ class CallBackOffers : public CallBackDB
 {
 public:
     CallBackOffers() {
-        init();
     }
 
-    virtual void finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
-    {
-        if (operation == Add && status == Ok) {
-            if (table == OffersSell) {
-                addOffersSell++;
-            }
-
-            if (table == OffersBuy) {
-                addOffersBuy++;
-            }
-        }
-
-        if (operation == Delete && status == Ok) {
-            if (table == OffersSell) {
-                deleteOffersSell++;
-            }
-
-            if (table == OffersBuy) {
-                deleteOffersBuy++;
-            }
-        }
-
-        if (operation == Edit && status == Ok) {
-            if (table == OffersSell) {
-                editOffersSell++;
-            }
-
-            if (table == OffersBuy) {
-                editOffersBuy++;
-            }
-        }
+    virtual void finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status) {
+        this->table = table;
+        this->operation = operation;
+        this->status = status;
     }
 
-    void init()
-    {
-        addOffersSell = 0;
-        addOffersBuy = 0;
-        deleteOffersSell = 0;
-        deleteOffersBuy = 0;
-        editOffersSell = 0;
-        editOffersBuy = 0;
+    TypeTable getTypeTable() {
+        return table;
     }
 
-    int getAddOffersSell()
-    {
-        return addOffersSell;
+    TypeTableOperation getTypeTableOperation() {
+        return operation;
     }
 
-    int getAddOffersBuy()
-    {
-        return addOffersBuy;
-    }
-
-    int getDeleteOffersSell()
-    {
-        return deleteOffersSell;
-    }
-
-    int getDeleteOffersBuy()
-    {
-        return deleteOffersBuy;
-    }
-
-    int getEditOffersSell()
-    {
-        return editOffersSell;
-    }
-
-    int getEditOffersBuy()
-    {
-        return editOffersBuy;
+    StatusTableOperation getStatusTableOperation() {
+        return status;
     }
 
 private:
-    int addOffersSell;
-    int addOffersBuy;
-    int deleteOffersBuy;
-    int deleteOffersSell;
-    int editOffersBuy;
-    int editOffersSell;
-};
-
-class CallBackMyOffers : public CallBackDB
-{
-public:
-    CallBackMyOffers() {
-        init();
-    }
-
-    virtual void finishTableOperation(const TypeTable &table, const TypeTableOperation &operation, const StatusTableOperation &status)
-    {
-        if (table == MyOffers) {
-            if (operation == Add && status == Ok) {
-                addOffers++;
-            }
-
-            if (operation == Delete && status == Ok) {
-                deleteOffers++;
-            }
-
-            if (operation == Edit && status == Ok) {
-                editOffers++;
-            }
-        }
-    }
-
-    void init()
-    {
-        addOffers = 0;
-        deleteOffers = 0;
-        editOffers = 0;
-    }
-
-    int getAddOffers()
-    {
-        return addOffers;
-    }
-
-    int getDeleteOffers()
-    {
-        return deleteOffers;
-    }
-
-    int getEditOffers()
-    {
-        return editOffers;
-    }
-
-private:
-    int addOffers;
-    int deleteOffers;
-    int editOffers;
+    TypeTable table;
+    TypeTableOperation operation;
+    StatusTableOperation status;
 };
 
 void checkCountry(DexDB *db)
@@ -230,10 +119,6 @@ void checkPaymentMethod(DexDB *db)
 
 void checkOffers(DexDB *db)
 {
-    CallBackOffers cb;
-    cb.init();
-    db->addCallBack(&cb);
-
     long int currentTime = static_cast<long int>(time(NULL));
     int secInDay = 86400;
     long int lastMod = currentTime + secInDay;
@@ -294,21 +179,6 @@ void checkOffers(DexDB *db)
     db->addOfferBuy(info);
     db->addOfferSell(info);
 
-    int step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getAddOffersBuy() == 3 && cb.getAddOffersSell() == 3) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
-
     BOOST_CHECK(db->isExistOfferBuy(iList.front().idTransaction));
     BOOST_CHECK(db->isExistOfferSell(iList.back().idTransaction));
     BOOST_CHECK(db->isExistOfferBuyByHash(iList.front().hash));
@@ -356,21 +226,6 @@ void checkOffers(DexDB *db)
     db->deleteOfferSell(iList.front().idTransaction);
     db->deleteOfferBuy(iList.back().idTransaction);
 
-    step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getDeleteOffersBuy() == 1 && cb.getDeleteOffersSell() == 1) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
-
     BOOST_CHECK(!db->isExistOfferSell(iList.front().idTransaction));
     BOOST_CHECK(!db->isExistOfferBuy(iList.back().idTransaction));
 
@@ -401,21 +256,6 @@ void checkOffers(DexDB *db)
     info2.editingVersion = 6;
 
     db->editOfferBuy(info2);
-
-    step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getEditOffersBuy() == 1 && cb.getEditOffersSell() == 1) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
 
     OfferInfo sell = db->getOfferSell(info1.idTransaction);
 
@@ -521,25 +361,8 @@ void checkOffers(DexDB *db)
         BOOST_CHECK(buy.editingVersion == item.editingVersion);
     }
 
-    cb.init();
-
     db->deleteOldOffersSell();
     db->deleteOldOffersBuy();
-
-    step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getDeleteOffersBuy() == 1 && cb.getDeleteOffersSell() == 1) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
 
     list = db->getOffersSell();
 
@@ -548,16 +371,10 @@ void checkOffers(DexDB *db)
     list = db->getOffersBuy();
 
     BOOST_CHECK(list.empty());
-
-    db->removeCallBack(&cb);
 }
 
 void checkMyOffers(DexDB *db)
 {
-    CallBackMyOffers cb;
-    cb.init();
-    db->addCallBack(&cb);
-
     long int currentTime = static_cast<long int>(time(NULL));
     int secInDay = 86400;
 
@@ -620,21 +437,6 @@ void checkMyOffers(DexDB *db)
     iList.push_back(info);
     db->addMyOffer(info);
 
-    int step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getAddOffers() == 3) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
-
     BOOST_CHECK(db->isExistMyOffer(iList.front().idTransaction));
     BOOST_CHECK(db->isExistMyOffer(iList.back().idTransaction));
     BOOST_CHECK(db->isExistMyOfferByHash(iList.front().hash));
@@ -650,21 +452,6 @@ void checkMyOffers(DexDB *db)
     BOOST_CHECK(db->countMyOffers("RU", "RUB", 1, Buy, Draft) == 0);
 
     db->deleteMyOffer(iList.front().idTransaction);
-
-    step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getDeleteOffers() == 1) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
 
     BOOST_CHECK(!db->isExistMyOffer(iList.front().idTransaction));
 
@@ -683,21 +470,6 @@ void checkMyOffers(DexDB *db)
     info1.editingVersion = 7;
 
     db->editMyOffer(info1);
-
-    step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getEditOffers() == 1) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
 
     MyOfferInfo offer = db->getMyOffer(info1.idTransaction);
 
@@ -755,30 +527,29 @@ void checkMyOffers(DexDB *db)
         BOOST_CHECK(offer.editingVersion == item.editingVersion);
     }
 
-    cb.init();
-
     db->deleteOldMyOffers();
-
-    step = 0;
-    while (true) {
-        MilliSleep(100);
-        if (cb.getDeleteOffers() == 1) {
-            break;
-        }
-
-        step++;
-
-        if (step >= 1000) {
-            BOOST_CHECK(false);
-            break;
-        }
-    }
 
     list = db->getMyOffers();
 
     BOOST_CHECK(list.empty());
+}
 
-    db->removeCallBack(&cb);
+void checkCallBack(DexDB *db)
+{
+    CallBackOffers cb;
+    db->addCallBack(&cb);
+
+    db->addOfferSell(OfferInfo());
+
+    BOOST_CHECK(cb.getTypeTable() == TypeTable::OffersSell);
+    BOOST_CHECK(cb.getTypeTableOperation() == TypeTableOperation::Add);
+    BOOST_CHECK(cb.getStatusTableOperation() == StatusTableOperation::Ok);
+
+    db->editOfferBuy(OfferInfo());
+
+    BOOST_CHECK(cb.getTypeTable() == TypeTable::OffersBuy);
+    BOOST_CHECK(cb.getTypeTableOperation() == TypeTableOperation::Edit);
+    BOOST_CHECK(cb.getStatusTableOperation() == StatusTableOperation::Ok);
 }
 
 BOOST_FIXTURE_TEST_SUITE(dexdb_tests, BasicTestingSetup)
@@ -795,6 +566,7 @@ BOOST_AUTO_TEST_CASE(dexdb_test)
 
     checkOffers(db);
     checkMyOffers(db);
+    checkCallBack(db);
 
     db->freeInstance();
 //    remove(dbName.c_str());
