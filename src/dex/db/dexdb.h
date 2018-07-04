@@ -136,7 +136,7 @@ private:
     int editCountry(const std::string &iso, const bool &enabled, const int &sortOrder);
     int editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder);
 
-    void finishTableOperation(const CallBack &callBack, const TypeTable & tables, const TypeTableOperation &operation, const int &status);
+    void finishTableOperation(const TypeTable & tables, const TypeTableOperation &operation, const int &status);
 
     int tableCount(const std::string &tableName);
     std::string templateOffersTable(const std::string &tableName) const;

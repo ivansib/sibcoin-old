@@ -2,6 +2,7 @@
 #include <thread>
 #include <utility>
 #include "dexdb.h"
+#include "dexdbexception.h"
 #include "defaultdatafordb.h"
 #include <boost/filesystem.hpp>
 
@@ -273,7 +274,7 @@ void DexDB::addCountry(const std::string &iso, const std::string &name, const st
     cmd.bind(":currencyIso", currency, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, Countries, Add, status);
+    finishTableOperation(Countries, Add, status);
 }
 
 void DexDB::editCountries(const std::list<CountryInfo> &list)
@@ -284,14 +285,15 @@ void DexDB::editCountries(const std::list<CountryInfo> &list)
 
     int sort = 0;
     for (auto item : list) {
-        if (editCountry(item.iso, item.enabled, sort) == 1) {
-            finishTableOperation(callBack, Countries, Edit, 1);
+        int status = editCountry(item.iso, item.enabled, sort);
+        if (status != 0) {
+            finishTableOperation(Countries, Edit, status);
             return;
         }
         sort++;
     }
 
-    finishTableOperation(callBack, Countries, Edit, 0);
+    finishTableOperation(Countries, Edit, 0);
 }
 
 void DexDB::deleteCountry(const std::string &iso)
@@ -302,7 +304,7 @@ void DexDB::deleteCountry(const std::string &iso)
     cmd.bind(1, iso, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, Countries, Delete, status);
+    finishTableOperation(Countries, Delete, status);
 }
 
 std::list<CountryInfo> DexDB::getCountriesInfo()
@@ -329,7 +331,7 @@ std::list<CountryInfo> DexDB::getCountriesInfo()
         isGetCountriesDataFromDB = false;
 
         int status = qry.finish();
-        finishTableOperation(callBack, Countries, Read, status);
+        finishTableOperation(Countries, Read, status);
     }
 
     return countries;
@@ -353,7 +355,7 @@ CountryInfo DexDB::getCountryInfo(const std::string &iso)
         info.enabled = enabled;
 
         int status = qry.finish();
-        finishTableOperation(callBack, Countries, Read, status);
+        finishTableOperation(Countries, Read, status);
     } else {
         auto found = std::find_if(countries.begin(), countries.end(), [iso](CountryInfo info){ return info.iso == iso; });
         if (found != countries.end()) {
@@ -376,7 +378,7 @@ void DexDB::addCurrency(const std::string &iso, const std::string &name, const s
     cmd.bind(5, sortOrder);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, Countries, Add, status);
+    finishTableOperation(Countries, Add, status);
 }
 
 void DexDB::editCurrencies(const std::list<CurrencyInfo> &list)
@@ -387,14 +389,15 @@ void DexDB::editCurrencies(const std::list<CurrencyInfo> &list)
 
     int sort = 0;
     for (auto item : list) {
-        if (editCurrency(item.iso, item.enabled, sort) == 1) {
-            finishTableOperation(callBack, Currencies, Edit, 1);
+        int status = editCurrency(item.iso, item.enabled, sort);
+        if (status != 0) {
+            finishTableOperation(Currencies, Edit, status);
             return;
         }
         sort++;
     }
 
-    finishTableOperation(callBack, Currencies, Edit, 0);
+    finishTableOperation(Currencies, Edit, 0);
 }
 
 void DexDB::deleteCurrency(const std::string &iso)
@@ -405,7 +408,7 @@ void DexDB::deleteCurrency(const std::string &iso)
     cmd.bind(1, iso, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, Currencies, Delete, status);
+    finishTableOperation(Currencies, Delete, status);
 }
 
 std::list<CurrencyInfo> DexDB::getCurrenciesInfo()
@@ -432,7 +435,7 @@ std::list<CurrencyInfo> DexDB::getCurrenciesInfo()
         }
 
         int status = qry.finish();
-        finishTableOperation(callBack, Currencies, Read, status);
+        finishTableOperation(Currencies, Read, status);
 
         isGetCurrenciesDataFromDB = false;
     }
@@ -461,7 +464,7 @@ CurrencyInfo DexDB::getCurrencyInfo(const std::string &iso)
         info.enabled = enabled;
 
         int status = qry.finish();
-        finishTableOperation(callBack, Currencies, Read, status);
+        finishTableOperation(Currencies, Read, status);
     } else {
         auto found = std::find_if(currencies.begin(), currencies.end(), [iso](CurrencyInfo info){ return info.iso == iso; });
         if (found != currencies.end()) {
@@ -483,7 +486,7 @@ void DexDB::addPaymentMethod(const unsigned char &type, const std::string &name,
     cmd.bind(4, sortOrder);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, PaymentMethods, Add, status);
+    finishTableOperation(PaymentMethods, Add, status);
 }
 
 void DexDB::deletePaymentMethod(const unsigned char &type)
@@ -494,7 +497,7 @@ void DexDB::deletePaymentMethod(const unsigned char &type)
     cmd.bind(1, type);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, PaymentMethods, Delete, status);
+    finishTableOperation(PaymentMethods, Delete, status);
 }
 
 std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
@@ -516,7 +519,7 @@ std::list<PaymentMethodInfo> DexDB::getPaymentMethodsInfo()
         }
 
         int status = qry.finish();
-        finishTableOperation(callBack, PaymentMethods, Read, status);
+        finishTableOperation(PaymentMethods, Read, status);
 
         isGetPaymentsDataFromDB = false;
     }
@@ -541,7 +544,7 @@ PaymentMethodInfo DexDB::getPaymentMethodInfo(const unsigned char &type)
     info.description = description;
 
     int status = qry.finish();
-    finishTableOperation(callBack, PaymentMethods, Read, status);
+    finishTableOperation(PaymentMethods, Read, status);
 
     return info;
 }
@@ -613,7 +616,7 @@ size_t DexDB::countOffersSell()
 
     int status;
     auto count = countOffers(tableName, status);
-    finishTableOperation(callBack, OffersSell, Read, status);
+    finishTableOperation(OffersSell, Read, status);
 
     return count;
 }
@@ -624,7 +627,7 @@ size_t DexDB::countOffersSell(const DexDB::OffersPeriod &from, const long long &
 
     int status;
     auto count = countOffers(tableName, from, timeMod, status);
-    finishTableOperation(callBack, OffersSell, Read, status);
+    finishTableOperation(OffersSell, Read, status);
 
     return count;
 }
@@ -635,7 +638,7 @@ size_t DexDB::countOffersSell(const std::string &countryIso, const std::string &
 
     int status;
     auto count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
-    finishTableOperation(callBack, OffersSell, Read, status);
+    finishTableOperation(OffersSell, Read, status);
 
     return count;
 }
@@ -646,7 +649,7 @@ uint64_t DexDB::lastModificationOffersSell()
 
     int status;
     uint64_t time = lastModificationOffers(tableName, status);
-    finishTableOperation(callBack, OffersBuy, Read, status);
+    finishTableOperation(OffersBuy, Read, status);
 
     return time;
 }
@@ -730,7 +733,7 @@ size_t DexDB::countOffersBuy()
 
     int status;
     auto count = countOffers(tableName, status);
-    finishTableOperation(callBack, OffersBuy, Read, status);
+    finishTableOperation(OffersBuy, Read, status);
 
     return count;
 }
@@ -741,7 +744,7 @@ size_t DexDB::countOffersBuy(const DexDB::OffersPeriod &from, const long long &t
 
     int status;
     auto count = countOffers(tableName, from, timeMod, status);
-    finishTableOperation(callBack, OffersBuy, Read, status);
+    finishTableOperation(OffersBuy, Read, status);
 
     return count;
 }
@@ -752,7 +755,7 @@ size_t DexDB::countOffersBuy(const std::string &countryIso, const std::string &c
 
     int status;
     auto count = countOffers(tableName, countryIso, currencyIso, payment, -1, 0, status);
-    finishTableOperation(callBack, OffersBuy, Read, status);
+    finishTableOperation(OffersBuy, Read, status);
 
     return count;
 }
@@ -763,7 +766,7 @@ uint64_t DexDB::lastModificationOffersBuy()
 
     int status;
     uint64_t time = lastModificationOffers(tableName, status);
-    finishTableOperation(callBack, OffersBuy, Read, status);
+    finishTableOperation(OffersBuy, Read, status);
 
     return time;
 }
@@ -788,7 +791,7 @@ void DexDB::addMyOffer(const MyOfferInfo &offer)
 
 
     int status = addOrEditMyOffer(query, offer);
-    finishTableOperation(callBack, MyOffers, Add, status);
+    finishTableOperation(MyOffers, Add, status);
 }
 
 
@@ -802,7 +805,7 @@ void DexDB::editMyOffer(const MyOfferInfo &offer)
 
 
     int status = addOrEditMyOffer(query, offer);
-    finishTableOperation(callBack, MyOffers, Edit, status);
+    finishTableOperation(MyOffers, Edit, status);
 }
 
 
@@ -832,7 +835,7 @@ bool DexDB::isExistMyOffer(const uint256 &idTransaction)
     (*it).getter() >> count;
 
     int status = qry.finish();
-    finishTableOperation(callBack, MyOffers, Read, status);
+    finishTableOperation(MyOffers, Read, status);
 
     if (count > 0) {
         return true;
@@ -852,7 +855,7 @@ bool DexDB::isExistMyOfferByHash(const uint256 &hash)
     (*it).getter() >> count;
 
     int status = qry.finish();
-    finishTableOperation(callBack, MyOffers, Read, status);
+    finishTableOperation(MyOffers, Read, status);
 
     if (count > 0) {
         return true;
@@ -876,7 +879,7 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, MyOffers, Read, status);
+    finishTableOperation(MyOffers, Read, status);
 
     return offers;
 }
@@ -945,7 +948,7 @@ std::list<MyOfferInfo> DexDB::getMyOffers(const std::string &countryIso, const s
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, MyOffers, Read, status);
+    finishTableOperation(MyOffers, Read, status);
 
     return offers;
 }
@@ -961,7 +964,7 @@ MyOfferInfo DexDB::getMyOffer(const uint256 &idTransaction)
     MyOfferInfo info = getMyOffer(i);
 
     int stat = qry.finish();
-    finishTableOperation(callBack, MyOffers, Read, stat);
+    finishTableOperation(MyOffers, Read, stat);
 
     return info;
 }
@@ -977,7 +980,7 @@ MyOfferInfo DexDB::getMyOfferByHash(const uint256 &hash)
     MyOfferInfo info = getMyOffer(i);
 
     int stat = qry.finish();
-    finishTableOperation(callBack, MyOffers, Read, stat);
+    finishTableOperation(MyOffers, Read, stat);
 
     return info;
 }
@@ -988,7 +991,7 @@ size_t DexDB::countMyOffers()
 
     int status;
     auto count = countOffers(tableName, status);
-    finishTableOperation(callBack, MyOffers, Read, status);
+    finishTableOperation(MyOffers, Read, status);
 
     return count;
 }
@@ -999,7 +1002,7 @@ size_t DexDB::countMyOffers(const std::string &countryIso, const std::string &cu
 
     int status;
     auto count = countOffers(tableName, countryIso, currencyIso, payment, type, statusOffer, status);
-    finishTableOperation(callBack, MyOffers, Read, status);
+    finishTableOperation(MyOffers, Read, status);
 
     return count;
 }
@@ -1070,7 +1073,7 @@ void DexDB::addFilter(const std::string &filter)
     cmd.bind(":filter", filter, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, FiltersList, Add, status);
+    finishTableOperation(FiltersList, Add, status);
 }
 
 void DexDB::deleteFilter(const std::string &filter)
@@ -1079,7 +1082,7 @@ void DexDB::deleteFilter(const std::string &filter)
     cmd.bind(":filter", filter, sqlite3pp::nocopy);
 
     int status = cmd.execute();
-    finishTableOperation(callBack, FiltersList, Delete, status);
+    finishTableOperation(FiltersList, Delete, status);
 }
 
 std::list<std::string> DexDB::getFilters()
@@ -1096,7 +1099,7 @@ std::list<std::string> DexDB::getFilters()
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, FiltersList, Read, status);
+    finishTableOperation(FiltersList, Read, status);
 
     return filters;
 }
@@ -1115,7 +1118,7 @@ void DexDB::addOffer(const std::string &tableName, const OfferInfo &offer)
         tTable = OffersBuy;
     }
 
-    finishTableOperation(callBack, tTable, Add, status);
+    finishTableOperation(tTable, Add, status);
 }
 
 void DexDB::editOffer(const std::string &tableName, const OfferInfo &offer)
@@ -1132,7 +1135,7 @@ void DexDB::editOffer(const std::string &tableName, const OfferInfo &offer)
         tTable = OffersBuy;
     }
 
-    finishTableOperation(callBack, tTable, Edit, status);
+    finishTableOperation(tTable, Edit, status);
 }
 
 int DexDB::addOrEditOffer(const std::string &query, const OfferInfo &offer)
@@ -1194,7 +1197,7 @@ void DexDB::deleteOffer(const std::string &tableName, const uint256 &idTransacti
         tTable = MyOffers;
     }
 
-    finishTableOperation(callBack, tTable, Delete, status);
+    finishTableOperation(tTable, Delete, status);
 }
 
 void DexDB::deleteOfferByHash(const std::string &tableName, const uint256 &hash)
@@ -1212,7 +1215,7 @@ void DexDB::deleteOfferByHash(const std::string &tableName, const uint256 &hash)
         tTable = MyOffers;
     }
 
-    finishTableOperation(callBack, tTable, Delete, status);
+    finishTableOperation(tTable, Delete, status);
 }
 
 void dex::DexDB::deleteOldOffers(const std::string &tableName)
@@ -1232,7 +1235,7 @@ void dex::DexDB::deleteOldOffers(const std::string &tableName)
         tTable = MyOffers;
     }
 
-    finishTableOperation(callBack, tTable, Delete, status);
+    finishTableOperation(tTable, Delete, status);
 }
 
 std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
@@ -1255,7 +1258,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName)
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     return offers;
 }
@@ -1313,7 +1316,7 @@ std::list<OfferInfo> DexDB::getOffers(const std::string &tableName, const std::s
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     return offers;
 }
@@ -1332,7 +1335,7 @@ OfferInfo DexDB::getOffer(const std::string &tableName, const uint256 &idTransac
         tTable = OffersSell;
     }
 
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     return info;
 }
@@ -1351,7 +1354,7 @@ OfferInfo DexDB::getOfferByHash(const std::string &tableName, const uint256 &has
         tTable = OffersSell;
     }
 
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     return info;
 }
@@ -1426,7 +1429,7 @@ bool DexDB::isExistOffer(const std::string &tableName, const uint256 &idTransact
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     if (count > 0) {
         return true;
@@ -1451,7 +1454,7 @@ bool DexDB::isExistOfferByHash(const std::string &tableName, const uint256 &hash
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     if (count > 0) {
         return true;
@@ -1494,7 +1497,7 @@ std::list<std::pair<uint256, uint32_t>> DexDB::getHashsAndEditingVersions(const 
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     return vHashesAndEditingVersions;
 }
@@ -1522,7 +1525,7 @@ std::list<uint256> DexDB::getHashs(const std::string &tableName)
     }
 
     int status = qry.finish();
-    finishTableOperation(callBack, tTable, Read, status);
+    finishTableOperation(tTable, Read, status);
 
     return ids;
 }
@@ -1637,11 +1640,7 @@ int DexDB::editCountry(const std::string &iso, const bool &enabled, const int &s
     cmd.bind(":sortOrder", sortOrder);
     cmd.bind(":iso", iso, sqlite3pp::nocopy);
 
-    if (cmd.execute() == 1) {
-        return 1;
-    }
-
-    return 0;
+    return cmd.execute();
 }
 
 int DexDB::editCurrency(const std::string &iso, const bool &enabled, const int &sortOrder)
@@ -1651,15 +1650,15 @@ int DexDB::editCurrency(const std::string &iso, const bool &enabled, const int &
     cmd.bind(":sortOrder", sortOrder);
     cmd.bind(":iso", iso, sqlite3pp::nocopy);
 
-    if (cmd.execute() == 1) {
-        return 1;
-    }
-
-    return 0;
+    return cmd.execute();
 }
 
-void DexDB::finishTableOperation(const CallBack &callBack, const dex::TypeTable &tables, const dex::TypeTableOperation &operation, const int &status)
+void DexDB::finishTableOperation(const dex::TypeTable &tables, const dex::TypeTableOperation &operation, const int &status)
 {
+    if (status != 0) {
+        throw DexDBException(status);
+    }
+
     if (callBack.size() > 0) {
         StatusTableOperation s = Ok;
         if (status == 1) {
