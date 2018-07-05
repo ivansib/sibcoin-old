@@ -27,7 +27,6 @@
 
 #include "dextransaction.h"
 #include "parserjsonoffer.h"
-#include "callbackdbforrpc.h"
 #include "dexmanager.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
@@ -39,6 +38,7 @@
 
 
 using namespace std;
+using namespace dex;
 
 
 UniValue dexoffers(const UniValue& params, bool fHelp)
@@ -771,13 +771,9 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
         throw runtime_error("\nERROR: error create offer");
     }
 
-    CallBackDBForRpc callBack;
-    dex::DexDB::self()->addCallBack(&callBack);
     dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer));
-    CallBackStatus status = callBack.statusAddMyOffer();
-    dex::DexDB::self()->removeCallBack(&callBack);
 
-    if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(cOffer.hash)) {
+    if (!dex::DexDB::self()->isExistMyOfferByHash(cOffer.hash)) {
         throw runtime_error("\nERROR: the operation failed");
     }
 
@@ -861,13 +857,8 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         offer.status = Draft;
         offer.editingVersion = 0;
 
-        CallBackDBForRpc callBack;
-        dex::DexDB::self()->addCallBack(&callBack);
-
         dexman.addOrEditDraftMyOffer(offer, false);
-        CallBackStatus status = callBack.statusChangedMyOffer();
-        dex::DexDB::self()->removeCallBack(&callBack);
-        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
+        if (!dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
             throw runtime_error("\nERROR: the operation failed");
         }
 
@@ -906,15 +897,10 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         currentMyOffer.shortInfo = offer.shortInfo;
         currentMyOffer.details = offer.details;
 
-        CallBackDBForRpc callBack;
-        dex::DexDB::self()->addCallBack(&callBack);
-
         std::string error;
         dexman.prepareAndSendMyOffer(currentMyOffer, error, false);
 
-        CallBackStatus status = callBack.statusChangedMyOffer();
-        dex::DexDB::self()->removeCallBack(&callBack);
-        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(currentMyOffer.hash)) {
+        if (!dex::DexDB::self()->isExistMyOfferByHash(currentMyOffer.hash)) {
             throw runtime_error("\nERROR: the operation failed");
         }
 
