@@ -6,6 +6,7 @@
 #include "offerdetailscreator.h"
 #include "callbackdbforgui.h"
 #include "tableoffereditordelegate.h"
+#include "controllerthreaddexdb.h"
 
 class TableOffersEditor : public TableOffersDialog<QtMyOfferInfo>
 {
@@ -27,6 +28,7 @@ private:
     CallBackDbForGui *callBack;
     WalletModel *model;
     TableOfferEditorDelegate *pDelegate;
+    ControllerThreadDexDB *threadDexDB;
 
     void saveMyOffer(const MyOfferInfo &info);
 
@@ -43,6 +45,7 @@ private Q_SLOTS:
     void addOrEditDraftMyOffer(const QtMyOfferInfo &info);
     void sendMyOffer(const QtMyOfferInfo &info);
     void deleteOffer(const QtMyOfferInfo &info);
+    void showMessageWarning(const QString &warning);
 };
 
 #endif

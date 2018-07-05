@@ -1,5 +1,4 @@
 #include <ctime>
-#include <thread>
 #include <utility>
 #include "dexdb.h"
 #include "dexdbexception.h"

@@ -8,7 +8,6 @@
 #include "masternodeman.h"
 #include "masternode-sync.h"
 
-#include "dex/db/dexdb.h"
 #include "dexsync.h"
 #include "txmempool.h"
 #include "base58.h"

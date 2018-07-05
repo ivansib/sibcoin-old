@@ -3,6 +3,7 @@ include $(top_srcdir)/src/Makefile.include
 AM_CPPFLAGS += -I$(top_srcdir)/src \
   -I$(top_builddir)/src/qt \
   -I$(top_builddir)/src/qt/forms \
+  -I$(top_builddir)/src/qt/dexdb \
   $(PROTOBUF_CFLAGS) \
   $(QR_CFLAGS)
 bin_PROGRAMS = sibcoin-qt
@@ -123,8 +124,6 @@ QT_MOC_CPP = \
   moc_walletmodel.cpp \
   moc_walletview.cpp
 
-
-
 BITCOIN_MM = \
   macdockiconhandler.mm \
   macnotificationhandler.mm
@@ -194,7 +193,6 @@ BITCOIN_QT_H = \
   walletmodeltransaction.h \
   walletview.h \
   winshutdownmonitor.h
-
 
 
 RES_ICONS = \
@@ -338,7 +336,9 @@ QT_MOC_CPP += \
   moc_tableofferviewdelegate.cpp \
   moc_tableoffereditordelegate.cpp \
   moc_commonsettingsforofferswidget.cpp \
-  moc_commonsettingsforoffers.cpp
+  moc_commonsettingsforoffers.cpp \
+  dexdb/moc_controllerthreaddexdb.cpp \
+  dexdb/moc_workerthreaddexdb.cpp
 
 BITCOIN_QT_H += \
   exchangedialog.h \
@@ -371,7 +371,9 @@ BITCOIN_QT_H += \
   tableofferviewdelegate.h \
   tableoffereditordelegate.h \
   commonsettingsforofferswidget.h \
-  commonsettingsforoffers.h
+  commonsettingsforoffers.h \
+  dexdb/controllerthreaddexdb.h \
+  dexdb/workerthreaddexdb.h
 
 BITCOIN_QT_CPP += \
   exchangedialog.cpp \
@@ -403,7 +405,9 @@ BITCOIN_QT_CPP += \
   tableofferviewdelegate.cpp \
   tableoffereditordelegate.cpp \
   commonsettingsforofferswidget.cpp \
-  commonsettingsforoffers.cpp
+  commonsettingsforoffers.cpp \
+  dexdb/controllerthreaddexdb.cpp \
+  dexdb/workerthreaddexdb.cpp
 endif
 
 RES_IMAGES = \
