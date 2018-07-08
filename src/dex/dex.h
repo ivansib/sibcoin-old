@@ -14,6 +14,7 @@
 #define PAYOFFER_RETURN_FEE       10000
 #define PAYOFFER_TX_FEE           10000000
 #define MAX_DEX_TRANSACTION_FEE   PAYOFFER_TX_FEE*3
+#define MAX_TRANSACTION_SIZE      10000
 
 namespace dex {
 
@@ -64,6 +65,11 @@ public:
     // подписать изменения при редактировании приватным ключем (поле editsign)
     bool MakeEditSign(const CKey &key, std::string &sError);
 
+    // транзакция на оплату оффера
+    const CTransaction & getPayTx() const;
+
+    // проверка транзакции на оплату в бродкасте
+    bool CheckBRCSTOfferTx(const CTransaction &tx, std::string &sError);
 
     ADD_SERIALIZE_METHODS;
 
@@ -72,6 +78,10 @@ public:
         LOCK(cs);
         READWRITE(offer);
     }
+
+private:
+
+    bool CheckTx(const CTransaction &tx, std::string &sError);
 
 
 };

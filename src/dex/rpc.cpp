@@ -1088,6 +1088,7 @@ UniValue getdexinfo(const UniValue& params, bool fHelp)
     result.push_back(Pair("offersBuy", static_cast<uint64_t>(dex::DexDB::self()->countOffersBuy())));
     result.push_back(Pair("myOffers", static_cast<uint64_t>(dex::DexDB::self()->countMyOffers())));
     result.push_back(Pair("uncOffers", static_cast<uint64_t>(dexman.getUncOffers()->getSize())));
+    result.push_back(Pair("uncBcstOffers", static_cast<uint64_t>(dexman.getBcstUncOffers()->getSize())));
     return result;
 }
 
@@ -1113,13 +1114,23 @@ UniValue dexunconfirmed(const UniValue& params, bool fHelp)
 
     UniValue result(UniValue::VARR);
 
-    auto unc = dexman.getUncOffers()->getAllOffers();
+    auto bunc = dexman.getBcstUncOffers()->getAllOffers();
+    auto unc  = dexman.getUncOffers()->getAllOffers();
+
+    for (auto i : bunc) {
+        UniValue v(UniValue::VOBJ);
+        v.push_back(Pair("hash", i.hash.GetHex()));
+        v.push_back(Pair("txid", i.idTransaction.GetHex()));
+        result.push_back(v);
+    }
+
     for (auto i : unc) {
         UniValue v(UniValue::VOBJ);
         v.push_back(Pair("hash", i.hash.GetHex()));
         v.push_back(Pair("txid", i.idTransaction.GetHex()));
         result.push_back(v);
     }
+
 
     return result;
 }
@@ -1185,7 +1196,10 @@ UniValue getdexoffer(const UniValue& params, bool fHelp)
         auto info = dex::DexDB::self()->getOfferBuyByHash(hash);
         offer = CDexOffer(info, dex::TypeOffer::Buy);
     } else {
-        offer = dexman.getUncOffers()->getOfferByHash(hash);
+        offer = dexman.getBcstUncOffers()->getOfferByHash(hash);
+        if (offer.IsNull()) {
+            offer = dexman.getUncOffers()->getOfferByHash(hash);
+        }
     }
 
     if (offer.IsNull()) {

@@ -23,10 +23,11 @@ public:
     UnconfirmedOffers();
 
     bool putOffer(const CDexOffer &offer);
+    void putOffers(std::vector<CDexOffer> &voffers);
     CDexOffer getOfferByHash(const uint256 &hash);
 
     bool updateOffer(const CDexOffer &offer);
-    
+
     bool hasOffer(const CDexOffer &offer);
     bool hasOfferWithHash(const uint256 &hash); 
 
@@ -34,17 +35,18 @@ public:
 
     bool removeOffer(const CDexOffer &offer);
     void removeOffers(std::vector<CDexOffer> &voffers);
+    void removeOffers(std::list<CDexOffer> &loffers);
 
     void deleteOldOffers();
-    
+
     size_t getSize();
     std::list<CDexOffer> getLastOffers(size_t number);
     std::list<CDexOffer> getOffersPriorTo(const CDexOffer &offer);
 
 private:
-    
+
     CDexOffer findByHash(const uint256 &hash);
-    
+
     std::map<CDexOffer,std::time_t,dex::UnconfirmedOffersComparator> offers;
 
     boost::mutex mOfferMutex;

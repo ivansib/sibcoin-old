@@ -74,17 +74,11 @@ bool CDex::CheckOfferTx(std::string &sError)
         CHECK(!offer.IsNull(), "offer is NULL", offer.idTransaction.ToString());
         CHECK(offer.Check(true), "offer check fail", offer.idTransaction.ToString());
 
-        int days = ((offer.timeExpiration - offer.timeCreate - 1) / 86400) + 1;
-        int coef = ((days - 1) / 10) + 1;
-
-
         CTransaction tx;
         uint256 hashBlock;
         CHECK (GetTransaction(offer.idTransaction, tx, Params().GetConsensus(), hashBlock, true), "Transaction not found", offer.idTransaction.ToString());
-        CHECK(tx.vin.size() > 0, "vin empty", offer.idTransaction.ToString());
-        CHECK(tx.vout.size() > 0, "vout empty", offer.idTransaction.ToString());
-        CHECK(tx.vout[0].nValue == PAYOFFER_RETURN_FEE, "bad op_return fee", offer.idTransaction.ToString());
-        CHECK(tx.vout[0].scriptPubKey.IsUnspendable(), "not op_return", offer.idTransaction.ToString());
+
+        if (!CheckTx(tx, sError)) break;
 
         CHECK(!hashBlock.IsNull(), "transaction in mempool, not in block", offer.idTransaction.ToString());
         int confirmations = -1;
@@ -98,6 +92,20 @@ bool CDex::CheckOfferTx(std::string &sError)
             }
         }
         CHECK(confirmations >= PAYOFFER_MIN_TX_HEIGHT, "not enough transaction confirmations", offer.idTransaction.ToString());
+
+        return true;
+    } while(false);
+    return false;
+}
+
+
+bool CDex::CheckTx(const CTransaction &tx, std::string &sError)
+{
+    do {
+        CHECK(tx.vin.size() > 0, "vin empty", offer.idTransaction.ToString());
+        CHECK(tx.vout.size() > 0, "vout empty", offer.idTransaction.ToString());
+        CHECK(tx.vout[0].nValue == PAYOFFER_RETURN_FEE, "bad op_return fee", offer.idTransaction.ToString());
+        CHECK(tx.vout[0].scriptPubKey.IsUnspendable(), "not op_return", offer.idTransaction.ToString());
 
         {
             uint256 hash;
@@ -124,11 +132,35 @@ bool CDex::CheckOfferTx(std::string &sError)
             CHECK (prevtx.vout.size() > i.prevout.n, "prev tx out error", offer.idTransaction.ToString());
             debit += prevtx.vout[i.prevout.n].nValue;
         }
+
+        int days = ((offer.timeExpiration - offer.timeCreate - 1) / 86400) + 1;
+        int coef = ((days - 1) / 10) + 1;
         CHECK((debit - credit) >= PAYOFFER_TX_FEE * coef, "payoffer tx fee error", offer.idTransaction.ToString());
+
         return true;
     } while(false);
     return false;
 }
+
+
+
+bool CDex::CheckBRCSTOfferTx(const CTransaction &tx, std::string &sError)
+{
+    do {
+        CHECK(offer.idTransaction == tx.GetHash(), "transactions not equal", offer.idTransaction.ToString());
+
+        // check transaction size
+        CSizeComputer sc(SER_NETWORK, PROTOCOL_VERSION);
+        sc << tx;
+        CHECK(sc.size() <= MAX_TRANSACTION_SIZE, "transaction too large", tx.ToString());
+
+        if (!CheckTx(tx, sError)) break;
+
+        return true;
+    } while (false);
+    return false;
+}
+
 
 
 bool CDex::CheckOfferSign(const std::vector<unsigned char> &vchSign, std::string &sError)
@@ -206,5 +238,12 @@ bool CDex::MakeEditSign(const CKey &key, std::string &sError)
     return false;
 #endif
 }
+
+
+const CTransaction & CDex::getPayTx() const
+{
+    return payTx;
+}
+
 
 }
