@@ -27,8 +27,8 @@ public:
 
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
 
-    void addOrEditDraftMyOffer(MyOfferInfo &myOffer, bool usethread = true);
-    void prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error, bool usethread = true);
+    void addOrEditDraftMyOffer(MyOfferInfo &myOffer);
+    void prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error);
     void sendNewOffer(const CDexOffer &offer, const CTransaction &tx);
     void sendEditedOffer(const CDexOffer &offer);
     void checkUncOffers();

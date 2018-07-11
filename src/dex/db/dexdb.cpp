@@ -685,7 +685,7 @@ void DexDB::deleteOfferBuyByHash(const uint256 &hash)
     deleteOfferByHash("offersBuy", hash);
 }
 
-void DexDB::deleteOldOffersBuy(bool usethread)
+void DexDB::deleteOldOffersBuy()
 {
     deleteOldOffers("offersBuy");
 }
@@ -883,6 +883,11 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     return offers;
 }
 
+std::list<MyOfferInfo> DexDB::getMyOffers(const int &statusOffer)
+{
+    return getMyOffers("", "", 0, -1, statusOffer, 0, 0);
+}
+
 std::list<MyOfferInfo> DexDB::getMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, const int &limit, const int &offset)
 {
     std::list<MyOfferInfo> offers;
@@ -1053,7 +1058,7 @@ MyOfferInfo DexDB::getMyOffer(sqlite3pp::query::iterator &it)
 }
 
 
-int DexDB::setStatusExpiredForMyOffers()
+void DexDB::setStatusExpiredForMyOffers()
 {
     std::string query = "UPDATE myOffers SET status = :status WHERE timeToExpiration < :currentTime";
     sqlite3pp::command cmd(db, query.c_str());
@@ -1062,7 +1067,22 @@ int DexDB::setStatusExpiredForMyOffers()
     cmd.bind(":currentTime", static_cast<long long int>(currentTime));
     cmd.bind(":status", StatusOffer::Expired);
 
-    return cmd.execute();
+    int status = cmd.execute();
+
+    finishTableOperation(MyOffers, Edit, status);
+}
+
+void DexDB::editStatusForMyOffer(const uint256 &idTransaction, const StatusOffer &statusOffer)
+{
+    std::string query = "UPDATE myOffers SET status = :status WHERE idTransaction = :idTransaction";
+    sqlite3pp::command cmd(db, query.c_str());
+
+    cmd.bind(":idTransaction", idTransaction.GetHex(), sqlite3pp::copy);
+    cmd.bind(":status", statusOffer);
+
+    int status = cmd.execute();
+
+    finishTableOperation(MyOffers, Edit, status);
 }
 
 

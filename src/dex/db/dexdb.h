@@ -98,7 +98,7 @@ public:
     void editOfferBuy(const OfferInfo &offer);
     void deleteOfferBuy(const uint256 &idTransaction);
     void deleteOfferBuyByHash(const uint256 &hash);
-    void deleteOldOffersBuy(bool usethread = true);
+    void deleteOldOffersBuy();
     std::list<OfferInfo> getOffersBuy();
     std::list<OfferInfo> getOffersBuy(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &limit, const int &offset);
     OfferInfo getOfferBuy(const uint256 &idTransaction);
@@ -121,12 +121,14 @@ public:
     bool isExistMyOffer(const uint256 &idTransaction);
     bool isExistMyOfferByHash(const uint256 &hash);
     std::list<MyOfferInfo> getMyOffers();
+    std::list<MyOfferInfo> getMyOffers(const int &statusOffer);
     std::list<MyOfferInfo> getMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, const int &limit, const int &offset);
     MyOfferInfo getMyOffer(const uint256 &idTransaction);
     MyOfferInfo getMyOfferByHash(const uint256 &hash);
     size_t countMyOffers();
     size_t countMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer);
-    int setStatusExpiredForMyOffers();
+    void setStatusExpiredForMyOffers();
+    void editStatusForMyOffer(const uint256 &idTransaction, const StatusOffer &statusOffer);
 
     void addFilter(const std::string &filter);
     void deleteFilter(const std::string &filter);

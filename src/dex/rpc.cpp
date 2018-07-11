@@ -857,7 +857,7 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         offer.status = Draft;
         offer.editingVersion = 0;
 
-        dexman.addOrEditDraftMyOffer(offer, false);
+        dexman.addOrEditDraftMyOffer(offer);
         if (!dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
             throw runtime_error("\nERROR: the operation failed");
         }
@@ -898,7 +898,7 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         currentMyOffer.details = offer.details;
 
         std::string error;
-        dexman.prepareAndSendMyOffer(currentMyOffer, error, false);
+        dexman.prepareAndSendMyOffer(currentMyOffer, error);
 
         if (!dex::DexDB::self()->isExistMyOfferByHash(currentMyOffer.hash)) {
             throw runtime_error("\nERROR: the operation failed");
@@ -956,7 +956,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
 
     std::string error;
     //myOffer.timeCreate = GetTime(); error with change hash!!!!
-    dexman.prepareAndSendMyOffer(myOffer, error, false);
+    dexman.prepareAndSendMyOffer(myOffer, error);
 
     if (!error.empty()) {
         throw runtime_error("\nERROR: " + error + "\n");
