@@ -88,6 +88,7 @@ private:
     uint64_t lastTimeModOffers() const;
     void sendCheckNodes() const;
     void sendRequestForGetOffers() const;
+    void checkUnconfirmedMyOffers();
 
     std::set<CAddress> waitAnswerFromNodes;
     std::map<CAddress, StatusNode> statusNodes;

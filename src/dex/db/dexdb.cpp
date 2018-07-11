@@ -883,6 +883,11 @@ std::list<MyOfferInfo> DexDB::getMyOffers()
     return offers;
 }
 
+std::list<MyOfferInfo> DexDB::getMyOffers(const int &statusOffer)
+{
+    return getMyOffers("", "", 0, -1, statusOffer, 0, 0);
+}
+
 std::list<MyOfferInfo> DexDB::getMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, const int &limit, const int &offset)
 {
     std::list<MyOfferInfo> offers;

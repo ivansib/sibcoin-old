@@ -127,6 +127,8 @@ void CDexSync::startSyncDex()
 void CDexSync::finishSyncDex()
 {
     if (actualSync()) {
+        checkUnconfirmedMyOffers();
+
         prevMaxOffersNeedDownload = 0;
         prevOffersNeedDownloadSize = 0;
         maxOffersNeedDownload = 0;
@@ -728,6 +730,17 @@ void CDexSync::sendRequestForGetOffers() const
     }
 
     ReleaseNodeVector(vNodesCopy);
+}
+
+void CDexSync::checkUnconfirmedMyOffers()
+{
+    auto offers = db->getMyOffers(Unconfirmed);
+
+    for (auto item : offers) {
+        if (db->isExistOfferBuy(item.idTransaction) || db->isExistOfferSell(item.idTransaction)) {
+            db->editStatusForMyOffer(item.idTransaction, Active);
+        }
+    }
 }
 
 bool CDexSync::actualSync() const

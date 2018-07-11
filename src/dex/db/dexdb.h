@@ -121,6 +121,7 @@ public:
     bool isExistMyOffer(const uint256 &idTransaction);
     bool isExistMyOfferByHash(const uint256 &hash);
     std::list<MyOfferInfo> getMyOffers();
+    std::list<MyOfferInfo> getMyOffers(const int &statusOffer);
     std::list<MyOfferInfo> getMyOffers(const std::string &countryIso, const std::string &currencyIso, const unsigned char &payment, const int &type, const int &statusOffer, const int &limit, const int &offset);
     MyOfferInfo getMyOffer(const uint256 &idTransaction);
     MyOfferInfo getMyOfferByHash(const uint256 &hash);
