@@ -46,7 +46,7 @@ void CDexManager::ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStr
     }
 }
 
-void CDexManager::addOrEditDraftMyOffer(MyOfferInfo &myOffer, bool usethread)
+void CDexManager::addOrEditDraftMyOffer(MyOfferInfo &myOffer)
 {
     initDB();
 
@@ -62,10 +62,10 @@ void CDexManager::addOrEditDraftMyOffer(MyOfferInfo &myOffer, bool usethread)
 
     myOffer.setOfferInfo(dexOffer);
 
-    saveMyOffer(myOffer, usethread);
+    saveMyOffer(myOffer);
 }
 
-void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error, bool usethread)
+void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error)
 {
     initDB();
 
@@ -119,7 +119,7 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
         dexman.sendNewOffer(dex.offer);
 
         myOffer.setOfferInfo(dex.offer);
-        myOffer.status = Active;
+        myOffer.status = Unconfirmed;
         if (!uncOffers->putOffer(dex.offer)) {
             error = "Don't add in unconfirmed offers";
             return;
@@ -127,7 +127,7 @@ void CDexManager::prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error
     }
 
     if (error.empty()) {
-        saveMyOffer(myOffer, usethread);
+        saveMyOffer(myOffer);
     }
 }
 
@@ -170,6 +170,7 @@ void CDexManager::checkUncOffers()
     for (auto it = list.cbegin(); it != list.cend(); ) {
         std::vector<std::list<CDexOffer>::const_iterator> offersBuy;
         std::vector<std::list<CDexOffer>::const_iterator> offersSell;
+        std::vector<std::list<CDexOffer>::const_iterator> myOffers;
         std::vector<CDexOffer> offersRemove;
         for (int cnt = 0; it != list.cend() && cnt < 100; cnt++, it++)  {
             CDex dex((*it));
@@ -187,6 +188,10 @@ void CDexManager::checkUncOffers()
                     }
                 }
 
+                if ((*it).isMyOffer())  {
+                    myOffers.push_back(it);
+                }
+
                 offersRemove.push_back(*it);
             }
         }
@@ -199,6 +204,9 @@ void CDexManager::checkUncOffers()
         for (auto offer : offersSell) {
             db->addOfferSell(*offer);
         }
+        for (auto offer : myOffers) {
+            db->editStatusForMyOffer((*offer).idTransaction, Active);
+        }
 
         if (db->commit() == 0) {
             uncOffers->removeOffers(offersRemove);
@@ -209,9 +217,7 @@ void CDexManager::checkUncOffers()
 
 void CDexManager::setStatusExpiredForMyOffers()
 {
-    if (db->setStatusExpiredForMyOffers() != 0) {
-        LogPrint("dex", "setStatusExpiredForMyOffers() DB error: %s\n", db->getErrMsg().c_str());
-    }
+    db->setStatusExpiredForMyOffers();
 }
 
 void CDexManager::deleteOldUncOffers()
@@ -221,7 +227,7 @@ void CDexManager::deleteOldUncOffers()
 
 void CDexManager::deleteOldOffers()
 {
-    db->deleteOldOffersBuy(false);
+    db->deleteOldOffersBuy();
     db->deleteOldOffersSell();
 }
 
