@@ -45,7 +45,7 @@ UniValue dexoffers(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
@@ -227,7 +227,7 @@ UniValue dexmyoffers(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
     if (dex::DexDB::self() == nullptr) {
@@ -398,7 +398,7 @@ UniValue dexofferscount(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
@@ -510,7 +510,7 @@ UniValue dexmyofferscount(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
     if (dex::DexDB::self() == nullptr) {
@@ -620,7 +620,7 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
     if (dex::DexDB::self() == nullptr) {
@@ -632,7 +632,7 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
         throw runtime_error(
             "deldexoffer <hash>\n\n"
             "Delete offer from local DB and broadcast message.\n"
-            "To do this, you need a private key in a wallet that matches the public key in the offer.\n"
+            "To do this, you should have a private key in your wallet that matches the public key in the offer.\n"
 
             "\nArgument:\n"
             "\thash         (string) offer hash, hex digest.\n"
@@ -706,7 +706,7 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
     if (dex::DexDB::self() == nullptr) {
@@ -790,7 +790,7 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
     if (dex::DexDB::self() == nullptr) {
@@ -930,7 +930,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
@@ -985,7 +985,7 @@ UniValue dexsync(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
@@ -1030,7 +1030,7 @@ UniValue dexsettings(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
@@ -1080,7 +1080,7 @@ UniValue getdexinfo(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
@@ -1109,7 +1109,7 @@ UniValue dexunconfirmed(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
@@ -1142,7 +1142,7 @@ UniValue getdexoffer(const UniValue& params, bool fHelp)
 {
     if (!fTxIndex) {
         throw runtime_error(
-            "To use this feture please enable -txindex and make -reindex.\n"
+            "To use this feature please enable -txindex and make -reindex.\n"
         );
     }
 
