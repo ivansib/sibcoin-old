@@ -20,6 +20,15 @@ bool UnconfirmedOffers::putOffer(const CDexOffer &offer)
 }
 
 
+void UnconfirmedOffers::putOffers(std::vector<CDexOffer> &voffers)
+{
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    for (auto i : voffers) {
+        offers.insert(std::make_pair(i, std::time(NULL)));
+    }
+}
+
+
 bool UnconfirmedOffers::hasOfferWithHash(const uint256 &hash)
 {
     boost::lock_guard<boost::mutex> lock(mOfferMutex);
@@ -77,6 +86,7 @@ void UnconfirmedOffers::deleteOldOffers()
     }
 }
 
+
 bool UnconfirmedOffers::removeOffer(const CDexOffer &offer)
 {
     boost::lock_guard<boost::mutex> lock(mOfferMutex);
@@ -87,6 +97,14 @@ void UnconfirmedOffers::removeOffers(std::vector<CDexOffer> &voffers)
 {
     boost::lock_guard<boost::mutex> lock(mOfferMutex);
     for (auto offer : voffers) {
+        offers.erase(offer);
+    }
+}
+
+void UnconfirmedOffers::removeOffers(std::list<CDexOffer> &loffers)
+{
+    boost::lock_guard<boost::mutex> lock(mOfferMutex);
+    for (auto offer : loffers) {
         offers.erase(offer);
     }
 }

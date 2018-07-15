@@ -27,9 +27,9 @@ public:
 
     void ProcessMessage(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
 
-    void addOrEditDraftMyOffer(MyOfferInfo &myOffer, bool usethread = true);
-    void prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error, bool usethread = true);
-    void sendNewOffer(const CDexOffer &offer);
+    void addOrEditDraftMyOffer(MyOfferInfo &myOffer);
+    void prepareAndSendMyOffer(MyOfferInfo &myOffer, std::string &error);
+    void sendNewOffer(const CDexOffer &offer, const CTransaction &tx);
     void sendEditedOffer(const CDexOffer &offer);
     void checkUncOffers();
     void setStatusExpiredForMyOffers();
@@ -41,12 +41,14 @@ public:
     std::list<std::pair<uint256, uint32_t> > availableOfferHashAndVersionFromUnc() const;
     CDexOffer getOfferInfo(const uint256 &hash) const;
     UnconfirmedOffers *getUncOffers() const;
+    UnconfirmedOffers *getBcstUncOffers() const;
 
     boost::signals2::signal<void()> startSyncDex;
 
 private:
     DexDB *db;
     UnconfirmedOffers *uncOffers;
+    UnconfirmedOffers *uncBcstOffers;
 
     void initDB();
     void getAndSendNewOffer(CNode* pfrom, CDataStream& vRecv);

@@ -474,7 +474,9 @@ QT_MOC_CPP += \
   qt/moc_tableofferviewdelegate.cpp \
   qt/moc_tableoffereditordelegate.cpp \
   qt/moc_commonsettingsforofferswidget.cpp \
-  qt/moc_commonsettingsforoffers.cpp
+  qt/moc_commonsettingsforoffers.cpp \
+  qt/dexdb/moc_controllerthreaddexdb.cpp \
+  qt/dexdb/moc_workerthreaddexdb.cpp
 
 BITCOIN_QT_H += \
   qt/exchangedialog.h \
@@ -507,7 +509,9 @@ BITCOIN_QT_H += \
   qt/tableofferviewdelegate.h \
   qt/tableoffereditordelegate.h \
   qt/commonsettingsforofferswidget.h \
-  qt/commonsettingsforoffers.h
+  qt/commonsettingsforoffers.h \
+  qt/dexdb/controllerthreaddexdb.h \
+  qt/dexdb/workerthreaddexdb.h
 
 BITCOIN_QT_CPP += \
   qt/exchangedialog.cpp \
@@ -539,7 +543,9 @@ BITCOIN_QT_CPP += \
   qt/tableofferviewdelegate.cpp \
   qt/tableoffereditordelegate.cpp \
   qt/commonsettingsforofferswidget.cpp \
-  qt/commonsettingsforoffers.cpp
+  qt/commonsettingsforoffers.cpp \
+  qt/dexdb/controllerthreaddexdb.cpp \
+  qt/dexdb/workerthreaddexdb.cpp
 endif
 
 RES_IMAGES = \
@@ -615,7 +621,7 @@ BITCOIN_RC = qt/res/sibcoin-qt-res.rc
 BIP_CPPFLAGS = -I$(srcdir)/bip -msse2
 
 BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt $(BIP_CPPFLAGS) -I$(srcdir)/qt/forms \
-  -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
+  -I$(builddir)/qt/forms -I$(builddir)/qt/dexdb -I$(srcdir)/qt/dexdb  -DQT_NO_KEYWORDS
 
 qt_libbitcoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)

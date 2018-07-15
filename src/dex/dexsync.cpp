@@ -127,6 +127,8 @@ void CDexSync::startSyncDex()
 void CDexSync::finishSyncDex()
 {
     if (actualSync()) {
+        checkUnconfirmedMyOffers();
+
         prevMaxOffersNeedDownload = 0;
         prevOffersNeedDownloadSize = 0;
         maxOffersNeedDownload = 0;
@@ -485,19 +487,19 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
                 if (db->isExistOfferBuyByHash(offer.hash)) {
                     OfferInfo existOffer = db->getOfferBuyByHash(offer.hash);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferBuy(offer, false);
+                        db->editOfferBuy(offer);
                     }
                 } else {
-                    db->addOfferBuy(offer, false);
+                    db->addOfferBuy(offer);
                 }
             } else if (offer.isSell())  {
                 if (db->isExistOfferSellByHash(offer.hash)) {
                     OfferInfo existOffer = db->getOfferSellByHash(offer.hash);
                     if (offer.editingVersion > existOffer.editingVersion) {
-                        db->editOfferSell(offer, false);
+                        db->editOfferSell(offer);
                     }
                 } else {
-                    db->addOfferSell(offer, false);
+                    db->addOfferSell(offer);
                 }
             }
         } else {
@@ -512,7 +514,7 @@ void CDexSync::getOfferAndSaveInDb(CNode* pfrom, CDataStream &vRecv)
 
                     if (dex.CheckOfferTx(error)) {
                         mOfferInfo.status = Active;
-                        db->addMyOffer(mOfferInfo, false);
+                        db->addMyOffer(mOfferInfo);
                     }
                 }
             }
@@ -728,6 +730,17 @@ void CDexSync::sendRequestForGetOffers() const
     }
 
     ReleaseNodeVector(vNodesCopy);
+}
+
+void CDexSync::checkUnconfirmedMyOffers()
+{
+    auto offers = db->getMyOffers(Unconfirmed);
+
+    for (auto item : offers) {
+        if (db->isExistOfferBuy(item.idTransaction) || db->isExistOfferSell(item.idTransaction)) {
+            db->editStatusForMyOffer(item.idTransaction, Active);
+        }
+    }
 }
 
 bool CDexSync::actualSync() const

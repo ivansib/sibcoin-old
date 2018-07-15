@@ -15,7 +15,11 @@ TableOffersEditor::TableOffersEditor(DexDB *db, QDialog *parent)
     pDelegate = new TableOfferEditorDelegate();
     tableView->setItemDelegate(pDelegate);
 
+    threadDexDB = new ControllerThreadDexDB();
+
     updateData();
+
+    connect(threadDexDB, SIGNAL(errorPrepareAndSendMyOffer(QString)), this, SLOT(showMessageWarning(QString)));
 
     connect(pDelegate, SIGNAL(clickedEdit(int)), this, SLOT(clickedButtonEdit(int)));
     connect(pDelegate, SIGNAL(clickedDelete(int)), this, SLOT(clickedButtonDelete(int)));
@@ -119,13 +123,7 @@ void TableOffersEditor::addOrEditDraftMyOffer(const QtMyOfferInfo &info)
 
 void TableOffersEditor::sendMyOffer(const QtMyOfferInfo &info)
 {
-    MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
-    std::string error;
-    dexman.prepareAndSendMyOffer(myOffer, error);
-
-    if (!error.empty()) {
-        QMessageBox::warning(this, tr("Warning"), tr(error.c_str()));
-    }
+    threadDexDB->prepareAndSendMyOffer(info);
 }
 
 void TableOffersEditor::deleteOffer(const QtMyOfferInfo &info)
@@ -133,6 +131,11 @@ void TableOffersEditor::deleteOffer(const QtMyOfferInfo &info)
     MyOfferInfo myOffer = ConvertData::fromQtMyOfferInfo(info);
 
     db->deleteMyOfferByHash(myOffer.hash);
+}
+
+void TableOffersEditor::showMessageWarning(const QString &warning)
+{
+    QMessageBox::warning(this, tr("Warning"), warning);
 }
 
 void TableOffersEditor::resizeTable()

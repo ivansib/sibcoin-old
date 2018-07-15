@@ -27,7 +27,6 @@
 
 #include "dextransaction.h"
 #include "parserjsonoffer.h"
-#include "callbackdbforrpc.h"
 #include "dexmanager.h"
 #include "db/countryiso.h"
 #include "db/currencyiso.h"
@@ -39,6 +38,7 @@
 
 
 using namespace std;
+using namespace dex;
 
 
 UniValue dexoffers(const UniValue& params, bool fHelp)
@@ -690,9 +690,9 @@ UniValue deldexoffer(const UniValue& params, bool fHelp)
     }
 
     if (sended > 1 || offer.status == dex::Draft || offer.status == dex::Indefined) {
-        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuyByHash(offer.hash, false);
-        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSellByHash(offer.hash, false);
-        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOfferByHash(offer.hash, false);
+        if (offer.isBuy()  && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferBuyByHash(offer.hash);
+        if (offer.isSell() && offer.status != dex::Draft) dex::DexDB::self()->deleteOfferSellByHash(offer.hash);
+        if (offer.isMyOffer()) dex::DexDB::self()->deleteMyOfferByHash(offer.hash);
     }
 
     throw runtime_error("\nsuccess\n");
@@ -771,13 +771,9 @@ UniValue adddexoffer(const UniValue& params, bool fHelp)
         throw runtime_error("\nERROR: error create offer");
     }
 
-    CallBackDBForRpc callBack;
-    dex::DexDB::self()->addCallBack(&callBack);
-    dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer), false);
-    CallBackStatus status = callBack.statusAddMyOffer();
-    dex::DexDB::self()->removeCallBack(&callBack);
+    dex::DexDB::self()->addMyOffer(MyOfferInfo(cOffer));
 
-    if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(cOffer.hash)) {
+    if (!dex::DexDB::self()->isExistMyOfferByHash(cOffer.hash)) {
         throw runtime_error("\nERROR: the operation failed");
     }
 
@@ -861,13 +857,8 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         offer.status = Draft;
         offer.editingVersion = 0;
 
-        CallBackDBForRpc callBack;
-        dex::DexDB::self()->addCallBack(&callBack);
-
-        dexman.addOrEditDraftMyOffer(offer, false);
-        CallBackStatus status = callBack.statusChangedMyOffer();
-        dex::DexDB::self()->removeCallBack(&callBack);
-        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
+        dexman.addOrEditDraftMyOffer(offer);
+        if (!dex::DexDB::self()->isExistMyOfferByHash(offer.hash)) {
             throw runtime_error("\nERROR: the operation failed");
         }
 
@@ -906,15 +897,10 @@ UniValue editdexoffer(const UniValue& params, bool fHelp)
         currentMyOffer.shortInfo = offer.shortInfo;
         currentMyOffer.details = offer.details;
 
-        CallBackDBForRpc callBack;
-        dex::DexDB::self()->addCallBack(&callBack);
-
         std::string error;
-        dexman.prepareAndSendMyOffer(currentMyOffer, error, false);
+        dexman.prepareAndSendMyOffer(currentMyOffer, error);
 
-        CallBackStatus status = callBack.statusChangedMyOffer();
-        dex::DexDB::self()->removeCallBack(&callBack);
-        if (status == CallBackStatus::Error && dex::DexDB::self()->isExistMyOfferByHash(currentMyOffer.hash)) {
+        if (!dex::DexDB::self()->isExistMyOfferByHash(currentMyOffer.hash)) {
             throw runtime_error("\nERROR: the operation failed");
         }
 
@@ -970,7 +956,7 @@ UniValue senddexoffer(const UniValue& params, bool fHelp)
 
     std::string error;
     //myOffer.timeCreate = GetTime(); error with change hash!!!!
-    dexman.prepareAndSendMyOffer(myOffer, error, false);
+    dexman.prepareAndSendMyOffer(myOffer, error);
 
     if (!error.empty()) {
         throw runtime_error("\nERROR: " + error + "\n");
@@ -1102,6 +1088,7 @@ UniValue getdexinfo(const UniValue& params, bool fHelp)
     result.push_back(Pair("offersBuy", static_cast<uint64_t>(dex::DexDB::self()->countOffersBuy())));
     result.push_back(Pair("myOffers", static_cast<uint64_t>(dex::DexDB::self()->countMyOffers())));
     result.push_back(Pair("uncOffers", static_cast<uint64_t>(dexman.getUncOffers()->getSize())));
+    result.push_back(Pair("uncBcstOffers", static_cast<uint64_t>(dexman.getBcstUncOffers()->getSize())));
     return result;
 }
 
@@ -1127,13 +1114,23 @@ UniValue dexunconfirmed(const UniValue& params, bool fHelp)
 
     UniValue result(UniValue::VARR);
 
-    auto unc = dexman.getUncOffers()->getAllOffers();
+    auto bunc = dexman.getBcstUncOffers()->getAllOffers();
+    auto unc  = dexman.getUncOffers()->getAllOffers();
+
+    for (auto i : bunc) {
+        UniValue v(UniValue::VOBJ);
+        v.push_back(Pair("hash", i.hash.GetHex()));
+        v.push_back(Pair("txid", i.idTransaction.GetHex()));
+        result.push_back(v);
+    }
+
     for (auto i : unc) {
         UniValue v(UniValue::VOBJ);
         v.push_back(Pair("hash", i.hash.GetHex()));
         v.push_back(Pair("txid", i.idTransaction.GetHex()));
         result.push_back(v);
     }
+
 
     return result;
 }
@@ -1199,7 +1196,10 @@ UniValue getdexoffer(const UniValue& params, bool fHelp)
         auto info = dex::DexDB::self()->getOfferBuyByHash(hash);
         offer = CDexOffer(info, dex::TypeOffer::Buy);
     } else {
-        offer = dexman.getUncOffers()->getOfferByHash(hash);
+        offer = dexman.getBcstUncOffers()->getOfferByHash(hash);
+        if (offer.IsNull()) {
+            offer = dexman.getUncOffers()->getOfferByHash(hash);
+        }
     }
 
     if (offer.IsNull()) {

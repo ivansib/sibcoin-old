@@ -39,6 +39,7 @@ public:
 
     bool myoffer_;
     dex::StatusOffer status;
+    CTransaction bcst_tx;
 
 public:
 

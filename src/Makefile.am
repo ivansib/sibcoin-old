@@ -189,7 +189,6 @@ BITCOIN_CORE_H = \
   dex/dexmanager.h \
   dex/dexsync.h \
   dex/dexoffer.h \
-  dex/callbackdbforrpc.h \
   dex/dextransaction.h \
   dex/parserjsonoffer.h \
   dex/unconfirmedoffers.h \
