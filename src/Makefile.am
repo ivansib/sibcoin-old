@@ -5,7 +5,6 @@ AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
-
 BITCOIN_CONFIG_INCLUDES=-I$(builddir)/config
 BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
@@ -104,6 +103,7 @@ BITCOIN_CORE_H = \
   governance-classes.h \
   governance-exceptions.h \
   governance-object.h \
+  governance-validators.h \
   governance-vote.h \
   governance-votedb.h \
   flat-database.h \
@@ -141,9 +141,9 @@ BITCOIN_CORE_H = \
   pubkey.h \
   random.h \
   reverselock.h \
-  rpcclient.h \
-  rpcprotocol.h \
-  rpcserver.h \
+  rpc/client.h \
+  rpc/protocol.h \
+  rpc/server.h \
   scheduler.h \
   script/interpreter.h \
   script/script.h \
@@ -187,7 +187,6 @@ BITCOIN_CORE_H = \
   zmq/zmqpublishnotifier.h
 
 
-
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh $(abs_top_builddir)/src/obj/build.h \
@@ -210,6 +209,7 @@ libbitcoin_server_a_SOURCES = \
   governance.cpp \
   governance-classes.cpp \
   governance-object.cpp \
+  governance-validators.cpp \
   governance-vote.cpp \
   governance-votedb.cpp \
   main.cpp \
@@ -222,14 +222,14 @@ libbitcoin_server_a_SOURCES = \
   policy/policy.cpp \
   pow.cpp \
   rest.cpp \
-  rpcblockchain.cpp \
-  rpcmasternode.cpp \
-  rpcgovernance.cpp \
-  rpcmining.cpp \
-  rpcmisc.cpp \
-  rpcnet.cpp \
-  rpcrawtransaction.cpp \
-  rpcserver.cpp \
+  rpc/blockchain.cpp \
+  rpc/masternode.cpp \
+  rpc/governance.cpp \
+  rpc/mining.cpp \
+  rpc/misc.cpp \
+  rpc/net.cpp \
+  rpc/rawtransaction.cpp \
+  rpc/server.cpp \
   script/sigcache.cpp \
   sendalert.cpp \
   timedata.cpp \
@@ -277,7 +277,7 @@ libbitcoin_wallet_a_SOURCES = \
   wallet/wallet_ismine.cpp \
   wallet/walletdb.cpp \
   policy/rbf.cpp \
-  $(BITCOIN_CORE_H) 
+  $(BITCOIN_CORE_H)
 
 # crypto primitives library
 crypto_libbitcoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES) $(PIC_FLAGS)
@@ -290,6 +290,16 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/hmac_sha512.h \
   crypto/ripemd160.cpp \
   crypto/aes_helper.c \
+  crypto/ripemd160.h \
+  crypto/sha1.cpp \
+  crypto/sha1.h \
+  crypto/sha256.cpp \
+  crypto/sha256.h \
+  crypto/sha512.cpp \
+  crypto/sha512.h
+
+# x11
+crypto_libbitcoin_crypto_a_SOURCES += \
   crypto/blake.c \
   crypto/bmw.c \
   crypto/cubehash.c \
@@ -302,12 +312,6 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/shavite.c \
   crypto/simd.c \
   crypto/skein.c \
-  crypto/ripemd160.h \
-  crypto/sha1.cpp \
-  crypto/sha1.h \
-  crypto/sha256.cpp \
-  crypto/sha256.h \
-  crypto/sha512.h \
   crypto/sph_blake.h \
   crypto/sph_bmw.h \
   crypto/sph_cubehash.h \
@@ -320,9 +324,7 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sph_shavite.h \
   crypto/sph_simd.h \
   crypto/sph_skein.h \
-  crypto/sph_types.h \
-  crypto/sha512.cpp \
-  crypto/sha512.h
+  crypto/sph_types.h
 
 # common: shared between sibcoind, and sibcoin-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
@@ -367,7 +369,7 @@ libbitcoin_util_a_SOURCES = \
   compat/glibcxx_sanity.cpp \
   compat/strnlen.cpp \
   random.cpp \
-  rpcprotocol.cpp \
+  rpc/protocol.cpp \
   support/cleanse.cpp \
   sync.cpp \
   uint256.cpp \
@@ -385,7 +387,7 @@ endif
 libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
-  rpcclient.cpp \
+  rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
 nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h

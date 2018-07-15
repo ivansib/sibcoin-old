@@ -1524,6 +1524,10 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="obsolete">Invalid private key! (Is password correct?)</translation>
     </message>
     <message>
+        <source>Import error: Incorrect key format</source>
+        <translation>Import error: Incorrect key format</translation>
+    </message>
+    <message>
         <location line="-21"/>
         <source>Cant import key into locked wallet</source>
         <translation>Can&apos;t import key into locked wallet</translation>

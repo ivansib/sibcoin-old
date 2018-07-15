@@ -8,6 +8,7 @@
 #include <QDialog>
 
 class WalletModel;
+class CKey;
 
 namespace Ui {
     class GenAndPrintDialog;
@@ -40,6 +41,8 @@ private:
     bool fCapsLock;
     std::string salt;
     QString uri;
+
+    QString cryptedKey(const CKey &secret, const std::string &address, const QString &passwd);
    
 private Q_SLOTS:
     void textChanged();

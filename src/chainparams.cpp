@@ -89,8 +89,8 @@ public:
         consensus.nMajorityEnforceBlockUpgrade = 750;
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
-        consensus.BIP34Height = 227931;
-        consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8");
+        consensus.BIP34Height = 1;
+        consensus.BIP34Hash = uint256S("0x000007d91d1254d60e2dd1ae580383070a4ddffa4c64c2eeb4a2f9ecc0414343");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Dash: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // Dash: 2.5 minutes
@@ -178,12 +178,14 @@ public:
             ( 230000, uint256S("0x000000000bdfc8cadad30c04551a22862db5b2b50a7a4f31bf250d1ae7e5adb1"))
             ( 285000, uint256S("0x0000000015154aede63086af920588b23c0373ecd54cc2a6ce6a3b13716ccf54"))
             ( 320120, uint256S("0x00000000005edc464fae36f0fc017180790b1b8ea4c47e22d14dac84397c3bdf"))
-            ( 382500, uint256S("0x000000000162cf9f60425d4d29878aa9405d20cc71498e9f3c376a9d603f73d1")),
+            ( 382500, uint256S("0x000000000162cf9f60425d4d29878aa9405d20cc71498e9f3c376a9d603f73d1"))
+            ( 470000, uint256S("0x000000000072204721fb38827230766fdbc2eddd32cadf38b4823412f39a6e8a"))
+            ( 566000, uint256S("0x00000000000de0cba04663764024aa9a2d4c1d7521d21128cd9243bcb380d7e8")),
                     
-            1491065946, // * UNIX timestamp of last checkpoint block
-            636501,    // * total number of transactions between genesis and last checkpoint
+            1520454663, // * UNIX timestamp of last checkpoint block
+            986940,    // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            1000        // * estimated number of transactions per day after checkpoint
+            1200        // * estimated number of transactions per day after checkpoint
         };
     }
 };
@@ -213,8 +215,8 @@ public:
         consensus.nMajorityEnforceBlockUpgrade = 51;
         consensus.nMajorityRejectBlockOutdated = 75;
         consensus.nMajorityWindow = 100;
-        consensus.BIP34Height = 21111;
-        consensus.BIP34Hash = uint256S("0x0000000023b3a96d3484e5abb3755c413e7d41500f8e2a5c3f0dd01299cd8ef8");
+        consensus.BIP34Height = 1;
+        consensus.BIP34Hash = uint256S("0x0000047d24635e347be3aaaeb66c26be94901a2f962feccd4f95090191f208c1");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Dash: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // Dash: 2.5 minutes
@@ -282,12 +284,14 @@ public:
             ( 1500, uint256S("0x0000031c5def292029d4713891fc26e5b4559aff101ce2cf6348418d028daf11"))
             ( 5650, uint256S("0x000000131d2a832c254b06d37ee035a5a92d4266b3e489ed1ecb185e4f06ea0f"))
             (36000, uint256S("0x00000052f0544f3bac8783fc7423bec0bfd129bf61bdcdd0d63efb2d06159fdf"))
-            (66500, uint256S("0x00000173bae72f2b196f494de1d68aa52a6345cf56f6e2553e560b203910ba4b")),
+            (66500, uint256S("0x00000173bae72f2b196f494de1d68aa52a6345cf56f6e2553e560b203910ba4b"))
+            (124000, uint256S("0x000003a62774640efb599b2e542f318530d8258b49ac1fe644d5222ad3664db6"))
+            (215000, uint256S("0x00000000a50ef507c030e0cfdc5fde9048a3f530a8b59f1aa39c4c90e59ded14")),
 
-            1491095097, // * UNIX timestamp of last checkpoint block
-            66853,     // * total number of transactions between genesis and last checkpoint
+            1520519298, // * UNIX timestamp of last checkpoint block
+            216821,     // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            600         // * estimated number of transactions per day after checkpoint
+            580         // * estimated number of transactions per day after checkpoint
         };
 
     }

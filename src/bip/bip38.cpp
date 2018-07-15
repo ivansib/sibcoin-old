@@ -105,8 +105,10 @@ std::vector<unsigned char> decrypt_bip38_ec(const std::vector<unsigned char> key
     unsigned char iv[32];
     memset(iv,0,32);
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
     EVP_CIPHER_CTX d;
     EVP_CIPHER_CTX_init(&d);
+
     EVP_DecryptInit_ex(&d, EVP_aes_256_ecb(), NULL, derivedhalf2, iv);
 
     unsigned char unencryptedpart2[32];
@@ -121,6 +123,26 @@ std::vector<unsigned char> decrypt_bip38_ec(const std::vector<unsigned char> key
     memcpy(encryptedpart1+8, unencryptedpart2, 8);
     EVP_DecryptUpdate(&d, unencryptedpart1, &decrypt_len, encryptedpart1, 16);
     EVP_DecryptUpdate(&d, unencryptedpart1, &decrypt_len, encryptedpart1, 16);
+#else
+    EVP_CIPHER_CTX *d = EVP_CIPHER_CTX_new();
+    EVP_DecryptInit_ex(d, EVP_aes_256_ecb(), NULL, derivedhalf2, iv);
+
+    unsigned char unencryptedpart2[32];
+    int decrypt_len;
+
+    EVP_DecryptUpdate(d, unencryptedpart2, &decrypt_len, encryptedpart2, 16);
+    EVP_DecryptUpdate(d, unencryptedpart2, &decrypt_len, encryptedpart2, 16);
+    for(i=0; i<16; i++) {
+        unencryptedpart2[i] ^= derived[i + 16];
+    }
+    unsigned char unencryptedpart1[32];
+    memcpy(encryptedpart1+8, unencryptedpart2, 8);
+    EVP_DecryptUpdate(d, unencryptedpart1, &decrypt_len, encryptedpart1, 16);
+    EVP_DecryptUpdate(d, unencryptedpart1, &decrypt_len, encryptedpart1, 16);
+
+    EVP_CIPHER_CTX_free(d);
+#endif
+
     for(i=0; i<16; i++) {
         unencryptedpart1[i] ^= derived[i];
     }
@@ -198,16 +220,32 @@ std::vector<unsigned char> decrypt_bip38(const std::vector<unsigned char> enc_da
 	//decryptedhalf2 = Aes.dec(encryptedhalf2)
 
     int decrypt_len;
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
     EVP_CIPHER_CTX de;
 
     EVP_CIPHER_CTX_init(&de);
     EVP_DecryptInit_ex(&de, EVP_aes_256_cbc(), NULL, derivedhalf2, NULL);
     EVP_DecryptUpdate(&de, decryptedhalf2, &decrypt_len, encryptedhalf2, 16);
 
-	//#5. Decrypt encryptedpart1 to yield the remainder of seedb.
-	//decryptedhalf1 = Aes.dec(encryptedhalf1)
+    //#5. Decrypt encryptedpart1 to yield the remainder of seedb.
+    //decryptedhalf1 = Aes.dec(encryptedhalf1)
     EVP_DecryptInit_ex(&de, EVP_aes_256_cbc(), NULL, derivedhalf2, NULL);
     EVP_DecryptUpdate(&de, decryptedhalf1, &decrypt_len, encryptedhalf1, 16);
+#else
+    EVP_CIPHER_CTX *de = EVP_CIPHER_CTX_new();
+
+    EVP_CIPHER_CTX_init(de);
+    EVP_DecryptInit_ex(de, EVP_aes_256_cbc(), NULL, derivedhalf2, NULL);
+    EVP_DecryptUpdate(de, decryptedhalf2, &decrypt_len, encryptedhalf2, 16);
+
+    //#5. Decrypt encryptedpart1 to yield the remainder of seedb.
+    //decryptedhalf1 = Aes.dec(encryptedhalf1)
+    EVP_DecryptInit_ex(de, EVP_aes_256_cbc(), NULL, derivedhalf2, NULL);
+    EVP_DecryptUpdate(de, decryptedhalf1, &decrypt_len, encryptedhalf1, 16);
+
+    EVP_CIPHER_CTX_free(de);
+#endif
 
 	//priv = decryptedhalf1 + decryptedhalf2
 	//priv = binascii.unhexlify('%064x' % (long(binascii.hexlify(priv), 16) ^ long(binascii.hexlify(derivedhalf1), 16)))
@@ -232,7 +270,7 @@ std::vector<unsigned char> decrypt_bip38(const std::vector<unsigned char> enc_da
 }
 
 std::vector<unsigned char> encrypt_bip38(const std::vector<unsigned char> priv_key,
-		const std::string& address, const std::string& passwd)
+		const std::string& address, const std::string& passwd, bool isCompressed)
 {
     unsigned char key[64];
     unsigned char derivedhalf1[32], derivedhalf2[32];
@@ -270,6 +308,8 @@ std::vector<unsigned char> encrypt_bip38(const std::vector<unsigned char> priv_k
 		part2[i] = p_secret[i + 16] ^ derivedhalf1[i + 16];
 
     int encrypt_len;
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
     EVP_CIPHER_CTX en;
 
     EVP_CIPHER_CTX_init(&en);
@@ -277,6 +317,16 @@ std::vector<unsigned char> encrypt_bip38(const std::vector<unsigned char> priv_k
     EVP_EncryptUpdate(&en, encryptedhalf1, &encrypt_len, part1, 16);
     EVP_EncryptInit_ex(&en, EVP_aes_256_cbc(), NULL, derivedhalf2, NULL);
     EVP_EncryptUpdate(&en, encryptedhalf2, &encrypt_len, part2, 16);
+#else
+    EVP_CIPHER_CTX *en = EVP_CIPHER_CTX_new();
+
+    EVP_EncryptInit_ex(en, EVP_aes_256_cbc(), NULL, derivedhalf2, NULL);
+    EVP_EncryptUpdate(en, encryptedhalf1, &encrypt_len, part1, 16);
+    EVP_EncryptInit_ex(en, EVP_aes_256_cbc(), NULL, derivedhalf2, NULL);
+    EVP_EncryptUpdate(en, encryptedhalf2, &encrypt_len, part2, 16);
+
+    EVP_CIPHER_CTX_free(en);
+#endif
 
 	//		#5. The encrypted private key is the Base58Check-encoded concatenation of the following, which totals 39 bytes without Base58 checksum:
 	//		#		0x01 0x42 + flagbyte + salt + encryptedhalf1 + encryptedhalf2
@@ -286,6 +336,11 @@ std::vector<unsigned char> encrypt_bip38(const std::vector<unsigned char> priv_k
 	//		return enc.b58encode(privkey + check)
 
 	unsigned char flagbyte = 0xc0;// 0b11100000; // 11 no-ec 1 compressed-pub 00 future 0 ec only 00 future
+        
+        if (isCompressed) {
+            flagbyte = 0xe0;
+        }       
+        
 	unsigned char pref1 = 0x01;
 	unsigned char pref2 = 0x42;
 
@@ -299,4 +354,38 @@ std::vector<unsigned char> encrypt_bip38(const std::vector<unsigned char> priv_k
 	memcpy(enc_key + 3 + ADDRESSHASH_SIZE + 16, encryptedhalf2, 16);
 
 	return std::vector<unsigned char>(&enc_key[0], &enc_key[3 + ADDRESSHASH_SIZE + 32]);
+}
+
+bool check_bip38(const std::string &address, const std::vector<unsigned char> &prefix, bool isCompressed)
+{
+    const unsigned char *p_address = reinterpret_cast<const unsigned char*>(address.data());
+    unsigned char addresshash[32];
+    bu_Hash(addresshash, &p_address[0], 34);
+
+
+    unsigned char flagbyte = 0xc0;
+
+    if (isCompressed) {
+        flagbyte = 0xe0;
+    }
+
+    unsigned char pref1 = 0x01;
+    unsigned char pref2 = 0x42;
+
+    unsigned char enc_key[128];
+    enc_key[0] = pref1;
+    enc_key[1] = pref2;
+    enc_key[2] = flagbyte;
+    memcpy(enc_key + 3, addresshash, 4);
+
+    std::vector<unsigned char> prefHas;
+    for (int i = 0; i < 7; i++) {
+        prefHas.push_back(*(enc_key + i));
+    }
+
+    if (prefHas == prefix) {
+        return true;
+    }
+
+    return false;
 }

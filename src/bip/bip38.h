@@ -10,10 +10,11 @@
 
 #include <string>
 
-std::vector<unsigned char> encrypt_bip38(const std::vector<unsigned char> key, const std::string& address, const std::string& passwd);
+std::vector<unsigned char> encrypt_bip38(const std::vector<unsigned char> key, const std::string& address, const std::string& passwd, bool isCompressed);
 std::vector<unsigned char> decrypt_bip38(const std::vector<unsigned char> key,  const std::string& passwd);
 std::vector<unsigned char> decrypt_bip38_ec(const std::vector<unsigned char> key,  const std::string& passwd);
 std::string encode_base16(std::vector<unsigned char> data, size_t len);
 std::vector<unsigned char> decode_base16(const std::string &hex);
+bool check_bip38(const std::string& address, const std::vector<unsigned char> &prefix, bool isCompressed);
 
 #endif /* SRC_BIP_BIP38_H_ */

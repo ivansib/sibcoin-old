@@ -1541,6 +1541,10 @@ Address: %4
         <translation type="obsolete">Приватный ключ не валиден! (Корректно ли был введен пароль?)</translation>
     </message>
     <message>
+        <source>Import error: Incorrect key format</source>
+        <translation>Ошибка импорта: некорректный формат</translation>
+    </message>
+    <message>
         <location line="-21"/>
         <source>Cant import key into locked wallet</source>
         <translation>Не могу импортировать ключ, когда бумажник заблокирован</translation>
@@ -3760,7 +3764,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <source>Pay only the required fee of %1</source>
-        <translation>Заплатить только требуюмую комиссию %1</translation>
+        <translation>Заплатить только требуемую комиссию %1</translation>
     </message>
     <message>
         <location line="+24"/>
