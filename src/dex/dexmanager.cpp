@@ -256,7 +256,7 @@ void CDexManager::getAndSendNewOffer(CNode *pfrom, CDataStream &vRecv)
         std::string error;
 
         if (uncOffers->hasOffer(offer) || uncBcstOffers->hasOffer(offer)) {
-            LogPrint("dex", "DEXOFFBCST -- uncOffers arleady has offer: %s\n", offer.hash.GetHex().c_str());
+            LogPrint("dex", "DEXOFFBCST -- uncOffers already has offer: %s\n", offer.hash.GetHex().c_str());
         } else {
             bool bFound = false;
             if (offer.isBuy() && db->isExistOfferBuyByHash(offer.hash)) {
