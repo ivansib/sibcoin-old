@@ -54,6 +54,7 @@ private:
     void getAndSendNewOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndDelOffer(CNode* pfrom, CDataStream& vRecv);
     void getAndSendEditedOffer(CNode* pfrom, CDataStream& vRecv);
+    void checkUncBcstOffers();
 
     void saveMyOffer(const MyOfferInfo &info, bool usethread = true);
 };

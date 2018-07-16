@@ -168,30 +168,7 @@ void CDexManager::sendEditedOffer(const CDexOffer &offer)
 
 void CDexManager::checkUncOffers()
 {
-    {
-        auto list = uncBcstOffers->getAllOffers();
-        std::vector<CDexOffer> voffers;
-
-        for (auto i : list) {
-            if (!i.bcst_tx.IsNull()) {
-                CTransaction tx;
-                uint256 hashBlock;
-                if (!GetTransaction(i.bcst_tx.GetHash(), tx, Params().GetConsensus(), hashBlock, true)) {
-                    CValidationState state;
-                    bool fMissingInputs = false;
-                    if (AcceptToMemoryPool(mempool, state, i.bcst_tx, true, &fMissingInputs)) {
-                        RelayTransaction(tx);
-                    } else {
-                        LogPrint("dex", "Add broadcast tx to mempool error: %s\n", FormatStateMessage(state).c_str());
-                        continue;
-                    }
-                }
-            }
-            voffers.push_back(i);
-        }
-        uncOffers->putOffers(voffers);
-        uncBcstOffers->removeOffers(list);
-    }
+    checkUncBcstOffers();
 
     auto list = uncOffers->getAllOffers();
 
@@ -451,6 +428,33 @@ void CDexManager::getAndSendEditedOffer(CNode *pfrom, CDataStream& vRecv)
         LogPrint("DEXOFFEDIT -- offer check fail: %s\n", offer.hash.GetHex().c_str());
         Misbehaving(pfrom->GetId(), fine);
     }
+}
+
+void CDexManager::checkUncBcstOffers()
+{
+    auto list = uncBcstOffers->getAllOffers();
+    std::vector<CDexOffer> voffers;
+
+    for (auto i : list) {
+        if (!i.bcst_tx.IsNull()) {
+            CTransaction tx;
+            uint256 hashBlock;
+            if (!GetTransaction(i.bcst_tx.GetHash(), tx, Params().GetConsensus(), hashBlock, true)) {
+                CValidationState state;
+                bool fMissingInputs = false;
+                if (AcceptToMemoryPool(mempool, state, i.bcst_tx, true, &fMissingInputs)) {
+                    RelayTransaction(tx);
+                } else {
+                    LogPrint("dex", "Add broadcast tx to mempool error: %s\n", FormatStateMessage(state).c_str());
+                    continue;
+                }
+            }
+
+            voffers.push_back(i);
+        }
+    }
+    uncOffers->putOffers(voffers);
+    uncBcstOffers->removeOffers(list);
 }
 
 std::list<std::pair<uint256, uint32_t>> CDexManager::availableOfferHashAndVersion() const
