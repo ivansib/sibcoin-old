@@ -5408,8 +5408,8 @@ that paper wallet has been printed successfully!</translation>
     </message>
     <message>
         <location line="+17"/>
-        <source>Unable to locate enough funds for this transaction that are not equal 1000 SIB.</source>
-        <translation>Unable to locate enough funds for this transaction that are not equal 1000 SIB.</translation>
+        <source>Unable to locate enough funds for this transaction that are not equal %d SIB.</source>
+        <translation>Unable to locate enough funds for this transaction that are not equal %d SIB.</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5929,8 +5929,8 @@ that paper wallet has been printed successfully!</translation>
         <translation>Unable to locate enough PrivateSend denominated funds for this transaction.</translation>
     </message>
     <message>
-        <source>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal 1000 SIB.</source>
-        <translation>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal 1000 SIB.</translation>
+        <source>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal %d SIB.</source>
+        <translation>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal %d SIB.</translation>
     </message>
     <message>
         <source>Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>

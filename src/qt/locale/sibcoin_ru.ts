@@ -5273,8 +5273,8 @@ rpcpassword=%s
 </translation>
     </message>
     <message>
-        <source>Unable to locate enough funds for this transaction that are not equal 1000 SIB.</source>
-        <translation>Не удалось обнаружить достаточных для выполнения этой транзакции средств, отличающихся от 1000 SIB.</translation>
+        <source>Unable to locate enough funds for this transaction that are not equal %d SIB.</source>
+        <translation>Не удалось обнаружить достаточных для выполнения этой транзакции средств, отличающихся от %d SIB.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
@@ -5833,8 +5833,8 @@ rpcpassword=%s
         <translation>Не удалось обнаружить достаточных для выполнения этой транзакции номиналов PrivateSend.</translation>
     </message>
     <message>
-        <source>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal 1000 SIB.</source>
-        <translation>Не удалось обнаружить достаточных для выполнения этой транзакции неденоминированных средств, отличающихся от 1000 SIB.</translation>
+        <source>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal %d SIB.</source>
+        <translation>Не удалось обнаружить достаточных для выполнения этой транзакции неденоминированных средств, отличающихся от %d SIB.</translation>
     </message>
     <message>
         <source>Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
