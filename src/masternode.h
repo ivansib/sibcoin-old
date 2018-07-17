@@ -15,7 +15,7 @@ class CMasternode;
 class CMasternodeBroadcast;
 class CMasternodePing;
 
-static const int MASTERNODE_COLLATERAL_AMOUNT           = 1000;
+static const int MASTERNODE_COLLATERAL_AMOUNT           = 4000;
 
 static const int MASTERNODE_CHECK_SECONDS               =   5;
 static const int MASTERNODE_MIN_MNB_SECONDS             =   5 * 60;
