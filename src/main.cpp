@@ -3248,7 +3248,7 @@ static bool ActivateBestChainStep(CValidationState& state, const CChainParams& c
     AssertLockHeld(cs_main);
     const CBlockIndex *pindexOldTip = chainActive.Tip();
     const CBlockIndex *pindexFork = chainActive.FindFork(pindexMostWork);
-
+    
     // Disconnect active blocks which are no longer in the best chain.
     bool fBlocksDisconnected = false;
     while (chainActive.Tip() && chainActive.Tip() != pindexFork) {
@@ -3915,6 +3915,14 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
         if (fCheckpointsEnabled && !CheckIndexAgainstCheckpoint(pindexPrev, state, chainparams, hash))
             return error("%s: CheckIndexAgainstCheckpoint(): %s", __func__, state.GetRejectReason().c_str());
 
+        // SIB specific
+        if (sporkManager.IsSporkActive(SPORK_15_REJECT_OLD_BLOCKS)) {
+            if ( chainActive.Height() - pindexPrev->nHeight > SPORK_15_REJECT_NUMBER) {
+                return state.Invalid(error("CheckBlockHeader(): block height is too far in the past"),
+                                 REJECT_INVALID, "too-old");
+            }
+        }    
+           
         if (!ContextualCheckBlockHeader(block, state, pindexPrev))
             return false;
     }
