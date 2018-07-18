@@ -90,7 +90,7 @@ public:
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
         consensus.BIP34Height = 1;
-        consensus.BIP34Hash = uint256S("0x000007d91d1254d60e2dd1ae580383070a4ddffa4c64c2eeb4a2f9ecc0414343");
+        consensus.BIP34Hash = uint256S("0x0000085b23aeab914465a41fc753d61e0e39ca05d5870e77f6287763928cd9b0");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Dash: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // Dash: 2.5 minutes
@@ -180,10 +180,11 @@ public:
             ( 320120, uint256S("0x00000000005edc464fae36f0fc017180790b1b8ea4c47e22d14dac84397c3bdf"))
             ( 382500, uint256S("0x000000000162cf9f60425d4d29878aa9405d20cc71498e9f3c376a9d603f73d1"))
             ( 470000, uint256S("0x000000000072204721fb38827230766fdbc2eddd32cadf38b4823412f39a6e8a"))
-            ( 566000, uint256S("0x00000000000de0cba04663764024aa9a2d4c1d7521d21128cd9243bcb380d7e8")),
+            ( 566000, uint256S("0x00000000000de0cba04663764024aa9a2d4c1d7521d21128cd9243bcb380d7e8"))
+            ( 637760, uint256S("0x000000000001f142d35353e50bd9364908e0e667fadf55b4c8ae35f2863d2ec9")),
                     
-            1520454663, // * UNIX timestamp of last checkpoint block
-            986940,    // * total number of transactions between genesis and last checkpoint
+            1531845082, // * UNIX timestamp of last checkpoint block
+            1080282,    // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             1200        // * estimated number of transactions per day after checkpoint
         };
@@ -216,7 +217,7 @@ public:
         consensus.nMajorityRejectBlockOutdated = 75;
         consensus.nMajorityWindow = 100;
         consensus.BIP34Height = 1;
-        consensus.BIP34Hash = uint256S("0x0000047d24635e347be3aaaeb66c26be94901a2f962feccd4f95090191f208c1");
+        consensus.BIP34Hash = uint256S("0x000000e0ddb0e70b718e45acc031c255d640536186172f0baffe9924b18d69ea");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // Dash: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // Dash: 2.5 minutes
@@ -245,7 +246,7 @@ public:
         genesis = CreateGenesisBlock(1431129600UL, 2308058UL, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x00000617791d0e19f524387f67e558b2a928b670b9a3b387ae003ad7f9093017"));
-        //assert(genesis.hashMerkleRoot == uint256S("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
+        assert(genesis.hashMerkleRoot == uint256S("0x6a35812a1d2dd4ec413b7de5870c56455110ad6395ef00962e58f812da7cb4b9"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -286,12 +287,13 @@ public:
             (36000, uint256S("0x00000052f0544f3bac8783fc7423bec0bfd129bf61bdcdd0d63efb2d06159fdf"))
             (66500, uint256S("0x00000173bae72f2b196f494de1d68aa52a6345cf56f6e2553e560b203910ba4b"))
             (124000, uint256S("0x000003a62774640efb599b2e542f318530d8258b49ac1fe644d5222ad3664db6"))
-            (215000, uint256S("0x00000000a50ef507c030e0cfdc5fde9048a3f530a8b59f1aa39c4c90e59ded14")),
+            (215000, uint256S("0x00000000a50ef507c030e0cfdc5fde9048a3f530a8b59f1aa39c4c90e59ded14"))
+            (281300, uint256S("0x00000171a0345828a41ec12e28eccf74febc1de247c4f865a06bc563bcf4ddb2")),
 
-            1520519298, // * UNIX timestamp of last checkpoint block
-            216821,     // * total number of transactions between genesis and last checkpoint
+            1531842693, // * UNIX timestamp of last checkpoint block
+            600230,     // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            580         // * estimated number of transactions per day after checkpoint
+            800         // * estimated number of transactions per day after checkpoint
         };
 
     }
