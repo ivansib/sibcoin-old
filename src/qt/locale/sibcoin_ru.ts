@@ -2,42 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru">
 <context>
-    <name>AboutDialog</name>
-    <message>
-        <location filename="../forms/ui_aboutdialog.h" line="+129"/>
-        <source>About Sibcoin Core</source>
-        <translation>О программе: &quot;Сибирский Червонец&quot; (SIB)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>&lt;b&gt;Sibcoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Сибирский Червонец&lt;/b&gt; версия</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright &amp;copy; 2009-2014 The Bitcoin Core developers.
-Copyright &amp;copy; 2014-YYYY The Dash Core developers.
-Copyright &amp;copy; 2015-YYYY The Sibcoin Core developers.</source>
-        <translation>Copyright &amp;copy; 2009-2014 Разработчики Bitcoin Core.
-Copyright &amp;copy; 2014-YYYY Разработчики Dash Core.
-Copyright &amp;copy; 2015-YYYY Разработчики Sibcoin Core.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>
-This is experimental software.
-
-Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
-        <translation>Это экспериментальное ПО.
-
-Распространяется под лицензией MIT/X11, см. приложенный файл COPYING или http://www.opensource.org/licenses/mit-license.php.
-
-Этот продукт включает ПО, разработанное проектом OpenSSL Project для использования в OpenSSL Toolkit (http://www.openssl.org/), криптографическое ПО, написанное Eric Young (eay@cryptsoft.com) и ПО для работы с UPnP, написанное Thomas Bernard.</translation>
-    </message>
-</context>
-<context>
     <name>AddressBookPage</name>
     <message>
         <location filename="../forms/addressbookpage.ui" line="+30"/>
@@ -55,7 +19,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Новый</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+10"/>
         <source>Copy the currently selected address to the system clipboard</source>
         <translation>Копировать текущий выделенный адрес в буфер обмена</translation>
     </message>
@@ -65,7 +29,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Копировать</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+10"/>
         <source>Delete the currently selected address from the list</source>
         <translation>Удалить выбранный адрес из списка</translation>
     </message>
@@ -75,7 +39,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Удалить</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+23"/>
         <source>Export the data in the current tab to a file</source>
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
@@ -85,12 +49,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Экспорт</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+16"/>
         <source>C&amp;lose</source>
         <translation>&amp;Закрыть</translation>
     </message>
     <message>
-        <location filename="../addressbookpage.cpp" line="+47"/>
+        <location filename="../addressbookpage.cpp" line="+54"/>
         <source>Choose the address to send coins to</source>
         <translation>Выберите адрес для отправки на него червонцев</translation>
     </message>
@@ -150,8 +114,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Правка</translation>
     </message>
     <message>
-        <location line="+111"/>
-        <source>Can't copy public key to clipboard</source>
+        <location line="+113"/>
+        <source>Can&apos;t copy public key to clipboard</source>
         <translation>Не удалось скопировать публичный ключ</translation>
     </message>
     <message>
@@ -165,12 +129,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Скопировать приватный ключ в буфер обмена?</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Can't copy private key to clipboard</source>
+        <location line="+18"/>
+        <source>Can&apos;t copy private key to clipboard</source>
         <translation>Не удалось скопировать приватный ключ</translation>
     </message>
     <message>
-        <location line="+194"/>
+        <location line="+114"/>
         <source>Export Address List</source>
         <translation>Экспортировать список адресов</translation>
     </message>
@@ -193,7 +157,7 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>AddressTableModel</name>
     <message>
-        <location filename="../addresstablemodel.cpp" line="+169"/>
+        <location filename="../addresstablemodel.cpp" line="+171"/>
         <source>Label</source>
         <translation>Метка</translation>
     </message>
@@ -277,11 +241,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+1"/>
-        <source>Enter the old and new passphrase to the wallet.</source>
-        <translation>Введите старый и новый пароль для бумажника.</translation>
+        <source>Enter the old passphrase and new passphrase to the wallet.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+45"/>
         <source>Confirm wallet encryption</source>
         <translation>Подтвердите шифрование бумажника</translation>
     </message>
@@ -362,10 +326,12 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>BanTableModel</name>
     <message>
+        <location filename="../bantablemodel.cpp" line="+88"/>
         <source>IP/Netmask</source>
         <translation>IP/Netmask</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Banned Until</source>
         <translation>Заблокирован до</translation>
     </message>
@@ -373,13 +339,13 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+111"/>
-        <location line="+808"/>
+        <location filename="../bitcoingui.cpp" line="+131"/>
+        <location line="+986"/>
         <source>Sibcoin Core</source>
         <translation>Сибирский Червонец (SIB)</translation>
     </message>
     <message>
-        <location line="-799"/>
+        <location line="-977"/>
         <source>Wallet</source>
         <translation>Бумажник</translation>
     </message>
@@ -389,7 +355,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Узел</translation>
     </message>
     <message>
-        <location line="+144"/>
+        <location line="+138"/>
         <source>&amp;Overview</source>
         <translation>&amp;Обзор</translation>
     </message>
@@ -409,7 +375,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Отправить червонцы на указанный адрес</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>&amp;Receive</source>
         <translation>&amp;Получить</translation>
     </message>
@@ -419,7 +385,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Запросить платежи (создать QR-коды и sibcoin: URI)</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>&amp;Transactions</source>
         <translation>&amp;Транзакции</translation>
     </message>
@@ -429,15 +395,17 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Показать историю транзакций</translation>
     </message>
     <message>
+        <location line="+24"/>
         <source>&amp;Masternodes</source>
         <translation>&amp;Мастерноды</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Browse masternodes</source>
         <translation>Посмотреть мастерноды</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="-15"/>
         <source>&amp;Goods&amp;&amp;&amp;Services</source>
         <translation>&amp;Товары и услуги</translation>
     </message>
@@ -447,7 +415,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished">Где принимают червонцы</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+45"/>
         <source>E&amp;xit</source>
         <translation>В&amp;ыход</translation>
     </message>
@@ -468,12 +436,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+3"/>
-        <location line="+2"/>
         <source>About &amp;Qt</source>
         <translation>О &amp;Qt</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
         <source>Show information about Qt</source>
         <translation>Показать информацию о Qt</translation>
     </message>
@@ -483,12 +450,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Настройки...</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Modify configuration options for Sibcoin</source>
-        <translation>Изменить параметры конфигурации &quot;Сибирского Червонца&quot;</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>&amp;Show / Hide</source>
         <translation>&amp;Показать / Скрыть</translation>
     </message>
@@ -613,17 +575,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Показать опции восстановления кошелька</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Open &amp;Configuration File</source>
-        <translation>Открыть файл &amp;настроек</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Open configuration file</source>
         <translation>Открыть файл настроек</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Show Automatic &amp;Backups</source>
         <translation>Показать автоматические &amp;бэкапы</translation>
     </message>
@@ -633,7 +590,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Показать автоматически созданные бэкапы бумажника</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
         <source>&amp;Sending addresses...</source>
         <translation>Адреса &amp;отправки...</translation>
     </message>
@@ -688,12 +645,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Параметры командной строки</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Show the Sibcoin Core help message to get a list with possible Sibcoin command-line options</source>
-        <translation>Показать помощь о кошельке &quot;Червонца&quot; со списком возможных параметров командной строки</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+8"/>
         <source>&amp;Howto</source>
         <translation>&amp;Как пользоваться</translation>
     </message>
@@ -703,7 +655,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Как пользоваться Червонцами</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+66"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
@@ -718,31 +670,22 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Инструменты</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+12"/>
         <source>&amp;Help</source>
         <translation>&amp;Помощь</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Tabs toolbar</source>
         <translation>Панель вкладок</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+159"/>
         <source>Sibcoin Core client</source>
         <translation type="unfinished">Сибирский Червонец</translation>
     </message>
     <message numerus="yes">
-        <location line="+196"/>
-        <source>Processed %n blocks of transaction history.</source>
-        <translation>
-            <numerusform>Обработан %n блок истории транзакций.</numerusform>
-            <numerusform>Обработано %n блока истории транзакций.</numerusform>
-            <numerusform>Обработано %n блоков истории транзакций.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location line="-35"/>
+        <location line="+213"/>
         <source>%n active connection(s) to Sibcoin network</source>
         <translation>
             <numerusform>%n активное соединение с сетью &quot;Червонца&quot;</numerusform>
@@ -751,37 +694,32 @@ This product includes software developed by the OpenSSL Project for use in the O
         </translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Synchronizing with network...</source>
         <translation>Синхронизация с сетью...</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Importing blocks from disk...</source>
-        <translation>Выполняется импорт блоков с диска...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+10"/>
         <source>Reindexing blocks on disk...</source>
         <translation>Идёт переиндексация блоков на диске...</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+7"/>
         <source>No block source available...</source>
         <translation>Источник блоков недоступен...</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+94"/>
         <source>Up to date</source>
         <translation>Синхронизировано</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+18"/>
         <source>Synchronizing additional data: %p%</source>
         <translation>Синхронизирование доп. данных: %p%</translation>
     </message>
     <message numerus="yes">
-        <location line="+18"/>
+        <location line="-88"/>
         <source>%n hour(s)</source>
         <translation>
             <numerusform>%n час</numerusform>
@@ -790,31 +728,61 @@ This product includes software developed by the OpenSSL Project for use in the O
         </translation>
     </message>
     <message>
+        <location line="-620"/>
+        <source>Modify configuration options for Sibcoin Core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
         <source>Open Wallet &amp;Configuration File</source>
         <translation>Открыть файл &amp;настроек кошелька</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Open &amp;Masternode Configuration File</source>
         <translation>Открыть файл настроек &amp;мастернод</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Open Masternode configuration file</source>
         <translation>Открыть файл настроек мастернод</translation>
     </message>
     <message>
+        <location line="+28"/>
+        <source>Show the Sibcoin Core help message to get a list with possible Sibcoin Core command-line options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>&amp;PrivateSend information</source>
         <translation>Информация о &amp;PrivateSend</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Show the PrivateSend basic information</source>
         <translation>Показать краткую информацию о PrivateSend</translation>
     </message>
-    <message numerus="yes">
-        <source>Processed %n block(s) of transaction history.</source>
-        <translation><numerusform>Обработан 1 блок из истории транзакций.</numerusform><numerusform>Обработано %n блока из истории транзакций.</numerusform><numerusform>Обработано %n блоков из истории транзакций.</numerusform><numerusform>Обработано %n блоков из истории транзакций.</numerusform></translation>
+    <message>
+        <location line="+517"/>
+        <source>Indexing blocks on disk...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Processing blocks on disk...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+4"/>
+        <location line="+20"/>
+        <source>Processed %n block(s) of transaction history.</source>
+        <translation>
+            <numerusform>Обработан 1 блок из истории транзакций.</numerusform>
+            <numerusform>Обработано %n блока из истории транзакций.</numerusform>
+            <numerusform>Обработано %n блоков из истории транзакций.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+19"/>
         <source>%n day(s)</source>
         <translation>
             <numerusform>%n день</numerusform>
@@ -867,7 +835,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Транзакции после этого времени пока видны не будут.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+80"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -882,36 +850,42 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Информация</translation>
     </message>
     <message>
+        <location line="+89"/>
         <source>Date: %1
 </source>
         <translation>Дата: %1
 </translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Amount: %1
 </source>
         <translation>Сумма: %1
 </translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Type: %1
 </source>
         <translation>Тип: %1
 </translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Label: %1
 </source>
         <translation>Метка: %1
 </translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Address: %1
 </source>
         <translation>Адрес: %1
 </translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Sent transaction</source>
         <translation>Исходящая транзакция</translation>
     </message>
@@ -921,30 +895,17 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Входящая транзакция</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Date: %1
-Amount: %2
-Type: %3
-Address: %4
-</source>
-        <translation>Дата: %1
-Сумма: %2
-Тип: %3
-Адрес: %4
-</translation>
+        <location line="+75"/>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt; for mixing only</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="-10"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
         <translation>Бумажник &lt;b&gt;зашифрован&lt;/b&gt; и в настоящее время &lt;b&gt;разблокирован&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt; for anonimization only</source>
-        <translation>Бумажник &lt;b&gt;зашифрован&lt;/b&gt; и в данный момент &lt;b&gt;разблокирован&lt;/b&gt; только для целей анонимизации</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+20"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
         <translation>Бумажник &lt;b&gt;зашифрован&lt;/b&gt; и в настоящее время &lt;b&gt;заблокирован&lt;/b&gt;</translation>
     </message>
@@ -952,11 +913,12 @@ Address: %4
 <context>
     <name>ClientModel</name>
     <message>
+        <location filename="../clientmodel.cpp" line="+80"/>
         <source>Total: %1 (PS compatible: %2 / Enabled: %3)</source>
         <translation>Всего: %1 (Совместимых с PS: %2 / Активных: %3)</translation>
     </message>
     <message>
-        <location line="+107"/>
+        <location line="+91"/>
         <source>Network Alert</source>
         <translation>Сетевая тревога</translation>
     </message>
@@ -1049,6 +1011,7 @@ Address: %4
         <translation>Получено на адрес</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>PS Rounds</source>
         <translation>Раунды PS</translation>
     </message>
@@ -1073,7 +1036,7 @@ Address: %4
         <translation>Приоритет</translation>
     </message>
     <message>
-        <location filename="../coincontroldialog.cpp" line="+49"/>
+        <location filename="../coincontroldialog.cpp" line="+54"/>
         <source>Copy address</source>
         <translation>Копировать адрес</translation>
     </message>
@@ -1139,10 +1102,12 @@ Address: %4
         <translation>Копировать сдачу</translation>
     </message>
     <message>
-        <source>Please switch to "List mode" to use this function.</source>
+        <location line="+163"/>
+        <source>Please switch to &quot;List mode&quot; to use this function.</source>
         <translation>Пожалуйста, переключитесь в режим списка для использования этой функции.</translation>
     </message>
     <message>
+        <location line="+205"/>
         <source>Non-anonymized input selected. &lt;b&gt;PrivateSend will be disabled.&lt;/b&gt;&lt;br&gt;&lt;br&gt;If you still want to use PrivateSend, please deselect all non-nonymized inputs first and then check PrivateSend checkbox again.</source>
         <translation>Выбраны неанонимизированные средства. &lt;b&gt;PrivateSend будет отключен.&lt;/b&gt;&lt;br&gt;&lt;br&gt;Если Вы все-таки хотите использовать PrivateSend, пожалуйста, снимите выделение с со всех неанонимизированных средств и заново поставьте галочку напротив PrivateSend.</translation>
     </message>
@@ -1167,29 +1132,33 @@ Address: %4
         <translation>выше среднего</translation>
     </message>
     <message>
+        <location line="+216"/>
         <source>This label turns red if the transaction size is greater than 1000 bytes.</source>
         <translation>Эта метка становится красной, если размер транзакции больше 1000 байт.</translation>
     </message>
     <message>
-        <source>This label turns red if the priority is smaller than "medium".</source>
-        <translation>Эта метка становится красной, если приоритет ниже, чем "средний".</translation>
+        <location line="+5"/>
+        <source>This label turns red if the priority is smaller than &quot;medium&quot;.</source>
+        <translation>Эта метка становится красной, если приоритет ниже, чем &quot;средний&quot;.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>This label turns red if any recipient receives an amount smaller than %1.</source>
         <translation>Эта метка становится красной, если какой-либо из адресатов получает сумму менее %1.</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Can vary +/- %1 duff(s) per input.</source>
         <translation type="unfinished">Может отличаться +/- %1 коп. на адрес.</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="+131"/>
         <source>n/a</source>
         <translation>н/д</translation>
     </message>
     <message>
         <location filename="../forms/coincontroldialog.ui" line="-334"/>
-        <location filename="../coincontroldialog.cpp" line="-347"/>
+        <location filename="../coincontroldialog.cpp" line="-363"/>
         <source>medium</source>
         <translation>средний</translation>
     </message>
@@ -1224,7 +1193,7 @@ Address: %4
         <translation>нет</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+157"/>
         <source>yes</source>
         <translation>да</translation>
     </message>
@@ -1235,7 +1204,7 @@ Address: %4
         <translation>нет</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location filename="../coincontroldialog.cpp" line="+17"/>
         <location line="+5"/>
         <source>This means a fee of at least %1 per kB is required.</source>
         <translation>Это значит, что требуется комиссия как минимум %1 на КБ.</translation>
@@ -1251,8 +1220,8 @@ Address: %4
         <translation>Транзакции с более высоким приоритетом имеют больше шансов на включение в блок.</translation>
     </message>
     <message>
-        <location line="+55"/>
-        <location line="+65"/>
+        <location line="+60"/>
+        <location line="+64"/>
         <source>(no label)</source>
         <translation>(нет метки)</translation>
     </message>
@@ -1270,6 +1239,7 @@ Address: %4
 <context>
     <name>DarksendConfig</name>
     <message>
+        <location filename="../forms/darksendconfig.ui" line="+14"/>
         <source>Configure PrivateSend</source>
         <translation>Настройте PrivateSend</translation>
     </message>
@@ -1422,7 +1392,7 @@ Address: %4
 <context>
     <name>FreespaceChecker</name>
     <message>
-        <location filename="../intro.cpp" line="+70"/>
+        <location filename="../intro.cpp" line="+76"/>
         <source>A new data directory will be created.</source>
         <translation>Будет создан новый каталог данных.</translation>
     </message>
@@ -1485,7 +1455,7 @@ Address: %4
         <translation>Импорт</translation>
     </message>
     <message>
-        <location filename="../genandprintdialog.cpp" line="+68"/>
+        <location filename="../genandprintdialog.cpp" line="+71"/>
         <source>Export key pair</source>
         <translation>Экспорт пары ключей</translation>
     </message>
@@ -1531,45 +1501,55 @@ Address: %4
         <translation>Введите приватный ключ и пароль</translation>
     </message>
     <message>
-        <location line="+146"/>
-        <location line="+21"/>
+        <location line="+113"/>
+        <location line="+68"/>
+        <location line="+25"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <source>Invalid private key! (Is password correct?)</source>
-        <translation type="obsolete">Приватный ключ не валиден! (Корректно ли был введен пароль?)</translation>
-    </message>
-    <message>
+        <location line="-93"/>
         <source>Import error: Incorrect key format</source>
         <translation>Ошибка импорта: некорректный формат</translation>
     </message>
     <message>
-        <location line="-21"/>
+        <location line="+68"/>
         <source>Cant import key into locked wallet</source>
         <translation>Не могу импортировать ключ, когда бумажник заблокирован</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Private key imported</source>
         <translation>Приватный ключ импортирован</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>Private key import error</source>
         <translation>Ошибка импорта приватного ключа</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+137"/>
         <location line="+24"/>
         <source>Warning: The Caps Lock key is on!</source>
         <translation>Внимание: включен Caps Lock!</translation>
     </message>
 </context>
 <context>
+    <name>GoodsDialog</name>
+    <message>
+        <location filename="../forms/goodsdialog.ui" line="+58"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Lucida Grande UI&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HelpMessageDialog</name>
     <message>
-        <location filename="../utilitydialog.cpp" line="+34"/>
+        <location filename="../utilitydialog.cpp" line="+39"/>
         <source>Sibcoin Core</source>
         <translation>&quot;Сибирский Червонец&quot;(SIB)</translation>
     </message>
@@ -1590,7 +1570,7 @@ Address: %4
         <translation>О программе: &quot;Сибирский Червонец&quot; (SIB)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Command-line options</source>
         <translation>Параметры командной строки</translation>
     </message>
@@ -1605,31 +1585,37 @@ Address: %4
         <translation>параметры командной строки</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>UI Options:</source>
         <translation>Настройки интерфейса:</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Choose data directory on startup (default: %u)</source>
         <translation>Выбрать каталог данных при запуске (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Show splash screen on startup (default: %u)</source>
         <translation>Показывать заставку при запуске (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Reset all settings changes made over the GUI</source>
         <translation>Сбросить все настройки, сделанные через графический интерфейс</translation>
     </message>
     <message>
+        <location line="+42"/>
         <source>PrivateSend information</source>
         <translation>Информация о PrivateSend</translation>
     </message>
     <message>
-        <source>&lt;h3&gt;PrivateSend Basics&lt;/h3&gt; PrivateSend gives you true financial privacy by obscuring the origins of your funds. All the Sibcoin in your wallet is comprised of different "inputs" which you can think of as separate, discrete coins.&lt;br&gt; PrivateSend uses an innovative process to mix your inputs with the inputs of two other people, without having your coins ever leave your wallet. You retain control of your money at all times..&lt;hr&gt; &lt;b&gt;The PrivateSend process works like this:&lt;/b&gt;&lt;ol type="1"&gt; &lt;li&gt;PrivateSend begins by breaking your transaction inputs down into standard denominations. These denominations are 0.1 SIB, 1 SIB, 10 SIB and 100 SIB -- sort of like the paper money you use every day.&lt;/li&gt; &lt;li&gt;Your wallet then sends requests to specially configured software nodes on the network, called "masternodes." These masternodes are informed then that you are interested in mixing a certain denomination. No identifiable information is sent to the masternodes, so they never know "who" you are.&lt;/li&gt; &lt;li&gt;When two other people send similar messages, indicating that they wish to mix the same denomination, a mixing session begins. The masternode mixes up the inputs and instructs all three users' wallets to pay the now-transformed input back to themselves. Your wallet pays that denomination directly to itself, but in a different address (called a change address).&lt;/li&gt; &lt;li&gt;In order to fully obscure your funds, your wallet must repeat this process a number of times with each denomination. Each time the process is completed, it's called a "round." Each round of PrivateSend makes it exponentially more difficult to determine where your funds originated.&lt;/li&gt; &lt;li&gt;This mixing process happens in the background without any intervention on your part. When you wish to make a transaction, your funds will already be anonymized. No additional waiting is required.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;IMPORTANT:&lt;/b&gt; Your wallet only contains 1000 of these "change addresses." Every time a mixing event happens, up to 9 of your addresses are used up. This means those 1000 addresses last for about 100 mixing events. When 900 of them are used, your wallet must create more addresses. It can only do this, however, if you have automatic backups enabled.&lt;br&gt; Consequently, users who have backups disabled will also have PrivateSend disabled. &lt;hr&gt;For more info see &lt;a href="http://sibcoin.org/privatesend"&gt;http://sibcoin.org/privatesend&lt;/a&gt;         </source>
-        <translation>&lt;h3&gt;Основы PrivateSend&lt;/h3&gt;PrivateSend позволяет Вам получить настоящую финансовую конфиденциальность за счет скрытия источников Ваших средств. Все червонцы в  Вашем кошельке состоят из различных ""входов", Вы можете думать о них как об отдельных монетах.&lt;br&gt;PrivateSend использует инновационный процесс для перемешивания Ваших входов со входами еще двоих человек, но при этом Ваши монеты никогда не покидают Ваш кошелек. Вы сохраняете контроль над Вашими деньгами на протяжении всего времени.&lt;hr&gt; &lt;b&gt;PrivateSend работает так:&lt;/b&gt;&lt;ol type="1"&gt; &lt;li&gt;PrivateSend начинается с разбиения Ваших входов транзакций на стандартные номиналы. Такими номиналами являются 0.1 Ч, 1 Ч, 10 Ч и 100 Ч -- что-то вроде купюр, которыми вы пользуетесь каждый день.&lt;/li&gt; &lt;li&gt;Ваш кошелек затем отправляет запросы к особым образом настроенным сетевым узлам, называемым "мастернодами". Эти мастерноды знают только то, что Вы хотите перемешать определенные номиналы. Никакой идентифицирующей информации мастернодам не отравляется, так что они не знают "кто" Вы конкретно.&lt;/li&gt; &lt;li&gt;Сессия перемешивания начинается тогда, когда еще двое человек отправляют схожее сообщение, подтверждающее, что они хотят перемешать точно такой же номинал. Мастернода перемешивает входы и просит кошельки всех пользователей осуществить платежи по ним. Ваш кошелек осуществляет выплату самому себе, но на другой адрес (тоже из вашего кошелька).&lt;/li&gt; &lt;li&gt;Для скрытия Ваших средств кошелек должен повторить этот процесс несколько раз с каждым номиналом. Каждый раз, когда такой процесс завершается, называется "раундом". С каждым раундом PrivateSend становится экспоненциально сложнее определить откуда поступили средства.&lt;/li&gt; &lt;li&gt;Процесс перемешивания выполняется в фоне, без участия пользователя. Когда Вы захотите провести транзакцию, средства уже будут анонимизированы. Дополнительно ждать не требуется.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;ВАЖНО:&lt;/b&gt; Ваш кошелек содержит 1000 адресов. Каждое перемешивание использует до 9 из этих адресов. Это означает, что 1000 адресов хватит примерно на 100 перемешиваний. Когда 900 адресов будут уже использованы, Ваш кошелек должен создать новые адреса. Однако, он может сделать это, только если у Вас включены автоматические резервные копии.&lt;br&gt;Соответственно, пользователям с отключенным резервным копированием PrivateSend не доступен. &lt;hr&gt;Дополнительная информация доступна по ссылке &lt;a href="http://sibcoin.org/privatesend"&gt;http://sibcoin.org/privatesend&lt;/a&gt;         </translation>
+        <location line="+4"/>
+        <source>&lt;h3&gt;PrivateSend Basics&lt;/h3&gt; PrivateSend gives you true financial privacy by obscuring the origins of your funds. All the Sibcoin in your wallet is comprised of different &quot;inputs&quot; which you can think of as separate, discrete coins.&lt;br&gt; PrivateSend uses an innovative process to mix your inputs with the inputs of two other people, without having your coins ever leave your wallet. You retain control of your money at all times..&lt;hr&gt; &lt;b&gt;The PrivateSend process works like this:&lt;/b&gt;&lt;ol type=&quot;1&quot;&gt; &lt;li&gt;PrivateSend begins by breaking your transaction inputs down into standard denominations. These denominations are 0.1 SIB, 1 SIB, 10 SIB and 100 SIB -- sort of like the paper money you use every day.&lt;/li&gt; &lt;li&gt;Your wallet then sends requests to specially configured software nodes on the network, called &quot;masternodes.&quot; These masternodes are informed then that you are interested in mixing a certain denomination. No identifiable information is sent to the masternodes, so they never know &quot;who&quot; you are.&lt;/li&gt; &lt;li&gt;When two other people send similar messages, indicating that they wish to mix the same denomination, a mixing session begins. The masternode mixes up the inputs and instructs all three users&apos; wallets to pay the now-transformed input back to themselves. Your wallet pays that denomination directly to itself, but in a different address (called a change address).&lt;/li&gt; &lt;li&gt;In order to fully obscure your funds, your wallet must repeat this process a number of times with each denomination. Each time the process is completed, it&apos;s called a &quot;round.&quot; Each round of PrivateSend makes it exponentially more difficult to determine where your funds originated.&lt;/li&gt; &lt;li&gt;This mixing process happens in the background without any intervention on your part. When you wish to make a transaction, your funds will already be anonymized. No additional waiting is required.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;IMPORTANT:&lt;/b&gt; Your wallet only contains 1000 of these &quot;change addresses.&quot; Every time a mixing event happens, up to 9 of your addresses are used up. This means those 1000 addresses last for about 100 mixing events. When 900 of them are used, your wallet must create more addresses. It can only do this, however, if you have automatic backups enabled.&lt;br&gt; Consequently, users who have backups disabled will also have PrivateSend disabled. &lt;hr&gt;For more info see &lt;a href=&quot;http://sibcoin.org/privatesend&quot;&gt;http://sibcoin.org/privatesend&lt;/a&gt;         </source>
+        <translation>&lt;h3&gt;Основы PrivateSend&lt;/h3&gt;PrivateSend позволяет Вам получить настоящую финансовую конфиденциальность за счет скрытия источников Ваших средств. Все червонцы в  Вашем кошельке состоят из различных &quot;&quot;входов&quot;, Вы можете думать о них как об отдельных монетах.&lt;br&gt;PrivateSend использует инновационный процесс для перемешивания Ваших входов со входами еще двоих человек, но при этом Ваши монеты никогда не покидают Ваш кошелек. Вы сохраняете контроль над Вашими деньгами на протяжении всего времени.&lt;hr&gt; &lt;b&gt;PrivateSend работает так:&lt;/b&gt;&lt;ol type=&quot;1&quot;&gt; &lt;li&gt;PrivateSend начинается с разбиения Ваших входов транзакций на стандартные номиналы. Такими номиналами являются 0.1 Ч, 1 Ч, 10 Ч и 100 Ч -- что-то вроде купюр, которыми вы пользуетесь каждый день.&lt;/li&gt; &lt;li&gt;Ваш кошелек затем отправляет запросы к особым образом настроенным сетевым узлам, называемым &quot;мастернодами&quot;. Эти мастерноды знают только то, что Вы хотите перемешать определенные номиналы. Никакой идентифицирующей информации мастернодам не отравляется, так что они не знают &quot;кто&quot; Вы конкретно.&lt;/li&gt; &lt;li&gt;Сессия перемешивания начинается тогда, когда еще двое человек отправляют схожее сообщение, подтверждающее, что они хотят перемешать точно такой же номинал. Мастернода перемешивает входы и просит кошельки всех пользователей осуществить платежи по ним. Ваш кошелек осуществляет выплату самому себе, но на другой адрес (тоже из вашего кошелька).&lt;/li&gt; &lt;li&gt;Для скрытия Ваших средств кошелек должен повторить этот процесс несколько раз с каждым номиналом. Каждый раз, когда такой процесс завершается, называется &quot;раундом&quot;. С каждым раундом PrivateSend становится экспоненциально сложнее определить откуда поступили средства.&lt;/li&gt; &lt;li&gt;Процесс перемешивания выполняется в фоне, без участия пользователя. Когда Вы захотите провести транзакцию, средства уже будут анонимизированы. Дополнительно ждать не требуется.&lt;/li&gt; &lt;/ol&gt; &lt;hr&gt;&lt;b&gt;ВАЖНО:&lt;/b&gt; Ваш кошелек содержит 1000 адресов. Каждое перемешивание использует до 9 из этих адресов. Это означает, что 1000 адресов хватит примерно на 100 перемешиваний. Когда 900 адресов будут уже использованы, Ваш кошелек должен создать новые адреса. Однако, он может сделать это, только если у Вас включены автоматические резервные копии.&lt;br&gt;Соответственно, пользователям с отключенным резервным копированием PrivateSend не доступен. &lt;hr&gt;Дополнительная информация доступна по ссылке &lt;a href=&quot;http://sibcoin.org/privatesend&quot;&gt;http://sibcoin.org/privatesend&lt;/a&gt;         </translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-50"/>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
         <translation>Выберите язык, например &quot;ru_RU&quot; (по умолчанию: как в системе)</translation>
     </message>
@@ -1642,11 +1628,6 @@ Address: %4
         <location line="+1"/>
         <source>Set SSL root certificates for payment request (default: -system-)</source>
         <translation>Указать корневые SSL-сертификаты для запроса платежа (по умолчанию: -system-)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Show splash screen on startup (default: 1)</source>
-        <translation>Показывать заставку при запуске (по умолчанию: 1)</translation>
     </message>
 </context>
 <context>
@@ -1682,7 +1663,7 @@ Address: %4
         <translation>Использовать другой каталог данных:</translation>
     </message>
     <message>
-        <location filename="../intro.cpp" line="+82"/>
+        <location filename="../intro.cpp" line="+88"/>
         <source>Sibcoin Core</source>
         <translation>Сибирский Червонец</translation>
     </message>
@@ -1692,7 +1673,7 @@ Address: %4
         <translation>Ошибка: Указанная директория &quot;%1&quot; не может быть создана.</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+25"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -1710,118 +1691,154 @@ Address: %4
 <context>
     <name>MasternodeList</name>
     <message>
+        <location filename="../forms/masternodelist.ui" line="+14"/>
         <source>Form</source>
         <translation>Форма</translation>
     </message>
     <message>
+        <location line="+40"/>
         <source>My Masternodes</source>
         <translation>Мои мастерноды</translation>
     </message>
     <message>
-        <source>Note: Status of your masternodes in local wallet can potentially be slightly incorrect.&lt;br /&gt;Always wait for wallet to sync additional data and then double check from another node&lt;br /&gt;if your masternode should be running but you still do not see "ENABLED" in "Status" field.</source>
-        <translation>Примечание: Статус Ваших мастернод в локальном кошельке может быть не совсем корректным.&lt;br /&gt;Всегда дожидайтесь окончания синхронизации дополнительных данных и перепроверяйте с другой ноды,&lt;br /&gt;если Ваша ьастернода должна быть активна, но Вы ее статус все равно не отображается как "ENABLED".</translation>
+        <location line="+16"/>
+        <source>Note: Status of your masternodes in local wallet can potentially be slightly incorrect.&lt;br /&gt;Always wait for wallet to sync additional data and then double check from another node&lt;br /&gt;if your masternode should be running but you still do not see &quot;ENABLED&quot; in &quot;Status&quot; field.</source>
+        <translation>Примечание: Статус Ваших мастернод в локальном кошельке может быть не совсем корректным.&lt;br /&gt;Всегда дожидайтесь окончания синхронизации дополнительных данных и перепроверяйте с другой ноды,&lt;br /&gt;если Ваша ьастернода должна быть активна, но Вы ее статус все равно не отображается как &quot;ENABLED&quot;.</translation>
     </message>
     <message>
+        <location line="+37"/>
         <source>Alias</source>
         <translation>Имя</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <location line="+123"/>
         <source>Address</source>
         <translation>Адрес</translation>
     </message>
     <message>
+        <location line="-118"/>
+        <location line="+123"/>
         <source>Protocol</source>
         <translation>Протокол</translation>
     </message>
     <message>
+        <location line="-118"/>
+        <location line="+123"/>
         <source>Status</source>
         <translation>Статус</translation>
     </message>
     <message>
+        <location line="-118"/>
+        <location line="+123"/>
         <source>Active</source>
         <translation>Активна</translation>
     </message>
     <message>
+        <location line="-118"/>
+        <location line="+123"/>
         <source>Last Seen</source>
         <translation>Последняя активность</translation>
     </message>
     <message>
+        <location line="-118"/>
+        <location line="+123"/>
         <source>Payee</source>
         <translation>Получатель</translation>
     </message>
     <message>
+        <location line="-110"/>
         <source>S&amp;tart alias</source>
         <translation>Запуск по &amp;имени</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Start &amp;all</source>
         <translation>Запуск &amp;всех</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Start &amp;MISSING</source>
         <translation>Запуск &amp;MISSING</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>&amp;Update status</source>
         <translation>&amp;Обновить статус</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Status will be updated automatically in (sec):</source>
         <translation>Статус будет обновлен автоматически через (сек):</translation>
     </message>
     <message>
+        <location line="+7"/>
+        <location line="+122"/>
         <source>0</source>
         <translation>0</translation>
     </message>
     <message>
+        <location line="-97"/>
         <source>All Masternodes</source>
         <translation>Все мастерноды</translation>
     </message>
     <message>
+        <location line="+63"/>
         <source>Filter List:</source>
         <translation>Фильтровать список:</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Filter masternode list</source>
         <translation>Фильтровать список мастернод</translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>Node Count:</source>
         <translation>Количество узлов:</translation>
     </message>
     <message>
+        <location filename="../masternodelist.cpp" line="+50"/>
         <source>Start alias</source>
         <translation>Запуск по имени</translation>
     </message>
     <message>
+        <location line="+278"/>
         <source>Confirm masternode start</source>
         <translation>Подтверждение запуска мастерноды</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Are you sure you want to start masternode %1?</source>
         <translation>Вы уверены, что хотите запустить мастерноду %1?</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Confirm all masternodes start</source>
         <translation>Подтверждение запуска всех мастернод</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Are you sure you want to start ALL masternodes?</source>
         <translation>Вы уверены, что хотите запустить ВСЕ мастерноды?</translation>
     </message>
     <message>
+        <location line="+24"/>
         <source>Command is not available right now</source>
         <translation>Команда в данный момент недоступна</translation>
     </message>
     <message>
-        <source>You can't use this command until masternode list is synced</source>
+        <location line="+1"/>
+        <source>You can&apos;t use this command until masternode list is synced</source>
         <translation>Вы не можете использовать данную команду до завершения синхронизации списка мастернод</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Confirm missing masternodes start</source>
         <translation>Подтверждение запуска отсутствующих мастернод</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Are you sure you want to start MISSING masternodes?</source>
         <translation>Вы уверены, что хотите запустить ОТСУТСТВУЮЩИЕ мастерноды?</translation>
     </message>
@@ -1897,7 +1914,7 @@ Address: %4
         <translation>(0 = автоматически, &lt;0 = оставить столько незагруженных ядер)</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+116"/>
         <source>PrivateSend rounds to use</source>
         <translation>Количество раундов анонимизации</translation>
     </message>
@@ -1912,59 +1929,73 @@ Address: %4
         <translation>Сумма постоянно анонимизированных червонцев</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="-119"/>
         <source>W&amp;allet</source>
         <translation>К&amp;ошелёк</translation>
     </message>
-     <message>
+    <message>
+        <location line="+22"/>
         <source>Show additional tab listing all your masternodes in first sub-tab&lt;br/&gt;and all masternodes on the network in second sub-tab.</source>
         <translation>Показывать дополнительную вкладку со списком своих мастернод&lt;br/&gt;в одной таблице и списком всех мастернод в другой.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Show Masternodes Tab</source>
         <translation>Показывать вкладку с мастернодами</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Show additional information and buttons for PrivateSend on overview screen.</source>
         <translation>Показывать дополнительную информацию и кнопки для PrivateSend на обзорной вкладке.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Enable advanced PrivateSend interface</source>
         <translation>Включить расширенный интерфейс PrivateSend</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Show warning dialog when PrivateSend detects that wallet has very low number of keys left.</source>
         <translation>Показывать предупреждение, когда PrivateSend обнаружит, что в кошельке осталось слишком мало ключей.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Warn if PrivateSend is running out of keys</source>
         <translation>Предупредить, если кончаются ключи для PrivateSend</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Whether to use experimental PrivateSend mode with multiple mixing sessions per block.&lt;br/&gt;Note: You must use this feature carefully.&lt;br/&gt;Make sure you always have recent wallet (auto)backup in a safe place!</source>
         <translation>Использовать или нет экспериментальный режим PrivateSend с множественным перемешивание за один блок.&lt;br/&gt;Примечание: Используйте с осторожностью.&lt;br/&gt;Убедитесь, что у вас всегда есть (автоматический) бэкап в безопасном месте!</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Enable PrivateSend &amp;multi-session</source>
         <translation>Включить &amp;мульти-сессионный PrivateSend</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>If you disable the spending of unconfirmed change, the change from a transaction&lt;br/&gt;cannot be used until that transaction has at least one confirmation.&lt;br/&gt;This also affects how your balance is computed.</source>
         <translation>При отключении траты неподтверждённой сдачи, сдача от транзакции&lt;br/&gt;не может быть использована до тех пор, пока у этой транзакции не будет хотя бы одно подтверждение.&lt;br/&gt;Это также влияет на то, как рассчитывается Ваш баланс.</translation>
     </message>
     <message>
+        <location line="+125"/>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
         <translation>&amp;Подключаться через прокси SOCKS5 (прокси по умолчанию):</translation>
     </message>
     <message>
+        <location line="+305"/>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Exit in the menu.</source>
         <translation>Сворачивать вместо закрытия. Если данная настройка будет выбрана, то приложение закроется только после выбора пункта меню Завершить.</translation>
     </message>
     <message>
+        <location line="+144"/>
+        <location line="+13"/>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items.&lt;br/&gt;%s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
         <translation>Сторонние URL (например, block explorer), которые отображаются на вкладке транзакций как пункты контекстного меню.&lt;br/&gt;%s в URL заменяется хэшем транзакции. URL отделяются друг от друга вертикальной чертой |.</translation>
     </message>
     <message>
+        <location line="-643"/>
         <source>Expert</source>
         <translation>Настройки для опытных пользователей</translation>
     </message>
@@ -1979,12 +2010,12 @@ Address: %4
         <translation>Включить функции &amp;контроля червонцев</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+50"/>
         <source>&amp;Spend unconfirmed change</source>
         <translation>&amp;Тратить неподтверждённую сдачу</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+93"/>
         <source>&amp;Network</source>
         <translation>&amp;Сеть</translation>
     </message>
@@ -2000,59 +2031,72 @@ Address: %4
     </message>
     <message>
         <location line="+29"/>
+        <location line="+187"/>
         <source>Proxy &amp;IP:</source>
         <translation>&amp;IP Прокси: </translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="-162"/>
+        <location line="+187"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>IP-адрес прокси (например, IPv4: 127.0.0.1 / IPv6: ::1)</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-180"/>
+        <location line="+187"/>
         <source>&amp;Port:</source>
         <translation>По&amp;рт: </translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="-162"/>
+        <location line="+187"/>
         <source>Port of the proxy (e.g. 9050)</source>
         <translation>Порт прокси-сервера (например, 9050)</translation>
     </message>
     <message>
+        <location line="-163"/>
         <source>Used for reaching peers via:</source>
         <translation>Используется для подключения к пирам через:</translation>
     </message>
     <message>
+        <location line="+13"/>
+        <location line="+23"/>
+        <location line="+23"/>
         <source>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
         <translation>Если указано, то показывает прокси SOCKS5, используемый по умолчанию для подключения к пирам этого типа сети</translation>
     </message>
     <message>
+        <location line="-36"/>
         <source>IPv4</source>
         <translation>IPv4</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>IPv6</source>
         <translation>IPv6</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Tor</source>
         <translation>Tor</translation>
     </message>
     <message>
+        <location line="+25"/>
         <source>Connect to the Sibcoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
         <translation>Подключаться к сети червонца через отдельный прокси SOCKS5 для скрытых сервисов Tor.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
         <translation>Использовать отдельный SOCKS5 прокси для подключения к участникам через скрытые сервисы Tor:</translation>
     </message>
     <message>
-        <location line="-212"/>
+        <location line="-297"/>
         <source>This setting determines the amount of individual masternodes that an input will be anonymized through.&lt;br/&gt;More rounds of anonymization gives a higher degree of privacy, but also costs more in fees.</source>
         <translation type="unfinished">Этот параметр определяет количество мастернод для процесса анонимизации.&lt;br/&gt;Большее количество раундов дает более высокую степень приватности, однако и расходы на комиссии будут выше.</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+97"/>
         <source>Accept connections from outside</source>
         <translation>Разрешить входящие соединения к вашему компьютеру</translation>
     </message>
@@ -2067,7 +2111,7 @@ Address: %4
         <translation>Подключаться к сети червонца через SOCKS5 прокси.</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+292"/>
         <source>&amp;Window</source>
         <translation>&amp;Окно</translation>
     </message>
@@ -2082,12 +2126,7 @@ Address: %4
         <translation>&amp;Cворачивать в системный лоток вместо панели задач</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Сворачивать вместо закрытия. Если данная настройка будет выбрана, то приложение закроется только после выбора пункта меню Завершить.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+10"/>
         <source>M&amp;inimize on close</source>
         <translation>С&amp;ворачивать при закрытии</translation>
     </message>
@@ -2134,13 +2173,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Знаков после запятой</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <location line="+13"/>
-        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>Сторонние URL (например, block explorer), которые отображаются на вкладке транзакций как пункты контекстного меню. %s в URL заменяется хэшем транзакции. URL отделяются друг от друга вертикальной чертой |.</translation>
-    </message>
-    <message>
-        <location line="-10"/>
+        <location line="+17"/>
         <source>Third party transaction URLs</source>
         <translation>Сторонние URL для транзакций</translation>
     </message>
@@ -2170,33 +2203,33 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>О&amp;тмена</translation>
     </message>
     <message>
-        <location filename="../optionsdialog.cpp" line="+91"/>
+        <location filename="../optionsdialog.cpp" line="+100"/>
         <source>default</source>
         <translation>по умолчанию</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+64"/>
         <source>none</source>
         <translation>нет</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+83"/>
         <source>Confirm options reset</source>
         <translation>Подтвердите сброс настроек</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>Client restart required to activate changes.</source>
         <translation>Для применения изменений требуется перезапуск клиента.</translation>
     </message>
     <message>
-        <location line="-31"/>
-        <source>Client will be shutdown, do you want to proceed?</source>
-        <translation>Клиент будет выключен, хотите продолжить?</translation>
+        <location line="-32"/>
+        <source>Client will be shut down. Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>This change would require a client restart.</source>
         <translation>Это изменение потребует перезапуска клиента.</translation>
     </message>
@@ -2214,14 +2247,14 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Форма</translation>
     </message>
     <message>
-        <location line="+53"/>
-        <location line="+1021"/>
-        <location line="+77"/>
+        <location line="+50"/>
+        <location line="+355"/>
+        <location line="+258"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Sibcoin network after a connection is established, but this process has not completed yet.</source>
         <translation>Отображаемая информация может быть устаревшей. Ваш бумажник автоматически синхронизируется с сетью &quot;Червонца&quot; после подключения, но этот процесс пока не завершён.</translation>
     </message>
     <message>
-        <location line="-849"/>
+        <location line="-364"/>
         <source>Available:</source>
         <translation>Доступно:</translation>
     </message>
@@ -2261,53 +2294,69 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Ваш текущий общий баланс</translation>
     </message>
     <message>
+        <location line="+25"/>
         <source>Current total balance in watch-only addresses</source>
         <translation>Текущий полный баланс на адресах для просмотра</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>Watch-only:</source>
         <translation>Для просмотра:</translation>
     </message>
     <message>
+        <location line="+51"/>
         <source>Your current balance in watch-only addresses</source>
         <translation>Ваш текущий баланс на адресах для просмотра</translation>
     </message>
     <message>
+        <location line="+58"/>
+        <location filename="../overviewpage.cpp" line="+497"/>
+        <location line="+12"/>
+        <location line="+8"/>
+        <location line="+61"/>
+        <location line="+15"/>
+        <location line="+9"/>
+        <location line="+14"/>
         <source>PrivateSend</source>
         <translation>PrivateSend</translation>
     </message>
     <message>
+        <location line="+49"/>
         <source>Status:</source>
         <translation>Статус:</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="+7"/>
         <source>Enabled/Disabled</source>
         <translation>Включен/Выключен</translation>
     </message>
     <message>
-        <location line="-71"/>
+        <location line="+7"/>
         <source>Completion:</source>
         <translation>Завершение:</translation>
     </message>
     <message>
+        <location line="+109"/>
         <source>Try to manually submit a PrivateSend request.</source>
         <translation>Попробовать отправить запрос PrivateSend вручную.</translation>
     </message>
     <message>
-        <source>Reset the current status of PrivateSend (can interrupt PrivateSend if it's in the process of Mixing, which can cost you money!)</source>
+        <location line="+16"/>
+        <source>Reset the current status of PrivateSend (can interrupt PrivateSend if it&apos;s in the process of Mixing, which can cost you money!)</source>
         <translation>Сбросить текущий статус PrivateSend (можно прервать процесс перемешивания PrivateSend, но это может стоить Вам немного денег!)</translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>Information about PrivateSend and Mixing</source>
         <translation>Информация о PrivateSend и перемешивании</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Info</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="-107"/>
         <source>Amount and Rounds:</source>
         <translation>Сумма и раунды:</translation>
     </message>
@@ -2327,21 +2376,22 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>н/д</translation>
     </message>
     <message>
-        <location line="-107"/>
+        <location line="+30"/>
         <source>Start/Stop Mixing</source>
         <translation>Начать/остановить автоматическое перемешивание</translation>
     </message>
     <message>
+        <location line="-74"/>
         <source>PrivateSend Balance:</source>
         <translation>Баланс PrivateSend:</translation>
     </message>
     <message>
-        <location line="-917"/>
+        <location line="-438"/>
         <source>Balances</source>
         <translation>Баланс</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+52"/>
         <source>Unconfirmed transactions to watch-only addresses</source>
         <translation>Неподтвержденные транзакции на адреса для просмотра</translation>
     </message>
@@ -2351,72 +2401,61 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Баланс добытых монет на адресах для просмотра, который ещё не созрел</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+218"/>
         <source>Spendable:</source>
         <translation>Расходуемые:</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+159"/>
         <source>The denominations you submitted to the Masternode.&lt;br&gt;To mix, other users must submit the exact same denominations.</source>
         <translation>Номиналы, предоставленные Вами мастерноде.&lt;br&gt;Для перемешивания другие пользователи должны предоставить точно такой же набор номиналов.</translation>
     </message>
     <message>
-        <location line="+501"/>
+        <location line="+14"/>
         <source>(Last Message)</source>
         <translation>(Последнее сообщение)</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+37"/>
         <source>Try Mix</source>
         <translation>Попробовать вручную</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+19"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+64"/>
         <source>Recent transactions</source>
         <translation>Недавние транзакции</translation>
     </message>
     <message>
-        <location filename="../overviewpage.cpp" line="-381"/>
+        <location filename="../overviewpage.cpp" line="-466"/>
         <location line="+1"/>
         <location line="+1"/>
         <source>out of sync</source>
         <translation>несинхронизировано</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+325"/>
+        <location line="+48"/>
+        <location line="+140"/>
         <location line="+1"/>
         <location line="+1"/>
-        <location line="+292"/>
+        <location line="+3"/>
         <source>Disabled</source>
         <translation>Выключен</translation>
     </message>
     <message>
-        <location line="-288"/>
-        <location line="+290"/>
-        <location line="+91"/>
-        <source>Start PrivateSend Mixing</source>
-        <translation>Начать автоперемешивание</translation>
-    </message>
-    <message>
-        <location line="-379"/>
-        <location line="+382"/>
-        <source>Stop PrivateSend Mixing</source>
-        <translation>Остановить перемешивание</translation>
-    </message>
-    <message>
-        <location line="-211"/>
+        <location line="-332"/>
         <location line="+6"/>
         <source>No inputs detected</source>
         <translation>Червонцы не найдены</translation>
     </message>
     <message numerus="yes">
         <location line="-2"/>
-        <location line="+35"/>
+        <location line="+32"/>
         <location line="+10"/>
         <source>%n Rounds</source>
         <translation>
@@ -2426,7 +2465,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         </translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-7"/>
         <source>Not enough compatible inputs to anonymize &lt;span style=&apos;color:red;&apos;&gt;%1&lt;/span&gt;,&lt;br&gt;will anonymize &lt;span style=&apos;color:red;&apos;&gt;%2&lt;/span&gt; instead</source>
         <translation>Не достаточно совместимых средств для анонимизации &lt;span style=&apos;color:red;&apos;&gt;%1&lt;/span&gt;,&lt;br/&gt;будет анонимизировано только &lt;span style=&apos;color:red;&apos;&gt;%2&lt;/span&gt;</translation>
     </message>
@@ -2441,76 +2480,101 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Разбито на номиналы</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Anonymized</source>
         <translation>Анонимизировано</translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>Denominated inputs have %5 of %n rounds on average</source>
-        <translation><numerusform>Номиналы прошли в среднем %5 из %n раундов</numerusform><numerusform>Номиналы прошли в среднем %5 из %n раундов</numerusform><numerusform>Номиналы прошли в среднем %5 из %n раундов</numerusform><numerusform>Номиналы прошли в среднем %5 из %n раундов</numerusform></translation>
+        <translation>
+            <numerusform>Номиналы прошли в среднем %5 из %n раундов</numerusform>
+            <numerusform>Номиналы прошли в среднем %5 из %n раундов</numerusform>
+            <numerusform>Номиналы прошли в среднем %5 из %n раундов</numerusform>
+        </translation>
     </message>
     <message>
+        <location line="-56"/>
         <source>Found enough compatible inputs to anonymize %1</source>
         <translation>Найдено достаточно совместимых средств для анонимизации %1</translation>
     </message>
     <message>
+        <location line="-203"/>
         <source>Automatic backups are disabled, no mixing available!</source>
         <translation>Автоматические бэкапы отключены, перемешивание недоступно!</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <location line="+303"/>
+        <location line="+155"/>
         <source>Start Mixing</source>
         <translation>Начать перемешивание</translation>
     </message>
     <message>
+        <location line="-456"/>
+        <location line="+459"/>
         <source>Stop Mixing</source>
         <translation>Остановить перемешивание</translation>
     </message>
     <message>
+        <location line="-208"/>
         <source>Mixed</source>
         <translation>Перемешано</translation>
     </message>
     <message>
+        <location line="+37"/>
         <source>keys left: %1</source>
         <translation>осталось ключей: %1</translation>
     </message>
     <message>
+        <location line="+28"/>
         <source>Very low number of keys left since last automatic backup!</source>
         <translation>Очень мало ключей с момента последнего автоматического бэкапа!</translation>
     </message>
     <message>
-        <source>We are about to create a new automatic backup for you, however &lt;span style='color:red;'&gt; you should always make sure you have backups saved in some safe place&lt;/span&gt;!</source>
-        <translation>Мы собираемся создать автоматический бэкап, однако &lt;span style='color:red;'&gt; всегда проверяйте, что вы сохраняете их в безопасном месте&lt;/span&gt;!</translation>
+        <location line="+1"/>
+        <source>We are about to create a new automatic backup for you, however &lt;span style=&apos;color:red;&apos;&gt; you should always make sure you have backups saved in some safe place&lt;/span&gt;!</source>
+        <translation>Мы собираемся создать автоматический бэкап, однако &lt;span style=&apos;color:red;&apos;&gt; всегда проверяйте, что вы сохраняете их в безопасном месте&lt;/span&gt;!</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Note: You turn this message off in options.</source>
         <translation>Примечание: Вы можете отключить это сообщение в настройках.</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>WARNING! Something went wrong on automatic backup</source>
         <translation>ВНИМАНИЕ! Что-то пошло не так при создании автоматического бэкапа</translation>
     </message>
     <message>
+        <location line="+8"/>
+        <location line="+16"/>
         <source>ERROR! Failed to create automatic backup</source>
         <translation>ОШИБКА! Не удалось создать автоматический бэкап</translation>
     </message>
     <message>
+        <location line="-15"/>
+        <location line="+17"/>
         <source>Mixing is disabled, please close your wallet and fix the issue!</source>
         <translation>Перемешивание выключено, пожалуйста закройте кошелек и исправьте проблему!</translation>
     </message>
     <message>
+        <location line="-11"/>
         <source>Enabled</source>
         <translation>Включен</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>see debug.log for details.</source>
         <translation>смотрите debug.log для получения подробной информации.</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>WARNING! Failed to replenish keypool, please unlock your wallet to do so.</source>
         <translation>ВНИМАНИЕ! Ну удалось обновить пул ключей, пожалуйста, разблокируйте кошелек.</translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>Last PrivateSend message:
 </source>
         <translation>Последнее сообщение PrivateSend:
@@ -2522,17 +2586,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Н/Д</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+16"/>
         <source>PrivateSend was successfully reset.</source>
         <translation>Статус Анонимизации был успешно сброшен.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+15"/>
         <source>If you don&apos;t want to see internal PrivateSend fees/transactions select &quot;Most Common&quot; as Type on the &quot;Transactions&quot; tab.</source>
         <translation>Если Вы не хотите видеть внутренние транзакции/комиссии от работы PrivateSend, выберите Тип &quot;Наиболее общие&quot; на закладке &quot;Транзакции&quot;.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
         <source>PrivateSend requires at least %1 to use.</source>
         <translation>Для анонимизации червонцев требуется минимум %1.</translation>
     </message>
@@ -2545,22 +2609,22 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>PaymentServer</name>
     <message>
-        <location filename="../paymentserver.cpp" line="+318"/>
-        <location line="+226"/>
-        <location line="+34"/>
-        <location line="+109"/>
+        <location filename="../paymentserver.cpp" line="+329"/>
+        <location line="+216"/>
+        <location line="+42"/>
+        <location line="+113"/>
         <location line="+14"/>
         <location line="+18"/>
         <source>Payment request error</source>
         <translation>Ошибка запроса платежа</translation>
     </message>
     <message>
-        <location line="-400"/>
+        <location line="-402"/>
         <source>Cannot start sibcoin: click-to-pay handler</source>
         <translation>Не удаётся запустить обработчик &quot;Червонца&quot; click-to-pay</translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+103"/>
         <location line="+14"/>
         <location line="+7"/>
         <source>URI handling</source>
@@ -2577,10 +2641,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Обработка файла запроса платежа</translation>
     </message>
     <message>
+        <location line="+71"/>
         <source>Payment request expired.</source>
         <translation>Время этого запроса платежа истекло.</translation>
     </message>
     <message>
+        <location line="-92"/>
         <source>Invalid payment address %1</source>
         <translation>Некорректный адрес платежа %1</translation>
     </message>
@@ -2595,24 +2661,22 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Файл платежного запроса не может быть прочитан! Скорей всего некорректный формат файла.</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+61"/>
         <location line="+9"/>
-        <location line="+32"/>
+        <location line="+31"/>
+        <location line="+10"/>
+        <location line="+17"/>
+        <location line="+88"/>
         <source>Payment request rejected</source>
         <translation>Запрос платежа отклонен</translation>
     </message>
     <message>
-        <location line="-41"/>
+        <location line="-155"/>
         <source>Payment request network doesn&apos;t match client network.</source>
         <translation>Сеть платежного запроса не соответствует сети клиента.</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Payment request has expired.</source>
-        <translation>Истек срок действия запроса платежа.</translation>
-    </message>
-    <message>
-        <location line="+7"/>
+        <location line="+15"/>
         <source>Payment request is not initialized.</source>
         <translation>Запрос платежа не инициализирован.</translation>
     </message>
@@ -2622,30 +2686,28 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Непроверенные запросы платежей с нестандартными платёжными сценариями не поддерживаются.</translation>
     </message>
     <message>
+        <location line="+9"/>
+        <location line="+17"/>
         <source>Invalid payment request.</source>
         <translation>Неправильный запрос платежа.</translation>
     </message>
     <message>
+        <location line="-10"/>
         <source>Requested payment amount of %1 is too small (considered dust).</source>
         <translation>Запрошенная сумма платежа %1 слишком мала (считается &quot;пылью&quot;).</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+55"/>
         <source>Refund from %1</source>
         <translation>Возврат от %1</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+44"/>
         <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
         <translation>Запрос платежа %1 слишком велик (%2 байт, разрешено %3 байт).</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Payment request DoS protection</source>
-        <translation>Защита от DoS через запрос платежа</translation>
-    </message>
-    <message>
-        <location line="+5"/>
+        <location line="+9"/>
         <source>Error communicating with %1: %2</source>
         <translation>Ошибка связи с %1: %2</translation>
     </message>
@@ -2673,12 +2735,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>PeerTableModel</name>
     <message>
-        <location filename="../peertablemodel.cpp" line="+118"/>
-        <source>Address/Hostname</source>
-        <translation>IP адрес/Хост</translation>
-    </message>
-    <message>
-        <location line="+0"/>
+        <location filename="../peertablemodel.cpp" line="+117"/>
         <source>User Agent</source>
         <translation>Версия</translation>
     </message>
@@ -2688,6 +2745,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Пинг</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Node/Service</source>
         <translation>Узел/Сервис</translation>
     </message>
@@ -2695,17 +2753,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../bitcoinunits.cpp" line="+243"/>
+        <location filename="../bitcoinunits.cpp" line="+233"/>
         <source>Amount</source>
         <translation>Сумма</translation>
     </message>
     <message>
-        <location filename="../guiutil.cpp" line="+111"/>
+        <location filename="../guiutil.cpp" line="+120"/>
         <source>Enter a Sibcoin address (e.g. %1)</source>
         <translation>Введите адрес сети червонца (напр. %1)</translation>
     </message>
     <message>
-        <location line="+760"/>
+        <location line="+860"/>
         <source>%1 d</source>
         <translation>%1 д</translation>
     </message>
@@ -2721,21 +2779,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <location line="+2"/>
+        <location line="+44"/>
         <source>%1 s</source>
         <translation>%1 с</translation>
     </message>
     <message>
-        <location line="+17"/>
-        <source>NETWORK</source>
-        <translation>СЕТЬ</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>UNKNOWN</source>
-        <translation>НЕИЗВЕСТНО</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="-10"/>
         <source>None</source>
         <translation>Нет</translation>
     </message>
@@ -2776,7 +2825,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>RPCConsole</name>
     <message>
-        <location filename="../forms/rpcconsole.ui" line="+14"/>
+        <location filename="../forms/debugwindow.ui" line="+14"/>
         <source>Tools window</source>
         <translation>Окно инструментов</translation>
     </message>
@@ -2786,33 +2835,35 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>&amp;Информация</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+15"/>
         <source>General</source>
         <translation>Общие</translation>
     </message>
     <message>
-        <location line="+204"/>
+        <location line="+164"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location line="-197"/>
+        <location line="-157"/>
         <source>Client name</source>
         <translation>Имя клиента</translation>
     </message>
     <message>
-        <location line="-36"/>
         <location line="+10"/>
-        <location line="+36"/>
-        <location line="+30"/>
         <location line="+23"/>
-        <location line="+23"/>
-        <location line="+62"/>
-        <location line="+23"/>
-        <location line="+36"/>
+        <location line="+26"/>
         <location line="+26"/>
         <location line="+23"/>
-        <location line="+425"/>
+        <location line="+23"/>
+        <location line="+36"/>
+        <location line="+23"/>
+        <location line="+20"/>
+        <location line="+30"/>
+        <location line="+23"/>
+        <location line="+36"/>
+        <location line="+23"/>
+        <location line="+536"/>
         <location line="+23"/>
         <location line="+23"/>
         <location line="+23"/>
@@ -2824,93 +2875,96 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+23"/>
         <location line="+23"/>
         <location line="+23"/>
+        <location line="+23"/>
+        <location line="+23"/>
+        <location line="+23"/>
+        <location line="+26"/>
         <location line="+23"/>
         <source>N/A</source>
         <translation>Н/Д</translation>
     </message>
     <message>
-        <location line="-927"/>
+        <location line="-1049"/>
         <source>Number of connections</source>
         <translation>Число подключений</translation>
     </message>
     <message>
+        <location line="+183"/>
         <source>&amp;Open</source>
         <translation>&amp;Открыть</translation>
     </message>
     <message>
-        <location line="-56"/>
+        <location line="-242"/>
         <source>Startup time</source>
         <translation>Время запуска</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+29"/>
         <source>Network</source>
         <translation>Сеть</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="+103"/>
         <source>Last block time</source>
         <translation>Время последнего блока</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+100"/>
         <source>Debug log file</source>
         <translation>Отладочный лог-файл</translation>
     </message>
     <message>
-        <location line="+95"/>
-        <source>Using OpenSSL version</source>
-        <translation>Используется версия OpenSSL</translation>
-    </message>
-    <message>
-        <location line="-197"/>
+        <location line="-255"/>
         <source>Build date</source>
         <translation>Дата сборки</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+132"/>
         <source>Current number of blocks</source>
         <translation>Текущее количество блоков</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="-207"/>
         <source>Client version</source>
         <translation>Версия клиента</translation>
     </message>
     <message>
-        <location line="-204"/>
+        <location line="+200"/>
         <source>Block chain</source>
         <translation>Цепочка блоков</translation>
     </message>
     <message>
-        <location line="+149"/>
+        <location line="+137"/>
         <source>Open the Sibcoin Core debug log file from the current data directory. This can take a few seconds for large log files.</source>
         <translation>Открыть отладочный лог файл из текущей директории кошелька. Может занять несколько секунд для больших файлов.</translation>
     </message>
     <message>
-        <location line="+140"/>
+        <location line="-157"/>
         <source>Number of Masternodes</source>
         <translation>Количество мастернод</translation>
     </message>
     <message>
+        <location line="+79"/>
         <source>Memory Pool</source>
         <translation>Пул памяти</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Current number of transactions</source>
         <translation>Текущее количество транзакций</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Memory usage</source>
         <translation>Использование памяти</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="-240"/>
         <source>Using BerkeleyDB version</source>
         <translation>Версия BerkeleyDB</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+317"/>
         <source>&amp;Console</source>
         <translation>&amp;Консоль</translation>
     </message>
@@ -2936,32 +2990,40 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <location line="+64"/>
+        <location line="+554"/>
         <source>Received</source>
         <translation>Получено</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <location line="-474"/>
+        <location line="+451"/>
         <source>Sent</source>
         <translation>Отправлено</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="-410"/>
         <source>&amp;Peers</source>
         <translation>&amp;Подключения</translation>
     </message>
     <message>
+        <location line="+50"/>
         <source>Banned peers</source>
         <translation>Заблокированные пиры</translation>
     </message>
     <message>
+        <location line="+59"/>
+        <location filename="../rpcconsole.cpp" line="+304"/>
+        <location line="+669"/>
         <source>Select a peer to view detailed information.</source>
         <translation>Выберите подключение для отображения детальной информации.</translation>
     </message>
     <message>
+        <location line="+25"/>
         <source>Whitelisted</source>
         <translation>В белом списке</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Direction</source>
         <translation>Направление</translation>
     </message>
@@ -2971,41 +3033,38 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Версия</translation>
     </message>
     <message>
+        <location line="+69"/>
         <source>Starting Block</source>
         <translation>Начальный блок</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Synced Headers</source>
         <translation>Синхронизированные заголовки</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Synced Blocks</source>
         <translation>Синхронизированные блоки</translation>
     </message>
     <message>
+        <location line="+511"/>
         <source>Wallet Path</source>
         <translation>Путь к кошельку</translation>
     </message>
     <message>
+        <location line="-580"/>
         <source>Services</source>
         <translation>Сервисы</translation>
     </message>
     <message>
+        <location line="-894"/>
+        <location line="+871"/>
         <source>User Agent</source>
         <translation>Версия клиента</translation>
     </message>
     <message>
-        <location line="+23"/>
-        <source>Starting Height</source>
-        <translation>Начальная высота</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Sync Height</source>
-        <translation>Синхрон. высота</translation>
-    </message>
-    <message>
-        <location line="+23"/>
+        <location line="+115"/>
         <source>Ban Score</source>
         <translation>Ban рейтинг</translation>
     </message>
@@ -3025,29 +3084,22 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Посл. получено</translation>
     </message>
     <message>
-        <location line="+23"/>
-        <source>Bytes Sent</source>
-        <translation>Байт отправлено</translation>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Bytes Received</source>
-        <translation>Байт получено</translation>
-    </message>
-    <message>
-        <location line="+23"/>
+        <location line="+69"/>
         <source>Ping Time</source>
         <translation>Пинг</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>The duration of a currently outstanding ping.</source>
         <translation>Длительность текущего просроченного пинга.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Ping Wait</source>
         <translation>Ожидание пинга</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Time Offset</source>
         <translation>Сдвиг времени</translation>
     </message>
@@ -3127,7 +3179,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>-reindex: Заново перестроить индекс цепи из текущих blk000??.dat файлов.</translation>
     </message>
     <message>
-        <location filename="../rpcconsole.cpp" line="-203"/>
+        <location filename="../rpcconsole.cpp" line="-345"/>
         <source>In:</source>
         <translation>Вход:</translation>
     </message>
@@ -3137,40 +3189,50 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Выход:</translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location line="-36"/>
         <source>Welcome to the Sibcoin RPC console.</source>
         <translation>Добро пожаловать в RPC-консоль &quot;Сибирского Червонца&quot;.</translation>
     </message>
     <message>
+        <location line="-198"/>
         <source>&amp;Disconnect Node</source>
         <translation>&amp;Отключить узел</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <location line="+1"/>
+        <location line="+1"/>
+        <location line="+1"/>
         <source>Ban Node for</source>
         <translation>Заблокировать узел</translation>
     </message>
     <message>
+        <location line="-3"/>
         <source>1 &amp;hour</source>
         <translation>1 &amp;час</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>1 &amp;day</source>
         <translation>1 &amp;день</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>1 &amp;week</source>
         <translation>1 &amp;неделя</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>1 &amp;year</source>
         <translation>1 &amp;год</translation>
     </message>
     <message>
+        <location line="+46"/>
         <source>&amp;Unban Node</source>
         <translation>&amp;Разблокировать узел</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+149"/>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
         <translation>Используйте стрелки вверх и вниз для просмотра истории и &lt;b&gt;Ctrl-L&lt;/b&gt; для очистки экрана.</translation>
     </message>
@@ -3180,7 +3242,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Напишите &lt;b&gt;help&lt;/b&gt; для просмотра доступных команд.</translation>
     </message>
     <message>
-        <location line="+139"/>
+        <location line="+149"/>
         <source>%1 B</source>
         <translation>%1 Б</translation>
     </message>
@@ -3200,10 +3262,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>%1 ГБ</translation>
     </message>
     <message>
+        <location line="+88"/>
         <source>(node id: %1)</source>
         <translation>(id узла: %1)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>via %1</source>
         <translation>через %1</translation>
     </message>
@@ -3214,7 +3278,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>никогда</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Inbound</source>
         <translation>Входящее</translation>
     </message>
@@ -3224,22 +3288,20 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Исходящее</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
+        <location line="+12"/>
+        <location line="+6"/>
         <source>Unknown</source>
         <translation>Неизвестно</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <location line="+1"/>
-        <source>Fetching...</source>
-        <translation>Получаем...</translation>
     </message>
 </context>
 <context>
@@ -3312,10 +3374,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Очистить</translation>
     </message>
     <message>
+        <location line="+36"/>
         <source>Request InstantSend</source>
         <translation>Запросить InstantSend</translation>
     </message>
     <message>
+        <location line="+49"/>
         <source>Requested payments history</source>
         <translation>История запрошенных платежей</translation>
     </message>
@@ -3340,7 +3404,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../receivecoinsdialog.cpp" line="+39"/>
+        <location filename="../receivecoinsdialog.cpp" line="+47"/>
         <source>Copy label</source>
         <translation>Копировать метку</translation>
     </message>
@@ -3413,10 +3477,13 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Сообщение</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <location line="+2"/>
         <source>InstantSend</source>
         <translation>InstantSend</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
         <translation>Получившийся URI слишком длинный, попробуйте сократить текст метки / сообщения.</translation>
     </message>
@@ -3429,7 +3496,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>RecentRequestsTableModel</name>
     <message>
-        <location filename="../recentrequeststablemodel.cpp" line="+28"/>
+        <location filename="../recentrequeststablemodel.cpp" line="+29"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
@@ -3468,8 +3535,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+639"/>
-        <location line="+12"/>
+        <location filename="../sendcoinsdialog.cpp" line="+660"/>
         <source>Send Coins</source>
         <translation>Отправка</translation>
     </message>
@@ -3564,25 +3630,22 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Выберите...</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+37"/>
         <source>collapse fee-settings</source>
         <translation>убрать настройки комиссии</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Minimize</source>
-        <translation>Свернуть</translation>
-    </message>
-    <message>
+        <location line="+532"/>
         <source>PrivateSend</source>
         <translation>PrivateSend</translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>InstantSend</source>
         <translation>InstantSend</translation>
     </message>
     <message>
-        <location line="+78"/>
+        <location line="-500"/>
         <source>If the custom fee is set to 1000 duffs and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 duffs in fee,&lt;br /&gt;while &quot;at least&quot; pays 1000 duffs. For transactions bigger than a kilobyte both pay by kilobyte.</source>
         <translation>Если ручная комиссия установлена как 10 милличервонцев и транзакция занимает всего 250 байт,&lt;br /&gt;тогда комиссия &quot;за килобайт&quot; составит всего 2,5 милличервонцев, в то время как&lt;br /&gt; &quot;всего не менее&quot; будет те же 10 милличервонцев.&lt;br /&gt; Для транзакций размером больше 1кб в обоих случаях будет &quot;за килобайт&quot;.</translation>
     </message>
@@ -3608,11 +3671,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Оплата минимальной комиссии это нормально, но только до тех пор пока объем транзакций невелик. &lt;br /&gt;Имейте ввиду, что в случае роста количества транзакций это может привести к очень длительному времени подтверждения, например несколько дней или вообще никогда.</translation>
     </message>
     <message>
+        <location line="-110"/>
         <source>Hide</source>
         <translation>Скрыть</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+113"/>
         <source>(read the tooltip)</source>
         <translation>(всплывающая подсказка прочтена)</translation>
     </message>
@@ -3687,11 +3751,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>&amp;Добавить получателя</translation>
     </message>
     <message>
+        <location line="+64"/>
         <source>Balance:</source>
         <translation>Баланс:</translation>
     </message>
     <message>
-        <location filename="../sendcoinsdialog.cpp" line="-567"/>
+        <location filename="../sendcoinsdialog.cpp" line="-565"/>
         <source>Copy quantity</source>
         <translation>Копировать количество</translation>
     </message>
@@ -3739,35 +3804,42 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>анонимные средства</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>(privatesend requires this amount to be rounded up to the nearest %1).</source>
         <translation>(для работы PrivateSend требуется принудительно округлить до ближайшего %1).</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>any available funds (not anonymous)</source>
         <translation>любые доступные средства (не анонимно)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>and InstantSend</source>
         <translation>и InstantSend</translation>
     </message>
     <message>
+        <location line="+359"/>
         <source>Duplicate address found: addresses should only be used once each.</source>
         <translation>Обнаружен дублирующийся адрес: каждый адрес должны быть использован только один раз.</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>A fee higher than %1 is considered an absurdly high fee.</source>
-        <translation>Комиссия выше чем %1 считается "безумно высокой".</translation>
+        <translation>Комиссия выше чем %1 считается &quot;безумно высокой&quot;.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Payment request expired.</source>
         <translation>Время этого запроса платежа истекло.</translation>
     </message>
     <message>
+        <location line="+91"/>
         <source>Pay only the required fee of %1</source>
         <translation>Заплатить только требуемую комиссию %1</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="-397"/>
         <location line="+5"/>
         <location line="+5"/>
         <location line="+4"/>
@@ -3775,7 +3847,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>С %1 на %2</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+6"/>
         <source>Are you sure you want to send?</source>
         <translation>Вы уверены, что хотите отправить?</translation>
     </message>
@@ -3800,14 +3872,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Общая сумма = &lt;b&gt;%1&lt;/b&gt;&lt;br /&gt;= %2</translation>
     </message>
     <message>
+        <location line="+17"/>
         <source>&lt;b&gt;(%1 of %2 entries displayed)&lt;/b&gt;</source>
         <translation>&lt;b&gt;(показано записей: %1 из %2)&lt;/b&gt;</translation>
     </message>
     <message>
+        <location line="+215"/>
         <source>The recipient address is not valid. Please recheck.</source>
         <translation>Адрес получателя неверный. Пожалуйста, перепроверьте.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>The amount to pay must be larger than 0.</source>
         <translation>Сумма для отправки должна быть больше 0.</translation>
     </message>
@@ -3822,12 +3897,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Сумма превысит Ваш баланс, если комиссия в размере %1 будет добавлена к транзакции.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>Обнаружен дублирующийся адрес. Отправка на один и тот же адрес возможна только один раз за одну операцию отправки.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+6"/>
         <source>Transaction creation failed!</source>
         <translation>Не удалось создать транзакцию!</translation>
     </message>
@@ -3836,23 +3906,8 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
         <translation>Транзакция была отклонена! Такое может произойти, если некоторые червонцы уже были потрачены, например, если Вы используете одну копию бумажника (wallet.dat), а червонцы были потрачены из другой копии, но не были отмечены как потраченные в этой.</translation>
     </message>
-    <message>
-        <location line="+5"/>
-        <source>Error: The wallet was unlocked only to anonymize coins.</source>
-        <translation>Ошибка: этот бумажник был разблокирован только для анонимизации червонцев.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>A fee %1 times higher than %2 per kB is considered an insanely high fee.</source>
-        <translation>Комиссия в %1 раз выше чем %2 за килобайт считается безумно большой.</translation>
-    </message>
-    <message>
-        <location line="+87"/>
-        <source>Pay only the minimum fee of %1</source>
-        <translation>Заплатить только минимальную комиссию %1</translation>
-    </message>
     <message numerus="yes">
-        <location line="+22"/>
+        <location line="+123"/>
         <source>Estimated to begin confirmation within %n block(s).</source>
         <translation>
             <numerusform>Предполагаемое время подтверждения не позднее чем через %n блок.</numerusform>
@@ -3861,12 +3916,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         </translation>
     </message>
     <message>
-        <location line="+107"/>
+        <location line="+106"/>
         <source>Warning: Invalid Sibcoin address</source>
         <translation>Внимание: неверный адрес сети &quot;Червонца&quot;</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
         <source>Warning: Unknown change address</source>
         <translation>Внимание: неизвестный адрес для сдачи</translation>
     </message>
@@ -3884,7 +3939,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Это нормальный платёж.</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+21"/>
         <source>Pay &amp;To:</source>
         <translation>Полу&amp;чатель:</translation>
     </message>
@@ -3915,13 +3970,13 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location line="+524"/>
-        <location line="+536"/>
+        <location line="+542"/>
+        <location line="+533"/>
         <source>Remove this entry</source>
         <translation>Удалить эту запись</translation>
     </message>
     <message>
-        <location line="-1044"/>
+        <location line="-1059"/>
         <source>&amp;Label:</source>
         <translation>&amp;Метка:</translation>
     </message>
@@ -3932,20 +3987,23 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location line="+521"/>
-        <location line="+536"/>
+        <location line="+539"/>
+        <location line="+533"/>
         <source>A&amp;mount:</source>
         <translation>Ко&amp;личество:</translation>
     </message>
     <message>
+        <location line="-1054"/>
         <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of Sibcoin than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>Комиссия будет вычтена из отправляемой суммы. Получателю придет меньше червонцев, сем указано в поле "Сумма". Если указано несколько получателей, то комиссия будет разделена между ними поровну.</translation>
+        <translation>Комиссия будет вычтена из отправляемой суммы. Получателю придет меньше червонцев, сем указано в поле &quot;Сумма&quot;. Если указано несколько получателей, то комиссия будет разделена между ними поровну.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>S&amp;ubtract fee from amount</source>
         <translation>&amp;Вычесть комиссию из суммы</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Message:</source>
         <translation>Сообщение:</translation>
     </message>
@@ -3955,26 +4013,29 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>К sibcoin: URI было прикреплено сообщение, которое будет сохранено вместе с транзакцией для вашего сведения. Обратите внимание: сообщение не будет отправлено через сеть &quot;Червонца&quot;.</translation>
     </message>
     <message>
+        <location line="+433"/>
         <source>This is an unauthenticated payment request.</source>
         <translation>Этот запрос платежа неаутентифицирован.</translation>
     </message>
     <message>
+        <location line="+529"/>
         <source>This is an authenticated payment request.</source>
         <translation>Этот запрос платежа аутентифицирован.</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <location line="+532"/>
+        <location line="-514"/>
+        <location line="+529"/>
         <source>Pay To:</source>
         <translation>Получатель:</translation>
     </message>
     <message>
-        <location line="-498"/>
-        <location line="+536"/>
+        <location line="-495"/>
+        <location line="+533"/>
         <source>Memo:</source>
         <translation>Примечание:</translation>
     </message>
     <message>
+        <location filename="../sendcoinsentry.cpp" line="+32"/>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Введите метку для данного адреса для добавления его в адресную книгу</translation>
     </message>
@@ -3982,7 +4043,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <location filename="../utilitydialog.cpp" line="+96"/>
+        <location filename="../utilitydialog.cpp" line="+173"/>
         <source>Sibcoin Core is shutting down...</source>
         <translation>&quot;Червонец&quot; выключается...</translation>
     </message>
@@ -4079,8 +4140,8 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Enter the receiver's address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
-        <translation>Введите ниже адрес для подписи, сообщение (убедитесь, что переводы строк, пробелы, табы и т.п. в точности скопированы) и подпись, чтобы проверить сообщение. Убедитесь, что не скопировали лишнего в подпись, кроме самого подписываемого сообщения, чтобы не стать жертвой атаки "man-in-the-middle". Обратите внимание, что это лишь подтверждает, что подписывающий может получить средства на этот адрес, это не подтверждает, что он является отправителем какой-либо транзакции!</translation>
+        <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
+        <translation>Введите ниже адрес для подписи, сообщение (убедитесь, что переводы строк, пробелы, табы и т.п. в точности скопированы) и подпись, чтобы проверить сообщение. Убедитесь, что не скопировали лишнего в подпись, кроме самого подписываемого сообщения, чтобы не стать жертвой атаки &quot;man-in-the-middle&quot;. Обратите внимание, что это лишь подтверждает, что подписывающий может получить средства на этот адрес, это не подтверждает, что он является отправителем какой-либо транзакции!</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -4103,12 +4164,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Сбросить все поля формы проверки сообщения</translation>
     </message>
     <message>
-        <location filename="../signverifymessagedialog.cpp" line="+31"/>
+        <location filename="../signverifymessagedialog.cpp" line="+34"/>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
         <translation>Нажмите &quot;Подписать сообщение&quot; для создания подписи</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+104"/>
         <location line="+80"/>
         <source>The entered address is invalid.</source>
         <translation>Введённый адрес неверен.</translation>
@@ -4177,7 +4238,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>SplashScreen</name>
     <message>
-        <location filename="../splashscreen.cpp" line="+36"/>
+        <location filename="../splashscreen.cpp" line="+45"/>
         <source>Sibcoin Core</source>
         <translation>&quot;Сибирский Червонец&quot; (SIB)</translation>
     </message>
@@ -4202,7 +4263,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Разработчики Sibcoin Core</translation>
     </message>
     <message>
-        <location filename="../networkstyle.cpp" line="+19"/>
+        <location filename="../networkstyle.cpp" line="+21"/>
         <source>[testnet]</source>
         <translation>[тестовая сеть]</translation>
     </message>
@@ -4210,7 +4271,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>TrafficGraphWidget</name>
     <message>
-        <location filename="../trafficgraphwidget.cpp" line="+79"/>
+        <location filename="../trafficgraphwidget.cpp" line="+92"/>
         <source>KB/s</source>
         <translation>КБ/сек</translation>
     </message>
@@ -4232,30 +4293,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Открыто до %1</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <location line="+11"/>
-        <location line="+10"/>
-        <location line="+12"/>
+        <location line="+5"/>
         <source>conflicted</source>
         <translation>в противоречии</translation>
     </message>
     <message>
-        <location line="-31"/>
-        <source>%1/offline (verified via instantx)</source>
-        <translation>%1/отключен (проверено через instantx)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>%1/confirmed (verified via instantx)</source>
-        <translation>%1/подтвержден (проверено через instantx)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>%1 confirmations (verified via instantx)</source>
-        <translation>%1 подтверждений (проверено через instantx)</translation>
-    </message>
-    <message>
-        <location line="+29"/>
+        <location line="+6"/>
         <source>%1/offline</source>
         <translation>%1/отключен</translation>
     </message>
@@ -4265,25 +4308,27 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>%1/не подтверждено</translation>
     </message>
     <message>
-        <location line="-10"/>
-        <location line="+12"/>
+        <location line="+2"/>
         <source>%1 confirmations</source>
         <translation>%1 подтверждений</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>verified via InstantSend</source>
         <translation>проверено через InstantSend</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>InstantSend verification in progress - %1 of %2 signatures</source>
         <translation>верификация InstantSend в процессе - %1 из %2 подписей</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>InstantSend verification failed</source>
         <translation>верификация InstantSend завершилась неудачно</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+21"/>
         <source>Status</source>
         <translation>Статус</translation>
     </message>
@@ -4476,7 +4521,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>TransactionTableModel</name>
     <message>
-        <location filename="../transactiontablemodel.cpp" line="+229"/>
+        <location filename="../transactiontablemodel.cpp" line="+246"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
@@ -4486,6 +4531,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Тип</translation>
     </message>
     <message>
+        <location line="+0"/>
         <source>Address / Label</source>
         <translation>Адрес / Метка</translation>
     </message>
@@ -4554,47 +4600,57 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Получено от</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Received via PrivateSend</source>
         <translation>Получено через PrivateSend</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>PrivateSend Denominate</source>
         <translation>Перемешивание PrivateSend</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>PrivateSend Collateral Payment</source>
         <translation>Обеспечительный платеж PrivateSend</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>PrivateSend Make Collateral Inputs</source>
         <translation>Создание обеспечительных монет для PrivateSend</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>PrivateSend Create Denominations</source>
         <translation>Создание номиналов для PrivateSend</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>PrivateSend</source>
         <translation>PrivateSend</translation>
     </message>
     <message>
+        <location line="+280"/>
         <source>User-defined intent/purpose of the transaction.</source>
         <translation>Определенное пользователем назначение транзакции.</translation>
     </message>
     <message>
+        <location line="-295"/>
         <source>Sent to</source>
         <translation>Отправлено</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Payment to yourself</source>
         <translation>Отправлено себе</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Mined</source>
         <translation>Добыто</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+42"/>
         <source>watch-only</source>
         <translation>для просмотра</translation>
     </message>
@@ -4604,7 +4660,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>(н/д)</translation>
     </message>
     <message>
-        <location line="+210"/>
+        <location line="+224"/>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
         <translation>Статус транзакции. Подведите курсор к нужному полю для того, чтобы увидеть количество подтверждений.</translation>
     </message>
@@ -4624,12 +4680,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Участвовал ли адрес для просмотра в этой транзакции.</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Destination address of transaction.</source>
-        <translation>Адрес назначения транзакции.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Amount removed from or added to balance.</source>
         <translation>Сумма, снятая с баланса или добавленная на него.</translation>
     </message>
@@ -4637,7 +4688,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>TransactionView</name>
     <message>
-        <location filename="../transactionview.cpp" line="+69"/>
+        <location filename="../transactionview.cpp" line="+73"/>
         <location line="+17"/>
         <source>All</source>
         <translation>Все</translation>
@@ -4688,22 +4739,27 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Отправлено на</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>PrivateSend</source>
         <translation>PrivateSend</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend Make Collateral Inputs</source>
         <translation>Создание обеспечительных монет для PrivateSend</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend Create Denominations</source>
         <translation>Создание номиналов для PrivateSend</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend Denominate</source>
         <translation>Перемешивание PrivateSend</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend Collateral Payment</source>
         <translation>Обеспечительный платеж PrivateSend</translation>
     </message>
@@ -4728,12 +4784,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Введите адрес или метку для поиска</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Min amount</source>
         <translation>Мин. сумма</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Copy address</source>
         <translation>Копировать адрес</translation>
     </message>
@@ -4753,10 +4809,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Скопировать ID транзакции</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Copy raw transaction</source>
         <translation>Скопировать код транзакции</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Edit label</source>
         <translation>Изменить метку</translation>
     </message>
@@ -4766,7 +4824,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Показать подробности транзакции</translation>
     </message>
     <message>
-        <location line="+201"/>
+        <location line="+206"/>
         <source>Export Transaction History</source>
         <translation>Экспортировать историю транзакций</translation>
     </message>
@@ -4831,12 +4889,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>История транзакций была успешно сохранена в %1.</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+136"/>
         <source>Range:</source>
         <translation>Промежуток от:</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>to</source>
         <translation>до</translation>
     </message>
@@ -4852,7 +4910,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>WalletFrame</name>
     <message>
-        <location filename="../walletframe.cpp" line="+26"/>
+        <location filename="../walletframe.cpp" line="+27"/>
         <source>No wallet has been loaded.</source>
         <translation>Не был загружен ни один бумажник.</translation>
     </message>
@@ -4860,17 +4918,21 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+293"/>
-        <location line="+9"/>
+        <location filename="../walletmodel.cpp" line="+309"/>
+        <location line="+12"/>
+        <location line="+5"/>
         <location line="+11"/>
         <source>Send Coins</source>
         <translation>Отправка червонцев</translation>
     </message>
     <message>
-        <source>InstantSend doesn't support sending values that high yet. Transactions are currently limited to %1 SIB.</source>
+        <location line="-28"/>
+        <location line="+12"/>
+        <source>InstantSend doesn&apos;t support sending values that high yet. Transactions are currently limited to %1 SIB.</source>
         <translation>InstantSend пока что не поддерживает такие большие суммы. На данный момент транзакции ограничены суммами до %1 SIB.</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Used way too many inputs (&gt;%1) for this InstantSend transaction, fees could be huge.</source>
         <translation>Для этой InstantSend транзакции было использовано слишком много входов (&gt;%1), комиссия может быть огромной.</translation>
     </message>
@@ -4878,7 +4940,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
 <context>
     <name>WalletView</name>
     <message>
-        <location filename="../walletview.cpp" line="+48"/>
+        <location filename="../walletview.cpp" line="+52"/>
         <source>&amp;Export</source>
         <translation>&amp;Экспорт</translation>
     </message>
@@ -4888,12 +4950,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Selected amount:</source>
         <translation>Выбранная сумма:</translation>
     </message>
     <message>
-        <location line="+212"/>
+        <location line="+243"/>
         <source>Backup Wallet</source>
         <translation>Сделать резервную копию бумажника</translation>
     </message>
@@ -4933,1446 +4995,1713 @@ that paper wallet has been printed successfully!</source>
 <context>
     <name>sibcoin-core</name>
     <message>
+        <location filename="../sibcoinstrings.cpp" line="+36"/>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
         <translation>Привязаться к указанному адресу и всегда прослушивать только его. Используйте [хост]:порт для IPv6</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Cannot obtain a lock on data directory %s. Sibcoin Core is probably already running.</source>
         <translation>Не удалось установить блокировку на каталог данных %s. Возможно, Sibcoin Core уже запущен.</translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
         <translation>Ошибка: не удалось начать прослушивание входящих подключений (прослушивание вернуло ошибку %s)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
         <translation>Выполнить команду, когда приходит соответствующее сообщение о тревоге или наблюдается очень длинная альтернативная цепочка блоков (%s в команде заменяется на сообщение)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
         <translation>Выполнить команду, когда меняется транзакция в кошельке (%s в команде заменяется на TxID)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
         <translation>Выполнить команду при появлении нового блока (%s в команде заменяется на хэш блока)</translation>
     </message>
     <message>
+        <location line="+57"/>
         <source>Name to construct url for KeePass entry that stores the wallet passphrase</source>
         <translation>Имя для создания ссылки на запись KeePass, хранящую пароль к кошельку</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
         <translation>Запрашивать адреса участников с помощью DNS, если адресов мало (по умолчанию: 1, если не указан -connect)</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
         <translation>Задать максимальный размер высокоприоритетных/низкокомиссионных транзакций в байтах (по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
         <translation>Задать число потоков проверки скрипта (от %u до %d, 0=авто, &lt;0 = оставить столько ядер свободными, по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+20"/>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
         <translation>Это пре-релизная тестовая сборка - используйте на свой страх и риск - не используйте для добычи или торговых приложений</translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>Unable to bind to %s on this computer. Sibcoin Core is probably already running.</source>
         <translation>Не удалось привязаться к %s на этом компьютере. Возможно, Sibcoin Core уже запущен.</translation>
     </message>
     <message>
+        <location line="+36"/>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
         <translation>Внимание: похоже, что в сети нет полного согласия! Некоторый майнеры, возможно, испытывают проблемы.</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
         <translation>Внимание: обнаружено несогласие с подключенными участниками! Вам или другим участникам, возможно, следует обновиться.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
         <translation>Внимание: wallet.dat повреждён, данные спасены! Оригинальный wallet.dat сохранён как wallet.{timestamp}.bak в %s. Если Ваш баланс или транзакции некорректны, Вы должны восстановить файл из резервной копии.</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>You must specify a masternodeprivkey in the configuration. Please see documentation for help.</source>
         <translation>Необходимо указать masternodeprivkey в файле конфигурации. Пожалуйста, ознакомьтесь с документацией.</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Accept command line and JSON-RPC commands</source>
         <translation>Принимать командную строку и команды JSON-RPC</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
         <translation>Принимать подключения извне (по умолчанию: 1, если не используется -proxy или -connect)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
         <translation>Добавить узел для подключения и пытаться поддерживать соединение открытым</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
         <translation>Разрешить поиск в DNS для -addnode, -seednode и -connect</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Already have that input.</source>
         <translation>Уже есть этот вход.</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Block creation options:</source>
         <translation>Параметры создания блоков:</translation>
     </message>
     <message>
-        <source>Can&apos;t denominate: no compatible inputs left.</source>
-        <translation>Разбиение на номиналы невозможно: не осталось совместимых монет.</translation>
-    </message>
-    <message>
+        <location line="+4"/>
         <source>Cannot downgrade wallet</source>
         <translation>Не удаётся понизить версию кошелька</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
         <translation>Не удаётся разрешить адрес в параметре -bind: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
         <translation>Не удаётся разрешить адрес в параметре -externalip: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Cannot write default address</source>
         <translation>Не удаётся записать адрес по умолчанию</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Collateral not valid.</source>
         <translation>Обеспечительная транзакция некорректна.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Connect only to the specified node(s)</source>
         <translation>Подключаться только к указанному узлу(ам)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
         <translation>Подключиться к участнику, чтобы получить список адресов других участников, и отключиться</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Connection options:</source>
         <translation>Параметры подключения:</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Corrupted block database detected</source>
         <translation>База данных блоков повреждена</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Debugging/Testing options:</source>
         <translation>Параметры отладки/тестирования:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Do not load the wallet and disable wallet RPC calls</source>
         <translation>Не загружать кошелёк и запретить обращения к нему через RPC</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Do you want to rebuild the block database now?</source>
         <translation>Перестроить базу данных блоков прямо сейчас?</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Done loading</source>
         <translation>Загрузка завершена</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Entries are full.</source>
         <translation>Очередь переполнена.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Error initializing block database</source>
         <translation>Ошибка инициализации базы данных блоков</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Error initializing wallet database environment %s!</source>
         <translation>Ошибка инициализации окружения БД кошелька %s!</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Error loading block database</source>
         <translation>Ошибка загрузки базы данных блоков</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Error loading wallet.dat</source>
         <translation>Ошибка при загрузке wallet.dat</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
         <translation>Ошибка загрузки wallet.dat: кошелёк поврежден</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Error opening block database</source>
         <translation>Не удалось открыть базу данных блоков</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Error reading from database, shutting down.</source>
         <translation>Ошибка чтения базы данных, завершение работы.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Error: Disk space is low!</source>
         <translation>Ошибка: мало места на диске!</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
         <translation>Не удалось начать прослушивание на порту. Используйте -listen=0, если вас это устраивает.</translation>
     </message>
     <message>
+        <location line="-332"/>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
         <translation>(1 = сохранить мета-данные, например, о владельце аккаунта и информацию о запросе платежа, 2 = удалить мета-данные)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>-fallbackfee is set very high! This is the transaction fee you may pay when fee estimates are not available.</source>
         <translation>Установлено очень большое значение -paytxfee! Это комиссия, которую Вы заплатите, когда расчет предполагаемой комиссии не доступен.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
         <translation>установлено очень большое значение -maxtxfee! Комиссия такого размера может быть уплачена при проведении отдельной транзакции.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>-paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
         <translation>установлено очень большое значение -paytxfee! Это комиссия, которую Вы заплатите при проведении транзакции.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
         <translation>Комиссия (в %s/kB), которая будет использована при недостаточности данных для расчета предполагаемой комиссии (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
         <translation>Принимать пересылаемые транзакции, полученные от узлов в белом списке, даже когда пересылка транзакций отключена (по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
         <translation>Разрешить соединения JSON-RPC с указанного источника . &lt;ip&gt; может быть отдельным IP (например, 1.2.3.4), подсетью/маской (например, 1.2.3.4/255.255.255.0) или подсетью/CIDR (e.g. 1.2.3.4/24). Эту опцию можно указывать несколько раз</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</source>
         <translation>Привязаться к указанному адресу и внести пиров, использующих его, в белый список. Используйте [хост]:порт для IPv6</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
         <translation>Привязаться к указанному адресу для прослушивания JSON-RPC соединений. Используйте [хост]:порт для IPv6. Эту опцию можно указывать несколько раз (по умолчанию: привязаться ко всем интерфейсам)</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</source>
         <translation>Создавать новые файлы с разрешениями по умолчанию вместо umask 077 (актуально только с отключенной функциональностью кошелька)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
         <translation>Удалить все трансакции из кошелька и при рестарте с помощью -rescan восстановить только те, которые есть в цепочке блоков</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Distributed under the MIT software license, see the accompanying file COPYING or &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</source>
         <translation>Распространяется под лицензией на программное обеспечение MIT, смотрите прилагаемый файл COPYING или &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</translation>
     </message>
     <message>
-        <source>Enable instantx, show confirmations for locked transactions (bool, default: %s)</source>
-        <translation>Включить instantx, показывать подтверждения для заблокированных транзакций (булевое, по умолчанию: %s)</translation>
-    </message>
-    <message>
-        <source>Enable use of automated darksend for funds stored in this wallet (0-1, default: %u)</source>
-        <translation>Включить автоматическое перемешивание PrivateSend для средств, хранящихся в этом кошельке (0-1, по умолчанию: %u)</translation>
-    </message>
-    <message>
-        <source>Error: Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>
-        <translation>Ошибка: Обнаружен неподдерживаемый аргумент -socks. Выбор версии SOCKS больше невозможен, поддерживаются только прокси версии SOCKS5.</translation>
-    </message>
-    <message>
-        <source>Fees (in SIB/Kb) smaller than this are considered zero fee for relaying (default: %s)</source>
-        <translation>Комиссии (в SIB/Kb) меньше этого значения считаются нулевой для ретранслирования транзакции (по умолчанию: %s)</translation>
-    </message>
-    <message>
-        <source>Fees (in SIB/Kb) smaller than this are considered zero fee for transaction creation (default: %s)</source>
-        <translation>Комиссии (в SIB/Kb) меньше этого значения считаются нулевой (для создания транзакции) (по умолчанию: %s)</translation>
-    </message>
-    <message>
-        <source>Flush database activity from memory pool to disk log every &lt;n&gt; megabytes (default: %u)</source>
-        <translation>Сохранять активность базы данных из пула памяти в лог на диске каждые &lt;n&gt; мегабайт (по умолчанию: %u)</translation>
-    </message>
-    <message>
+        <location line="+44"/>
         <source>Found unconfirmed denominated outputs, will wait till they confirm to continue.</source>
         <translation>Найдены неподтверждённые номиналы, процесс продолжится после их подтверждения.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
         <translation>Насколько тщательна проверка контрольных блоков -checkblocks (0-4, по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
         <translation>Если paytxfee не задано, то включить достаточно комиссии, чтобы подтверждение транзакций происходило в среднем за n блоков (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
         <translation>Некорректная сумма для -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (должна быть минимум как комиссия minrelay - %s, чтобы предотвратить застревание транзакций)</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
         <translation>Хранить полный индекс транзакций, используется rpc-вызовом getrawtransaction (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Maximum size of data in data carrier transactions we relay and mine (default: %u)</source>
         <translation>Максимальный размер данных в транзакциях передачи данных, который мы ретранслируем и добываем (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: %u)</source>
         <translation>Количество секунд, в течение которых запрещать переподключаться неправильно ведущим себя участникам (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
         <translation>Вывод отладочной информации (по умолчанию: %u, указание &lt;category&gt; необязательно)</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Provide liquidity to PrivateSend by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</source>
         <translation>Предоставлять ликвидность для PrivateSend путем редкого участия в перемешивании червонцев на постоянной основе (0-100, по умолчанию: %u, 1=очень часто, высокая комиссия, 100=очень редко, низкая комиссия)</translation>
     </message>
     <message>
-        <source>Require high priority for relaying free or low-fee transactions (default:%u)</source>
-        <translation>Ретранслировать транзакций с нулевой или низкой комиссией, только если у них высокий приоритет (по умолчанию:%u)</translation>
-    </message>
-    <message>
-        <source>Send trace/debug info to console instead of debug.log file (default: %u)</source>
-        <translation>Выводить информацию трассировки/отладки на консоль вместо файла debug.log (по умолчанию: %u)</translation>
-    </message>
-    <message>
+        <location line="+28"/>
         <source>Set the number of threads for coin generation if enabled (-1 = all cores, default: %d)</source>
         <translation>Задать число потоков выполнения для генерации червонцев, если таковая включена (-1 = все ядра, по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Show N confirmations for a successfully locked transaction (0-9999, default: %u)</source>
         <translation>Показывать N подтверждений для успешно заблокированной транзакции (0-9999, по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+17"/>
         <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit &lt;https://www.openssl.org/&gt; and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard.</source>
         <translation>Этот продукт включает ПО, разработанное проектом OpenSSL Project для использования в OpenSSL Toolkit &lt;https://www.openssl.org/&gt;, криптографическое ПО, написанное Eric Young и ПО для работы с UPnP, написанное Thomas Bernard.</translation>
     </message>
     <message>
-        <source>To use sibcoind, or the -server option to sibcoin-qt, you must set an rpcpassword in the configuration file:
-%s
-It is recommended you use the following random password:
-rpcuser=sibcoinrpc
-rpcpassword=%s
-(you do not need to remember this password)
-The username and password MUST NOT be the same.
-If the file does not exist, create it with owner-readable-only file permissions.
-It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.com
-</source>
-        <translation>Для использования sibcoind или опции -server с sibcoin-qt, вы должны установить опцию rpcpassword в конфигурационном файле:
-%s
-Рекомендуется использовать следующий случайный пароль:
-rpcuser=sibcoinrpc
-rpcpassword=%s
-(вам не нужно запоминать этот пароль)
-Имя и пароль ДОЛЖНЫ различаться.
-Если файл не существует, то создайте его и оставьте права на чтение только для владельца.
-Также рекомендуется включить alertnotify для оповещения о проблемах;
-Например: alertnotify=echo %%s | mail -s &quot;Sibcoin Alert&quot; admin@foo.com
-</translation>
-    </message>
-    <message>
+        <location line="+18"/>
         <source>Unable to locate enough funds for this transaction that are not equal %d SIB.</source>
         <translation>Не удалось обнаружить достаточных для выполнения этой транзакции средств, отличающихся от %d SIB.</translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
         <translation>Использовать отдельный SOCKS5 прокси для подключения к участникам через скрытые сервисы Tor (по умолчанию: %s)</translation>
     </message>
     <message>
-        <source>Warning: -maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
-        <translation>Внимание: установлено очень большое значение -paytxfee! Комиссия такого размера может быть уплачена при проведении одельной транзакции.</translation>
-    </message>
-    <message>
+        <location line="+12"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Sibcoin Core will not work properly.</source>
         <translation>Внимание: пожалуйста, убедитесь что дата и время на Вашем компьютере выставлены правильно! Sibcoin Core не сможет работать корректно, если часы настроены неверно.</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.</source>
         <translation>Внести пиров, соединяющихся с адресов с указанной маской либо IP адресов, в белый список. Опция может быть указана несколько раз.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>
         <translation>Пиры, внесенные в белый список, не будут подвергаться DoS блокировкам и их транзакции будут ретранслироваться, даже если они уже есть в пуле памяти, что полезно, например, для работы в качестве шлюза</translation>
     </message>
     <message>
+        <location line="+16"/>
         <source>(default: %s)</source>
         <translation>(по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Accept public REST requests (default: %u)</source>
         <translation>Принимать публичные REST-запросы (по  умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Always query for peer addresses via DNS lookup (default: %u)</source>
         <translation>Всегда запрашивать адреса участников через DNS (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Cannot resolve -whitebind address: &apos;%s&apos;</source>
         <translation>Не удаётся разрешить адрес в параметре -whitebind: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Connect through SOCKS5 proxy</source>
         <translation>Соединяться через SOCKS5 прокси</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Connect to KeePassHttp on port &lt;port&gt; (default: %u)</source>
         <translation>Соединяться c KeePassHttp по порту &lt;port&gt; (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Copyright (C) 2009-%i The Bitcoin Core Developers</source>
         <translation>Copyright (C) 2009-%i Разработчики Bitcoin Core</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Copyright (C) 2014-%i The Dash Core Developers</source>
         <translation>Copyright (C) 2014-%i Разработчики Dash Core</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Copyright (C) 2015-%i The Sibcoin Core Developers</source>
         <translation>Copyright (C) 2015-%i Разработчики Sibcoin Core</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Enable the client to act as a masternode (0-1, default: %u)</source>
         <translation>Разрешить этому клиенту работать в качестве мастерноды (0-1, по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Error connecting to Masternode.</source>
         <translation>Ошибка соединения с мастернодой.</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Error loading wallet.dat: Wallet requires newer version of Sibcoin Core</source>
         <translation>Ошибка загрузки wallet.dat: кошелёк требует более новой версии Sibcoin Core</translation>
     </message>
     <message>
-        <source>Error: A fatal internal error occured, see debug.log for details</source>
-        <translation>Ошибка: Произошла критическая ошибка, подробности смотрите в файле debug.log</translation>
-    </message>
-    <message>
-        <source>Error: Can&apos;t select current denominated inputs</source>
-        <translation>Ошибка: не получилось подобрать номиналы</translation>
-    </message>
-    <message>
-        <source>Error: Unsupported argument -tor found, use -onion.</source>
-        <translation>Ошибка: Обнаружен неподдерживаемый параметр -tor, используйте -onion вместо него.</translation>
-    </message>
-    <message>
-        <source>Fee (in SIB/kB) to add to transactions you send (default: %s)</source>
-        <translation>Комиссии (в SIB/kB), добавляемая к отправляемым Вами транзакциям (по умолчанию: %s)</translation>
-    </message>
-    <message>
-        <source>Finalizing transaction.</source>
-        <translation>Завершаем транзакцию.</translation>
-    </message>
-    <message>
-        <source>Force safe mode (default: %u)</source>
-        <translation>Принудительный безопасный режим (по умолчанию: %u)</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <source>Found enough users, signing ( waiting %s )</source>
         <translation>Найдено достаточное количество участников, подписываем ( ожидание %s )</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Found enough users, signing ...</source>
         <translation>Найдено достаточное количество участников, подписываем ...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Generate coins (default: %u)</source>
         <translation>Генерировать червонцы (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>How many blocks to check at startup (default: %u, 0 = all)</source>
         <translation>Сколько блоков проверять на старте (по умолчанию: %u, 0 = все)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Importing...</source>
         <translation>Импорт ...</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Include IP addresses in debug output (default: %u)</source>
         <translation>Писать IP-адреса в отладочный вывод (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Incompatible mode.</source>
         <translation>Несовместимый режим.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Incompatible version.</source>
         <translation>Несовместимая версия.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
         <translation>Неверный или отсутствующий начальный блок. Неправильный каталог данных для сети?</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Initialization sanity check failed. Sibcoin Core is shutting down.</source>
         <translation>Проверка на непротиворечивость закончилась неудачно. Sibcoin Core выключается.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Input is not valid.</source>
         <translation>Вход некорректен.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Insufficient funds.</source>
         <translation>Недостаточно средств.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid -onion address: &apos;%s&apos;</source>
         <translation>Неверный -onion адрес: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
         <translation>Неверный адрес -proxy: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>Неверная сумма в параметре -maxtxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>Неверная сумма в параметре -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>Неверная сумма в параметре -mintxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least %s)</source>
         <translation>Неверная сумма в параметре -paytxfee=&lt;amount&gt;: &apos;%s&apos; (должна быть минимум %s)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>Неверная сумма в параметре -paytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+10"/>
+        <source>Keypool ran out, please call keypoolrefill first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</source>
         <translation>Слушать JSON-RPC соединения на порту &lt;port&gt; (по умолчанию: %u или testnet: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Listen for connections on &lt;port&gt; (default: %u or testnet: %u)</source>
         <translation>Принимать входящие подключения на порт &lt;port&gt; (по умолчанию: %u или testnet: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>Loading banlist...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Loading fulfilled requests cache...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Loading masternode cache...</source>
         <translation>Загрузка кэша мастернод...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Loading masternode payment cache...</source>
         <translation>Загрузка кэша выплат Мастернодам...</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Lock is already in place.</source>
         <translation>Установлена блокировка.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Lock masternodes from masternode configuration file (default: %u)</source>
         <translation>Заблокировать средства мастернод, указанных в настроечном файле (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
         <translation>Максимальный размер буфера приёма на одно соединение, &lt;n&gt;*1000 байт (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
         <translation>Максимальный размер буфера отправки на соединение, &lt;n&gt;*1000 байт (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Mixing in progress...</source>
         <translation>Выполняется перемешивание...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Need to specify a port with -whitebind: &apos;%s&apos;</source>
         <translation>Для параметра -whitebind нужно указать порт: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>No Masternodes detected.</source>
         <translation>Мастерноды не найдены.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>No compatible Masternode found.</source>
         <translation>Отсутствуют совместимые мастерноды.</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Not in the Masternode list.</source>
         <translation>Отсутствует в списке мастернод.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</source>
         <translation>Соединяться только по сети &lt;net&gt; (ipv4, ipv6 или onion)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Port: %d</source>
         <translation>Порт: %d</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Prepend debug output with timestamp (default: %u)</source>
         <translation>Дописывать в начало отладочного вывода отметки времени (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+10"/>
+        <source>Rebuild chain state and block index from the blk*.dat files on disk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Rebuild chain state from the currently indexed blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Send trace/debug info to debug.log file (default: %u)</source>
         <translation>Выводить информацию трассировки/отладки в файл debug.log (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
         <translation>По возможности отправлять транзакции с нулевой комиссией (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Set key pool size to &lt;n&gt; (default: %u)</source>
         <translation>Установить размер пула ключей в &lt;n&gt; (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Set minimum block size in bytes (default: %u)</source>
         <translation>Установить минимальный размер блока в байтах (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Set the number of threads to service RPC calls (default: %d)</source>
         <translation>Задать число потоков выполнения запросов RPC (по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Specify configuration file (default: %s)</source>
         <translation>Указать конфигурационный файл (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Specify connection timeout in milliseconds (minimum: 1, default: %d)</source>
         <translation>Указать тайм-аут соединения в миллисекундах (минимально: 1, по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Specify masternode configuration file (default: %s)</source>
         <translation>Указать конфигурационный файл для мастернод (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Specify pid file (default: %s)</source>
         <translation>Указать pid-файл (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Spend unconfirmed change when sending transactions (default: %u)</source>
         <translation>Тратить неподтвержденную сдачу при отправке транзакций (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Submitted following entries to masternode: %u / %d</source>
         <translation>Мастерноде отправлены следующие записи: %u / %d</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Submitted to masternode, waiting for more entries ( %u / %d ) %s</source>
         <translation>Отправлено мастерноде, ожидаем больше записей ( %u / %d ) %s</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Submitted to masternode, waiting in queue %s</source>
         <translation>Отправлено на мастерноду, ожидаем в очереди %s</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Synchronization failed</source>
         <translation>Синхронизация закончилась неудачно</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Synchronization finished</source>
         <translation>Синхронизация завершена</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Synchronizing masternodes...</source>
         <translation>Синхронизация списка мастернод...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Synchronizing sporks...</source>
         <translation>Синхронизация спорков...</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>This is not a Masternode.</source>
         <translation>Это не мастернода.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Threshold for disconnecting misbehaving peers (default: %u)</source>
         <translation>Порог для отключения некорректно ведущих себя пиров (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Too many %f denominations, removing.</source>
         <translation>Слишком много номиналов %f, удаляем.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Tor control port password (default: empty)</source>
         <translation>Пароль контрольного порта Tor (по умолчанию: пустой)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Tor control port to use if onion listening enabled (default: %s)</source>
         <translation>Используемый контрольный порт Tor при включенном прослушивании сети onion (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+10"/>
         <source>Unable to start HTTP server. See debug log for details.</source>
         <translation>Не удалось стартовать HTTP сервер. Смотрите debug.log для получения подробной информации.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Unknown response.</source>
         <translation>Неизвестный ответ.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Unsupported argument -benchmark ignored, use -debug=bench.</source>
         <translation>Опция -benchmark проигнорирована, используйте -debug=bench вместо нее.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Unsupported argument -debugnet ignored, use -debug=net.</source>
         <translation>Опция -debugnet проигнорирована, используйте -debug=net вместо нее.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Unsupported argument -tor found, use -onion.</source>
         <translation>Обнаружен неподдерживаемый параметр -tor, используйте -onion вместо него.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Upgrade wallet to latest format on startup</source>
         <translation>Обновить бумажник до последнего формата на старте</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Use KeePass 2 integration using KeePassHttp plugin (default: %u)</source>
         <translation>Использовать интеграцию с KeePass 2 через плагин KeePassHttp (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Use UPnP to map the listening port (default: %u)</source>
         <translation>Использовать UPnP для проброса порта (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Wallet needed to be rewritten: restart Sibcoin Core to complete</source>
         <translation>Необходимо перезаписать кошелёк: перезапустите Sibcoin Core для завершения операции</translation>
     </message>
     <message>
+        <location line="-8"/>
         <source>User Agent comment (%s) contains unsafe characters.</source>
         <translation>Комментарий User Agent  (%s) содержит небезопасные символы.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Value more than PrivateSend pool maximum allows.</source>
         <translation>Превышено значение допустимой для пула PrivateSend суммы.</translation>
     </message>
     <message>
+        <location line="+13"/>
         <source>Will retry...</source>
         <translation>Попробуем еще раз...</translation>
     </message>
     <message>
+        <location line="-146"/>
         <source>Invalid masternodeprivkey. Please see documenation.</source>
         <translation>Неправильное значение masternodeprivkey. Пожалуйста, ознакомьтесь с документацией.</translation>
     </message>
     <message>
-        <source>(must be 9999 for mainnet)</source>
-        <translation>(должно быть 9999 в главной сети)</translation>
-    </message>
-    <message>
+        <location line="-78"/>
         <source>Can&apos;t find random Masternode.</source>
         <translation>Не получилось выбрать случайную Мастерноду.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Can&apos;t mix while sync in progress.</source>
         <translation>Перемешивание до завершения синхронизации невозможно.</translation>
     </message>
     <message>
+        <location line="+17"/>
         <source>Could not parse masternode.conf</source>
         <translation>Не могу разобрать masternode.conf</translation>
     </message>
     <message>
+        <location line="+61"/>
         <source>Invalid netmask specified in -whitelist: &apos;%s&apos;</source>
         <translation>В параметре -whitelist указана некорректная маска: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid port detected in masternode.conf</source>
         <translation>Обнаружен некорректный порт в masternode.conf</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Invalid script detected.</source>
         <translation>Обнаружен некорректный скрипт.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>KeePassHttp id for the established association</source>
         <translation>Идентификатор KeePassHttp для установленной ассоциации</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>KeePassHttp key for AES encrypted communication with KeePass</source>
         <translation>Ключ KeePassHttp для зашифрованной коммуникации с KeePass</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Keep N SIB anonymized (default: %u)</source>
         <translation>Держать N SIB анонимизированными (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
         <translation>Держать в памяти до &lt;n&gt; несвязных транзакций (по умолчанию: %u)</translation>
     </message>
     <message>
-        <source>Disable all Dash/Sibcoin specific functionality (Masternodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
-        <translation>Отключить всю функциональность, относящуюся к Dash/Sibcoin (Мастерноды, PrivateSend, InstantSend, Governance) (0-1, по умолчанию: %u)</translation>
-    </message>
-    <message>
+        <location line="-325"/>
         <source>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</source>
         <translation>Определить свой IP (по умолчанию: 1 при прослушивании и если не используется -externalip или -proxy)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
         <translation>Не хранить транзакции в мемпуле дольше чем &lt;n&gt; часов (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Enable InstantSend, show confirmations for locked transactions (0-1, default: %u)</source>
         <translation>Включить InstantSend, показывать подтверждения для заблокированных транзакций (0-1, по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Enable multiple PrivateSend mixing sessions per block, experimental (0-1, default: %u)</source>
         <translation>Включить множественное перемешивание PrivateSend за один блок (0-1, по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Enable use of automated PrivateSend for funds stored in this wallet (0-1, default: %u)</source>
         <translation>Включить автоматическое перемешивание PrivateSend для средств, хранящихся в этом кошельке (0-1, по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
         <translation>Ошибка чтения wallet.dat! Все ключи прочитаны верно, но данные транзакций или записи адресной книги могут отсутствовать или быть неправильными.</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Execute command when a wallet InstantSend transaction is successfully locked (%s in cmd is replaced by TxID)</source>
         <translation>Выполнить команду, когда транзакция InstantSend успешно заблокирована (%s в команде заменяется на TxID)</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Failed to create backup, file already exists! This could happen if you restarted wallet in less than 60 seconds. You can continue if you are ok with this.</source>
         <translation>Не удалось создать резервную копию, т.к. файл уже существует! Такое могло случится, если вы перезапустили кошелек менее чем через 60 секунд после предыдущего запуска. Вы можете продолжить, если это допустимо.</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
         <translation>Комиссии (в %s/kB) меньше этого значения считаются нулевой для ретранслирования, майнинга и создания транзакции (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
         <translation>Комиссии (в %s/kB) меньше этого значения считаются нулевой при создании транзакции (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Force relay of transactions from whitelisted peers even they violate local relay policy (default: %d)</source>
         <translation>Пересылать транзакции от узлов в белом списке, даже если они нарушают локальные правила пересылки (по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>If &lt;category&gt; is not supplied or if &lt;category&gt; = 1, output all debugging information.</source>
         <translation>Если &lt;category&gt; не указана или &lt;category&gt; = 1, выводит всю отладочную информацию.</translation>
     </message>
     <message>
-        <source>InstantSend doesn't support sending values that high yet. Transactions are currently limited to %1 SIB.</source>
+        <location line="+6"/>
+        <source>InstantSend doesn&apos;t support sending values that high yet. Transactions are currently limited to %1 SIB.</source>
         <translation>InstantSend пока что не поддерживает такие большие суммы. На данный момент транзакции ограничены суммами до %1 SIB.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>InstantSend requires inputs with at least %d confirmations, you might need to wait a few minutes and try again.</source>
         <translation>InstantSend требует наличия средств с хотя бы %d подтверждениями, возможно Вам нужно подождать пару минут и попробовать снова.</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Maintain a full address index, used to query for the balance, txids and unspent outputs for addresses (default: %u)</source>
         <translation>Хранить полный индекс для адресов, используется для запроса баланса, транзакций и непотраченных выходов для конкретного адреса (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Maintain a full spent index, used to query the spending txid and input index for an outpoint (default: %u)</source>
         <translation>Хранить полный индекс трат, используется для запроса id транзакции и индекса входа для конкретного выхода (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Maintain a timestamp index for block hashes, used to query blocks hashes by a range of timestamps (default: %u)</source>
         <translation>Хранить индекс меток времени для хэшей блока, используется для запроса хэшей блоков по диапазону меток времени (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Maintain at most &lt;n&gt; connections to peers (temporary service connections excluded) (default: %u)</source>
         <translation>Поддерживать не более &lt;n&gt; подключений к узлам (без учета временных сервисных соединений) (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Maximum total fees (in %s) to use in a single wallet transaction; setting this too low may abort large transactions (default: %s)</source>
         <translation>Максимальная сумма комиссии (в %s), допустимая в одной транзакции. Установка слишком низкого значения может привести к невозможности отправить большие транзакции (по умолчанию: %s)</translation>
     </message>
     <message>
-        <source>Please check that your computer's date and time are correct! If your clock is wrong Sibcoin Core will not work properly.</source>
-        <translation>Пожалуйста, убедитесь что дата и время на Вашем компьютере выставлены правильно! Sibcoin Core не сможет работать корректно, если часы настроены неверно.</translation>
-    </message>
-    <message>
+        <location line="+9"/>
         <source>PrivateSend uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
         <translation>При отправке PrivateSend использует только деноминированные средства, возможно, Вам просто нужно анонимизировать немного больше монет.</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Prune configured below the minimum of %d MiB.  Please use a higher number.</source>
         <translation>Удаление блоков настроено ниже допустимого предела в %d MiB.  Пожалуйста, укажите большее число.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
         <translation>Удаление блоков: последняя синхронизация кошелька выходит за рамки удаленных данных. Вам нужно запустить клиента с ключом -reindex (в случае узла с удаленными блоками это означает повторное скачивание всей цепи блоков)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
         <translation>Использовать случайные учётные данные для каждого прокси-подключения. Эта функция позволяет изолировать потоки Tor (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Reduce storage requirements by pruning (deleting) old blocks. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, &gt;%u = target size in MiB to use for block files)</source>
         <translation>Уменьшить требования к размеру хранилища путем урезания (удаления) старых блоков. Этот режим несовместим с -txindex и -rescan. Внимание: отмена этой настройки потребует повторного скачивания всей цепочки блоков. (по умолчанию: 0 = отключить удаление блоков, &gt;%u = целевой размер в MiB, который будут займут файлы блоков)</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
         <translation>Повторное сканирование невозможно в режиме удаления блоков. Вам надо будет использовать -reindex, что приведет к повторной загрузке всей цепи блоков.</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Specify full path to directory for automatic wallet backups (must exist)</source>
         <translation>Укажите полный путь к папке для автоматических резервных копий кошелька (должна уже быть создана)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
         <translation>Поддерживать фильтрацию блоков и транзакций с помощью фильтров Блума (по умолчанию: %u)</translation>
     </message>
     <message>
-        <source>The block database contains a block which appears to be from the future. This may be due to your computer's date and time being set incorrectly. Only rebuild the block database if you are sure that your computer's date and time are correct</source>
+        <location line="+2"/>
+        <source>The block database contains a block which appears to be from the future. This may be due to your computer&apos;s date and time being set incorrectly. Only rebuild the block database if you are sure that your computer&apos;s date and time are correct</source>
         <translation>База данных блоков содержит блок, созданный в будущем. Такое может случиться из-за некорректно установленных даты и времени на Вашем компьютере. Перестройте базу блоков, только если вы уверены, что дата и время корректны.</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>The transaction amount is too small to send after the fee has been deducted</source>
         <translation>При вычете комиссии сумма транзакции будет слишком мала для отправки</translation>
     </message>
     <message>
+        <location line="+9"/>
         <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
         <translation>Длина строки сетевой версии (%i) превышает максимально допустимую (%i). Уменьшите количество или размер строк uacomment.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)</source>
         <translation>Пытаться ограничить исходящий трафик в пределах установленного лимита (в МБ за 24ч), 0 = не ограничивать (по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Unable to locate enough PrivateSend denominated funds for this transaction.</source>
         <translation>Не удалось обнаружить достаточных для выполнения этой транзакции номиналов PrivateSend.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Unable to locate enough PrivateSend non-denominated funds for this transaction that are not equal %d SIB.</source>
         <translation>Не удалось обнаружить достаточных для выполнения этой транзакции неденоминированных средств, отличающихся от %d SIB.</translation>
     </message>
     <message>
-        <source>Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
+        <location line="+5"/>
+        <source>Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>
         <translation>Обнаружен неподдерживаемый аргумент -socks. Выбор версии SOCKS больше невозможен, поддерживаются только прокси версии SOCKS5.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Unsupported argument -whitelistalwaysrelay ignored, use -whitelistrelay and/or -whitelistforcerelay.</source>
         <translation>Неподдерживаемый аргумент -whitelistalwaysrelay проигнорирован, используйте -whitelistrelay и/или -whitelistforcerelay.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Use N separate masternodes for each denominated input to mix funds (2-16, default: %u)</source>
         <translation>Использовать N отдельных мастернод для перемешивания средств (2-16, по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Use UPnP to map the listening port (default: 1 when listening and no -proxy)</source>
         <translation>Использовать UPnP для проброса порта (по умолчанию: 1, если используется прослушивание и нет -proxy)</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</source>
         <translation>Имя пользователя и хэш пароля для JSON-RPC соединений. Поле &lt;userpw&gt; использует формат: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. Каноничный пример скрипта на питоне находится в share/rpcuser. Эта опция может быть указана несколько раз</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>WARNING! Failed to replenish keypool, please unlock your wallet to do so.</source>
         <translation>ВНИМАНИЕ! Ну удалось обновить пул ключей, пожалуйста, разблокируйте кошелек.</translation>
     </message>
     <message>
-        <source>WARNING: abnormally high number of blocks generated, %d blocks received in the last %d hours (%d expected)</source>
-        <translation>ВНИМАНИЕ: создано ненормально высокое количество блоков, получено %d блоков за последние %d часов (ожидалось %d)</translation>
-    </message>
-    <message>
-        <source>WARNING: check your network connection, %d blocks received in the last %d hours (%d expected)</source>
-        <translation>ВНИМАНИЕ: проверьте Ваше сетевое соединение, получено %d блоков за последние %d часов (ожидалось %d)</translation>
-    </message>
-    <message>
-        <source>Wallet is locked, can't replenish keypool! Automatic backups and mixing are disabled, please unlock your wallet to replenish keypool.</source>
+        <location line="+2"/>
+        <source>Wallet is locked, can&apos;t replenish keypool! Automatic backups and mixing are disabled, please unlock your wallet to replenish keypool.</source>
         <translation>Кошелек заблокирован, невозможно пополнить пул ключей! Автоматические резервные копии и перемешивание отключены. Пожалуйста, разблокируйте кошелек для пополнения пула ключей.</translation>
     </message>
     <message>
-        <source>Warning: Unknown block versions being mined! It's possible unknown rules are in effect</source>
+        <location line="+9"/>
+        <source>Warning: Unknown block versions being mined! It&apos;s possible unknown rules are in effect</source>
         <translation>Внимание: создаются блоки неизвестной версии! Возможно активированы неизвестные правила</translation>
     </message>
     <message>
+        <location line="+19"/>
         <source>You need to rebuild the database using -reindex to go back to unpruned mode.  This will redownload the entire blockchain</source>
         <translation>Вам необходимо пересоздать базы данных, запустив клиент с ключом -reindex, чтобы вернуться в полный режим. Это приведет к повторному скачиванию всей цепи блоков.</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>masternodeaddr option is deprecated. Please use masternode.conf to manage your remote masternodes.</source>
         <translation>Опция masternodeaddr устарела. Пожалуйста, используйте masternode.conf для управления Вашими удаленными мастернодами.</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>%s - %d confirmations</source>
         <translation>%s - %d подтверждений</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>(%d could be used only on mainnet)</source>
         <translation>(%d можно использовать только в главной сети)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>(default: %u)</source>
         <translation>(по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>(must be %d for mainnet)</source>
         <translation>(должно быть %d в главной сети)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>-maxmempool must be at least %d MB</source>
         <translation>-maxmempool должно быть минимум %d MB</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>&lt;category&gt; can be:</source>
         <translation>&lt;category&gt; может быть:</translation>
     </message>
     <message>
-        <source>Activating best chain...</source>
-        <translation>Активируется лучшая цепь...</translation>
-    </message>
-    <message>
+        <location line="+8"/>
         <source>Append comment to the user agent string</source>
         <translation>Добавить комментарий к строке User Agent</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Attempt to recover private keys from a corrupt wallet.dat on startup</source>
         <translation>Попытаться восстановить закрытые ключи из повреждённого wallet.dat на старте</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Automatic backups disabled</source>
         <translation>Автоматические бэкапы отключены</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Automatically create Tor hidden service (default: %d)</source>
         <translation>Автоматически создавать скрытый сервис Tor (по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+25"/>
         <source>ERROR! Failed to create automatic backup</source>
         <translation>ОШИБКА! Не удалось создать автоматический бэкап</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Enable publish hash block in &lt;address&gt;</source>
         <translation>Включить публикацию хэша блока на &lt;address&gt;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Enable publish hash transaction (locked via InstantSend) in &lt;address&gt;</source>
         <translation>Включить публикацию хэша транзакции (заблокированной через InstantSend) на &lt;address&gt;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Enable publish hash transaction in &lt;address&gt;</source>
         <translation>Включить публикацию хэша транзакции на &lt;address&gt;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Enable publish raw block in &lt;address&gt;</source>
         <translation>Включить публикацию кода блока на &lt;address&gt;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Enable publish raw transaction (locked via InstantSend) in &lt;address&gt;</source>
         <translation>Включить публикацию кода транзакции (заблокированной через InstantSend) на &lt;address&gt;</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Enable publish raw transaction in &lt;address&gt;</source>
         <translation>Включить публикацию кода транзакции на &lt;address&gt;</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Enable transaction replacement in the memory pool (default: %u)</source>
         <translation>Разрешить подмену транзакций в пуле памяти (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+12"/>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
         <translation>Ошибка: Произошла критическая ошибка, подробности смотрите в файле debug.log</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Failed to create backup %s!</source>
         <translation>Не удалось создать резервную копию %s!</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Failed to create backup, error: %s</source>
         <translation>Не удалось создать резервную копию, ошибка: %s</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Failed to delete backup, error: %s</source>
         <translation>Не удалось удалить резервную копию, ошибка: %s</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Failed to parse host:port string</source>
         <translation>Не удалось разбить строку host:port</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Fee (in %s/kB) to add to transactions you send (default: %s)</source>
         <translation>Комиссия (в %s/kB), добавляемая к отправляемым Вами транзакциям (по умолчанию: %s)</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Imports blocks from external blk000??.dat file on startup</source>
         <translation>Импортировать блоки из внешнего файла blk000??.dat на старте</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>InstantSend options:</source>
         <translation>Параметры InstantSend:</translation>
     </message>
     <message>
-        <source>Invalid amount for -fallbackfee=&lt;amount&gt;: '%s'</source>
-        <translation>Неверная сумма в параметре -fallbackfee=&lt;amount&gt;: '%s'</translation>
+        <location line="+4"/>
+        <source>Invalid amount for -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <translation>Неверная сумма в параметре -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+14"/>
         <source>Keep the transaction memory pool below &lt;n&gt; megabytes (default: %u)</source>
         <translation>Держать размер пула памяти транзакций ниже &lt;n&gt; мегабайт (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Last PrivateSend was too recent.</source>
         <translation>Последнее действие PrivateSend было слишком недавно.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Last successful PrivateSend action was too recent.</source>
         <translation>Последнее успешное действие PrivateSend было слишком недавно.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Line: %d</source>
         <translation>Строка: %d</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Loading addresses...</source>
         <translation>Загрузка адресов...</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Loading block index...</source>
         <translation>Загрузка индекса блоков...</translation>
     </message>
     <message>
-        <source>Loading fullfiled requests cache...</source>
-        <translation>Загрузка кэша выполненных запросов...</translation>
-    </message>
-    <message>
+        <location line="+2"/>
         <source>Loading governance cache...</source>
         <translation>Загрузка кэша управления...</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Loading wallet... (%3.2f %%)</source>
         <translation>Загрузка кошелька... (%3.2f %%)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Loading wallet...</source>
         <translation>Загрузка кошелька...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Location of the auth cookie (default: data dir)</source>
         <translation>Расположение cookie для аутентификации (по умолчанию: папка данных)</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Make the wallet broadcast transactions</source>
         <translation>Рассылать транзакции из бумажника</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Masternode cache is empty, skipping payments and governance cache...</source>
         <translation>Кэш мастернод пуст, пропускаем кэш платежей и объектов управления...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Masternode options:</source>
         <translation>Параметры мастерноды:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Masternode queue is full.</source>
         <translation>Очередь на мастерноде переполнена.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Masternode:</source>
         <translation>Мастернода:</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Minimum bytes per sigop in transactions we relay and mine (default: %u)</source>
         <translation>Минимальное количество байт на операцию в транзакциях, которые мы ретранслируем и добываем (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Missing input transaction information.</source>
         <translation>Отсутствует информация о входной транзакции.</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>No errors detected.</source>
         <translation>Ошибок не обнаружено.</translation>
     </message>
     <message>
-        <source>No funds detected in need of denominating.</source>
-        <translation>Не обнаружено средств для дальнейшего разбиения на номиналы.</translation>
-    </message>
-    <message>
+        <location line="+1"/>
         <source>No matching denominations found for mixing.</source>
         <translation>Отсутствуют совпадающие для перемешивания номиналы.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Node relay options:</source>
         <translation>Параметры ретрансляции узла:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Non-standard public key detected.</source>
         <translation>Обнаружен нестандартный открытый ключ.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Not compatible with existing transactions.</source>
         <translation>Не совместимо с существующими транзакциями.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Not enough file descriptors available.</source>
         <translation>Недостаточно файловых дескрипторов.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Not enough funds to anonymize.</source>
         <translation>Недостаточно средств, подходящих для анонимизации.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Number of automatic wallet backups (default: %u)</source>
         <translation>Количество автоматических резервных копий кошелька (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Options:</source>
         <translation>Параметры:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Password for JSON-RPC connections</source>
         <translation>Пароль для подключений JSON-RPC</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Print version and exit</source>
         <translation>Вывести версию и выйти</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend is idle.</source>
         <translation>PrivateSend в режиме ожидания.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend options:</source>
         <translation>Опции PrivateSend:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend request complete:</source>
         <translation>Запрос PrivateSend завершен:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>PrivateSend request incomplete:</source>
         <translation>Запрос PrivateSend не завершен:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Prune cannot be configured with a negative value.</source>
         <translation>Удаление блоков не может использовать отрицательное значение.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Prune mode is incompatible with -txindex.</source>
         <translation>Режим удаления блоков несовместим с -txindex.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Pruning blockstore...</source>
         <translation>Урезание хранилища блоков...</translation>
     </message>
     <message>
-        <source>Rebuild block chain index from current blk000??.dat files on startup</source>
-        <translation>Перестроить индекс цепочки блоков из текущих файлов blk000??.dat на старте</translation>
-    </message>
-    <message>
+        <location line="+8"/>
         <source>Rescan the block chain for missing wallet transactions on startup</source>
         <translation>Перепроверить цепочку блоков на предмет отсутствующих в бумажнике транзакций на старте</translation>
     </message>
     <message>
+        <location line="+74"/>
         <source>Warning: unknown new rules activated (versionbit %i)</source>
         <translation>Внимание: вступили в силу неизвестные правила (versionbit %i)</translation>
     </message>
     <message>
-        <source>Wasn't able to create wallet backup folder %s!</source>
+        <location line="+1"/>
+        <source>Wasn&apos;t able to create wallet backup folder %s!</source>
         <translation>Не удалось создать папку для резервной копии кошелька %s!</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Whether to operate in a blocks only mode (default: %u)</source>
         <translation>Работать в режиме обработки только блоков (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>ZeroMQ notification options:</source>
         <translation>Параметры оповещения ZeroMQ:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>no mixing available.</source>
         <translation>перемешивание недоступно.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>see debug.log for details.</source>
         <translation>смотрите debug.log для получения подробной информации.</translation>
     </message>
     <message>
+        <location line="-90"/>
         <source>RPC server options:</source>
         <translation>Параметры сервера RPC:</translation>
     </message>
     <message>
+        <location line="-426"/>
+        <location line="+1"/>
+        <source>None</source>
+        <translation type="unfinished">Нет</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>Disable all Dash specific functionality (Masternodes, PrivateSend, InstantSend, Governance) (0-1, default: %u)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+219"/>
+        <source>You need to rebuild the database using -reindex-chainstate to change -txindex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Can&apos;t mix: no compatible inputs found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Failed to load fulfilled requests cache from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to load governance cache from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to load masternode cache from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Failed to load masternode payments cache from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+91"/>
         <source>Receive and display P2P network alerts (default: %u)</source>
         <translation>Получать и показывать предупреждения P2P-сети (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
         <translation>Настройка -maxconnections снижена с %d до %d из-за ограничений системы.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Relay and mine data carrier transactions (default: %u)</source>
         <translation>Ретрансляция и создание транзакций передачи данных (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Relay non-P2SH multisig (default: %u)</source>
         <translation>Ретрансляция не-P2SH multisig (по умолчанию: %u)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Rescanning...</source>
         <translation>Сканирование...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Run in the background as a daemon and accept commands</source>
         <translation>Запускаться в фоне как демон и принимать команды</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
         <translation>Выводить информацию трассировки/отладки на консоль вместо файла debug.log</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Session not complete!</source>
         <translation>Сессия не закончена!</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Session timed out.</source>
         <translation>Сессия прекращена по тайм-ауту.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
         <translation>Установить размер кэша БД в мегабайтах(от %d до %d, по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Set maximum block size in bytes (default: %d)</source>
         <translation>Установить максимальный размер блока в байтах (по умолчанию: %d)</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Set the masternode private key</source>
         <translation>Установить закрытый ключ мастерноды</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Show all debugging options (usage: --help -help-debug)</source>
         <translation>Показать все отладочные параметры (использование: --help -help-debug)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
         <translation>Сжимать файл debug.log при запуске клиента (по умолчанию: 1, если нет -debug)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Signing transaction failed</source>
         <translation>Подписание транзакции завершилось неудачно</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Specify data directory</source>
         <translation>Задать каталог данных</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>Specify wallet file (within data directory)</source>
         <translation>Укажите файл кошелька (внутри каталога данных)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Specify your own public address</source>
         <translation>Укажите Ваш собственный публичный адрес</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Synchronization pending...</source>
         <translation>Ожидание синхронизации...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Synchronizing governance objects...</source>
         <translation>Синхронизация объектов управления...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Synchronizing masternode payments...</source>
         <translation>Синхронизация выплат мастернодам...</translation>
     </message>
     <message>
+        <location line="+3"/>
         <source>The transaction amount is too small to pay the fee</source>
         <translation>Сумма транзакции слишком мала для оплаты комиссии</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>This help message</source>
         <translation>Эта справка</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>This is experimental software.</source>
         <translation>Это экспериментальное ПО.</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>Transaction amount too small</source>
         <translation>Сумма транзакции слишком мала</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Transaction amounts must be positive</source>
         <translation>Сумма транзакции должна быть положительна</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Transaction created successfully.</source>
         <translation>Создание транзакции прошло успешно.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Transaction fees are too high.</source>
         <translation>Комиссия по транзакции слишком большая.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Transaction not valid.</source>
         <translation>Транзакция некорректна.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Transaction too large for fee policy</source>
         <translation>Транзакция слишком большая для установленных ограничений комиссии</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Transaction too large</source>
         <translation>Транзакция слишком большая</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Unable to bind to %s on this computer (bind returned error %s)</source>
         <translation>Невозможно привязаться к %s на этом компьютере (привязка вернула ошибку %s)</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Unable to sign spork message, wrong key?</source>
         <translation>Не удалось подписать spork-сообщение. Неправильный ключ?</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
         <translation>В параметре -onlynet указана неизвестная сеть: &apos;%s&apos;</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Unknown state: id = %u</source>
         <translation>Неизвестное состояние: id = %u</translation>
     </message>
     <message>
+        <location line="+8"/>
         <source>Username for JSON-RPC connections</source>
         <translation>Имя для подключений JSON-RPC</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Verifying blocks...</source>
         <translation>Проверка блоков...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Verifying wallet...</source>
         <translation>Проверка кошелька...</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Very low number of keys left: %d</source>
         <translation>Осталось очень мало ключей: %d</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Wallet %s resides outside data directory %s</source>
         <translation>Кошелёк %s располагается вне каталога данных %s</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Wallet is locked.</source>
         <translation>Кошелёк заблокирован.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>Wallet options:</source>
         <translation>Параметры кошелька:</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Wallet window title</source>
         <translation>Заголовок окна кошелька</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <source>You need to rebuild the database using -reindex to change -txindex</source>
-        <translation>Вам необходимо пересобрать базы данных с помощью -reindex, чтобы изменить -txindex</translation>
-    </message>
-    <message>
+        <location line="+5"/>
         <source>Your entries added successfully.</source>
         <translation>Ваши записи успешно добавлены.</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Your transaction was accepted into the pool!</source>
         <translation>Ваша транзакция принята в пул!</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>Zapping all transactions from wallet...</source>
         <translation>Удаление всех транзакций из кошелька...</translation>
     </message>
     <message>
+        <location line="+4"/>
         <source>wallet.dat corrupt, salvage failed</source>
         <translation>wallet.dat повреждён, спасение данных не удалось</translation>
     </message>

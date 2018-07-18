@@ -83,6 +83,7 @@ libconftest.dylib*
 Makefile
 sibcoin-qt
 Sibcoin-Qt.app
+*.user.*
 
 # Unit-tests
 Makefile.test
