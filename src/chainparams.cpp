@@ -250,7 +250,7 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        //vSeeds.push_back(CDNSSeedData("dashdot.io",  "testnet-seed.dashdot.io"));
+        vSeeds.push_back(CDNSSeedData("sibcoin.net", "testnetseed.sibcoin.net"));
         //vSeeds.push_back(CDNSSeedData("masternode.io", "test.dnsseed.masternode.io"));
 
         // Testnet Sibcoin addresses start with 's'
