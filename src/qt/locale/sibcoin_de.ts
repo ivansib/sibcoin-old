@@ -667,7 +667,7 @@
     <message>
         <location line="+2"/>
         <source>Show the Sibcoin Core help message to get a list with possible Sibcoin Core command-line options</source>
-        <translation>Zeigen Sie die Sibcoin Core-Hilfemeldung an, um eine Liste mit möglichen Sibcoin Core-Befehlszeilenoptionen zu erhalten</translation>
+        <translation>Zeigen Sie die Sibcoin Core Hilfemeldung an, um eine Liste mit möglichen Sibcoin Core Befehlszeilenoptionen zu erhalten</translation>
     </message>
     <message>
         <location line="+534"/>
@@ -722,7 +722,7 @@
     <message>
         <location line="+159"/>
         <source>Sibcoin Core client</source>
-        <translation>Sibcoin Kernkunde</translation>
+        <translation>Sibcoin Corn Kunde</translation>
     </message>
     <message numerus="yes">
         <location line="+213"/>
@@ -1550,7 +1550,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+0"/>
         <source>Sibcoin Core</source>
-        <translation>Sibcoin Kern</translation>
+        <translation>Sibcoin Core</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1561,7 +1561,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+5"/>
         <source>About Sibcoin Core</source>
-        <translation>Über Sibcoin Kern</translation>
+        <translation>Über Sibcoin Core</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -1634,17 +1634,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+9"/>
         <source>Welcome to Sibcoin Core.</source>
-        <translation>Willkommen bei Sibcoin Kern.</translation>
+        <translation>Willkommen bei Sibcoin Core.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>As this is the first time the program is launched, you can choose where Sibcoin Core will store its data.</source>
-        <translation>Da das Programm zum ersten Mal gestartet wird, können Sie auswählen, wo Sibcoin Kern seine Daten speichern soll.</translation>
+        <translation>Da das Programm zum ersten Mal gestartet wird, können Sie auswählen, wo Sibcoin Core seine Daten speichern soll.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Sibcoin Core will download and store a copy of the Sibcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Sibcoin Kern wird eine Kopie der Sibcoin-Blockkette herunterladen und speichern. Mindestens %1 GB Daten werden in diesem Verzeichnis gespeichert und es wird mit der Zeit wachsen. Die Brieftasche wird ebenfalls in diesem Verzeichnis gespeichert.</translation>
+        <translation>Sibcoin Core wird eine Kopie der Sibcoin-Blockkette herunterladen und speichern. Mindestens %1 GB Daten werden in diesem Verzeichnis gespeichert und es wird mit der Zeit wachsen. Die Brieftasche wird ebenfalls in diesem Verzeichnis gespeichert.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1659,7 +1659,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../intro.cpp" line="+88"/>
         <source>Sibcoin Core</source>
-        <translation>Sibcoin Kern</translation>
+        <translation>Sibcoin Core</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2953,7 +2953,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+48"/>
         <source>Open the Sibcoin Core debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Öffnen Sie die Sibcoin Kern Debugprotokolldatei aus dem aktuellen Datenverzeichnis. Bei großen Protokolldateien kann dies einige Sekunden dauern.</translation>
+        <translation>Öffnen Sie die Sibcoin Core Debugprotokolldatei aus dem aktuellen Datenverzeichnis. Bei großen Protokolldateien kann dies einige Sekunden dauern.</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4236,7 +4236,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location filename="../splashscreen.cpp" line="+45"/>
         <source>Sibcoin Core</source>
-        <translation>Sibcoin Kern</translation>
+        <translation>Sibcoin Core</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4246,17 +4246,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+1"/>
         <source>The Bitcoin Core developers</source>
-        <translation>Die Bitcoin Kern-Entwickler</translation>
+        <translation>Die Bitcoin Core Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The Dash Core developers</source>
-        <translation>Die Dash Kern-Entwickler</translation>
+        <translation>Die Dash Core Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The Sibcoin Core developers</source>
-        <translation>Die Sibcoin Kern-Entwickler</translation>
+        <translation>Die Sibcoin Core Entwickler</translation>
     </message>
 </context>
 <context>
@@ -5915,7 +5915,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+3"/>
         <source>Unable to bind to %s on this computer. Sibcoin Core is probably already running.</source>
-        <translation>Verbindung zu %s auf diesem Computer nicht möglich. Sibcoin Kern läuft wahrscheinlich schon.</translation>
+        <translation>Verbindung zu %s auf diesem Computer nicht möglich. Sibcoin Core läuft wahrscheinlich schon.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5970,7 +5970,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+3"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Sibcoin Core will not work properly.</source>
-        <translation>Warnung: Bitte überprüfen Sie, ob Datum und Uhrzeit Ihres Computers korrekt sind! Wenn Ihre Uhr falsch ist, funktioniert Sibcoin Kern nicht richtig.</translation>
+        <translation>Warnung: Bitte überprüfen Sie, ob Datum und Uhrzeit Ihres Computers korrekt sind! Wenn Ihre Uhr falsch ist, funktioniert Sibcoin Core nicht richtig.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6075,17 +6075,17 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+5"/>
         <source>Copyright (C) 2009-%i The Bitcoin Core Developers</source>
-        <translation>Copyright (C) 2009-%i Die Bitcoin Kern-Entwickler</translation>
+        <translation>Copyright (C) 2009-%i Die Bitcoin Core Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright (C) 2014-%i The Dash Core Developers</source>
-        <translation>Copyright (C) 2014-%i Die Dash Kern-Entwickler</translation>
+        <translation>Copyright (C) 2014-%i Die Dash Core Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright (C) 2015-%i The Sibcoin Core Developers</source>
-        <translation>Copyright (C) 2015-%i Die Sibcoin Kern-Entwickler</translation>
+        <translation>Copyright (C) 2015-%i Die Sibcoin Core Entwickler</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6145,7 +6145,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Error loading wallet.dat: Wallet requires newer version of Sibcoin Core</source>
-        <translation>Fehler beim Laden von &quot;wallet.dat&quot;: Wallet benötigt eine neuere Version von Sibcoin Kern</translation>
+        <translation>Fehler beim Laden von &quot;wallet.dat&quot;: Wallet benötigt eine neuere Version von Sibcoin Core</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -6190,7 +6190,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+6"/>
         <source>Initialization sanity check failed. Sibcoin Core is shutting down.</source>
-        <translation>Überprüfung der Initialisierungstauglichkeit fehlgeschlagen. Sibcoin Kern wird heruntergefahren.</translation>
+        <translation>Überprüfung der Initialisierungstauglichkeit fehlgeschlagen. Sibcoin Core wird heruntergefahren.</translation>
     </message>
     <message>
         <location line="+2"/>
