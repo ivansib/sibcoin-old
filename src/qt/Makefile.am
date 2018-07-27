@@ -44,7 +44,8 @@ DIST_SUBDIRS = . test
 QT_TS = \
   locale/sibcoin_en.ts \
   locale/sibcoin_ru.ts \
-  locale/sibcoin_de.ts
+  locale/sibcoin_de.ts \
+  locale/sibcoin_es.ts
 
 
 

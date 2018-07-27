@@ -3,5 +3,6 @@
         <file alias="en">locale/sibcoin_en.qm</file>
         <file alias="ru">locale/sibcoin_ru.qm</file>
 	<file alias="de">locale/sibcoin_de.qm</file>
+	<file alias="es">locale/sibcoin_es.qm</file>
     </qresource>
 </RCC>

@@ -1798,7 +1798,7 @@ p, li { white-space: pre-wrap; }
         <translation>Количество узлов:</translation>
     </message>
     <message>
-        <location filename="../masternodelist.cpp" line="+50"/>
+        <location filename="../masternodelist.cpp" line="+61"/>
         <source>Start alias</source>
         <translation>Запуск по имени</translation>
     </message>
