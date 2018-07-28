@@ -179,7 +179,9 @@ CMasternode::CollateralStatus CMasternode::CheckCollateral(CTxIn vin, int& nHeig
     }
 
     if(coins.vout[vin.prevout.n].nValue != MASTERNODE_COLLATERAL_AMOUNT * COIN) {
-        if(coins.vout[vin.prevout.n].nValue == MASTERNODE_OLD_COLLATERAL_AMOUNT * COIN ){
+        // should be removed after update to 16.2
+        if(coins.vout[vin.prevout.n].nValue == MASTERNODE_OLD_COLLATERAL_AMOUNT * COIN){
+            nHeight = coins.nHeight;
             return COLLATERAL_OLD_AMOUNT;
         }
         
@@ -688,7 +690,7 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
             LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have %s SIB, masternode=%s\n", MASTERNODE_COLLATERAL_AMOUNT, vin.prevout.ToStringShort());
             return false;
         }
-
+        
         if(chainActive.Height() - nHeight + 1 < Params().GetConsensus().nMasternodeMinimumConfirmations) {
             LogPrintf("CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO must have at least %d confirmations, masternode=%s\n",
                     Params().GetConsensus().nMasternodeMinimumConfirmations, vin.prevout.ToStringShort());
