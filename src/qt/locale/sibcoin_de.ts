@@ -101,7 +101,7 @@
     <message>
         <location line="+1"/>
         <source>Copy &amp;Public Key</source>
-        <translation>Kopiere &amp;Öffentlichen Schlüssel</translation>
+        <translation>Kopiere &amp;Öffentlicher Schlüssel</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -126,12 +126,12 @@
     <message>
         <location line="+0"/>
         <source>Copy private key to clipboard?</source>
-        <translation>Kopieren Sie privater Schlüssel in die Zwischenablage?</translation>
+        <translation>Soll der private Schlüssel in die Zwischenablage kopiert werden?</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Can&apos;t copy private key to clipboard</source>
-        <translation>Der privater Schlüssel kann nicht in die Zwischenablage kopiert werden</translation>
+        <translation>Der private Schlüssel kann nicht in die Zwischenablage kopiert werden</translation>
     </message>
     <message>
         <location line="+114"/>
@@ -151,7 +151,7 @@
     <message>
         <location line="+1"/>
         <source>There was an error trying to save the address list to %1. Please try again.</source>
-        <translation>Beim Speichern der Adressliste nach %1 ist ein Fehler aufgetreten. Bitte noch einmal versuchen.</translation>
+        <translation>Beim Speichern der Adressliste ist nach %1 ein Fehler aufgetreten. Bitte noch einmal versuchen.</translation>
     </message>
 </context>
 <context>
@@ -207,7 +207,7 @@
     <message>
         <location filename="../askpassphrasedialog.cpp" line="+44"/>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Geben Sie die neue Passphrase für die Wallet ein.&lt;br&gt;Bitte benutzen Sie eine Passphrase bestehend aus &lt;b&gt;10 oder mehr zufälligen Zeichen&lt;/b&gt; oder &lt;b&gt;8 oder mehr Wörtern&lt;/b&gt;.</translation>
+        <translation>Geben Sie eine neue Passphrase für Ihr Wallet ein.&lt;br&gt;Bitte benutzen Sie eine Passphrase bestehend aus &lt;b&gt;10 oder mehr zufälligen Zeichen&lt;/b&gt; oder &lt;b&gt;8 oder mehr Wörtern&lt;/b&gt;.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -217,7 +217,7 @@
     <message>
         <location line="+6"/>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Dieser Vorgang benötigt ihre Passphrase, um die Wallet zu entsperren.</translation>
+        <translation>Dieser Vorgang benötigt ihre Passphrase, um Ihr Wallet zu entsperren.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -252,12 +252,12 @@
     <message>
         <location line="+1"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>Sind Sie sich sicher, dass Sie ihre Wallet verschlüsseln möchten?</translation>
+        <translation>Sind Sie sich sicher, dass Sie Ihren Wallet verschlüsseln möchten?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SIBCOINS&lt;/b&gt;!</source>
-        <translation>Warnung: Wenn Sie verschlüsseln Ihre Brieftasche und verlieren Ihre Passphrase, Sie &lt;b&gt;VERLIERE ALLE DEINE SIBCOINS&lt;/b&gt;!</translation>
+        <translation>Warnung: Wenn Sie Ihr Wallet verschlüsseln und die Passphrase verlieren, &lt;b&gt;VERLIERE SIE ALLE IHRE SIBCOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -268,12 +268,12 @@
     <message>
         <location line="-57"/>
         <source>Sibcoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your sibcoins from being stolen by malware infecting your computer.</source>
-        <translation>Sibcoin schließt jetzt, um den Verschlüsselungsprozess abzuschließen. Denken Sie daran, dass das Verschlüsseln Ihrer Geldbörse Ihre Schützlinge nicht vollständig vor Malware schützen kann, die Ihren Computer infiziert.</translation>
+        <translation>Sibcoin schließt jetzt, um den Verschlüsselungsprozess abzuschließen. Denken Sie daran, dass das Verschlüsseln Ihres Wallets Sie nicht vollständig vor Malware schützen kann, die Ihren Computer infiziert könnten.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>WICHTIG: Alle vorherigen Wallet-Sicherungen sollten durch die neu erzeugte, verschlüsselte Wallet ersetzt werden. Aus Sicherheitsgründen werden vorherige Sicherungen der unverschlüsselten Wallet nutzlos, sobald Sie die neue, verschlüsselte Wallet verwenden.</translation>
+        <translation>WICHTIG: Alle vorherigen Wallet-Sicherungen sollten durch die neu erzeugte, verschlüsselte Wallet ersetzt werden. Aus Sicherheitsgründen werden vorherige Sicherungen der unverschlüsselten Wallet nutzlos, sobald Sie einen neuen, verschlüsselten Wallet verwenden.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -286,7 +286,7 @@
     <message>
         <location line="-55"/>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>Die Wallet-Verschlüsselung ist aufgrund eines internen Fehlers fehlgeschlagen. Ihre Wallet wurde nicht verschlüsselt.</translation>
+        <translation>Die Wallet-Verschlüsselung ist aufgrund eines internen Fehlers fehlgeschlagen. Ihr Wallet wurde nicht verschlüsselt.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -333,7 +333,7 @@
     <message>
         <location line="+0"/>
         <source>Banned Until</source>
-        <translation>Verbannt bis</translation>
+        <translation>Gesperrt bis</translation>
     </message>
 </context>
 <context>
@@ -352,7 +352,7 @@
     <message>
         <location line="+2"/>
         <source>Node</source>
-        <translation>Knoten</translation>
+        <translation>Node</translation>
     </message>
     <message>
         <location line="+138"/>
@@ -392,7 +392,7 @@
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Transaktionsverlauf durchsehen</translation>
+        <translation>Transaktionsverlauf ansehen</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -402,7 +402,7 @@
     <message>
         <location line="+1"/>
         <source>Show links to services that accept sibcoins</source>
-        <translation>Zeige Links zu Diensten, die sibcoins akzeptieren</translation>
+        <translation>Zeige Links zu Diensten, die Sibcoins akzeptieren</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -472,7 +472,7 @@
     <message>
         <location line="+1"/>
         <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Verschlüsselt die zu ihrer Wallet gehörenden privaten Schlüssel</translation>
+        <translation>Verschlüsselt den zu ihrem Wallet gehörenden privaten Schlüssel</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -497,7 +497,7 @@
     <message>
         <location line="+1"/>
         <source>&amp;Unlock Wallet...</source>
-        <translation>Wallet &amp;entsperren...</translation>
+        <translation>Wallet &amp;Wallet entsperren...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -562,12 +562,12 @@
     <message>
         <location line="+1"/>
         <source>&amp;Peers list</source>
-        <translation>&amp;Gegenstellen-Liste</translation>
+        <translation>&amp;Peers-Liste</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show peers info</source>
-        <translation>Informationen zu Gegenstellen anzeigen</translation>
+        <translation>Informationen zu Peers anzeigen</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -632,7 +632,7 @@
     <message>
         <location line="+2"/>
         <source>&amp;Print sibcoins...</source>
-        <translation>&amp;Drucken Sibcoins...</translation>
+        <translation>&amp;Sibcoins drucken...</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -647,7 +647,7 @@
     <message>
         <location line="+2"/>
         <source>Load sibcoins from paper</source>
-        <translation>Lade Sibcoins aus Papier</translation>
+        <translation>Lade Sibcoins vom Papier</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -662,15 +662,20 @@
     <message>
         <location line="+2"/>
         <source>&amp;Command-line options</source>
-        <translation>&amp;Kommandozeilenoptionen</translation>
+        <translation>&amp;Befehlszeile -optionen</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show the Sibcoin Core help message to get a list with possible Sibcoin Core command-line options</source>
-        <translation>Zeigen Sie die Sibcoin Core Hilfemeldung an, um eine Liste mit möglichen Sibcoin Core Befehlszeilenoptionen zu erhalten</translation>
+        <translation>Zeigen Sie die Sibcoin Core-Hilfemeldung an, um eine Liste mit möglichen Sibcoin Core-Befehlszeilenoptionen zu erhalten</translation>
     </message>
     <message>
-        <location line="+534"/>
+        <location line="+6"/>
+        <source>&amp;Howto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+528"/>
         <source>No block source available...</source>
         <translation>Keine Blockquelle verfügbar...</translation>
     </message>
@@ -685,12 +690,7 @@
         <translation>Zeigen Sie die PrivateSend-Basisinformationen</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>&amp;Howto</source>
-        <translation>&amp;Wie man</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>How to use Sibcoins</source>
         <translation>Wie benutzt man Sibcoins</translation>
     </message>
@@ -722,7 +722,7 @@
     <message>
         <location line="+159"/>
         <source>Sibcoin Core client</source>
-        <translation>Sibcoin Corn Kunde</translation>
+        <translation>Sibcoin Core Client</translation>
     </message>
     <message numerus="yes">
         <location line="+213"/>
@@ -735,7 +735,7 @@
     <message>
         <location line="+18"/>
         <source>Synchronizing with network...</source>
-        <translation>Synchronisiere mit Netzwerk...</translation>
+        <translation>Synchronisiere mit dem Netzwerk...</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -983,7 +983,7 @@
     <message>
         <location line="+16"/>
         <source>Tree mode</source>
-        <translation>Baumansicht</translation>
+        <translation>Verzeichnisansicht</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1227,7 +1227,7 @@
     <message>
         <location line="+26"/>
         <source>n/a</source>
-        <translation>k.A.</translation>
+        <translation>n/a</translation>
     </message>
 </context>
 <context>
@@ -1255,7 +1255,7 @@
     <message>
         <location line="+13"/>
         <source>Please select a privacy level.</source>
-        <translation>Bitten wählen Sie eine Datenschutz-Stufe.</translation>
+        <translation>Bitten wählen Sie eine Datenschutzstufe.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1280,7 +1280,7 @@
     <message>
         <location line="+26"/>
         <source>0.1 SIB per 1000 SIB you anonymize.</source>
-        <translation>0.1 SIB pro 1000 SIB Sie anonymisieren.</translation>
+        <translation>0.1 SIB pro 1000 SIB zu anonymisierende SIB.</translation>
     </message>
     <message>
         <location line="-52"/>
@@ -1436,7 +1436,7 @@
     <message>
         <location line="+34"/>
         <source>Generate addresses and print QR codes</source>
-        <translation>Erzeuge Adressen und drucke QR-Codes</translation>
+        <translation>Erzeuge Adressen und drucke QR-Code</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1477,7 +1477,7 @@
     <message>
         <location line="+3"/>
         <source>Import private key</source>
-        <translation>Importieren privaten Schlüssel</translation>
+        <translation>privaten Schlüssel importieren </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1509,12 +1509,12 @@
     <message>
         <location line="+68"/>
         <source>Cant import key into locked wallet</source>
-        <translation>Kann Schlüssel nicht in gesperrte Brieftasche importieren</translation>
+        <translation>Der Schlüssel kann nicht in das gesperrte Wallet importiert werden</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Private key imported</source>
-        <translation>Privater Schlüssel importiert</translation>
+        <translation>Privaten Schlüssel importiert</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1576,7 +1576,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>command-line options</source>
-        <translation>Kommandozeilenoptionen</translation>
+        <translation>Befehlszeilen -optionen</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1601,7 +1601,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Set SSL root certificates for payment request (default: -system-)</source>
-        <translation>SSL-Wurzelzertifikate für Zahlungsanforderungen festlegen (Standard: Systemstandard)</translation>
+        <translation>SSL-Rootzertifikate für Zahlungsanforderungen festlegen (Standard: Systemstandard)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1644,7 +1644,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+10"/>
         <source>Sibcoin Core will download and store a copy of the Sibcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Sibcoin Core wird eine Kopie der Sibcoin-Blockkette herunterladen und speichern. Mindestens %1 GB Daten werden in diesem Verzeichnis gespeichert und es wird mit der Zeit wachsen. Die Brieftasche wird ebenfalls in diesem Verzeichnis gespeichert.</translation>
+        <translation>Sibcoin Core wird eine Kopie des Sibcoin-Blockchains herunterladen und speichern. Mindestens %1 GB Daten werden in diesem Verzeichnis gespeichert und es wird mit der Zeit wachsen. Das Wallet wird ebenfalls in diesem Verzeichnis gespeichert.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1697,7 +1697,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+16"/>
         <source>Note: Status of your masternodes in local wallet can potentially be slightly incorrect.&lt;br /&gt;Always wait for wallet to sync additional data and then double check from another node&lt;br /&gt;if your masternode should be running but you still do not see &quot;ENABLED&quot; in &quot;Status&quot; field.</source>
-        <translation>Achtung: der Status Ihrer Masternodes kann während des Synchronisationsvorgangs zeitweilig falsch angezeigt werden&lt;br /&gt; Daher sollten Sie immer das Ende des Synchronisationsvorgangs abwarten, und falls Ihr Masternode nicht den Status &quot;ENABLED&quot; hat &lt;br /&gt; im Zweifelsfalle den Status von einer anderen Geldbörse aus überprüfen.</translation>
+        <translation>Achtung: der Status Ihrer Masternodes kann während des Synchronisationsvorgangs zeitweilig falsch angezeigt werden&lt;br /&gt; Daher sollten Sie immer das Ende des Synchronisationsvorgangs abwarten und falls Ihr Masternode nicht den Status &quot;ENABLED&quot; hat &lt;br /&gt; im Zweifelsfalle den Status von einer anderen Geldbörse aus überprüfen.</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -1789,7 +1789,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+20"/>
         <source>Node Count:</source>
-        <translation>Anzahl Knoten</translation>
+        <translation>Anzahl Nodes</translation>
     </message>
     <message>
         <location filename="../masternodelist.cpp" line="+61"/>
@@ -1824,7 +1824,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>You can&apos;t use this command until masternode list is synced</source>
-        <translation>Solange die Liste der Masternodes nicht synchronisiert ist können Sie dieses Kommando nicht benutzen.</translation>
+        <translation>Solange die Liste der Masternodes nicht synchronisiert ist können Sie diesen Befehl nicht benutzen.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1890,7 +1890,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+27"/>
         <source>Number of script &amp;verification threads</source>
-        <translation>Anzahl an Skript-&amp;Verifizierungs-Threads</translation>
+        <translation>Anzahl an Skript-&amp;Verifizierungsfaden</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1920,7 +1920,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+123"/>
         <source>Show additional tab listing all your masternodes in first sub-tab&lt;br/&gt;and all masternodes on the network in second sub-tab.</source>
-        <translation>Tabulator mit der Lister aller/Ihrer Masternodes anzeigen.</translation>
+        <translation>Tabulator mit der Liste aller/Ihrer Masternodes anzeigen.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1955,7 +1955,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+3"/>
         <source>Enable PrivateSend &amp;multi-session</source>
-        <translation>PrivateSend &amp;multisession aktivieren</translation>
+        <translation>PrivateSend &amp;Multisession aktivieren</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2194,7 +2194,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+13"/>
         <source>&amp;Cancel</source>
-        <translation>A&amp;bbrechen</translation>
+        <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="+100"/>
@@ -2275,7 +2275,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="-29"/>
         <source>Mined balance that has not yet matured</source>
-        <translation>Erarbeiteter Betrag der noch nicht gereift ist</translation>
+        <translation>geschürfter Betrag der noch nicht gereift ist</translation>
     </message>
     <message>
         <location line="-160"/>
@@ -2290,7 +2290,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+50"/>
         <source>Mined balance in watch-only addresses that has not yet matured</source>
-        <translation>Erarbeiteter Betrag der beobachteten Adressen der noch nicht gereift ist</translation>
+        <translation>Geschürfter Betrag der beobachteten Adressen der noch nicht gereift ist</translation>
     </message>
     <message>
         <location line="+42"/>
@@ -2357,7 +2357,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+62"/>
         <source>Try to manually submit a PrivateSend request.</source>
-        <translation>Versuche eine PrivateSend-Anfrage manuell abzusetzen.</translation>
+        <translation>Versuche eine PrivateSend-Anfrage manuell zu bestätigen.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -2387,7 +2387,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+10"/>
         <source>n/a</source>
-        <translation>k.A.</translation>
+        <translation>n/a</translation>
     </message>
     <message>
         <location line="+131"/>
@@ -2536,7 +2536,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+16"/>
         <source>WARNING! Something went wrong on automatic backup</source>
-        <translation>Warnung! Die automatische Datensicherung ist nicht in Ordnung</translation>
+        <translation>Warnung! Die automatische Datensicherung ist fehlgeschlagen</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2548,7 +2548,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="-15"/>
         <location line="+17"/>
         <source>Mixing is disabled, please close your wallet and fix the issue!</source>
-        <translation>Mixing ist deaktiviert, bitten schließen Sie Ihre Wallet und beheben den Fehler!</translation>
+        <translation>Mixing ist deaktiviert, bitten schließen Sie Ihr Wallet und beheben Sie den Fehler!</translation>
     </message>
     <message>
         <location line="-11"/>
@@ -2563,7 +2563,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+7"/>
         <source>WARNING! Failed to replenish keypool, please unlock your wallet to do so.</source>
-        <translation>WARNUNG! Erzeugen neuer Schlüssel ist fehlgeschlagen, bitte entsperren Sie Ihre Wallet  um dies zu ermöglichen.</translation>
+        <translation>WARNUNG! Erzeugen vom neuernSchlüssel ist fehlgeschlagen, bitte entsperren Sie Ihr Wallet, um dies zu ermöglichen.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2575,7 +2575,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+8"/>
         <source>N/A</source>
-        <translation>k.A.</translation>
+        <translation>N/A</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -2595,7 +2595,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+14"/>
         <source>Wallet is locked and user declined to unlock. Disabling PrivateSend.</source>
-        <translation>Das Wallet ist gesperrt und der Benutzer hat abgelehnt, es zu entsperren. PrivateSend wird deaktiviert.</translation>
+        <translation>Das Wallet ist gesperrt und der Benutzer hat es abgelehnt, es zu entsperren. PrivateSend wird deaktiviert.</translation>
     </message>
 </context>
 <context>
@@ -2729,7 +2729,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location filename="../peertablemodel.cpp" line="+117"/>
         <source>Node/Service</source>
-        <translation>Knoten/Dienste</translation>
+        <translation>Nodes/Dienste</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2739,7 +2739,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+0"/>
         <source>Ping Time</source>
-        <translation>Ping-Antwort-Zeit</translation>
+        <translation>Ping-Zeit</translation>
     </message>
 </context>
 <context>
@@ -2783,7 +2783,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+5"/>
         <source>N/A</source>
-        <translation>k.A.</translation>
+        <translation>N/A</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2819,7 +2819,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location filename="../forms/debugwindow.ui" line="+14"/>
         <source>Tools window</source>
-        <translation>Werkzeuge</translation>
+        <translation>Tools Fenster</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2868,7 +2868,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+26"/>
         <location line="+23"/>
         <source>N/A</source>
-        <translation>k.A.</translation>
+        <translation>N/A</translation>
     </message>
     <message>
         <location line="-1049"/>
@@ -2995,7 +2995,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="-410"/>
         <source>&amp;Peers</source>
-        <translation>&amp;Gegenstellen</translation>
+        <translation>&amp;Peers</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3007,7 +3007,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location filename="../rpcconsole.cpp" line="+304"/>
         <location line="+669"/>
         <source>Select a peer to view detailed information.</source>
-        <translation>Gegenstelle auswählen, um Detailinformationen zu sehen.</translation>
+        <translation>Peers auswählen, um Detailinformationen zu sehen.</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -3042,7 +3042,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+511"/>
         <source>Wallet Path</source>
-        <translation>Dateipfad des Wallet</translation>
+        <translation>Dateipfad des Wallets</translation>
     </message>
     <message>
         <location line="-1474"/>
@@ -3058,7 +3058,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+92"/>
         <source>Ban Score</source>
-        <translation>Ausschluss-Punktzahl</translation>
+        <translation>Ban Punkte</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -3098,7 +3098,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+40"/>
         <source>&amp;Wallet Repair</source>
-        <translation>&amp;Wallet-Reparatur</translation>
+        <translation>&amp;Walletreparatur</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -3123,17 +3123,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+19"/>
         <source>Upgrade wallet format</source>
-        <translation>Wallet-Format aktualisieren</translation>
+        <translation>Walletformat aktualisieren</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>The buttons below will restart the wallet with command-line options to repair the wallet, fix issues with corrupt blockhain files or missing/obsolete transactions.</source>
-        <translation>Diese Buttons starten die Wallet mit Kommandozeilen-Parametern zur Reparatur von etwaigen  Fehlern.</translation>
+        <translation>Diese Buttons starten das Wallet mit Befehlszeilen-Parametern zur Reparatur von etwaigen Fehlern.</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>-salvagewallet: Attempt to recover private keys from a corrupt wallet.dat.</source>
-        <translation>-salvagewallet: versucht private Schlüssel aus einer beschädigten wallet.dat wiederherzustellen.</translation>
+        <translation>-salvagewallet: versucht privaten Schlüssel aus einer beschädigten wallet.dat wiederherzustellen.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -3153,7 +3153,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+16"/>
         <source>-upgradewallet: Upgrade wallet to latest format on startup. (Note: this is NOT an update of the wallet itself!)</source>
-        <translation>Wallet-Format aktualisieren. (dies ist KEINE Aktualisierung des Wallet)</translation>
+        <translation>Wallet-Format aktualisieren. (dies ist KEINE Aktualisierung des Wallets)</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -3221,12 +3221,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+1"/>
         <location line="+1"/>
         <source>Ban Node for</source>
-        <translation>Ban Knoten für</translation>
+        <translation>Ban Node für</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>&amp;Unban Node</source>
-        <translation>&amp;Unban Knoten</translation>
+        <translation>&amp;Unban Node</translation>
     </message>
     <message>
         <location line="+148"/>
@@ -3301,12 +3301,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location filename="../forms/receivecoinsdialog.ui" line="+34"/>
         <source>Reuse one of the previously used receiving addresses.&lt;br&gt;Reusing addresses has security and privacy issues.&lt;br&gt;Do not use this unless re-generating a payment request made before.</source>
-        <translation>Eine der bereits verwendeten Empfangsadressen wiederverwenden.&lt;br&gt; Addressen wiederzuverwenden birgt Sicherheits- und Datenschutzrisiken.&lt;br&gt; Außer zum Neuerstellen einer bereits erzeugten Zahlungsanforderung sollten Sie dies nicht nutzen.</translation>
+        <translation>Eine der bereits verwendeten Empfangsadressen wieder verwenden.&lt;br&gt; Addressen wiederzuverwenden birgt Sicherheits- und Datenschutzrisiken.&lt;br&gt; Außer zum Neuerstellen einer bereits erzeugten Zahlungsanforderung sollten Sie dies nicht nutzen.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation>Vorhandene Empfangsadresse &amp;wiederverwenden (nicht empfohlen)</translation>
+        <translation>Vorhandene Empfangsadresse &amp;wieder verwenden (nicht empfohlen)</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3482,7 +3482,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+5"/>
         <source>Error encoding URI into QR Code.</source>
-        <translation>Beim Enkodieren der URI in den QR-Code ist ein Fehler aufgetreten.</translation>
+        <translation>Beim Entkodieren der URI in den QR-Code ist ein Fehler aufgetreten.</translation>
     </message>
 </context>
 <context>
@@ -3584,7 +3584,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+32"/>
         <source>Dust:</source>
-        <translation>Staub:</translation>
+        <translation>Dust:</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -3650,7 +3650,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+33"/>
         <location line="+13"/>
         <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for sibcoin transactions than the network can process.</source>
-        <translation>Nur die minimalen Gebühren zu zahlen ist völlig ausreichend so lange in einem neuen Block der Blockkette noch genug Platz für neue Transaktionen ist.&lt;br /&gt; Bitte beachten Sie dass wenn dies in der Zukunft nicht mehr der Fall sein sollte Ihre Transaktion eventuell niemals in einen neuen Block aufgenommen werden wird, also niemals bestätigt wird.</translation>
+        <translation>Nur die minimalen Gebühren zu zahlen ist völlig ausreichend, so lange in einem neuen Block der Blockkette noch genug Platz für neue Transaktionen ist.&lt;br /&gt; Bitte beachten Sie, dass wenn dies in der Zukunft nicht mehr der Fall sein sollte, Ihre Transaktion eventuell niemals in einen neuen Block aufgenommen werden und niemals bestätigt werden.</translation>
     </message>
     <message>
         <location line="-59"/>
@@ -3705,7 +3705,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+38"/>
         <source>Send as zero-fee transaction if possible</source>
-        <translation>Senden Sie, wenn möglich, als Null-Gebühr-Transaktion</translation>
+        <translation>Senden Sie, wenn möglich, zum Nulltarif</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3735,7 +3735,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+14"/>
         <source>Send to multiple recipients at once</source>
-        <translation>An mehrere Empfänger auf einmal überweisen</translation>
+        <translation>Sammelüberweisung</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3808,7 +3808,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+5"/>
         <source>any available funds (not anonymous)</source>
-        <translation>beliebiger verfügbarer Coins (nicht empfohlen)</translation>
+        <translation>beliebiger verfügbarer Coins (nicht anonym)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3881,7 +3881,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+4"/>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Die Transaktion wurde abgelehnt! Dies kann passieren, wenn einige der Münzen in Ihrer Brieftasche bereits ausgegeben wurden, z. B. wenn Sie eine Kopie von wallet.dat verwendet haben und Münzen in der Kopie ausgegeben, aber nicht als ausgegeben markiert wurden.</translation>
+        <translation>Die Transaktion wurde abgelehnt! Dies kann passieren, wenn einige der Münzen in Ihrem Wallet bereits ausgegeben wurden, z. B. wenn Sie eine Kopie von wallet.dat verwendet haben und Münzen in der Kopie ausgegeben aber nicht als ausgegeben markiert wurden.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3932,7 +3932,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+21"/>
         <source>Pay &amp;To:</source>
-        <translation>E&amp;mpfänger:</translation>
+        <translation>&amp;Empfänger:</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -3981,7 +3981,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="-1054"/>
         <source>The fee will be deducted from the amount being sent. The recipient will receive a lower amount of Sibcoin than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>Die Gebühr wird von der versendeten  Summe abgezogen, daher wird der Empfänger einen  niedrigeren Betrag erhalten, als Sie im Feld &quot;Betrag&quot; angegeben haben. Bei mehreren Empfängern wird die Gebühre gleichmäßig auf alle Empfänger aufgeteilt.</translation>
+        <translation>Die Gebühr wird von der versendeten Summe abgezogen, daher wird der Empfänger einen niedrigeren Betrag erhalten, als Sie im Feld &quot;Betrag&quot; angegeben haben. Bei mehreren Empfängern werden die Gebühren gleichmäßig auf alle Empfänger aufgeteilt.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4036,12 +4036,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location filename="../utilitydialog.cpp" line="+129"/>
         <source>Sibcoin Core is shutting down...</source>
-        <translation>Sibcoin Karn wird heruntergefahren...</translation>
+        <translation>Sibcoin Core wird heruntergefahren...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Do not shut down the computer until this window disappears.</source>
-        <translation>Fahren Sie den Computer nicht herunter, bevor dieses Fenster verschwindet.</translation>
+        <translation>Fahren Sie den Computer nicht herunter, bevor dieses Fenster geschlossen wird.</translation>
     </message>
 </context>
 <context>
@@ -4132,7 +4132,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+6"/>
         <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
-        <translation>Geben Sie die signierende Adresse, Nachricht (achten Sie darauf Zeilenumbrüche, Leerzeichen, Tabulatoren usw. exakt zu kopieren) und Signatur unten ein, um die Nachricht zu verifizieren. Vorsicht, interpretieren Sie nicht mehr in die Signatur hinein, als in der signierten Nachricht selber enthalten ist, um nicht von einem Man-in-the-middle-Angriff hinters Licht geführt zu werden!</translation>
+        <translation>Geben Sie die signierende Adresse, Nachricht und Signatur unten ein (achten Sie darauf Zeilenumbrüche, Leerzeichen, Tabulatoren usw. exakt zu kopieren), um die Nachricht zu verifizieren. Vorsicht, interpretieren Sie nicht mehr in die Signatur hinein, als in der signierten Nachricht selber enthalten ist, um nicht von einem Man-in-the-middle-Angriff hinters Licht geführt zu werden!</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -4246,17 +4246,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+1"/>
         <source>The Bitcoin Core developers</source>
-        <translation>Die Bitcoin Core Entwickler</translation>
+        <translation>Die Bitcoin Core-Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The Dash Core developers</source>
-        <translation>Die Dash Core Entwickler</translation>
+        <translation>Die Dash Core-Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>The Sibcoin Core developers</source>
-        <translation>Die Sibcoin Core Entwickler</translation>
+        <translation>Die Sibcoin Core-Entwickler</translation>
     </message>
 </context>
 <context>
@@ -4331,8 +4331,8 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
         <location line="+2"/>
         <source>, broadcast through %n node(s)</source>
         <translation>
-            <numerusform>, über %n Knoten übertragen</numerusform>
-            <numerusform>, über %n Knoten übertragen</numerusform>
+            <numerusform>, über %n Nodes übertragen</numerusform>
+            <numerusform>, über %n Nodes übertragen</numerusform>
         </translation>
     </message>
     <message>
@@ -4458,7 +4458,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+7"/>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Erzeugte Sibcoin müssen %1 Blöcke lang reifen, bevor sie ausgegeben werden können. Als Sie diesen Block erzeugten, wurde er an das Netzwerk übertragen, um ihn der Blockkette hinzuzufügen. Falls dies fehlschlägt wird der Status in &quot;nicht angenommen&quot; geändert und Sie werden keine Sibcoin gutgeschrieben bekommen. Das kann gelegentlich passieren, wenn ein anderer Knoten einen Block fast zeitgleich erzeugt.</translation>
+        <translation>Erzeugte Sibcoin müssen %1 Blöcke lang reifen, bevor sie ausgegeben werden können. Als Sie diesen Block erzeugten, wurde er an das Netzwerk übertragen, um ihn der Blockchain hinzuzufügen. Falls dies fehlschlägt wird der Status in &quot;nicht angenommen&quot; geändert und Sie werden keine Sibcoin gutgeschrieben bekommen. Das kann gelegentlich passieren, wenn ein anderen Node einen Block fast zeitgleich erzeugt.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4564,17 +4564,17 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+3"/>
         <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation>Unreif (%1 Bestätigungen, wird verfügbar sein nach %2)</translation>
+        <translation>Unreif (%1 Bestätigungen, werden verfügbar sein nach %2)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Dieser Block wurde von keinem anderen Knoten empfangen und wird wahrscheinlich nicht angenommen werden!</translation>
+        <translation>Dieser Block wurde von keinem anderen Node empfangen und wird wahrscheinlich nicht angenommen werden!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Generated but not accepted</source>
-        <translation>Erzeugt, jedoch nicht angenommen</translation>
+        <translation>Generiert, jedoch nicht akzeptiert</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -4604,7 +4604,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+2"/>
         <source>Mined</source>
-        <translation>Erarbeitet</translation>
+        <translation>Geschürft</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4614,12 +4614,12 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+2"/>
         <source>PrivateSend Collateral Payment</source>
-        <translation>PrivateSend Sicherheits-Zahlung</translation>
+        <translation>PrivateSend Sicherheitszahlung</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>PrivateSend Make Collateral Inputs</source>
-        <translation>PrivateSend Sicherheits-Eingänge machen</translation>
+        <translation>PrivateSend Sicherheitseingänge machen</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4639,7 +4639,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+17"/>
         <source>(n/a)</source>
-        <translation>(k.A.)</translation>
+        <translation>(n/a)</translation>
     </message>
     <message>
         <location line="+224"/>
@@ -4733,7 +4733,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+1"/>
         <source>PrivateSend Make Collateral Inputs</source>
-        <translation>PrivateSend Sicherheits-Eingänge machen</translation>
+        <translation>PrivateSend Sicherheitseingänge machen</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4748,7 +4748,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+1"/>
         <source>PrivateSend Collateral Payment</source>
-        <translation>PrivateSend Sicherheits-Zahlung</translation>
+        <translation>PrivateSend Sicherheitszahlung</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4758,7 +4758,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location line="+1"/>
         <source>Mined</source>
-        <translation>Erarbeitet</translation>
+        <translation>Geschürft</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4899,7 +4899,7 @@ https://www.transifex.com/projects/p/sibcoin/</translation>
     <message>
         <location filename="../walletframe.cpp" line="+27"/>
         <source>No wallet has been loaded.</source>
-        <translation>Es wurde keine Wallet geladen.</translation>
+        <translation>Es wurde kein Wallet geladen.</translation>
     </message>
 </context>
 <context>
@@ -5064,7 +5064,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+6"/>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation>Warnung: Wir scheinen nicht vollständig mit unseren Gegenstellen übereinzustimmen! Sie oder die anderen Knoten müssen unter Umständen ihre Client-Software aktualisieren.</translation>
+        <translation>Warnung: Wir scheinen nicht vollständig mit unseren Peers übereinzustimmen! Sie oder die anderen Nodes müssen unter Umständen ihre Client-Software aktualisieren.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -5074,12 +5074,12 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+18"/>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>Kommandozeilen- und JSON-RPC-Befehle annehmen</translation>
+        <translation>Befehlszeilen- und JSON-RPC-Befehle annehmen</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation>Mit dem angegebenen Knoten verbinden und versuchen die Verbindung aufrecht zu erhalten</translation>
+        <translation>Mit dem angegebenen Node verbinden und versuchen die Verbindung aufrecht zu erhalten</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5114,7 +5114,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+4"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Mit dem angegebenen Knoten verbinden, um Adressen von Gegenstellen abzufragen, danach trennen</translation>
+        <translation>Mit dem angegebenen Node verbinden, um Adressen von Peers abzufragen, danach trennen</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5134,7 +5134,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation>Die Wallet nicht laden und Wallet-RPC-Aufrufe deaktivieren</translation>
+        <translation>Das Wallet nicht laden und Wallet-RPC-Aufrufe deaktivieren</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5204,12 +5204,12 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+6"/>
         <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
-        <translation>Höhe der Transaktionsgebühr (berechnet in %s/kB Transaktionsgröße) die benutzt wird, wenn die Gebührenabschätzung auf Grund unzureichender Daten nicht automatisch berechnet werden kann (Standard: %s)</translation>
+        <translation>Höhe der Transaktionsgebühr (berechnet in %s/kB Transaktionsgröße) die benutzt wird, wenn die Gebührenabschätzung Aufgrund unzureichender Daten nicht automatisch berechnet werden kann (Standard: %s)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
-        <translation>Akzeptiere  weitergeleitete Transaktionen von erlaubten Peers , auch wenn das Weiterleiten von Transaktionen ausgeschaltet ist (Standard: %d)</translation>
+        <translation>Akzeptiere weitergeleitete Transaktionen von erlaubten Peers, auch wenn das Weiterleiten von Transaktionen ausgeschaltet ist (Standard: %d)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5219,7 +5219,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+7"/>
         <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</source>
-        <translation>An die angegebene Adresse binden und Gegenstellen in die Liste der erlaubten Gegenstellen aufnehmen. Für IPv6 &quot;[Host]:Port&quot;-Schreibweise verwenden</translation>
+        <translation>An die angegebene Adresse binden und Peers in die Liste der erlaubten Peers aufnehmen. Für IPv6 &quot;[Host]:Port&quot;-Schreibweise verwenden</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5249,7 +5249,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+5"/>
         <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
-        <translation>Falls paytxfee  nicht gesetzt wurde automatisch genug Transaktionsgebühren hinzufügen, um die Transaktion durchschnittlich innerhalb n Blöcken zu bestätigen (Standard: %u)</translation>
+        <translation>Falls paytxfee nicht gesetzt wurde, sollen automatisch ausreichend Transaktionsgebühren hinzufügen werden, um die Transaktion durchschnittlich innerhalb n Blöcken zu bestätigen (Standard: %u)</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5269,7 +5269,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+8"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: %u)</source>
-        <translation>Anzahl Sekunden, während denen sich nicht konform verhaltenden Gegenstellen die Wiederverbindung verweigert wird (Standard: %u)</translation>
+        <translation>Anzahl Sekunden, während denen sich nicht konform verhaltenden Peers die Wiederverbindung verweigert wird (Standard: %u)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5279,12 +5279,12 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+84"/>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
-        <translation>Separaten SOCKS5-Proxy verwenden, um Gegenstellen über versteckte Tor-Dienste zu erreichen (Standard: %s)</translation>
+        <translation>Separaten SOCKS5-Proxy verwenden, um Peers über versteckte Tor-Dienste zu erreichen (Standard: %s)</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>
-        <translation>Erlaubte Gegenstellen können nicht wegen DoS ausgeschlossen werden und ihre Transaktionen werden immer weitergeleitet, sogar wenn sie schon im Memory-Pool sind. Dies ist z.B. für Gateways nützlich.</translation>
+        <translation>Erlaubte Peers können nicht wegen DoS ausgeschlossen werden und ihre Transaktionen werden immer weitergeleitet, sogar wenn sie schon im Memory-Pool sind. Dies ist z.B. für Gateways nützlich.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5359,7 +5359,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+2"/>
         <source>How many blocks to check at startup (default: %u, 0 = all)</source>
-        <translation>Wieviele Blöcke beim Starten geprüft werden sollen (Standard: %u, 0 = alle)</translation>
+        <translation>Wie viele Blöcke beim Starten geprüft werden sollen (Standard: %u, 0 = alle)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5434,7 +5434,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+2"/>
         <source>Loading banlist...</source>
-        <translation>Lade Bann-Liste...</translation>
+        <translation>Lade Ban-Liste...</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5499,7 +5499,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+2"/>
         <source>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</source>
-        <translation>Verbinde nur zu Knoten des Netztyps &lt;net&gt; (ipv4, ipv6 oder onion)</translation>
+        <translation>Verbinde nur zu Nodes des Netztyps &lt;net&gt; (ipv4, ipv6 oder onion)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5604,7 +5604,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Synchronizing sporks...</source>
-        <translation>Synchronisieren Sporken...</translation>
+        <translation>Synchronisieren Sporks...</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -5765,7 +5765,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+3"/>
         <source>Enable multiple PrivateSend mixing sessions per block, experimental (0-1, default: %u)</source>
-        <translation>Mehrere parallele  PrivateSend Mischprozesse pro Block erlauben, experimentell (0-1, Standard: %u)</translation>
+        <translation>Mehrere parallele PrivateSend Mischprozesse pro Block erlauben, experimentell (0-1, Standard: %u)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5785,12 +5785,12 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+4"/>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
-        <translation>Niedrigere Gebühren (in %s pro Kb) als diese werden bei der Vermittlung als gebührenfrei angesehen (Standard: %s)</translation>
+        <translation>Niedrigere Gebühren (in %s pro Kb), diese werden bei der Vermittlung als gebührenfrei angesehen (Standard: %s)</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
-        <translation>Niedrigere Gebühren (in %s pro Kb) als diese werden bei der Transaktionserzeugung als gebührenfrei angesehen (Standard: %s)</translation>
+        <translation>Niedrigere Gebühren (in %s pro Kb) , diese werden bei der Transaktionserzeugung als gebührenfrei angesehen (Standard: %s)</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5820,12 +5820,12 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+3"/>
         <source>Maintain at most &lt;n&gt; connections to peers (temporary service connections excluded) (default: %u)</source>
-        <translation>Maximal &lt;n&gt; Verbindungen zu Gegenstellen aufrechterhalten (temporäre Dienstverbindungen ausgenommen) (Standard: %u)</translation>
+        <translation>Maximal &lt;n&gt; Verbindungen zu Peers aufrechterhalten (temporäre Dienstverbindungen ausgenommen) (Standard: %u)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Maximum total fees (in %s) to use in a single wallet transaction; setting this too low may abort large transactions (default: %s)</source>
-        <translation>Maximale Gesamtgebühren (in %s) für die Verwendung in einer einzigen Wallet-Transaktion; Wenn Sie dies zu niedrig setzen, können große Transaktionen abgebrochen werden (Standard: %s)</translation>
+        <translation>Maximale Gesamtgebühren (in %s) für die Verwendung in einer einzigen Wallet-Transaktion; Wenn Sie dieses zu niedrig setzen, können große Transaktionen abgebrochen werden (Standard: %s)</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5845,7 +5845,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+2"/>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation>Abschneiden (&quot;prune&quot;): die letzte Synchronistion des Wallet endete jenseits der abgeschnittenen Daten. Starten Sie das Wallet mit der Option -reindex neu oder downloaden Sie die komplette Blockchain erneut.</translation>
+        <translation>Abschneiden (&quot;prune&quot;): die letzte Synchronistion des Wallets endete jenseits der abgeschnittenen Daten. Starten Sie das Wallet mit der Option -reindex neu oder downloaden Sie die komplette Blockchain erneut.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5870,7 +5870,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+8"/>
         <source>Set the number of threads for coin generation if enabled (-1 = all cores, default: %d)</source>
-        <translation>Stellen Sie die Anzahl der Threads für die Münzgenerierung ein, falls aktiviert (-1 = alle Kerne, Standard: %d)</translation>
+        <translation>Stellen Sie die Anzahl der Threads für die Münzgenerierung ein, falls aktiviert (-1 = alle Cores, Standard: %d)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5960,12 +5960,12 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+4"/>
         <source>WARNING! Failed to replenish keypool, please unlock your wallet to do so.</source>
-        <translation>WARNUNG! Erzeugen neuer Schlüssel ist fehlgeschlagen, bitte entsperren Sie Ihre Wallet  um dies zu ermöglichen.</translation>
+        <translation>WARNUNG! Erzeugen neuer Schlüssel ist fehlgeschlagen, bitte entsperren Sie Ihr Wallet um dies zu ermöglichen.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Wallet is locked, can&apos;t replenish keypool! Automatic backups and mixing are disabled, please unlock your wallet to replenish keypool.</source>
-        <translation>Das Wallet ist abgesperrt, das Erzeugen neuer Schlüssel ist nicht möglich! Automatische Datensicherungen und Mixing sind deaktiviert. Bitte entsperren Sie Ihre Wallet  um dies zu ermöglichen.</translation>
+        <translation>Das Wallet ist gesperrt, das Erzeugen eines neuen Schlüssels ist nicht möglich! Automatische Datensicherungen und Mixing sind deaktiviert. Bitte entsperren Sie Ihr Wallet um dies zu ermöglichen.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -6040,7 +6040,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Attempt to recover private keys from a corrupt wallet.dat on startup</source>
-        <translation>Versuch, private Schlüssel aus einer beschädigten wallet.dat beim Start wiederherzustellen</translation>
+        <translation>Versuch, privaten Schlüssel aus einer beschädigten wallet.dat beim Start wiederherzustellen</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6070,22 +6070,22 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+3"/>
         <source>Connect only to the specified node(s)</source>
-        <translation>Nur mit den angegebenen Knot(en) verbinden</translation>
+        <translation>Nur mit den angegebenen Node(s) verbinden</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Copyright (C) 2009-%i The Bitcoin Core Developers</source>
-        <translation>Copyright (C) 2009-%i Die Bitcoin Core Entwickler</translation>
+        <translation>Copyright (C) 2009-%i Die Bitcoin Core-Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright (C) 2014-%i The Dash Core Developers</source>
-        <translation>Copyright (C) 2014-%i Die Dash Core Entwickler</translation>
+        <translation>Copyright (C) 2014-%i Die Dash Core-Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright (C) 2015-%i The Sibcoin Core Developers</source>
-        <translation>Copyright (C) 2015-%i Die Sibcoin Core Entwickler</translation>
+        <translation>Copyright (C) 2015-%i Die Sibcoin Core-Entwickler</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -6125,7 +6125,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+2"/>
         <source>Enable transaction replacement in the memory pool (default: %u)</source>
-        <translation>Transaktions-Ersetzung im &quot;Mempool&quot; aktivieren (Standard: %u)</translation>
+        <translation>Transaktionsersetzung im &quot;Mempool&quot; aktivieren (Standard: %u)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6140,7 +6140,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
-        <translation>Fehler beim Laden von &quot;wallet.dat&quot;: Brieftasche beschädigt</translation>
+        <translation>Fehler beim Laden von &quot;wallet.dat&quot;: Wallet beschädigt</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6150,7 +6150,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+4"/>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
-        <translation>Fehler: ein nicht-behebbarer interner Fehler ist aufgetreten, Details sind in der Datei debug.log</translation>
+        <translation>Fehler: ein nicht behebbarer interner Fehler ist aufgetreten, Details sind in der Datei debug.log</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6285,7 +6285,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Masternode cache is empty, skipping payments and governance cache...</source>
-        <translation>Der Masternode-Cache ist leer, Lesen des Cache für Zahlungen und Governance wird übersprungen...</translation>
+        <translation>Der Masternode-Cache ist leer, Lesen der Cache für Zahlungen und Governance wird übersprungen...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6310,7 +6310,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Missing input transaction information.</source>
-        <translation>Fehlende Informationen zur Eingangs-Transaktion.</translation>
+        <translation>Fehlende Informationen zur Eingangstransaktion.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -6325,7 +6325,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Node relay options:</source>
-        <translation>Vermittlungs-Optionen für Knoten:</translation>
+        <translation>Vermittlungs-Optionen für Nodes:</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6340,7 +6340,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Not enough file descriptors available.</source>
-        <translation>Nicht genügend Datei-Deskriptoren verfügbar.</translation>
+        <translation>Nicht genügend Dateideskriptoren verfügbar.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6350,7 +6350,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+2"/>
         <source>Number of automatic wallet backups (default: %u)</source>
-        <translation>Anzahl automatischer Wallet-Sicherungskopien (Standard: %u)</translation>
+        <translation>Anzahl automatischer Walletsicherungskopien (Standard: %u)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6380,12 +6380,12 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>PrivateSend request complete:</source>
-        <translation>PrivateSend-Anforderung fertiggestellt:</translation>
+        <translation>PrivateSend Anforderung fertiggestellt:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>PrivateSend request incomplete:</source>
-        <translation>PrivateSend-Anforderung unvollständig:</translation>
+        <translation>PrivateSend Anforderung unvollständig:</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6430,7 +6430,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+5"/>
         <source>ZeroMQ notification options:</source>
-        <translation>ZeroMQ Benachrichtigung-Optionen:</translation>
+        <translation>ZeroMQ Benachrichtigungsoptionen:</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6450,7 +6450,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+3"/>
         <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation>P2P Netzwerk-Alarme empfangen und anzeigen (Standard: %u)</translation>
+        <translation>P2P Netzwerkalarme empfangen und anzeigen (Standard: %u)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6610,7 +6610,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Unable to sign spork message, wrong key?</source>
-        <translation>Die Spork-Nachricht konnte nicht signiert werden. Wurde der Key falsch gesetzt?</translation>
+        <translation>Die Spork Nachricht konnte nicht signiert werden. Wurde der Key falsch gesetzt?</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6630,7 +6630,7 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Value more than PrivateSend pool maximum allows.</source>
-        <translation>Wert mehr als PrivateSend-Pool maximal erlaubt.</translation>
+        <translation>Wert mehr als PrivateSend Pool maximal erlaubt.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6660,17 +6660,17 @@ Diese Papiergeldbörse wurde erfolgreich gedruckt!</translation>
     <message>
         <location line="+1"/>
         <source>Wallet needed to be rewritten: restart Sibcoin Core to complete</source>
-        <translation>Brieftasche muss neu geschrieben werden: Starten Sie Sibcoin Core neu, um den Vorgang abzuschließen</translation>
+        <translation>Wallet muss neu geschrieben werden: Starten Sie Sibcoin Core neu, um den Vorgang abzuschließen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Wallet options:</source>
-        <translation>Wallet-Optionen:</translation>
+        <translation>Walletoptionen:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Wallet window title</source>
-        <translation>Fensterüberschrift des Wallet</translation>
+        <translation>Fensterüberschrift des Wallets</translation>
     </message>
     <message>
         <location line="+1"/>
