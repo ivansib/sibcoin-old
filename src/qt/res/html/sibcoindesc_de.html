@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="robots" content="nofollow">
+
+	<link rel="stylesheet" href="/redesign/global/css/noteView.css">
+	<title>Содержимое заметки</title>
+</head>
+<body id="note-frame-body">
+<div class="note-content">
+	<div class="ennote">
+		<div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><span style="font-size: 18px;">Общие сведения о сети Червонца</span>
+			</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b>Сеть «Червонца»</b> не имеет единого&nbsp;центра
+				расчётов. Информация&nbsp;о&nbsp;транзакциях&nbsp;полностью распределена между пользователями и хранится
+				на устройствах пользователей, а переводы производятся непосредственно «от пользователя к пользователю»
+				(P2P). С этим связаны некоторые особенности, которые нужно знать и правильно применять:&nbsp;</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		</div>
+		<ul style="font-family:'Helvetica Neue';font-size:14px;">
+			<li><b>P2P Транзакция</b> по переводу Червонцев создаётся отправителем, в ней указывается уникальный адрес
+				получателя и сумма. Затем&nbsp;данные зашифровываются,&nbsp;подписываются секретным ключом, хранящемся у
+				Отправителя, и&nbsp;отправляются в сеть. Получатель перевода расшифровывает данные с помощью своего
+				секретного ключа&nbsp;и зачисляет сумму&nbsp;на свой баланс после нескольких подтверждений от других
+				участников сети, свидетельствующих о подлинности операции.&nbsp;<b><span
+						style="color: rgb(255, 38, 0);">Внимание!!!</span>&nbsp;</b><i>Все транзакции безотзывные, то
+					есть не имеют возможности отмены!</i></li>
+			<li><b>Адреса</b> – это уникальные счета, на которых учитываются Червонцы (имеют примерно такой вид:
+				ShaSqxvF69ph85aDUqph1pBViW7zBYnKRz). Каждый может создать неограниченное количество адресов и
+				использовать их для одноразовых операций или для длительного хранения. Адреса так же используются в
+				качестве идентификатора при отправке и получении Червонцев. То есть перевод производится с Адреса на
+				Адрес.
+			</li>
+			<li><b>Метка для адреса</b> – это любое слово или сочетание символов, которое вы придумаете для сохранения
+				адреса в адресную книгу, чтобы потом было проще искать, чей это адрес, для чего он и т.д. (<i>Например:
+					Адрес Алёны, Пети, Коли, основной счет для хранения и т.п.)</i></li>
+			<li><b>Все транзакции и данные в сети</b> обезличенны (не содержат персональной информации), но они всегда
+				общедоступны. В том числе общедоступна информация о количестве Червонцев на том или ином адресе и
+				история операций с ним. Посмотреть статус любой транзакции и информацию, а так же статистику сети можно
+				на сайте <a href="http://chain.sibcoin.net">chain.sibcoin.net</a>&nbsp;Все ваши транзакции доступны в
+				разделе «<b>Транзакции»</b> кошелька.
+			</li>
+			<li><b>Курс Червонца</b> – не равен и не привязан жестко ни к одной валюте мира. Курс устанавливается в
+				процессе торгов на специализированных биржевых площадках и соответствует равновесию спроса и предложения
+				на рынке.&nbsp;</li>
+		</ul>
+		<div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><span style="font-size: 18px;"><b>FAQ</b></span>
+			</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><span style="font-size: 18px;"><b>&nbsp; Как
+				отправить Червонцы?</b></span></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Для отправки Червонцев вам необходимо знать адрес
+				(идентификатор) получателя в сети Червонца. Вы можете спросить адрес у получателя или взять его сайта,
+				если он его разместил.&nbsp;(Адреса имеют примерно такой вид:
+				ShaSqxvF69ph85aDUqph1pBViW7zBYnKRz)&nbsp;</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Далее, в разделе <b>«Отправить»</b> заполните:<b>
+				&nbsp;</b></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b>Получатель:</b> <i>вводите адрес получателя
+				(если адрес после ввода подсвечен красным, значит такого адреса не существует в сети, введите другой
+				адрес )</i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b>Метка:</b> <i>вводите произвольную заметку для
+				этого получателя</i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b>Сумма:</b>&nbsp;<i>вводите сумму для
+				отправки</i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b><br></b></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Далее нажимаем кнопку <b>«Отправить»</b> в левом
+				нижнем углу окна программы. Если кошелёк зашифрован, то потребуется ввести пароль. Затем программа
+				попросит повторно подтвердить операцию.&nbsp;<i><span style="color: rgb(255, 38, 0);">Внимание!!!</span></i><b>
+					&nbsp;</b><i>Все транзакции безотзывные, то есть – не имеют возможности отмены ни при каких
+					обстоятельствах!</i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><span style="font-size: 18px;"><b>&nbsp; Как
+				отслеживать транзакцию, подтверждение и т.п.?</b></span></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Подтверждение транзакции в сети может занимать
+				некоторое время. Иногда это несколько минут или, в редких случаях, – даже часов. Поэтому отслеживать
+				прохождение транзакции можно на сайте обозревателе сети:&nbsp;<a href="http://chain.sibcoin.net">chain.sibcoin.net</a>&nbsp;Достаточно
+				знать адрес получателя, чтобы отследить информацию.&nbsp;</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b><br></b></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><span style="font-size: 18px;"><b>&nbsp; Как
+				выставить счёт на оплату в Червонцах?</b></span></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Для выставления счёта на оплату Червонцами вам
+				необходимо знать только сумму.&nbsp;</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">В разделе <b>«Получить»</b> заполните:</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b>Метка:</b>&nbsp;произвольная заметка для
+				платежа&nbsp;<i>(например: от Васи Петрова)</i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b>Сумма:</b>&nbsp;&nbsp;<i>вводите сумму к
+				оплате</i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><i><b>Сообщение:</b> произвольное сообщение
+				(обычно пишут, за что производится оплата. Например:&nbsp;«2 кг картошки»)</i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><i><br></i></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Далее нажимаем кнопку <b>«Запросить платёж»</b>
+			</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Система создаст новый адрес для получения
+				Червонцев и печатную форму, содержащую QR-code.&nbsp;</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Адрес для получения или вся форма целиком
+				передаётся плательщику.&nbsp;</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Он может вручную ввести адрес и произвести оплату
+				запрошенной суммы. Либо воспользоваться мобильным кошельком, считать QR-code камерой смартфона или
+				компьютера и оплатить, избежав ручного ввода.&nbsp;</div>
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Поступившие оплаты по счетам отражаются в <i>истории
+			запрошенных платежей</i>.&nbsp;</div>
+		<div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b>&nbsp; <span style="font-size: 18px;">Как купить/продать Червонцы?</span></b>
+			</div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;">Существует несколько способов покупки/продажи
+				Червонцев на рынке:&nbsp;</div>
+		</div>
+		<ul style="font-family:'Helvetica Neue';font-size:14px;">
+			<li>Воспользоваться автоматическим Интернет-обменником вашего города. Это самый удобный и простой способ.
+				Список известных обменников можно смотреть на <a href="http://forum-nso.ru/threads/1914/">форуме</a>.&nbsp;
+			</li>
+			<li>Совершить сделку на бирже. Требуется опыт биржевой торговли. Подходит для опытных пользователей.&nbsp;Список
+				бирж так же на <a href="http://forum-nso.ru/threads/1914/">форуме</a></li>
+			<li>Совершить частную сделку, договорившись с другими пользователями сообщества, желающими купить или
+				продать Червонцы. Обсуждения есть на <a href="http://forum-nso.ru/threads/1914/">форуме сообщества</a>
+			</li>
+		</ul>
+		<div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><u><i><br></i></u></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b><br></b></div>
+		</div>
+		<div><b>&nbsp; <span
+				style="font-size: 18px;">Как распечатать червонцы на листе бумаги (выпустить&nbsp;</span><span
+				style="font-size: 18px;">«бумажный кошелек»</span><span style="font-size: 18px;">)?</span></b></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Для того, чтобы рассчитаться с участником, у которого
+			нет кошелька можно воспользоваться бумажной формой хранения Червонцев и выпустить купюру с произвольным
+			номиналом. Купюра представляет собой «бумажный кошелек», содержащий <b>адрес для пополнения</b> и <b>приватный
+				ключ</b> для отправки монет через сеть Червонца.&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">1. Необходимо создать новый бумажный кошелек, а затем
+			пополнить его.&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Меню <b>«Файл» &gt; Распечатать червонцы</b></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Необходимо задать идентификатор счета (произвольный
+			набор символов) и пароль. Далее <b>«Распечатать»</b>. Можно вывести печать на принтер или сохранить документ
+			в PDF.&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><i><br></i></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><i><b>Внимание!</b> Пароль сохраните в надежном месте.
+			В случае его утери вы не сможете воспользоваться червонцами бумажного кошелька. Сохраняйте секретность
+			пароля. Тот, кто владеет вашим ключом и паролем сможет отправить монеты на произвольный адрес.</i></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">2. После распечатки автоматически откроется окно
+			отправки червонцев с заполненным адресом пополнения только что выпущенного бумажного кошелька. Отправьте
+			монеты на адрес одной или несколькими транзакциями для пополнения баланса. Другие пользователи так же могут
+			отправлять монеты на адрес бумажного кошелька.
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><b><br></b></div>
+		<div><b><span style="font-size: 18px;">&nbsp; Как зачислить червонцы с распечатки (с&nbsp;</span><span
+				style="font-size: 18px;">«бумажного кошелька»</span><span style="font-size: 18px;">)?</span></b></div>
+		<div><br></div>
+		<div>Меню <b>«Файл» &gt; Распечатать червонцы</b></div>
+		<div>Введите ваш ключ для отправки, пароль и идентификатор счета. Ключ и счет напечатаны на листе, пароль вы
+			должны знать. Он задается при выпуске бумажного кошелька.&nbsp;</div>
+		<div><br></div>
+		<div>Вы можете перепечатать ключ вручную с листа, а можете сканировать QR-код. Для сканирования камерой
+			компьютера необходимо установить любое приложение для чтения QR-кодов. В Интернете их множество бесплатных.
+		</div>
+		<div><br></div>
+		<div>Далее <b>«Импорт»</b>.</div>
+		<div>Если ваш кошелек на компьютере зашифрован, то потребуется ввести пароль для его разблокировки перед тем,
+			как импортировать.
+		</div>
+		<div><br></div>
+		<div>Если данные введены корректно, то ваш кошелек, установленный на компьютере, присоединит себе адрес
+			пополнения и ключ бумажного кошелька. И вы сможете пользоваться зачисленными червонцами. Общий баланс
+			кошелька при этом пополнится на сумму, зачисленную с бумажного носителя.
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><b><span style="font-size: 18px;"><br></span></b>
+		</div>
+		<div><b><span style="font-size: 18px;">&nbsp; Как отправить червонцы с распечатки (с&nbsp;</span><span
+				style="font-size: 18px;">«бумажного кошелька»</span><span style="font-size: 18px;">)?</span></b></div>
+		<div><b><span style="font-size: 18px;"><br></span></b></div>
+		<div>Чтобы отправить червонцы с распечатки вам необходимо воспользоваться одним из вариантов:&nbsp;</div>
+		<div>1. Зачислить червонцы на кошелек, установленный на компьютере или смартфоне, а затем отправить их <i>(см.
+			предыдущий пункт</i>).&nbsp;</div>
+		<div>2. Воспользоваться сайтами, предоставляющими сервис отправки Червонцев на произвольный адрес. Для этого вам
+			необходимо будет ввести ключ с распечатки и пароль (вы должны его знать, он задается при создании бумажного
+			кошелька).
+		</div>
+		<div><br></div>
+		<div><i><b>Внимание!</b> Выбирайте тщательно, какой сайт использовать, поскольку вы раскроете данные, которыми
+			он сможет воспользоваться для отправки монет.&nbsp;</i></div>
+		<div><b><span style="font-size: 18px;"><br></span></b></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><b><span style="font-size: 18px;">&nbsp; Как добыть червонцы?</span></b>
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Добыча Червонцев – ответственное дело, требующее
+			технических навыков и знаний. Если вы решили добывать Червонцы, то можете ознакомиться с подробностями и
+			задать вопросы на <a href="http://forum-nso.ru/threads/1914/">форуме сообщества</a>.
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">В ваш кошелек встроена функция добычи монет. Опишем
+			простые приемы для новичков, как ей пользоваться:&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><b>1. Windows</b></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">После установки кошелька создайте ярлык на exe-файл
+			программы (sibcoin-qt.exe). Кликните на ярлык правой клавишей мыши и откройте «Свойства». В поле «Объект»
+			допишите через пробел <i>-gen.</i> Сохраните изменения и запустите ярлык. Если кошелек был запущен, то перед
+			запуском ярлыка закройте его.
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Никаких индикаторов не последует. Свидетельством того,
+			что алгоритм запущен будет 100% загрузка процессора. Дальше вам остается ждать поступления новых червонцев
+			при активном подключении к Интернет.
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><b>2. MAC OS</b></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Установите кошелек и закройте его, если он был
+			открыт.
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Далее для запуска добычи нужно воспользоваться
+			«Терминалом». Запустите терминал <b>Программы &gt; Утилиты &gt; Терминал.app</b></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Зайтиде в папку кошелька командой:&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><i>cd sibcoin</i></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><i><br></i></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Запустите<i>&nbsp;</i>демона:&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><i>./sibcoind -daemon</i></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Запустите добычу:&nbsp;</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><i>./sibcoin-cli set generate true</i></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><i><br></i></div>
+		<div><span
+				style="color: rgb(20, 20, 20); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(245, 246, 247);">При первом запуске он также попросит добавить в ~/.sibcoin/sibcoin.conf параметры доступа для rpc запросов, там будет показан пример этих параметров. В конфиге также можно указать daemon=1, чтобы не указывать этот параметр при каждом запуске sibcoind.</span>
+		</div>
+		<div><br></div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Для остановки:&nbsp;</div>
+		<div><i>./sibcoind stop</i></div>
+		<div><i><br></i></div>
+		<div>Посмотреть информацию по добыче можно командой:&nbsp;</div>
+		<div><i>./sibcoin-cli getmininginfo</i></div>
+		<div><i><br></i></div>
+		<div>После запуска&nbsp;вам остается ждать поступления новых червонцев при активном подключении к Интернет.
+		</div>
+		<div><i><br></i></div>
+		<div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+			<div style="font-family:'Helvetica Neue';font-size:14px;"><b><span style="font-size: 18px;">&nbsp; Кому я могу задать вопрос, если что-то не получается?</span></b>
+			</div>
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;">Вы можете задать вопрос на <a
+				href="http://forum-nso.ru/threads/1914/"><u>форуме</u></a> и получить ответ от его участников.&nbsp;
+		</div>
+		<div style="font-family:'Helvetica Neue';font-size:14px;"><br></div>
+	</div>
+</div>
+
+
+</body>
+</html>
