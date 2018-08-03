@@ -10,8 +10,8 @@ src/sibcoin
 src/sibcoind
 src/sibcoin-cli
 src/sibcoin-tx
-src/test/test_dash
-src/qt/test/test_dash-qt
+src/test/test_sibcoin
+src/qt/test/test_sibcoin-qt
 src/bench/bench_dash
 
 # autoreconf
@@ -88,7 +88,7 @@ Sibcoin-Qt.app
 
 # Unit-tests
 Makefile.test
-dash-qt_test
+sibcoin-qt_test
 src/test/buildenv.py
 
 # Resources cpp
