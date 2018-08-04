@@ -1873,6 +1873,7 @@ void CheckForkWarningConditions()
             if(pindexBestForkBase->phashBlock){
                 std::string warning = std::string("'Warning: Large-work fork detected, forking after block ") +
                     pindexBestForkBase->phashBlock->ToString() + std::string("'");
+                LogPrintf("%s: Warning: Large-work fork detected, forking after block %s\n",__func__,pindexBestForkBase->phashBlock->ToString());
                 CAlert::Notify(warning, true);
             }
         }
