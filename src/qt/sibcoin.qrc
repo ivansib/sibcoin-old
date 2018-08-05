@@ -221,7 +221,7 @@
     </qresource>
     <qresource prefix="/html" lang="de">
         <file alias="paperwallet">res/html/paperwallet_de.html</file>
-        <file alias="sibcoindesc">res/html/sibcoindesc_de.html</file>
+        <file alias="sibcoindesc">res/html/sibcoindesc_de.html</file> 
     </qresource>
     <qresource prefix="/images/drkblue">
         <file alias="about">res/images/drkblue/about.png</file>
