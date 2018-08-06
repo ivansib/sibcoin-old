@@ -493,8 +493,10 @@ RES_CSS = \
   qt/res/css/light.css
 
 RES_HTML = \
+  qt/res/html/paperwallet_de.html \
   qt/res/html/paperwallet_en.html \
   qt/res/html/paperwallet_ru.html \
+  qt/res/html/sibcoindesc_de.html \
   qt/res/html/sibcoindesc_en.html \
   qt/res/html/sibcoindesc_ru.html
 
