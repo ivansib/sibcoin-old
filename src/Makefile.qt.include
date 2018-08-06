@@ -498,7 +498,7 @@ RES_HTML = \
   qt/res/html/paperwallet_ru.html \
   qt/res/html/sibcoindesc_de.html \
   qt/res/html/sibcoindesc_en.html \
-  qt/res/html/sibcoindesc_ru.html \
+  qt/res/html/sibcoindesc_ru.html
 
 RES_MOVIES = $(wildcard qt/res/movies/spinner-*.png)
 
