@@ -17,6 +17,10 @@ $(call fetch_file,$(package),$($(package)_clang_download_path),$($(package)_clan
 endef
 
 define $(package)_extract_cmds
+  mkdir -p $($(package)_extract_dir) && \
+  echo "$($(package)_sha256_hash)  $($(package)_source)" > $($(package)_extract_dir)/.$($(package)_file_name).hash && \
+  echo "$($(package)_clang_sha256_hash)  $($(package)_source_dir)/$($(package)_clang_file_name)" >> $($(package)_extract_dir)/.$($(package)_file_name).hash && \
+  $(build_SHA256SUM) -c $($(package)_extract_dir)/.$($(package)_file_name).hash && \
   mkdir -p toolchain/bin toolchain/lib/clang/3.5/include && \
   tar --strip-components=1 -C toolchain -xf $($(package)_source_dir)/$($(package)_clang_file_name) && \
   rm -f toolchain/lib/libc++abi.so* && \
@@ -34,7 +38,8 @@ $(package)_cxx=$($(package)_extract_dir)/toolchain/bin/clang++
 endef
 
 define $(package)_preprocess_cmds
-  cd $($(package)_build_subdir); ./autogen.sh
+  cd $($(package)_build_subdir); ./autogen.sh && \
+  sed -i.old "/define HAVE_PTHREADS/d" ld64/src/ld/InputFiles.h
 endef
 
 define $(package)_config_cmds
