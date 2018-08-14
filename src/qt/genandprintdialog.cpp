@@ -313,6 +313,7 @@ bool readHtmlTemplate(const QString &res_name, QString &htmlContent)
 
 void GenAndPrintDialog::on_printButton_clicked()
 {
+#ifdef ENABLE_PRINTSUPPORT
     QString strAccount = ui->passEdit1->text();
     QString passwd = ui->passEdit2->text();
 
@@ -383,6 +384,7 @@ void GenAndPrintDialog::on_printButton_clicked()
     }
     delete dlg;
     delete printer;
+#endif
 }
 
 void GenAndPrintDialog::printAsQR(QPainter &painter, QString &vchKey, int shift)
