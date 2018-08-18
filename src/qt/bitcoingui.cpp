@@ -436,9 +436,11 @@ void BitcoinGUI::createActions()
     usedReceivingAddressesAction = new QAction(QIcon(":/icons/" + theme + "/address-book"), tr("&Receiving addresses..."), this);
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 
+#ifdef ENABLE_PAPERWALLET
     genAndPrintAddressesAction = new QAction(QIcon(":/icons/cash_icon"), tr("&Print sibcoins..."), this);
     genAndPrintAddressesAction->setIconVisibleInMenu(true);
     genAndPrintAddressesAction->setStatusTip(tr("Generate address and print"));
+#endif
 
     loadFromPaperAction = new QAction(QIcon(":/icons/import"), tr("&Load sibcoins..."), this);
     loadFromPaperAction->setIconVisibleInMenu(true);
@@ -498,7 +500,9 @@ void BitcoinGUI::createActions()
         connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
         connect(usedSendingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedSendingAddresses()));
         connect(usedReceivingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingAddresses()));
+#ifdef ENABLE_PAPERWALLET
         connect(genAndPrintAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(genAndPrintAddresses()));
+#endif  // ENABLE_PAPERWALLET
         connect(loadFromPaperAction, SIGNAL(triggered()), walletFrame, SLOT(loadFromPaper()));
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
     }
@@ -533,7 +537,9 @@ void BitcoinGUI::createMenuBar()
         file->addAction(usedSendingAddressesAction);
         file->addAction(usedReceivingAddressesAction);
         file->addSeparator();
+#ifdef ENABLE_PAPERWALLET
         file->addAction(genAndPrintAddressesAction);
+#endif // ENABLE_PAPERWALLET
         file->addAction(loadFromPaperAction);
     }
     file->addAction(quitAction);
@@ -727,7 +733,11 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     verifyMessageAction->setEnabled(enabled);
     usedSendingAddressesAction->setEnabled(enabled);
     usedReceivingAddressesAction->setEnabled(enabled);
+
+#ifdef ENABLE_PAPERWALLET
     genAndPrintAddressesAction->setEnabled(enabled);
+#endif // ENABLE_PAPERWALLET
+
     loadFromPaperAction->setEnabled(enabled);
     openAction->setEnabled(enabled);
 }

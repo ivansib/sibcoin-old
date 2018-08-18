@@ -32,12 +32,14 @@
 #include <QTextDocument>
 #include <QUrl>
 
-#if QT_VERSION >= 0x050000
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
-#else
-#include <QPrintDialog>
-#include <QPrinter>
+#ifdef ENABLE_PAPERWALLET
+  #if QT_VERSION >= 0x050000
+    #include <QtPrintSupport/QPrinter>
+    #include <QtPrintSupport/QPrintDialog>
+  #else
+    #include <QPrintDialog>
+    #include <QPrinter>
+  #endif
 #endif
 
 #include "wallet/wallet.h"
@@ -67,6 +69,7 @@ GenAndPrintDialog::GenAndPrintDialog(Mode mode, QWidget *parent) :
 
     switch(mode)
     {
+#ifdef ENABLE_PAPERWALLET
         case Export: // Ask passphrase x2 and account
             setWindowTitle(tr("Export key pair"));
             ui->importButton->hide();
@@ -77,6 +80,7 @@ GenAndPrintDialog::GenAndPrintDialog(Mode mode, QWidget *parent) :
             ui->passEdit3->setEchoMode(QLineEdit::Password);
             ui->warningLabel->setText(tr("Enter account and passphrase to the encrypt private key"));
             break;
+#endif
         case Import: // Ask old passphrase + new passphrase x2
             setWindowTitle(tr("Import private key"));
             ui->printButton->hide();
@@ -145,12 +149,14 @@ void GenAndPrintDialog::accept()
 
     switch(mode)
     {
+#ifdef ENABLE_PAPERWALLET
     case Export: 
         if (uri != "") {
             QDialog::accept();
             return;
         }
         break;
+#endif
     case Import:
         QDialog::reject();
         break;
@@ -163,11 +169,13 @@ void GenAndPrintDialog::textChanged()
     bool acceptable = false;
     switch(mode)
     {
+#ifdef ENABLE_PAPERWALLET
     case Export:
         acceptable = !ui->passEdit2->text().isEmpty() 
                 && !ui->passEdit3->text().isEmpty() 
                 && ui->passEdit3->text() == ui->passEdit2->text();
         break;
+#endif
     case Import:
         acceptable = true;
         break;
@@ -313,6 +321,7 @@ bool readHtmlTemplate(const QString &res_name, QString &htmlContent)
 
 void GenAndPrintDialog::on_printButton_clicked()
 {
+#ifdef ENABLE_PAPERWALLET
     QString strAccount = ui->passEdit1->text();
     QString passwd = ui->passEdit2->text();
 
@@ -383,6 +392,7 @@ void GenAndPrintDialog::on_printButton_clicked()
     }
     delete dlg;
     delete printer;
+#endif
 }
 
 void GenAndPrintDialog::printAsQR(QPainter &painter, QString &vchKey, int shift)
