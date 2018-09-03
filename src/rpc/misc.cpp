@@ -177,6 +177,29 @@ UniValue mnsync(const UniValue& params, bool fHelp)
 }
 
 #ifdef ENABLE_WALLET
+UniValue ccbalance(const UniValue& params, bool fHelp)
+{
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "ccbalance address\n"
+            "Returns colored coins balance.\n"
+        );
+
+    std::string strAddress = params[0].get_str();
+
+    CBitcoinAddress addr(strAddress);
+    if(!addr.IsValid())
+        return "invalid address"; 
+    else {
+        UniValue objStatus(UniValue::VOBJ);
+        objStatus.push_back(Pair("Status", "In development / not ready ... "));
+        objStatus.push_back(Pair("Balance", 1234567));
+        return objStatus;
+    }
+
+    return "failure";
+}
+
 class DescribeAddressVisitor : public boost::static_visitor<UniValue>
 {
 public:

@@ -363,6 +363,7 @@ static const CRPCCommand vRPCCommands[] =
     { "wallet",             "instantsendtoaddress",   &instantsendtoaddress,   false },
     { "wallet",             "addmultisigaddress",     &addmultisigaddress,     true  },
     { "wallet",             "backupwallet",           &backupwallet,           true  },
+    { "wallet",             "ccbalance",              &ccbalance,              true  },
     { "wallet",             "dumpprivkey",            &dumpprivkey,            true  },
     { "wallet",             "dumpwallet",             &dumpwallet,             true  },
     { "wallet",             "encryptwallet",          &encryptwallet,          true  },
