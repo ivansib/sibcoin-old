@@ -31,6 +31,28 @@
 
 using namespace std;
 
+bool heightSort(std::pair<CAddressUnspentKey, CAddressUnspentValue> a,
+                std::pair<CAddressUnspentKey, CAddressUnspentValue> b) {
+    return a.second.blockHeight < b.second.blockHeight;
+}
+
+bool timestampSort(std::pair<CMempoolAddressDeltaKey, CMempoolAddressDelta> a,
+                   std::pair<CMempoolAddressDeltaKey, CMempoolAddressDelta> b) {
+    return a.second.time < b.second.time;
+}
+
+bool getAddressFromIndex(const int &type, const uint160 &hash, std::string &address)
+{
+    if (type == 2) {
+        address = CBitcoinAddress(CScriptID(hash)).ToString();
+    } else if (type == 1) {
+        address = CBitcoinAddress(CKeyID(hash)).ToString();
+    } else {
+        return false;
+    }
+    return true;
+}
+ 
 /**
  * @note Do not add or change anything in the information returned by this
  * method. `getinfo` exists for backwards-compatibility only. It combines
@@ -177,6 +199,51 @@ UniValue mnsync(const UniValue& params, bool fHelp)
 }
 
 #ifdef ENABLE_WALLET
+static int getaddrutxos( std::string sAddress, uint256& uiTxHash  )
+{
+    std::vector<std::pair<uint160, int> > addresses;
+
+    CBitcoinAddress address( sAddress.c_str() );
+    uint160 hashBytes;
+    int type = 0;
+    if (!address.GetIndexKey(hashBytes, type))
+        return -1;
+
+    addresses.push_back(std::make_pair(hashBytes, type));
+
+    std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > unspentOutputs;
+
+    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+        if (!GetAddressUnspent((*it).first, (*it).second, unspentOutputs)) {
+             return -1;
+        }
+    }
+
+    std::sort(unspentOutputs.begin(), unspentOutputs.end(), heightSort);
+
+    for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it=unspentOutputs.begin(); it!=unspentOutputs.end(); it++)
+    {
+        std::string address;
+        if (!getAddressFromIndex(it->first.type, it->first.hashBytes, address))
+             return -1;
+
+        uiTxHash = it->first.txhash;
+    }
+
+    return 0;
+}
+
+static long hex2int(const std::string& hexStr)
+{
+    char* cOffset;
+    if (hexStr.length() > 2)
+    {
+        if(hexStr[0] == '0' && hexStr[1] == 'x')
+            return strtol(hexStr.c_str(), &cOffset, 0);
+    }
+    return strtol(hexStr.c_str(), &cOffset, 16);
+}
+
 UniValue ccbalance(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
@@ -191,8 +258,22 @@ UniValue ccbalance(const UniValue& params, bool fHelp)
     if(!addr.IsValid())
         return "invalid address"; 
     else {
+        uint256 uiTxHash;
+        getaddrutxos(strAddress, uiTxHash);
+
+        std::string sOpReturn("6a094f4101000201fc4a00");
+ 
+        std::string sOpReturnSize = sOpReturn.substr(2, 2);
+        int iOpReturnSize = hex2int( sOpReturnSize );
+
+        std::string sAssetQuantityCount = sOpReturn.substr(12, 2);
+        int iAssetQuantityCount = hex2int( sAssetQuantityCount );
+        
+
         UniValue objStatus(UniValue::VOBJ);
-        objStatus.push_back(Pair("Status", "In development / not ready ... "));
+        objStatus.push_back(Pair("Status", "In development ... "));
+        objStatus.push_back(Pair("Size", iOpReturnSize));
+        objStatus.push_back(Pair("Asset Quantity", iAssetQuantityCount));
         objStatus.push_back(Pair("Balance", 1234567));
         return objStatus;
     }
@@ -534,18 +615,6 @@ UniValue setmocktime(const UniValue& params, bool fHelp)
     return NullUniValue;
 }
 
-bool getAddressFromIndex(const int &type, const uint160 &hash, std::string &address)
-{
-    if (type == 2) {
-        address = CBitcoinAddress(CScriptID(hash)).ToString();
-    } else if (type == 1) {
-        address = CBitcoinAddress(CKeyID(hash)).ToString();
-    } else {
-        return false;
-    }
-    return true;
-}
-
 bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint160, int> > &addresses)
 {
     if (params[0].isStr()) {
@@ -580,16 +649,6 @@ bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint16
     }
 
     return true;
-}
-
-bool heightSort(std::pair<CAddressUnspentKey, CAddressUnspentValue> a,
-                std::pair<CAddressUnspentKey, CAddressUnspentValue> b) {
-    return a.second.blockHeight < b.second.blockHeight;
-}
-
-bool timestampSort(std::pair<CMempoolAddressDeltaKey, CMempoolAddressDelta> a,
-                   std::pair<CMempoolAddressDeltaKey, CMempoolAddressDelta> b) {
-    return a.second.time < b.second.time;
 }
 
 UniValue getaddressmempool(const UniValue& params, bool fHelp)

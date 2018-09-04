@@ -33,6 +33,431 @@
 #define NUM_ITEMS 5
 #define NUM_ITEMS_ADV 7
 
+//************************* GEO START **********************************
+#include <fstream>
+#include <map>
+//UniValue getaddressrbalance(const UniValue& params, bool fHelp) //misc.cpp
+std::pair<CAmount,CAmount> getaddrbalance(std::string sAddr)
+{
+    std::pair<CAmount,CAmount> pResult;
+    std::vector<std::pair<uint160, int> > addresses;
+    CBitcoinAddress address( sAddr.c_str() );
+    uint160 hashBytes;
+    int type = 0;
+    if (!address.GetIndexKey(hashBytes, type))
+    { // log the address error ...
+        std::ofstream log_file;
+        log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+        log_file << "OverviewPage.cpp:getaddrbalance(): Invalid address " << std::endl;
+        log_file.close();
+    }
+
+    addresses.push_back(std::make_pair(hashBytes, type));
+
+    std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
+    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) 
+    {
+        if( !GetAddressIndex((*it).first, (*it).second, addressIndex) ) 
+        {
+            //throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
+            std::ofstream log_file;
+            log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+            log_file << "OverviewPage.cpp:getaddrbalance(): No information available for address " << std::endl;
+            log_file.close();
+
+            CAmount balance = 0;
+            CAmount received = 0;
+            pResult = std::make_pair(balance, received);
+            return pResult;
+        }
+    }
+
+    CAmount balance = 0;
+    CAmount received = 0;
+    for (std::vector<std::pair<CAddressIndexKey, CAmount> >::const_iterator it=addressIndex.begin(); it!=addressIndex.end(); it++) 
+    {
+        if (it->second > 0) 
+        {
+            received += it->second;
+        }
+        balance += it->second;
+    }
+    pResult = std::make_pair(balance, received);
+
+    return pResult; 
+}
+
+bool height_sort(std::pair<CAddressUnspentKey, CAddressUnspentValue> a,
+                std::pair<CAddressUnspentKey, CAddressUnspentValue> b) {
+    return a.second.blockHeight < b.second.blockHeight;
+}
+bool getAddressFromIdx(const int &type, const uint160 &hash, std::string &address)
+{
+    if (type == 2) {
+        address = CBitcoinAddress(CScriptID(hash)).ToString();
+    } else if (type == 1) {
+        address = CBitcoinAddress(CKeyID(hash)).ToString();
+    } else {
+        return false;
+    }
+    return true;
+}
+std::map<std::string,std::string> getaddrutxos_test( std::string sAddr, uint256& out_uiTxHash  )
+{
+    std::vector<std::pair<uint160, int> > addresses;
+    std::map<std::string,std::string> mResult;
+
+    CBitcoinAddress address( sAddr.c_str() );
+    uint160 hashBytes;
+    int type = 0;
+    if (!address.GetIndexKey(hashBytes, type))
+    { // log the address error ...
+        std::ofstream log_file;
+        log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+        log_file << "OverviewPage.cpp:getaddrutxos(): Invalid address " << std::endl;
+        log_file.close();
+        return mResult;
+    }
+
+    addresses.push_back( std::make_pair(hashBytes,type) );
+
+    std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > unspentOutputs;
+
+    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+        if (!GetAddressUnspent((*it).first, (*it).second, unspentOutputs)) {
+            //throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
+            std::ofstream log_file;
+             log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+             log_file << "OverviewPage.cpp:getaddrutxos(): No information available for address" << std::endl;
+             log_file.close();
+             return mResult;
+        }
+    }
+
+std::ofstream log_file;
+/*
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "AFTER GetAddressUnspent ..." << std::endl;
+log_file << "unspentOutputs.size(): " << unspentOutputs.size() << std::endl;
+for( unsigned int i=0; i<unspentOutputs.size(); ++i )
+ log_file << unspentOutputs[i].first.index << " " << unspentOutputs[i].second.satoshis << std::endl;
+log_file.close();
+*/
+    std::sort(unspentOutputs.begin(), unspentOutputs.end(), height_sort);
+
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "AFTER sort ..." << std::endl;
+log_file << "unspentOutputs.size(): " << unspentOutputs.size() << std::endl;
+for( unsigned int i=0; i<unspentOutputs.size(); ++i )
+ log_file << unspentOutputs[i].first.index << " " << unspentOutputs[i].second.satoshis << std::endl;
+log_file.close();
+
+    for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it=unspentOutputs.begin(); it!=unspentOutputs.end(); it++) 
+    {
+        UniValue output(UniValue::VOBJ);
+        std::string address;
+        if (!getAddressFromIdx(it->first.type, it->first.hashBytes, address)) 
+        {
+            //throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Unknown address type");
+             std::ofstream log_file;
+             log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+             log_file << "OverviewPage.cpp:getaddrutxos(): Unknown address type " << std::endl;
+             log_file.close();
+             return mResult;
+        }
+/*
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "AFTER getAddressFromIdx ..." << std::endl;
+log_file.close();
+*/
+/*
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "address: " << address << std::endl; 
+log_file << it->first.txhash.GetHex() << std::endl; 
+log_file.close(); 
+*/
+        mResult.insert(std::make_pair("address", address)); 
+        mResult.insert(std::make_pair("txid", it->first.txhash.GetHex())); 
+        mResult.insert(std::make_pair("outputIndex", std::to_string(it->first.index))); 
+        mResult.insert(std::make_pair("script", HexStr(it->second.script.begin(), it->second.script.end()))); 
+        mResult.insert(std::make_pair("satoshis", std::to_string(it->second.satoshis))); 
+        mResult.insert(std::make_pair("height", std::to_string(it->second.blockHeight)));
+
+        out_uiTxHash = it->first.txhash;
+    }
+
+    return mResult;
+}
+int getaddrutxos( std::string sAddr, uint256& out_uiTxHash  )
+{
+    std::vector<std::pair<uint160, int> > addresses;
+
+    CBitcoinAddress address( sAddr.c_str() );
+    uint160 hashBytes;
+    int type = 0;
+    if (!address.GetIndexKey(hashBytes, type))
+    { // log the address error ...
+        std::ofstream log_file;
+        log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+        log_file << "OverviewPage.cpp:getaddrutxos(): Invalid address " << std::endl;
+        log_file.close();
+        return -1;
+    }
+
+    addresses.push_back( std::make_pair(hashBytes,type) );
+
+    std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > unspentOutputs;
+
+    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+        if (!GetAddressUnspent((*it).first, (*it).second, unspentOutputs)) {
+            //throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
+            std::ofstream log_file;
+             log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+             log_file << "OverviewPage.cpp:getaddrutxos(): No information available for address" << std::endl;
+             log_file.close();
+             return -1;
+        }
+    }
+
+std::ofstream log_file;
+/*
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "AFTER GetAddressUnspent ..." << std::endl;
+log_file << "unspentOutputs.size(): " << unspentOutputs.size() << std::endl;
+for( unsigned int i=0; i<unspentOutputs.size(); ++i )
+ log_file << unspentOutputs[i].first.index << " " << unspentOutputs[i].second.satoshis << std::endl;
+log_file.close();
+*/
+    std::sort(unspentOutputs.begin(), unspentOutputs.end(), height_sort);
+
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "AFTER sort ..." << std::endl;
+log_file << "unspentOutputs.size(): " << unspentOutputs.size() << std::endl;
+for( unsigned int i=0; i<unspentOutputs.size(); ++i )
+ log_file << unspentOutputs[i].first.index << " " << unspentOutputs[i].second.satoshis << std::endl;
+log_file.close();
+
+    for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it=unspentOutputs.begin(); it!=unspentOutputs.end(); it++) 
+    {
+        UniValue output(UniValue::VOBJ);
+        std::string address;
+        if (!getAddressFromIdx(it->first.type, it->first.hashBytes, address)) 
+        {
+            //throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Unknown address type");
+             std::ofstream log_file;
+             log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+             log_file << "OverviewPage.cpp:getaddrutxos(): Unknown address type " << std::endl;
+             log_file.close();
+             return -1;
+        }
+/*
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "AFTER getAddressFromIdx ..." << std::endl;
+log_file.close();
+*/
+/*
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "address: " << address << std::endl; 
+log_file << it->first.txhash.GetHex() << std::endl; 
+log_file.close(); 
+*/
+        out_uiTxHash = it->first.txhash;
+    }
+
+    return 0;
+}
+int GetValueAndScriptPubKey( const std::string inp_sVout, std::string& out_sValue, std::string& out_sScriptPubKey )
+{
+    // find nValue 
+    size_t stFirstEqualSign = inp_sVout.find_first_of("=");
+    size_t stFirstComma = inp_sVout.find_first_of(",",stFirstEqualSign);
+    out_sValue = inp_sVout.substr(stFirstEqualSign+1,stFirstComma-stFirstEqualSign-1);
+    
+    // find scriptPubKey 
+    size_t stSecondEqualSign = inp_sVout.find_first_of("=",stFirstComma);
+    size_t stClosingBrace = inp_sVout.find_first_of(")",stSecondEqualSign);
+    out_sScriptPubKey = inp_sVout.substr(stSecondEqualSign+1,stClosingBrace-stSecondEqualSign-1);
+
+    return 0;
+}
+std::vector<std::string> op_return( const uint256& inp_uiTxHash )
+{
+    CTransaction tx;
+
+    uint256 hashBlock = uint256();
+    GetTransaction(inp_uiTxHash, tx, Params().GetConsensus(), hashBlock, true);
+    if( tx.IsNull() )
+    {
+std::ofstream log_file;
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "op_return():NULL TRANSACTION!!! " << std::endl;
+log_file.close();
+    }
+    if( tx.IsCoinBase() )
+    {
+std::ofstream log_file;
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "op_return():COINBASE TRANSACTION!!! " << std::endl;
+log_file.close();
+    }
+/*
+    CScript bvOP_RETURN;
+    bvOP_RETURN << OP_RETURN << ToByteVector(inp_uiTxHash);
+    CScript csOP_RETURN_PubKey = CScript() << OP_RETURN << ParseHex(inp_uiTxHash.GetHex());
+    // strprintf("CTxOut(nValue=%d.%08d, scriptPubKey=%s)", nValue / COIN, nValue % COIN, HexStr(scriptPubKey).substr(0, 30));
+    //std::string s_OP_RET = strprintf("CTxOut(scriptPubKey=%s)", HexStr(csOP_RETURN_PubKey).substr(0, 30));
+    std::string s_OP_RET = strprintf("CTxOut(scriptPubKey=%s)", HexStr(csOP_RETURN_PubKey));
+
+std::ofstream log_file;
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "op_return():s_OP_RET: " << s_OP_RET  << std::endl;
+std::vector<CTxOut> vout = tx.vout;
+for( auto it=vout.begin(); it!=vout.end(); ++it )
+ log_file << "VOUT => " << (*it).ToString() << std::endl;
+log_file.close();
+*/
+
+std::ofstream log_file;
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+//log_file << "op_return: " << tx.ToString() << std::endl;
+
+    std::vector<std::string> vOP_RETURNS;
+    std::vector<CTxOut> vout = tx.vout;
+    for( auto it=vout.begin(); it!=vout.end(); ++it )
+    {
+        std::string sVout = (*it).ToString();
+//log_file << "op_return: sVout: " << sVout << std::endl;
+        std::string sValue("");
+        std::string sScriptPubKey(""); 
+        GetValueAndScriptPubKey( sVout, sValue, sScriptPubKey );
+//log_file << "op_return: sValue: " << sValue << std::endl;
+//log_file << "op_return: sScriptPubKey: " << sScriptPubKey << std::endl;
+        std::size_t stFound = sValue.find_first_not_of(".0"); 
+        if( stFound==std::string::npos && sScriptPubKey.find("4f41")!=std::string::npos )
+        { // if it's CTxOut, nValue==0.00 and sScriptPubKey contains OA tag 
+            vOP_RETURNS.push_back(sScriptPubKey);
+        } 
+    }
+//log_file.close();
+    
+    return vOP_RETURNS; 
+} 
+long hex2int( const std::string& hexStr )
+{
+   char* cOffset;
+   if( hexStr.length() > 2 )
+   {
+      if( hexStr[0] == '0' && hexStr[1] == 'x' )
+         return strtol( hexStr.c_str(), &cOffset, 0 );
+   }
+       return strtol( hexStr.c_str(), &cOffset, 16 );
+}
+long read_op_return( const std::string inp_sOpRet, int& out_iOpReturnSize, int& out_iAssetQuantityCount, std::vector<unsigned int>& out_vAssetQuantityList )
+{
+   std::string sOpReturnSize = inp_sOpRet.substr( 2, 2 );
+   out_iOpReturnSize = hex2int( sOpReturnSize );
+
+   std::string sAssetQuantityCount = inp_sOpRet.substr( 12, 2 );
+   out_iAssetQuantityCount = hex2int( sAssetQuantityCount );
+
+
+   //std::stringstream 
+   CDataStream dsAssetQuantitySize(SER_DISK,0);
+   dsAssetQuantitySize << sAssetQuantityCount;
+   int size = ::GetSerializeSize(VARINT(out_iOpReturnSize),0,0);
+
+
+    long lNumb;
+
+    lNumb = hex2int( inp_sOpRet );
+
+    return lNumb;
+}
+int var_int_test()
+{
+   //std::stringstream ss;
+   CDataStream ss(SER_DISK,0);
+   CDataStream::size_type size = 0;
+/*
+   for( int i=0; i<10000; ++i )
+   {
+      ss << VARINT(i);
+      size += ::GetSerializeSize(VARINT(i),0,0);
+      
+std::ofstream log_file;
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+log_file << "var_int_test(): i: " << i << " size : " << size  << std::endl;
+log_file.close();
+   }
+*/
+
+   return 0;
+}
+template<typename T>
+static std::string toBinaryString(const T& x)
+{
+    return std::bitset<sizeof(T)*8>(x).to_string();
+}
+size_t ss_read_uleb128( std::stringstream& inp_ss, uint64_t* x ) 
+{
+    unsigned char buf;
+    size_t bytes = 0;
+
+//std::cout << std::endl;
+//std::cout << "ss_read_uleb128 ... " << buf << std::endl;
+
+	while( inp_ss.read((char*)&buf, sizeof(buf)) )
+	{
+//std::cout << "AT LOOP START buf: " << buf << " *x= " << *x << std::endl;
+//std::cout << "0x7fU : " << toBinaryString(0x7fU) << std::endl;
+        if( bytes == 0 )
+	{
+			*x = 0;
+//std::cout << "ZEROING *x : " << toBinaryString(*x) << std::endl;
+	}
+		
+        *x |= (buf & 0x7fULL) << (7 * bytes++);
+//std::cout << "*x after (buf & 0x7fULL) << (7 * bytes++) : " << toBinaryString(*x) << std::endl;
+        if( !(buf & 0x80U) )
+	{
+//std::cout << "0x80U : " << toBinaryString(0x80U) << std::endl;
+//std::cout << "buf & 0x80U : " << toBinaryString(buf & 0x80U) << std::endl;
+//std::cout << "*x after buf & 0x80U : " << toBinaryString(*x) << std::endl;
+			break;
+	}
+    }
+    return !!bytes;
+}
+size_t ss_write_uleb128 (std::stringstream& out_ss, uint64_t x) 
+{
+    unsigned char buf[10];
+    size_t bytes = 0;
+    do 
+	{
+        buf[bytes] = x & 0x7fU;  // Pad to a multiple of 7 bits and copy into buf[bytes]
+//std::cout << "buf[bytes] at loop start: " << buf << std::endl;
+//std::cout << "0x7fU : " << toBinaryString(0x7fU) << std::endl;
+//std::cout << "x after x & 0x7fU : " << toBinaryString(x) << std::endl;
+        if( x >>= 7 )  // get next 7, as prevoius one is alrady copied ...
+		{
+//std::cout << "(x >>= 7)=true: x after >>= 7 : " << toBinaryString(x) << std::endl;
+			buf[bytes] |= 0x80U;  // Add high 1 bits on all but last (most significant) group to form bytes
+//std::cout << "0x80U : " << toBinaryString(0x80U) << std::endl;
+//std::cout << "x after buf[bytes] |= 0x80U; : " << toBinaryString(x|0x80U) << std::endl;
+        }
+		else
+//std::cout << "(x >>= 7)=false: x after >>= 7 : " << toBinaryString(x) << std::endl;
+		
+		++bytes;
+//std::cout << "bytes after ++ : " << bytes << std::endl;
+    } while (x);
+//std::cout << "x after while loop: " << toBinaryString(x) << std::endl;
+//std::cout << "buf[bytes] after while loop: " << buf << std::endl;
+
+    out_ss.write((char const*)buf,sizeof(buf));
+}
+//************************* GEO END **********************************
+
 class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
@@ -181,6 +606,51 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
         connect(timer, SIGNAL(timeout()), this, SLOT(privateSendStatus()));
         timer->start(1000);
     }
+
+//************************* GEO **********************************
+std::ofstream log_file;
+log_file.open( "geo.log", std::ofstream::out | std::ofstream::app );
+
+std::string sAccount("SMfypmkgzhodAqRXPUSJhUyH5LcMNZNBqg");
+std::pair<CAmount,CAmount> pRes = getaddrbalance( sAccount );
+log_file << "OverviewPage(): SIB Acct Balance: " << pRes.first << " SIB Acct Recieved: " << pRes.second  << std::endl;
+
+log_file << "George's cc ... " << std::endl;
+sAccount = "SMfypmkgzhodAqRXPUSJhUyH5LcMNZNBqg";
+uint256 uiTxHash;
+getaddrutxos( sAccount, uiTxHash );
+auto vOpsGeo = op_return( uiTxHash );
+for( auto it=vOpsGeo.begin(); it!=vOpsGeo.end(); ++it )
+{
+ log_file << "OP_RETURN: " << *it  << std::endl;
+ int iOpReturnSize=0;
+ int iAssetQuantityCount=0;
+ std::vector<unsigned int> vAssetQuantityList;
+ read_op_return( *it, iOpReturnSize, iAssetQuantityCount, vAssetQuantityList );
+ log_file << "iOpReturnSize = " << iOpReturnSize << " iAssetQuantityCount = " << iAssetQuantityCount  << std::endl;
+}
+
+log_file << std::endl;
+
+log_file << "Serdar's cc ... " << std::endl;
+sAccount = "SUr9o2fZMsrMU4DgNcGC7jQYNzp9isJcWo";
+getaddrutxos( sAccount, uiTxHash );
+auto vOpsSer = op_return( uiTxHash );
+for( auto it=vOpsSer.begin(); it!=vOpsSer.end(); ++it )
+{
+ log_file << "OP_RETURN: " << *it  << std::endl;
+ int iOpReturnSize=0;
+ int iAssetQuantityCount=0;
+ std::vector<unsigned int> vAssetQuantityList;
+ read_op_return( *it, iOpReturnSize, iAssetQuantityCount, vAssetQuantityList );
+ log_file << "iOpReturnSize = " << iOpReturnSize << " iAssetQuantityCount = " << iAssetQuantityCount  << std::endl;
+}
+
+log_file.close();
+
+var_int_test();
+//************************* GEO **********************************
+
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
