@@ -221,8 +221,7 @@ static int getaddrutxos( std::string sAddress, uint256& uiTxHash  )
 
     std::sort(unspentOutputs.begin(), unspentOutputs.end(), heightSort);
 
-    for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it=unspentOutputs.begin(); it!=unspentOutputs.end(); it++)
-    {
+    for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it=unspentOutputs.begin(); it!=unspentOutputs.end(); it++) {
         std::string address;
         if (!getAddressFromIndex(it->first.type, it->first.hashBytes, address))
              return -1;
@@ -236,12 +235,24 @@ static int getaddrutxos( std::string sAddress, uint256& uiTxHash  )
 static long hex2int(const std::string& hexStr)
 {
     char* cOffset;
-    if (hexStr.length() > 2)
-    {
+    if (hexStr.length() > 2) {
         if(hexStr[0] == '0' && hexStr[1] == 'x')
             return strtol(hexStr.c_str(), &cOffset, 0);
     }
     return strtol(hexStr.c_str(), &cOffset, 16);
+}
+
+static int GetValueAndScriptPubKey(const std::string sVout, std::string& sValue, std::string& sScriptPubKey)
+{
+    size_t stFirstEqualSign = sVout.find_first_of("=");
+    size_t stFirstComma = sVout.find_first_of(",",stFirstEqualSign);
+    sValue = sVout.substr(stFirstEqualSign+1,stFirstComma-stFirstEqualSign-1);
+
+    size_t stSecondEqualSign = sVout.find_first_of("=",stFirstComma);
+    size_t stClosingBrace = sVout.find_first_of(")",stSecondEqualSign);
+    sScriptPubKey = sVout.substr(stSecondEqualSign+1,stClosingBrace-stSecondEqualSign-1);
+
+    return 0;
 }
 
 UniValue ccbalance(const UniValue& params, bool fHelp)
@@ -252,6 +263,8 @@ UniValue ccbalance(const UniValue& params, bool fHelp)
             "Returns colored coins balance.\n"
         );
 
+    UniValue objOpRet(UniValue::VOBJ);
+    objOpRet.push_back(Pair("Status", "In development ... "));
     std::string strAddress = params[0].get_str();
 
     CBitcoinAddress addr(strAddress);
@@ -261,23 +274,35 @@ UniValue ccbalance(const UniValue& params, bool fHelp)
         uint256 uiTxHash;
         getaddrutxos(strAddress, uiTxHash);
 
-        std::string sOpReturn("6a094f4101000201fc4a00");
- 
-        std::string sOpReturnSize = sOpReturn.substr(2, 2);
-        int iOpReturnSize = hex2int( sOpReturnSize );
+        CTransaction tx;
+        uint256 hashBlock = uint256();
+        GetTransaction(uiTxHash, tx, Params().GetConsensus(), hashBlock, true);
+        if(tx.IsNull())
+            return "null transaction";
+        if(tx.IsCoinBase())
+            return "coinbase transaction";
 
-        std::string sAssetQuantityCount = sOpReturn.substr(12, 2);
-        int iAssetQuantityCount = hex2int( sAssetQuantityCount );
-        
+        std::vector<CTxOut> vout = tx.vout;
+        for(auto it=vout.begin(); it!=vout.end(); ++it) {
+            std::string sVout = (*it).ToString();
+            std::string sValue("");
+            std::string sScriptPubKey("");
+            GetValueAndScriptPubKey(sVout, sValue, sScriptPubKey);
+            std::size_t stFound = sValue.find_first_not_of(".0");
+            if( stFound==std::string::npos && sScriptPubKey.find("4f41")!=std::string::npos ) {
+                std::string sOpReturnSize = sScriptPubKey.substr(2, 2);
+                int iOpReturnSize = hex2int( sOpReturnSize );
 
-        UniValue objStatus(UniValue::VOBJ);
-        objStatus.push_back(Pair("Status", "In development ... "));
-        objStatus.push_back(Pair("Size", iOpReturnSize));
-        objStatus.push_back(Pair("Asset Quantity", iAssetQuantityCount));
-        objStatus.push_back(Pair("Balance", 1234567));
-        return objStatus;
+                std::string sAssetQuantityCount = sScriptPubKey.substr(12, 2);
+                int iAssetQuantityCount = hex2int( sAssetQuantityCount );
+
+                objOpRet.push_back(Pair("Size", iOpReturnSize));
+                objOpRet.push_back(Pair("Asset Quantity", iAssetQuantityCount));
+                objOpRet.push_back(Pair("Balance", 1234567));
+            }
+        }
+        return objOpRet;
     }
-
     return "failure";
 }
 
