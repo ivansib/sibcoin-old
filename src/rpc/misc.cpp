@@ -282,6 +282,7 @@ UniValue ccbalance(const UniValue& params, bool fHelp)
         if(tx.IsCoinBase())
             return "coinbase transaction";
 
+        bool bCCbalanceFound = false;
         std::vector<CTxOut> vout = tx.vout;
         for(auto it=vout.begin(); it!=vout.end(); ++it) {
             std::string sVout = (*it).ToString();
@@ -290,6 +291,7 @@ UniValue ccbalance(const UniValue& params, bool fHelp)
             GetValueAndScriptPubKey(sVout, sValue, sScriptPubKey);
             std::size_t stFound = sValue.find_first_not_of(".0");
             if( stFound==std::string::npos && sScriptPubKey.find("4f41")!=std::string::npos ) {
+                bCCbalanceFound = true; 
                 std::string sOpReturnSize = sScriptPubKey.substr(2, 2);
                 int iOpReturnSize = hex2int( sOpReturnSize );
 
@@ -301,6 +303,9 @@ UniValue ccbalance(const UniValue& params, bool fHelp)
                 objOpRet.push_back(Pair("Balance", 1234567));
             }
         }
+        if(!bCCbalanceFound)
+            objOpRet.push_back(Pair("Balance", "No cc balance on this account. Please use acct with cc balance ..."));
+
         return objOpRet;
     }
     return "failure";
