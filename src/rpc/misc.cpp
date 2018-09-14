@@ -6,6 +6,7 @@
 
 #include "base58.h"
 #include "clientversion.h"
+#include "core_io.h"
 #include "init.h"
 #include "main.h"
 #include "net.h"
@@ -255,6 +256,38 @@ static int GetValueAndScriptPubKey(const std::string sVout, std::string& sValue,
     return 0;
 }
 
+unsigned int deserialize_varint(const std::string& sVarInt, int& uiRecoveredNumb) 
+{
+    uiRecoveredNumb = 0;   
+    int unsigned uiReadBits = 0;
+    if(sVarInt.empty())
+        return uiReadBits;
+   
+    std::string sFirstByte = sVarInt.substr(0, 2);
+    unsigned int uiFirstByte = std::stoul(sFirstByte, nullptr, 16);
+    if(uiFirstByte < 253) {
+        uiRecoveredNumb =  uiFirstByte;
+	uiReadBits = 2;
+    }
+    else if(uiFirstByte == 253) {
+        std::string sFirstTwoBytes = sVarInt.substr( 0, 4 );
+	uiRecoveredNumb = std::stoul(sFirstTwoBytes, nullptr, 16);
+	uiReadBits = 4;
+    }
+    else if(uiFirstByte == 254) {
+        std::string sFirstFourBytes = sVarInt.substr( 0, 8 );
+	uiRecoveredNumb = std::stoul(sFirstFourBytes, nullptr, 16);
+	uiReadBits = 8;
+    }
+    else {
+        std::string sFirstEightBytes = sVarInt.substr( 0, 16 );
+        uiRecoveredNumb = std::stoul(sFirstEightBytes, nullptr, 16);
+        uiReadBits = 16;
+    }
+	
+    return uiReadBits;
+}
+
 UniValue ccbalance(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
@@ -282,28 +315,29 @@ UniValue ccbalance(const UniValue& params, bool fHelp)
         if(tx.IsCoinBase())
             return "coinbase transaction";
 
-        bool bCCbalanceFound = false;
-        std::vector<CTxOut> vout = tx.vout;
-        for(auto it=vout.begin(); it!=vout.end(); ++it) {
-            std::string sVout = (*it).ToString();
-            std::string sValue("");
-            std::string sScriptPubKey("");
-            GetValueAndScriptPubKey(sVout, sValue, sScriptPubKey);
-            std::size_t stFound = sValue.find_first_not_of(".0");
-            if( stFound==std::string::npos && sScriptPubKey.find("4f41")!=std::string::npos ) {
-                bCCbalanceFound = true; 
-                std::string sOpReturnSize = sScriptPubKey.substr(2, 2);
-                int iOpReturnSize = hex2int( sOpReturnSize );
+        std::string sRawTx = EncodeHexTx(tx);
+        size_t iOpenAssetTag = sRawTx.find("4f41");
+        if(iOpenAssetTag != std::string::npos) {
+            std::string sOpRetSize = sRawTx.substr(iOpenAssetTag-2,2);
+            std::string sOP_RETURN = sRawTx.substr(iOpenAssetTag,2*hex2int(sOpRetSize));
 
-                std::string sAssetQuantityCount = sScriptPubKey.substr(12, 2);
-                int iAssetQuantityCount = hex2int( sAssetQuantityCount );
+            std::string sAssetRecord = sOP_RETURN.substr(8);
+            int iAssetQuantityNumb = 0;
+            unsigned int uiCharsRead = deserialize_varint(sAssetRecord, iAssetQuantityNumb);
+            unsigned int uiAssetItemsStart = uiCharsRead;
 
-                objOpRet.push_back(Pair("Size", iOpReturnSize));
-                objOpRet.push_back(Pair("Asset Quantity", iAssetQuantityCount));
-                objOpRet.push_back(Pair("Balance", 1234567));
+            objOpRet.push_back(Pair("OP_RETURN", sOP_RETURN));
+            objOpRet.push_back(Pair("Size", sOpRetSize));
+            objOpRet.push_back(Pair("Asset Quantity", iAssetQuantityNumb));
+            objOpRet.push_back(Pair("Quantity Record", sAssetRecord));
+
+            std::string sAssetItem("");
+            for(int i=0; i<iAssetQuantityNumb; ++i) {
+                sAssetItem = sAssetRecord.substr(uiAssetItemsStart+2*i,2);
+                objOpRet.push_back(Pair("Asset Item", sAssetItem));
             }
         }
-        if(!bCCbalanceFound)
+        else
             objOpRet.push_back(Pair("Balance", "No cc balance on this account. Please use acct with cc balance ..."));
 
         return objOpRet;
